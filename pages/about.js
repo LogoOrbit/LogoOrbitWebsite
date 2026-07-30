@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
+import TrustBar from '../components/TrustBar'
 import About from '../components/About'
 import WhyUs from '../components/WhyUs'
 import Stats from '../components/Stats'
@@ -23,6 +24,7 @@ export default function AboutPage() {
         intro="LogoOrbit began with a simple conviction: a small business deserves the same calibre of design an agency reserves for its largest accounts."
       />
 
+      <TrustBar />
       <About />
       <Stats />
       <WhyUs />

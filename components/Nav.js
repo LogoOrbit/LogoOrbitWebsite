@@ -19,7 +19,10 @@ function Wordmark({ light }) {
         </svg>
       </span>
       <span className={`text-xl font-bold tracking-tight ${light ? 'text-white' : 'text-ink-900'}`}>
-        Logo<span className="text-orbit-400">Orbit</span>
+        Logo
+        {/* orbit-400 is only legible on the dark hero; darken it once the
+            header turns white or the wordmark drops below 3:1. */}
+        <span className={light ? 'text-orbit-300' : 'text-orbit-600'}>Orbit</span>
       </span>
     </Link>
   )
@@ -124,7 +127,7 @@ export default function Nav() {
         <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-between">
           <p className="flex items-center gap-2">
             <Icons.spark className="w-4 h-4 text-flare-400" />
-            Free design consultation — custom concepts back in under 24 hours.
+            Free design consultation — first concepts back in under 24 hours.
           </p>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
@@ -178,7 +181,7 @@ export default function Nav() {
             </a>
             <Link
               href="/contact"
-              className="rounded-full bg-gradient-to-r from-brand-600 to-orbit-500 px-5 py-2.5 text-[15px] font-semibold text-white shadow-lg shadow-brand-600/25 hover:shadow-xl hover:shadow-brand-600/35 hover:-translate-y-0.5 transition-all"
+              className="btn-action px-5 py-2.5 text-[15px]"
             >
               Get a Quote
             </Link>
@@ -276,7 +279,7 @@ export default function Nav() {
             <Link
               href="/contact"
               onClick={() => setOpen(false)}
-              className="block text-center rounded-full bg-gradient-to-r from-brand-600 to-orbit-500 px-5 py-3.5 font-semibold text-white shadow-lg shadow-brand-600/25"
+              className="btn-action w-full px-5 py-3.5"
             >
               Get a Free Quote
             </Link>

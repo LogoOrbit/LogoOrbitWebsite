@@ -1,30 +1,55 @@
 @import "tailwindcss";
 
+/**
+ * Colour system — each hue carries one job, so a visitor reads the page
+ * before they read the words.
+ *
+ *   brand  (blue)    trust, competence, security  → structure, headings, links
+ *   orbit  (violet)  creativity, design craft     → accents, "we are designers"
+ *   action (orange)  do this now                  → primary CTAs only
+ *   trust  (emerald) safe, guaranteed, you save   → guarantees, savings, ticks
+ *   flare  (amber)   attention, rating stars      → badges, stars
+ */
 @theme {
-  --color-brand-50: #eef2ff;
-  --color-brand-100: #e0e7ff;
-  --color-brand-200: #c7d2fe;
-  --color-brand-300: #a5b4fc;
-  --color-brand-400: #818cf8;
-  --color-brand-500: #6366f1;
-  --color-brand-600: #4f46e5;
-  --color-brand-700: #4338ca;
-  --color-brand-800: #3730a3;
-  --color-brand-900: #26216b;
-  --color-brand-950: #14103d;
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #17307a;
+  --color-brand-950: #0b1c4d;
 
-  --color-orbit-400: #c084fc;
-  --color-orbit-500: #a855f7;
-  --color-orbit-600: #9333ea;
+  --color-orbit-200: #ddd6fe;
+  --color-orbit-300: #c4b5fd;
+  --color-orbit-400: #a78bfa;
+  --color-orbit-500: #8b5cf6;
+  --color-orbit-600: #7c3aed;
+
+  --color-action-300: #fdba74;
+  --color-action-400: #fb923c;
+  --color-action-500: #f97316;
+  --color-action-600: #ea580c;
+  --color-action-700: #c2410c;
+
+  --color-trust-50: #ecfdf5;
+  --color-trust-100: #d1fae5;
+  --color-trust-300: #6ee7b7;
+  --color-trust-500: #10b981;
+  --color-trust-600: #059669;
+  --color-trust-700: #047857;
 
   --color-flare-300: #fcd34d;
   --color-flare-400: #fbbf24;
   --color-flare-500: #f59e0b;
 
-  --color-ink-900: #0b0a20;
-  --color-ink-700: #2b2a45;
-  --color-ink-500: #5b5a75;
-  --color-ink-300: #9c9bb2;
+  --color-ink-900: #0b1733;
+  --color-ink-700: #26324f;
+  --color-ink-500: #5a6480;
+  --color-ink-300: #9aa3ba;
 
   --font-display: "Segoe UI", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
@@ -47,18 +72,38 @@
     letter-spacing: -0.02em;
   }
 
+  /* The rule above beats inheritance, so headings dropped onto a dark
+     surface came out near-black on navy. Inside anything that has already
+     set a light text colour, headings inherit it instead. */
+  .text-white h1, .text-white h2, .text-white h3, .text-white h4,
+  .mesh-bg h1, .mesh-bg h2, .mesh-bg h3, .mesh-bg h4,
+  .bg-ink-900 h1, .bg-ink-900 h2, .bg-ink-900 h3, .bg-ink-900 h4 {
+    color: inherit;
+  }
+
   ::selection {
     background: var(--color-brand-600);
     color: #fff;
+  }
+
+  /* Visible focus for keyboard users on every interactive element. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 3px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
   }
 }
 
 /* ---------- Scroll reveal ---------- */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -70,12 +115,12 @@
 /* ---------- Animations ---------- */
 @keyframes float-slow {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-18px) rotate(2deg); }
+  50%      { transform: translateY(-16px) rotate(2deg); }
 }
 
 @keyframes float-fast {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  50%      { transform: translateY(-10px) rotate(-3deg); }
+  50%      { transform: translateY(-9px) rotate(-3deg); }
 }
 
 @keyframes spin-slow {
@@ -100,9 +145,9 @@
 }
 
 @keyframes pulse-ring {
-  0%   { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.45); }
-  70%  { box-shadow: 0 0 0 18px rgba(79, 70, 229, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.45); }
+  70%  { box-shadow: 0 0 0 16px rgba(249, 115, 22, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
 }
 
 .animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
@@ -111,30 +156,39 @@
 .animate-drift      { animation: drift 18s ease-in-out infinite; }
 .animate-pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
 
-.marquee-track {
-  animation: marquee 32s linear infinite;
-}
+.marquee-track { animation: marquee 34s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
 
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-/* ---------- Utilities ---------- */
+/* ---------- Brand utilities ---------- */
+/* On light surfaces. */
 .text-gradient {
-  background: linear-gradient(100deg, #4f46e5 0%, #9333ea 45%, #f472b6 100%);
+  background: linear-gradient(100deg, #2563eb 0%, #6d28d9 52%, #8b5cf6 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shimmer 7s ease-in-out infinite;
+  animation: shimmer 8s ease-in-out infinite;
 }
 
+/* On the dark mesh. The light variant keeps the headline legible —
+   the light-surface gradient is blue-on-blue against this background. */
+.text-gradient-light {
+  background: linear-gradient(100deg, #bfdbfe 0%, #ddd6fe 45%, #fdba74 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 8s ease-in-out infinite;
+}
+
+/* Deep navy → blue → violet. Reads as established and capable, with a
+   warm ember low down so the page never feels cold. */
 .mesh-bg {
   background:
-    radial-gradient(60rem 60rem at 12% 8%, rgba(99, 102, 241, 0.55), transparent 60%),
-    radial-gradient(50rem 50rem at 88% 18%, rgba(168, 85, 247, 0.5), transparent 62%),
-    radial-gradient(45rem 45rem at 55% 95%, rgba(236, 72, 153, 0.38), transparent 60%),
-    linear-gradient(160deg, #14103d 0%, #26216b 55%, #3b1f6b 100%);
+    radial-gradient(58rem 58rem at 10% 6%, rgba(37, 99, 235, 0.55), transparent 60%),
+    radial-gradient(48rem 48rem at 90% 16%, rgba(124, 58, 237, 0.42), transparent 62%),
+    radial-gradient(42rem 42rem at 58% 98%, rgba(249, 115, 22, 0.20), transparent 60%),
+    linear-gradient(158deg, #07132e 0%, #10225a 55%, #221a5c 100%);
 }
 
 .grid-lines {
@@ -149,6 +203,27 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+/* The single primary action style. Orange against blue is the highest
+   contrast pairing available here, so the eye lands on it first. */
+.btn-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background-image: linear-gradient(100deg, #f97316, #ea580c);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 26px -8px rgba(234, 88, 12, 0.65);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-action:hover {
+  transform: translateY(-2px);
+  filter: saturate(1.08);
+  box-shadow: 0 16px 34px -8px rgba(234, 88, 12, 0.72);
 }
 
 .mask-fade-x {

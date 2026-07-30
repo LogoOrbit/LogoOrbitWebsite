@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
+import TrustBar from '../components/TrustBar'
 import Contact from '../components/Contact'
 import FAQ from '../components/FAQ'
 import { site } from '../lib/site'
@@ -33,6 +34,7 @@ export default function ContactPage() {
         </div>
       </PageHero>
 
+      <TrustBar />
       <Contact showIntro={false} />
       <FAQ />
     </Layout>

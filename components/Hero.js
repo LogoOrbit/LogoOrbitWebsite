@@ -39,22 +39,21 @@ export default function Hero() {
             {site.years}+ years · {site.reviewCount.toLocaleString()} brands launched
           </span>
 
-          <h1 className="mt-6 text-[2.6rem] leading-[1.06] sm:text-6xl lg:text-[4.15rem] font-bold tracking-tight">
-            Online Logo Maker
-            <span className="block text-gradient">& Custom Design Services</span>
+          <h1 className="mt-6 text-[2.5rem] leading-[1.07] sm:text-5xl lg:text-[3.6rem] font-bold tracking-tight text-white">
+            Online Logo Maker{' '}
+            <span className="block text-gradient-light">&amp; Custom Design Services</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
-            Get a custom logo made in <span className="font-semibold text-white">03:00 minutes</span> — then
-            scale it into a full brand with websites, animation, apps and marketing. All under one roof.
+            Original logos designed by hand from{' '}
+            <span className="font-semibold text-white">$49</span> — with your first concepts back in{' '}
+            <span className="font-semibold text-white">24 hours</span>. Then scale into a full brand with
+            websites, animation, apps and marketing, all under one roof.
           </p>
 
           <div className="mt-9 flex flex-col sm:flex-row gap-3.5">
-            <Link
-              href="/contact"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 hover:shadow-2xl transition-all"
-            >
-              Start My Design
+            <Link href="/contact" className="group btn-action px-7 py-4 text-[17px]">
+              Get My Free Quote
               <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Link>
             <Link
@@ -66,7 +65,11 @@ export default function Hero() {
             </Link>
           </div>
 
-          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <p className="mt-4 text-sm text-white/55">
+            Free consultation · No card required · Reply within one business day
+          </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-white/10 pt-7">
             <div className="flex items-center gap-2.5">
               <div className="flex text-flare-400">
                 {[0, 1, 2, 3].map((i) => <Star key={i} className="w-4.5 h-4.5" />)}
@@ -78,7 +81,7 @@ export default function Hero() {
               </p>
             </div>
             <div className="flex items-center gap-2 text-sm text-white/75">
-              <Icons.shield className="w-5 h-5 text-white/60" />
+              <Icons.shield className="w-5 h-5 text-trust-300" />
               100% ownership &amp; money-back guarantee
             </div>
           </div>
@@ -120,48 +123,51 @@ export default function Hero() {
                   type="button"
                   onClick={() => setIndex(i)}
                   aria-label={`Show ${s.name} concept`}
-                  className={`h-1.5 rounded-full transition-all ${
-                    i === index ? 'w-7 bg-brand-600' : 'w-1.5 bg-slate-200 hover:bg-slate-300'
-                  }`}
-                />
+                  className="grid place-items-center h-11 w-6 px-1"
+                >
+                  <span
+                    className={`block h-1.5 rounded-full transition-all ${
+                      i === index ? 'w-7 bg-brand-600' : 'w-1.5 bg-slate-200'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
 
-            <div className="rounded-2xl bg-slate-50 p-4 flex items-center justify-between gap-3">
+            {/* Reassurance sits inside the card — as floating chips these
+                overlapped the card and covered the button beneath. */}
+            <div className="grid grid-cols-2 gap-2.5 border-t border-slate-100 pt-4">
+              <div className="flex items-center gap-2.5">
+                <span className="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-trust-50 text-trust-600">
+                  <Icons.check className="w-5 h-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-ink-900 leading-tight">Unlimited revisions</p>
+                  <p className="text-xs text-ink-500 leading-tight">Until it&apos;s perfect</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-brand-50 text-brand-600">
+                  <Icons.clock className="w-5 h-5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[13px] font-semibold text-ink-900 leading-tight">24-hour delivery</p>
+                  <p className="text-xs text-ink-500 leading-tight">Same-day drafts</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 rounded-2xl bg-slate-50 p-4 flex items-center justify-between gap-3">
               <div>
                 <p className="text-sm font-semibold text-ink-900">Concept ready</p>
                 <p className="text-xs text-ink-500">Vector files included</p>
               </div>
               <Link
                 href="/contact"
-                className="rounded-full bg-ink-900 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 transition-colors"
+                className="shrink-0 rounded-full bg-ink-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-action-600 transition-colors"
               >
                 Customise
               </Link>
-            </div>
-          </div>
-
-          {/* floating chips */}
-          <div className="hidden sm:flex absolute -left-8 top-16 items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-xl animate-float-slow">
-            <span className="grid place-items-center w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600">
-              <Icons.check className="w-5 h-5" />
-            </span>
-            <div>
-              <p className="text-sm font-semibold text-ink-900">Unlimited revisions</p>
-              <p className="text-xs text-ink-500">Until it&apos;s perfect</p>
-            </div>
-          </div>
-
-          <div
-            className="hidden sm:flex absolute -right-6 bottom-14 items-center gap-2.5 rounded-2xl bg-white px-4 py-3 shadow-xl animate-float-fast"
-            style={{ animationDelay: '-2s' }}
-          >
-            <span className="grid place-items-center w-9 h-9 rounded-xl bg-brand-50 text-brand-600">
-              <Icons.clock className="w-5 h-5" />
-            </span>
-            <div>
-              <p className="text-sm font-semibold text-ink-900">24-hour delivery</p>
-              <p className="text-xs text-ink-500">Same-day drafts</p>
             </div>
           </div>
         </div>

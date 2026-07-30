@@ -32,7 +32,7 @@ export default function Portfolio({ showHeading = true }) {
               key={cat}
               type="button"
               onClick={() => setFilter(cat)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${
+              className={`rounded-full px-4 py-2.5 text-sm font-medium transition-all ${
                 filter === cat
                   ? 'bg-ink-900 text-white shadow-lg shadow-ink-900/20'
                   : 'bg-slate-100 text-ink-500 hover:bg-slate-200 hover:text-ink-700'
@@ -74,7 +74,7 @@ export default function Portfolio({ showHeading = true }) {
         <Reveal className="mt-12 text-center">
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-orbit-500 px-7 py-4 font-semibold text-white shadow-lg shadow-brand-600/25 hover:-translate-y-0.5 hover:shadow-xl transition-all"
+            className="btn-action px-7 py-4"
           >
             Start a project like these
             <Icons.arrow className="w-5 h-5" />

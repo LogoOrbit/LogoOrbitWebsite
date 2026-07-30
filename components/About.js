@@ -93,7 +93,7 @@ export default function About() {
             <ul className="mt-8 grid sm:grid-cols-2 gap-3">
               {highlights.map((h) => (
                 <li key={h} className="flex items-start gap-2.5 text-[15px] text-ink-700">
-                  <span className="mt-0.5 grid place-items-center w-5 h-5 shrink-0 rounded-full bg-emerald-50 text-emerald-600">
+                  <span className="mt-0.5 grid place-items-center w-5 h-5 shrink-0 rounded-full bg-trust-50 text-trust-600">
                     <Icons.check className="w-3.5 h-3.5" />
                   </span>
                   {h}

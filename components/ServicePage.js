@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Layout from './Layout'
 import PageHero from './PageHero'
+import TrustBar from './TrustBar'
+import Guarantees from './Guarantees'
 import Reveal from './Reveal'
 import PricingSection from './PricingSection'
 import { BigPackage } from './PriceCard'
@@ -22,6 +24,8 @@ export default function ServicePage({ page }) {
         intro={page.intro}
       />
 
+      <TrustBar />
+
       {/* Highlights */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="mx-auto max-w-7xl px-6">
@@ -41,7 +45,7 @@ export default function ServicePage({ page }) {
               <ul className="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-3">
                 {page.deliverables.map((d) => (
                   <li key={d} className="flex items-start gap-2.5 text-[15px] text-ink-700">
-                    <span className="mt-0.5 grid place-items-center w-5 h-5 shrink-0 rounded-full bg-emerald-50 text-emerald-600">
+                    <span className="mt-0.5 grid place-items-center w-5 h-5 shrink-0 rounded-full bg-trust-50 text-trust-600">
                       <Icons.check className="w-3.5 h-3.5" />
                     </span>
                     {d}
@@ -52,7 +56,7 @@ export default function ServicePage({ page }) {
               <div className="mt-9 flex flex-col sm:flex-row gap-3.5">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-7 py-3.5 font-semibold text-white hover:bg-brand-600 transition-colors"
+                  className="btn-action px-7 py-3.5"
                 >
                   Start a project
                   <Icons.arrow className="w-4.5 h-4.5" />
@@ -122,6 +126,8 @@ export default function ServicePage({ page }) {
         </section>
       )}
 
+      <Guarantees />
+
       {/* CTA */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="mx-auto max-w-7xl px-6">
@@ -138,7 +144,7 @@ export default function ServicePage({ page }) {
                 <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3.5">
                   <Link
                     href="/contact"
-                    className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 transition-all"
+                    className="group btn-action px-7 py-4"
                   >
                     Get a Free Quote
                     <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />

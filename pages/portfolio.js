@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
+import TrustBar from '../components/TrustBar'
 import Portfolio from '../components/Portfolio'
 import Testimonials from '../components/Testimonials'
 import CTA from '../components/CTA'
@@ -18,6 +19,7 @@ export default function PortfolioPage() {
         intro="No templates, no stock marks, nothing resold. Filter by industry to see how we adapt to different markets."
       />
 
+      <TrustBar />
       <Portfolio showHeading={false} />
       <Testimonials />
       <CTA />

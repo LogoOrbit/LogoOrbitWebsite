@@ -28,7 +28,7 @@ export default function CTA() {
               <div className="mt-8 flex flex-col sm:flex-row gap-3.5">
                 <Link
                   href="/contact"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 transition-all"
+                  className="group btn-action px-7 py-4"
                 >
                   Start now
                   <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />

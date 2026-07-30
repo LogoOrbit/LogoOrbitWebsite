@@ -61,7 +61,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-2.5 text-[15px]">
               {services.map((s) => (
                 <li key={s.id}>
-                  <Link href={s.href} className="hover:text-white transition-colors">{s.name}</Link>
+                  <Link href={s.href} className="inline-block py-1 hover:text-white transition-colors">{s.name}</Link>
                 </li>
               ))}
             </ul>
@@ -73,7 +73,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-2.5 text-[15px]">
               {exploreLinks.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="hover:text-white transition-colors">{item.label}</Link>
+                  <Link href={item.href} className="inline-block py-1 hover:text-white transition-colors">{item.label}</Link>
                 </li>
               ))}
             </ul>
@@ -98,7 +98,7 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
             {legalLinks.map((link) => (
               <li key={link.label}>
-                <a href={link.href} className="hover:text-white transition-colors">{link.label}</a>
+                <a href={link.href} className="inline-block py-1 hover:text-white transition-colors">{link.label}</a>
               </li>
             ))}
           </ul>

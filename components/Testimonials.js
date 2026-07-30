@@ -87,16 +87,20 @@ export default function Testimonials() {
                 type="button"
                 onClick={() => setPage(i)}
                 aria-label={`Show testimonial page ${i + 1}`}
-                className={`h-2 rounded-full transition-all ${
-                  i === page ? 'w-8 bg-brand-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
-                }`}
-              />
+                className="grid place-items-center h-11 w-7 px-1"
+              >
+                <span
+                  className={`block h-2 rounded-full transition-all ${
+                    i === page ? 'w-8 bg-brand-600' : 'w-2 bg-slate-200'
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </Reveal>
 
         <Reveal className="mt-14">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 rounded-3xl bg-gradient-to-r from-brand-600 to-orbit-500 px-8 py-8 text-white text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 rounded-3xl bg-gradient-to-r from-brand-700 to-orbit-600 px-8 py-8 text-white text-center sm:text-left">
             <div className="flex items-center gap-4">
               <p className="text-5xl font-bold">{site.rating}</p>
               <div>

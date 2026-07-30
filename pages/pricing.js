@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
+import TrustBar from '../components/TrustBar'
+import Guarantees from '../components/Guarantees'
 import Reveal from '../components/Reveal'
 import PricingSection from '../components/PricingSection'
 import { BigPackage } from '../components/PriceCard'
@@ -48,6 +50,8 @@ export default function Pricing() {
           ))}
         </div>
       </PageHero>
+
+      <TrustBar />
 
       {/* Special offer */}
       <section className="py-16 sm:py-20 bg-white">
@@ -107,6 +111,8 @@ export default function Pricing() {
       {/* Websites */}
       <PricingSection section={pricingSections[5]} tone="muted" />
 
+      <Guarantees />
+
       {/* Help band */}
       <section className="py-16 sm:py-20 bg-white">
         <div className="mx-auto max-w-7xl px-6">
@@ -125,7 +131,7 @@ export default function Pricing() {
               <div className="flex flex-col sm:flex-row gap-3.5 shrink-0">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-orbit-500 px-7 py-3.5 font-semibold text-white shadow-lg shadow-brand-600/25 hover:-translate-y-0.5 transition-all"
+                  className="btn-action px-7 py-3.5"
                 >
                   Ask for a quote
                   <Icons.arrow className="w-4.5 h-4.5" />

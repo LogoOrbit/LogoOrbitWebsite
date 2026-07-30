@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
+import TrustBar from '../components/TrustBar'
 import Marquee from '../components/Marquee'
 import Stats from '../components/Stats'
 import Services from '../components/Services'
@@ -10,6 +11,7 @@ import WhyUs from '../components/WhyUs'
 import About from '../components/About'
 import PricingSection from '../components/PricingSection'
 import Reveal from '../components/Reveal'
+import Guarantees from '../components/Guarantees'
 import Testimonials from '../components/Testimonials'
 import CTA from '../components/CTA'
 import FAQ from '../components/FAQ'
@@ -70,6 +72,7 @@ export default function Home() {
   return (
     <Layout description={description} path="/" jsonLd={jsonLd}>
       <Hero />
+      <TrustBar />
       <Marquee />
       <Stats />
       <Services />
@@ -77,6 +80,8 @@ export default function Home() {
       <Portfolio />
       <WhyUs />
       <About />
+
+      <Guarantees />
 
       <PricingSection section={logoPackages} tone="muted" />
 
@@ -89,7 +94,7 @@ export default function Home() {
             </p>
             <Link
               href="/pricing"
-              className="mt-5 inline-flex items-center gap-2 rounded-full bg-ink-900 px-7 py-3.5 font-semibold text-white hover:bg-brand-600 transition-colors"
+              className="mt-5 btn-action px-7 py-3.5"
             >
               See all packages &amp; bundles
               <Icons.arrow className="w-4.5 h-4.5" />

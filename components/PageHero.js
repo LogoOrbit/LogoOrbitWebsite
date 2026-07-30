@@ -29,7 +29,7 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
           </span>
         )}
 
-        <h1 className="mt-5 mx-auto max-w-4xl text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.08] tracking-tight">
+        <h1 className="mt-5 mx-auto max-w-4xl text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.08] tracking-tight text-white">
           {title} {highlight && <span className="text-gradient">{highlight}</span>}
         </h1>
 
@@ -41,7 +41,7 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
           <div className="mt-9 flex flex-col sm:flex-row justify-center gap-3.5">
             <Link
               href="/contact"
-              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 transition-all"
+              className="group btn-action px-7 py-4"
             >
               Get a Free Quote
               <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />

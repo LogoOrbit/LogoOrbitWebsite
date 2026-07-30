@@ -99,7 +99,7 @@ export default function Contact({ showIntro = true }) {
             </div>
 
             <div className="flex items-start gap-4 rounded-2xl border border-slate-200 p-4">
-              <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-emerald-50 text-emerald-600">
+              <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-trust-50 text-trust-600">
                 <Icons.pin className="w-5.5 h-5.5" />
               </span>
               <span>
@@ -119,7 +119,7 @@ export default function Contact({ showIntro = true }) {
           <div className="rounded-3xl border border-slate-200 bg-slate-50/60 p-7 sm:p-9">
             {status === 'sent' ? (
               <div className="grid place-items-center py-14 text-center">
-                <span className="grid place-items-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600">
+                <span className="grid place-items-center w-16 h-16 rounded-full bg-trust-100 text-trust-600">
                   <Icons.check className="w-8 h-8" />
                 </span>
                 <h3 className="mt-5 text-2xl font-bold text-ink-900">Thanks — we&apos;ve got it.</h3>
@@ -226,7 +226,7 @@ export default function Contact({ showIntro = true }) {
                 <button
                   type="submit"
                   disabled={status === 'sending'}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-orbit-500 px-6 py-4 font-semibold text-white shadow-lg shadow-brand-600/25 transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+                  className="btn-action w-full px-6 py-4 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                 >
                   {status === 'sending' ? 'Sending…' : 'Submit request'}
                   {status !== 'sending' && <Icons.arrow className="w-5 h-5" />}
