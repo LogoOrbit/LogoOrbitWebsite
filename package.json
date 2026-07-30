@@ -1,8 +1,8 @@
 {
-  "name": "logoorbitwebsite",
+  "name": "logoorbit-website",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "LogoOrbit — custom logo design, websites, animation, apps and marketing.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,11 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://local_proxy@127.0.0.1:41729/git/LogoOrbit/LogoOrbitWebsite"
+    "url": "https://github.com/LogoOrbit/LogoOrbitWebsite"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "dependencies": {
     "next": "^16.2.12",
     "react": "^19.2.8",
@@ -23,7 +21,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
-    "autoprefixer": "^10.5.4",
     "postcss": "^8.5.25",
     "tailwindcss": "^4.3.3"
   }
