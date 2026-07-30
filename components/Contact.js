@@ -5,7 +5,7 @@ import { site, services } from '../lib/site'
 
 const empty = { name: '', email: '', phone: '', service: '', message: '', consent: false }
 
-export default function Contact() {
+export default function Contact({ showIntro = true }) {
   const [form, setForm] = useState(empty)
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [error, setError] = useState('')
@@ -44,18 +44,20 @@ export default function Contact() {
       <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-[0.85fr_1fr] gap-12 lg:gap-16">
         {/* Details */}
         <div>
-          <Reveal>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Need help?</span>
-            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[2.6rem] font-bold leading-[1.15] text-ink-900">
-              Let&apos;s straighten out your <span className="text-gradient">question marks</span>
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed text-ink-500">
-              With our affordable logo maker and custom design services you get the benefit of expert advice.
-              Tell us what you need and we&apos;ll come back with a plan and a price.
-            </p>
-          </Reveal>
+          {showIntro && (
+            <Reveal>
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Need help?</span>
+              <h2 className="mt-3 text-3xl sm:text-4xl lg:text-[2.6rem] font-bold leading-[1.15] text-ink-900">
+                Let&apos;s straighten out your <span className="text-gradient">question marks</span>
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-ink-500">
+                With our affordable logo maker and custom design services you get the benefit of expert advice.
+                Tell us what you need and we&apos;ll come back with a plan and a price.
+              </p>
+            </Reveal>
+          )}
 
-          <Reveal delay={90} className="mt-9 space-y-4">
+          <Reveal delay={90} className={`${showIntro ? 'mt-9' : ''} space-y-4`}>
             <a
               href={site.phoneHref}
               className="group flex items-center gap-4 rounded-2xl border border-slate-200 p-4 transition-all hover:border-brand-200 hover:shadow-lg"

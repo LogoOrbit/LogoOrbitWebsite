@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Icons } from './Icons'
 import { useScrolled } from '../lib/hooks'
 import { site } from '../lib/site'
@@ -11,13 +12,13 @@ export default function FloatingCall() {
         shown ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'
       }`}
     >
-      <a
-        href="#contact"
+      <Link
+        href="/contact"
         className="hidden sm:inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-ink-900 shadow-xl ring-1 ring-slate-200 hover:-translate-y-0.5 transition-all"
       >
         <Icons.spark className="w-4.5 h-4.5 text-brand-600" />
         Get a free quote
-      </a>
+      </Link>
 
       <a
         href={site.phoneHref}

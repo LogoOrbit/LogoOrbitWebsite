@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import LogoMark, { portfolio } from './LogoMark'
@@ -103,13 +104,13 @@ export default function About() {
 
           <Reveal delay={200}>
             <div className="mt-9 flex flex-col sm:flex-row gap-3.5">
-              <a
-                href="#contact"
+              <Link
+                href="/contact"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-ink-900 px-7 py-3.5 font-semibold text-white hover:bg-brand-600 transition-colors"
               >
                 Book a free consultation
                 <Icons.arrow className="w-4.5 h-4.5" />
-              </a>
+              </Link>
               <a
                 href={site.phoneHref}
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"

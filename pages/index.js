@@ -1,6 +1,5 @@
-import Head from 'next/head'
-
-import Nav from '../components/Nav'
+import Link from 'next/link'
+import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import Marquee from '../components/Marquee'
 import Stats from '../components/Stats'
@@ -9,22 +8,21 @@ import Process from '../components/Process'
 import Portfolio from '../components/Portfolio'
 import WhyUs from '../components/WhyUs'
 import About from '../components/About'
-import Pricing from '../components/Pricing'
+import PricingSection from '../components/PricingSection'
+import Reveal from '../components/Reveal'
 import Testimonials from '../components/Testimonials'
 import CTA from '../components/CTA'
 import FAQ from '../components/FAQ'
 import Contact from '../components/Contact'
-import Footer from '../components/Footer'
-import FloatingCall from '../components/FloatingCall'
-
+import { Icons } from '../components/Icons'
 import { site, faqs } from '../lib/site'
+import { logoPackages } from '../lib/pricing'
 
-const title = 'LogoOrbit | Online Logo Maker & Custom Design Services'
 const description =
   'Get a custom logo made in minutes. LogoOrbit delivers original logo design, websites, animation, mobile apps, book publication and Amazon marketing — 15+ years, 8,500+ brands, 100% ownership.'
 
 export default function Home() {
-  const structuredData = {
+  const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
@@ -70,49 +68,40 @@ export default function Home() {
   }
 
   return (
-    <>
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href={site.url} />
+    <Layout description={description} path="/" jsonLd={jsonLd}>
+      <Hero />
+      <Marquee />
+      <Stats />
+      <Services />
+      <Process />
+      <Portfolio />
+      <WhyUs />
+      <About />
 
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content={site.name} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:url" content={site.url} />
+      <PricingSection section={logoPackages} tone="muted" />
 
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
+      <section className="bg-slate-50 pb-16 sm:pb-20">
+        <div className="mx-auto max-w-7xl px-6 text-center">
+          <Reveal>
+            <p className="text-ink-500">
+              Logo packages are just the start — we also price branding kits, animated logos, websites and
+              money-saving bundles.
+            </p>
+            <Link
+              href="/pricing"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-ink-900 px-7 py-3.5 font-semibold text-white hover:bg-brand-600 transition-colors"
+            >
+              See all packages &amp; bundles
+              <Icons.arrow className="w-4.5 h-4.5" />
+            </Link>
+          </Reveal>
+        </div>
+      </section>
 
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </Head>
-
-      <Nav />
-
-      <main>
-        <Hero />
-        <Marquee />
-        <Stats />
-        <Services />
-        <Process />
-        <Portfolio />
-        <WhyUs />
-        <About />
-        <Pricing />
-        <Testimonials />
-        <CTA />
-        <FAQ />
-        <Contact />
-      </main>
-
-      <Footer />
-      <FloatingCall />
-    </>
+      <Testimonials />
+      <CTA />
+      <FAQ />
+      <Contact />
+    </Layout>
   )
 }

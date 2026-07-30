@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import { Icons, serviceIcon } from './Icons'
@@ -42,13 +43,13 @@ export default function Services() {
                     ))}
                   </ul>
 
-                  <a
-                    href="#contact"
+                  <Link
+                    href={service.href}
                     className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-ink-900 group-hover:text-brand-600 transition-colors"
                   >
-                    Get a quote
+                    Explore {service.name}
                     <Icons.arrow className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
+                  </Link>
                 </article>
               </Reveal>
             )

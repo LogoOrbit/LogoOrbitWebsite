@@ -1,0 +1,62 @@
+import Link from 'next/link'
+import { Icons } from './Icons'
+
+/** Dark gradient header used at the top of every inner page. */
+export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb, children }) {
+  return (
+    <section className="relative -mt-18 pt-18 overflow-hidden mesh-bg text-white">
+      <div className="absolute inset-0 grid-lines opacity-60" aria-hidden="true" />
+      <div
+        className="absolute -top-32 -right-24 w-[34rem] h-[34rem] rounded-full bg-orbit-500/25 blur-3xl animate-drift"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute -bottom-40 -left-24 w-[30rem] h-[30rem] rounded-full bg-brand-500/25 blur-3xl animate-drift"
+        style={{ animationDelay: '-8s' }}
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-6 pt-14 pb-20 sm:pt-20 sm:pb-24 text-center">
+        <nav aria-label="Breadcrumb" className="flex items-center justify-center gap-2 text-sm text-white/55">
+          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <span aria-hidden="true">/</span>
+          <span className="text-white/85">{breadcrumb || eyebrow}</span>
+        </nav>
+
+        {eyebrow && (
+          <span className="mt-6 inline-block rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em]">
+            {eyebrow}
+          </span>
+        )}
+
+        <h1 className="mt-5 mx-auto max-w-4xl text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.08] tracking-tight">
+          {title} {highlight && <span className="text-gradient">{highlight}</span>}
+        </h1>
+
+        {intro && (
+          <p className="mt-6 mx-auto max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>
+        )}
+
+        {children ?? (
+          <div className="mt-9 flex flex-col sm:flex-row justify-center gap-3.5">
+            <Link
+              href="/contact"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 transition-all"
+            >
+              Get a Free Quote
+              <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white hover:bg-white/20 transition-colors"
+            >
+              View Pricing
+            </Link>
+          </div>
+        )}
+      </div>
+
+      <div className="relative h-14 sm:h-16 bg-white [clip-path:ellipse(75%_100%_at_50%_100%)]" aria-hidden="true" />
+    </section>
+  )
+}

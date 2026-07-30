@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import { site } from '../lib/site'
@@ -25,13 +26,13 @@ export default function CTA() {
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3.5">
-                <a
-                  href="#contact"
+                <Link
+                  href="/contact"
                   className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 transition-all"
                 >
                   Start now
                   <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                </a>
+                </Link>
                 <a
                   href={site.phoneHref}
                   className="inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white hover:bg-white/20 transition-colors"

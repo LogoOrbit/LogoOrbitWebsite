@@ -1,10 +1,11 @@
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import { Icons } from './Icons'
 import LogoMark, { portfolio } from './LogoMark'
 
-export default function Portfolio() {
+export default function Portfolio({ showHeading = true }) {
   const categories = useMemo(
     () => ['All', ...Array.from(new Set(portfolio.map((p) => p.category)))],
     []
@@ -16,14 +17,16 @@ export default function Portfolio() {
   return (
     <section id="portfolio" className="py-20 sm:py-28 bg-white">
       <div className="mx-auto max-w-7xl px-6">
-        <SectionHeading
-          eyebrow="Portfolio"
-          title="Marks we've built for"
-          highlight="real businesses"
-          body="Every concept below was drawn from scratch by our in-house team — never templated, never resold."
-        />
+        {showHeading && (
+          <SectionHeading
+            eyebrow="Portfolio"
+            title="Marks we've built for"
+            highlight="real businesses"
+            body="Every concept below was drawn from scratch by our in-house team — never templated, never resold."
+          />
+        )}
 
-        <Reveal className="mt-10 flex flex-wrap justify-center gap-2">
+        <Reveal className={`${showHeading ? 'mt-10' : ''} flex flex-wrap justify-center gap-2`}>
           {categories.map((cat) => (
             <button
               key={cat}
@@ -69,13 +72,13 @@ export default function Portfolio() {
         </div>
 
         <Reveal className="mt-12 text-center">
-          <a
-            href="#contact"
+          <Link
+            href="/contact"
             className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-600 to-orbit-500 px-7 py-4 font-semibold text-white shadow-lg shadow-brand-600/25 hover:-translate-y-0.5 hover:shadow-xl transition-all"
           >
             Start a project like these
             <Icons.arrow className="w-5 h-5" />
-          </a>
+          </Link>
         </Reveal>
       </div>
     </section>

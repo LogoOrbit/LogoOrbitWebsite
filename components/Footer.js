@@ -1,5 +1,14 @@
+import Link from 'next/link'
 import { Icons } from './Icons'
-import { site, services, nav, legalLinks } from '../lib/site'
+import { site, services, legalLinks } from '../lib/site'
+
+const exploreLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Contact Us', href: '/contact' },
+]
 
 export default function Footer() {
   return (
@@ -52,7 +61,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-2.5 text-[15px]">
               {services.map((s) => (
                 <li key={s.id}>
-                  <a href="#services" className="hover:text-white transition-colors">{s.name}</a>
+                  <Link href={s.href} className="hover:text-white transition-colors">{s.name}</Link>
                 </li>
               ))}
             </ul>
@@ -62,14 +71,11 @@ export default function Footer() {
           <div>
             <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Explore</h3>
             <ul className="mt-5 space-y-2.5 text-[15px]">
-              {nav.map((item) => (
+              {exploreLinks.map((item) => (
                 <li key={item.href}>
-                  <a href={item.href} className="hover:text-white transition-colors">{item.label}</a>
+                  <Link href={item.href} className="hover:text-white transition-colors">{item.label}</Link>
                 </li>
               ))}
-              <li>
-                <a href="#contact" className="hover:text-white transition-colors">Contact Us</a>
-              </li>
             </ul>
           </div>
 

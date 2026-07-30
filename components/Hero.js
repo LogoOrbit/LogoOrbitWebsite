@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Icons, Star } from './Icons'
 import LogoMark, { portfolio } from './LogoMark'
@@ -49,20 +50,20 @@ export default function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col sm:flex-row gap-3.5">
-            <a
-              href="#contact"
+            <Link
+              href="/contact"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 font-semibold text-ink-900 shadow-xl shadow-black/25 hover:-translate-y-0.5 hover:shadow-2xl transition-all"
             >
               Start My Design
               <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#portfolio"
+            </Link>
+            <Link
+              href="/portfolio"
               className="inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white hover:bg-white/20 transition-colors"
             >
               <Icons.play className="w-5 h-5" />
               See Our Work
-            </a>
+            </Link>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -131,12 +132,12 @@ export default function Hero() {
                 <p className="text-sm font-semibold text-ink-900">Concept ready</p>
                 <p className="text-xs text-ink-500">Vector files included</p>
               </div>
-              <a
-                href="#contact"
+              <Link
+                href="/contact"
                 className="rounded-full bg-ink-900 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 transition-colors"
               >
                 Customise
-              </a>
+              </Link>
             </div>
           </div>
 
