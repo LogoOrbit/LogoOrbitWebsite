@@ -1,58 +1,120 @@
+import { useEffect, useState } from 'react'
+import Reveal from './Reveal'
+import SectionHeading from './SectionHeading'
+import { Icons, Star } from './Icons'
+import { testimonials, site } from '../lib/site'
+
+const avatarTint = [
+  'bg-brand-100 text-brand-700',
+  'bg-emerald-100 text-emerald-700',
+  'bg-amber-100 text-amber-700',
+  'bg-rose-100 text-rose-700',
+  'bg-sky-100 text-sky-700',
+  'bg-violet-100 text-violet-700',
+]
+
 export default function Testimonials() {
-  const testimonials = [
-    {
-      name: 'Rusk Jones',
-      company: 'The Sealant Guys',
-      text: 'John helped me a lot in brainstorming ideas and getting the final files within hours. Excellent work & service.',
-      rating: 5,
-    },
-    {
-      name: 'Rebecca Rowe',
-      company: 'Planticious',
-      text: 'Their logo maker is awesome. I would highly recommend this site to businesses looking for complete brand identity.',
-      rating: 5,
-    },
-    {
-      name: 'Alan Mekinley',
-      company: 'Battlefield',
-      text: 'It was my first experience with any online logo maker tool, and it went great. Thank you!',
-      rating: 5,
-    },
-  ]
+  const [page, setPage] = useState(0)
+  const [perPage, setPerPage] = useState(3)
+
+  useEffect(() => {
+    const sync = () => setPerPage(window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3)
+    sync()
+    window.addEventListener('resize', sync)
+    return () => window.removeEventListener('resize', sync)
+  }, [])
+
+  const pages = Math.ceil(testimonials.length / perPage)
+
+  useEffect(() => {
+    setPage((p) => Math.min(p, pages - 1))
+  }, [pages])
+
+  useEffect(() => {
+    const id = setInterval(() => setPage((p) => (p + 1) % pages), 6000)
+    return () => clearInterval(id)
+  }, [pages])
+
+  const visible = testimonials.slice(page * perPage, page * perPage + perPage)
 
   return (
-    <section className="section-padding bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500">
-      <div className="container-custom">
-        <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-4">
-          Video Testimonials
-        </h2>
-        <p className="text-center text-gray-100 mb-16 text-lg">
-          Join 1,000+ happy customers who used our services and grew their business.
-        </p>
+    <section id="reviews" className="py-20 sm:py-28 bg-white">
+      <div className="mx-auto max-w-7xl px-6">
+        <SectionHeading
+          eyebrow="Testimonials"
+          title="Join 1,000+ customers who"
+          highlight="grew with us"
+          body="Real feedback from founders and marketing leads who trusted LogoOrbit with their brand."
+        />
 
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          {testimonials.map((testimonial, idx) => (
-            <div key={idx} className="card-hover p-8 bg-white rounded-xl shadow-lg">
-              <div className="flex gap-1 mb-4">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <span key={i} className="text-yellow-400">⭐</span>
-                ))}
-              </div>
-              <p className="text-gray-600 mb-6 italic">"{testimonial.text}"</p>
+        <Reveal className="mt-12">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[19rem]">
+            {visible.map((t, i) => (
+              <figure
+                key={t.name}
+                className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-shadow hover:shadow-xl"
+              >
+                <Icons.quote className="w-8 h-8 text-brand-200" />
+                <blockquote className="mt-4 flex-1 text-[15px] leading-relaxed text-ink-700">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+
+                <div className="mt-6 flex text-flare-400">
+                  {[0, 1, 2, 3, 4].map((s) => <Star key={s} className="w-4 h-4" />)}
+                </div>
+
+                <figcaption className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4">
+                  <span
+                    className={`grid place-items-center w-11 h-11 rounded-full font-bold ${
+                      avatarTint[(page * perPage + i) % avatarTint.length]
+                    }`}
+                  >
+                    {t.name.charAt(0)}
+                  </span>
+                  <div>
+                    <p className="font-semibold text-ink-900">{t.name}</p>
+                    <p className="text-sm text-ink-500">{t.company}</p>
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+
+          <div className="mt-8 flex items-center justify-center gap-2">
+            {Array.from({ length: pages }).map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setPage(i)}
+                aria-label={`Show testimonial page ${i + 1}`}
+                className={`h-2 rounded-full transition-all ${
+                  i === page ? 'w-8 bg-brand-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
+                }`}
+              />
+            ))}
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-14">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 rounded-3xl bg-gradient-to-r from-brand-600 to-orbit-500 px-8 py-8 text-white text-center sm:text-left">
+            <div className="flex items-center gap-4">
+              <p className="text-5xl font-bold">{site.rating}</p>
               <div>
-                <p className="font-bold text-gray-800">{testimonial.name}</p>
-                <p className="text-sm text-gray-500">{testimonial.company}</p>
+                <div className="flex text-flare-300">
+                  {[0, 1, 2, 3].map((i) => <Star key={i} className="w-5 h-5" />)}
+                  <Star className="w-5 h-5" half id="rating-half" />
+                </div>
+                <p className="mt-1 text-sm text-white/80">
+                  Rated by {site.reviewCount.toLocaleString()} customers globally
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <div className="bg-white rounded-2xl p-12 inline-block">
-            <p className="text-6xl font-bold gradient-text mb-2">4.5 ★</p>
-            <p className="text-gray-600">Rated by 8,503 customers globally</p>
+            <span className="hidden sm:block w-px h-14 bg-white/25" aria-hidden="true" />
+            <p className="max-w-sm text-[15px] text-white/85">
+              Every review is left by a verified client who received a finished, fully-owned design from our team.
+            </p>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )
