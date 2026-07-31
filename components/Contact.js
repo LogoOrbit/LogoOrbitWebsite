@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import { site, services } from '../lib/site'
@@ -9,6 +10,20 @@ export default function Contact({ showIntro = true }) {
   const [form, setForm] = useState(empty)
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [error, setError] = useState('')
+  const router = useRouter()
+
+  /* The home-page brand starter hands its brief over in the URL, so the
+     visitor never has to retype what they already told us. */
+  useEffect(() => {
+    if (!router.isReady) return
+    const { service, brief } = router.query
+    if (!service && !brief) return
+    setForm((f) => ({
+      ...f,
+      service: f.service || (typeof service === 'string' ? service : ''),
+      message: f.message || (typeof brief === 'string' ? brief : ''),
+    }))
+  }, [router.isReady, router.query])
 
   const update = (e) => {
     const { name, value, type, checked } = e.target

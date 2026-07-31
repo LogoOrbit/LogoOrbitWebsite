@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
+import BrandStarter from '../components/BrandStarter'
 import TrustBar from '../components/TrustBar'
 import Marquee from '../components/Marquee'
 import Stats from '../components/Stats'
@@ -72,6 +73,7 @@ export default function Home() {
   return (
     <Layout description={description} path="/" jsonLd={jsonLd}>
       <Hero />
+      <BrandStarter />
       <TrustBar />
       <Marquee />
       <Stats />
