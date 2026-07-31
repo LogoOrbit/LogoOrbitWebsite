@@ -1,8 +1,9 @@
+import { useState } from 'react'
 import Link from 'next/link'
 import { Icons } from './Icons'
 import { money } from '../lib/pricing'
 
-function OrderButton({ featured, children = 'Order Now' }) {
+function OrderButton({ featured, children = 'Order this package' }) {
   return (
     <Link
       href="/contact"
@@ -31,23 +32,83 @@ function Reassurance({ featured }) {
   )
 }
 
-/** Standard package card: name, price, feature list. */
-export function PriceCard({ item }) {
-  const featured = item.featured
+/** The one-line "who is this for" note that sits under every price. */
+function BestFor({ text, featured }) {
+  if (!text) return null
 
   return (
-    <div
-      className={`relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 ${
-        featured
-          ? 'bg-ink-900 text-white shadow-2xl shadow-ink-900/30 ring-2 ring-action-500/60'
-          : 'bg-white border border-slate-200 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-xl'
-      }`}
-    >
-      {featured && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-action-400 to-action-600 px-3.5 py-1 text-[12px] font-bold uppercase tracking-wider text-white shadow-lg shadow-action-600/40">
-          Most popular
-        </span>
-      )}
+    <div className={`mt-5 rounded-2xl px-4 py-3 ${featured ? 'bg-white/10' : 'bg-brand-50/70'}`}>
+      <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
+        Best for
+      </p>
+      <p className={`mt-1 text-[14px] leading-snug ${featured ? 'text-white/85' : 'text-ink-700'}`}>{text}</p>
+    </div>
+  )
+}
+
+function Badge({ children }) {
+  return (
+    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-action-400 to-action-600 px-3.5 py-1 text-[12px] font-bold uppercase tracking-wider text-white shadow-lg shadow-action-600/40">
+      {children}
+    </span>
+  )
+}
+
+const shell = (featured) =>
+  `relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 ${
+    featured
+      ? 'bg-ink-900 text-white shadow-2xl shadow-ink-900/30 ring-2 ring-action-500/60'
+      : 'bg-white border border-slate-200 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-xl'
+  }`
+
+/**
+ * The full spec list, hidden until asked for. The three or four points that
+ * actually separate the tiers are always visible; the long list underneath is
+ * only useful to someone who is already comparing closely.
+ */
+function FullList({ features, featured }) {
+  const [open, setOpen] = useState(false)
+
+  if (!features?.length) return null
+
+  return (
+    <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        className={`flex w-full items-center justify-between gap-2 text-[13px] font-semibold ${
+          featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-brand-700'
+        }`}
+      >
+        {open ? 'Hide the full list' : `See the full list (${features.length} items)`}
+        <Icons.plus className={`w-4 h-4 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`} />
+      </button>
+
+      <div className="grid transition-all duration-300 ease-out" style={{ gridTemplateRows: open ? '1fr' : '0fr' }}>
+        <div className="overflow-hidden">
+          <ul className="mt-3 space-y-1.5">
+            {features.map((f) => (
+              <li key={f} className={`flex items-start gap-2 text-[13px] ${featured ? 'text-white/70' : 'text-ink-500'}`}>
+                <span className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${featured ? 'bg-white/40' : 'bg-ink-300'}`} />
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** Standard package card: name, price, who it suits, what makes it different. */
+export function PriceCard({ item }) {
+  const featured = item.featured
+  const points = item.highlights?.length ? item.highlights : item.features
+
+  return (
+    <div className={shell(featured)}>
+      {featured && item.badge && <Badge>{item.badge}</Badge>}
 
       <p className={`text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
       {item.kind && (
@@ -63,10 +124,13 @@ export function PriceCard({ item }) {
         <span className={`text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
           {money(item.price)}
         </span>
+        <span className={`text-[13px] ${featured ? 'text-white/50' : 'text-ink-300'}`}>one-off</span>
       </p>
 
-      <ul className="mt-6 flex-1 space-y-2.5">
-        {item.features.map((f) => (
+      <BestFor text={item.bestFor} featured={featured} />
+
+      <ul className="mt-5 flex-1 space-y-2.5">
+        {points.map((f) => (
           <li key={f} className="flex items-start gap-2.5 text-sm">
             <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
             <span className={featured ? 'text-white/85' : 'text-ink-700'}>{f}</span>
@@ -87,10 +151,12 @@ export function PriceCard({ item }) {
         </div>
       )}
 
+      {item.highlights && <FullList features={item.features} featured={featured} />}
+
       {item.samples && (
-        <div className={`mt-5 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+        <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
           <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
-            See it in action
+            Watch a real example
           </p>
           <div className="mt-2 flex flex-col gap-1.5">
             {item.samples.map((s) => (
@@ -117,23 +183,13 @@ export function PriceCard({ item }) {
   )
 }
 
-/** Bundle card: component prices, the saving, and the percentage. */
+/** Bundle card: what is inside, what each part costs, and the saving. */
 export function BundleCard({ item }) {
   const featured = item.featured
 
   return (
-    <div
-      className={`relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 ${
-        featured
-          ? 'bg-ink-900 text-white shadow-2xl shadow-ink-900/30 ring-2 ring-action-500/60'
-          : 'bg-white border border-slate-200 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-xl'
-      }`}
-    >
-      {featured && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-action-400 to-action-600 px-3.5 py-1 text-[12px] font-bold uppercase tracking-wider text-white shadow-lg shadow-action-600/40">
-          Best value
-        </span>
-      )}
+    <div className={shell(featured)}>
+      {featured && <Badge>{item.badge || 'Most popular'}</Badge>}
 
       <div className="flex items-start justify-between gap-3">
         <div>
@@ -147,7 +203,7 @@ export function BundleCard({ item }) {
             featured ? 'bg-trust-500/20 text-trust-300' : 'bg-trust-50 text-trust-700'
           }`}
         >
-          −{item.savingPct}%
+          Save {item.savingPct}%
         </span>
       </div>
 
@@ -164,19 +220,33 @@ export function BundleCard({ item }) {
         You save {money(item.saving)}
       </p>
 
-      <ul className={`mt-6 flex-1 space-y-3 border-t pt-5 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
-        {item.includes.map((inc) => (
-          <li key={inc.label} className="flex items-start justify-between gap-3 text-sm">
-            <span className="flex items-start gap-2.5">
-              <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
-              <span className={featured ? 'text-white/85' : 'text-ink-700'}>{inc.label}</span>
-            </span>
-            <span className={`shrink-0 text-[13px] font-semibold ${featured ? 'text-white/45' : 'text-ink-300'}`}>
-              {money(inc.price)}
-            </span>
-          </li>
-        ))}
-      </ul>
+      {item.bestSaving && !featured && (
+        <span className="mt-2.5 inline-flex items-center gap-1.5 self-start rounded-full bg-trust-50 px-2.5 py-1 text-[12px] font-bold text-trust-700">
+          <Icons.spark className="w-3.5 h-3.5" />
+          Biggest discount
+        </span>
+      )}
+
+      <BestFor text={item.bestFor} featured={featured} />
+
+      <div className={`mt-5 flex-1 border-t pt-5 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+        <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-white/50' : 'text-ink-300'}`}>
+          What is in it
+        </p>
+        <ul className="mt-3 space-y-3">
+          {item.includes.map((inc) => (
+            <li key={inc.label} className="flex items-start justify-between gap-3 text-sm">
+              <span className="flex items-start gap-2.5">
+                <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
+                <span className={featured ? 'text-white/85' : 'text-ink-700'}>{inc.label}</span>
+              </span>
+              <span className={`shrink-0 text-[13px] font-semibold ${featured ? 'text-white/45' : 'text-ink-300'}`}>
+                {money(inc.price)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <div
         className={`mt-4 flex items-center justify-between rounded-2xl px-4 py-2.5 text-sm ${
@@ -209,7 +279,7 @@ export function BigPackage({ pkg, tone = 'dark' }) {
 
       <div className="relative p-8 sm:p-10">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-          <div>
+          <div className="max-w-xl">
             {pkg.eyebrow && (
               <span
                 className={`inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] ${
@@ -222,6 +292,11 @@ export function BigPackage({ pkg, tone = 'dark' }) {
             <h3 className={`mt-3 text-3xl sm:text-4xl font-bold ${dark ? 'text-white' : 'text-ink-900'}`}>
               {pkg.name} <span className="font-normal opacity-60">{pkg.kind}</span>
             </h3>
+            {pkg.bestFor && (
+              <p className={`mt-3 text-[15px] leading-relaxed ${dark ? 'text-white/70' : 'text-ink-500'}`}>
+                {pkg.bestFor}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-5">
@@ -230,7 +305,7 @@ export function BigPackage({ pkg, tone = 'dark' }) {
             </span>
             <div>
               <Link href="/contact" className="btn-action px-6 py-3.5">
-                Order Now
+                Order this package
                 <Icons.arrow className="w-4 h-4" />
               </Link>
               <p className={`mt-2 flex items-center gap-1.5 text-[13px] ${dark ? 'text-white/55' : 'text-ink-500'}`}>

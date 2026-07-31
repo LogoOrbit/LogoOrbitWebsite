@@ -1,6 +1,8 @@
 import Reveal from './Reveal'
+import CompareTable from './CompareTable'
 import { PriceCard, BundleCard } from './PriceCard'
 
+/** A single catalogue, used on the home page and the service pages. */
 export default function PricingSection({ section, tone = 'light' }) {
   const isBundle = Boolean(section.items[0]?.includes)
 
@@ -22,6 +24,14 @@ export default function PricingSection({ section, tone = 'light' }) {
             </Reveal>
           ))}
         </div>
+
+        {section.compare && (
+          <CompareTable
+            compare={section.compare}
+            items={section.items}
+            featuredIndex={section.items.findIndex((i) => i.featured)}
+          />
+        )}
       </div>
     </section>
   )
