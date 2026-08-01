@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Icons } from './Icons'
+import ThemeToggle from './ThemeToggle'
 import { nav, site } from '../lib/site'
 
 function Wordmark({ light }) {
@@ -169,6 +170,7 @@ export default function Nav() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle light={light} />
             <a
               href={site.phoneHref}
               className={`flex items-center gap-2 text-[15px] font-semibold transition-colors ${
@@ -187,14 +189,17 @@ export default function Nav() {
             </Link>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            aria-label="Open menu"
-            className={`lg:hidden p-2 rounded-lg ${light ? 'text-white' : 'text-ink-900'}`}
-          >
-            <Icons.menu className="w-7 h-7" />
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            <ThemeToggle light={light} />
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Open menu"
+              className={`p-2 rounded-lg ${light ? 'text-white' : 'text-ink-900'}`}
+            >
+              <Icons.menu className="w-7 h-7" />
+            </button>
+          </div>
         </div>
       </header>
 

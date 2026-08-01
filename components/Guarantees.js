@@ -6,8 +6,8 @@ import { site } from '../lib/site'
 const guarantees = [
   {
     icon: Icons.shield,
-    title: '100% money-back guarantee',
-    body: 'If we cannot produce a concept you are happy to use, you get a full refund. No forms, no argument, no restocking fee.',
+    title: 'Free consultation first',
+    body: 'Talk the project through with a designer before you pay anything. No card required, no obligation to go ahead.',
   },
   {
     icon: Icons.check,
@@ -29,13 +29,13 @@ export default function Guarantees() {
         <Reveal className="max-w-2xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-trust-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-trust-700">
             <Icons.shield className="w-4 h-4" />
-            Zero risk
+            Included every time
           </span>
-          <h2 className="mt-4 text-3xl sm:text-4xl font-bold leading-tight text-ink-900">
-            Every order is protected three ways
+          <h2 className="mt-4 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
+            The same three things in every package
           </h2>
-          <p className="mt-4 text-lg leading-relaxed text-ink-500">
-            You are buying design sight-unseen, so we carry the risk rather than asking you to.
+          <p className="mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">
+            Whatever you spend, these never change.
           </p>
         </Reveal>
 

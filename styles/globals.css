@@ -98,6 +98,66 @@
   }
 }
 
+/* ---------- Dark mode ----------
+   Tailwind v4 compiles every colour utility to var(--color-*), so most of the
+   theme flips by redefining those variables. Two tokens cannot flip: `white`
+   is used for text on dark surfaces as well as page background, and `ink-900`
+   is both the heading colour and the featured-card background. Those two are
+   handled by the explicit rules underneath. */
+.dark {
+  color-scheme: dark;
+
+  --color-slate-50: #101a30;
+  --color-slate-100: #1a2742;
+  --color-slate-200: #26344f;
+  --color-slate-300: #3a4b6d;
+
+  --color-brand-50: #16233f;
+  --color-brand-100: #1f3157;
+  --color-brand-200: #2b447a;
+  --color-brand-300: #3f5fa5;
+
+  --color-trust-50: #0f2a22;
+  --color-trust-100: #163d31;
+}
+
+/* Page and card surfaces. */
+.dark .bg-white { background-color: #0a1120; }
+.dark .bg-white\/95 { background-color: rgb(10 17 32 / 0.95); }
+.dark .bg-white\/90 { background-color: rgb(10 17 32 / 0.9); }
+
+/* Text. The base heading rule is scoped to `.dark` so it still beats
+   inheritance the way the light-mode rule does. */
+.dark body { color: #cbd5ea; }
+.dark h1, .dark h2, .dark h3, .dark h4 { color: #eef2fb; }
+.dark .text-ink-900 { color: #eef2fb; }
+.dark .text-ink-700 { color: #cbd5ea; }
+.dark .text-ink-500 { color: #97a5c2; }
+.dark .text-ink-300 { color: #6f7e9f; }
+
+/* Accents need lifting off a dark surface to stay readable. */
+.dark .text-brand-600, .dark .text-brand-700 { color: #8ab4ff; }
+.dark .text-trust-600, .dark .text-trust-700 { color: #4ade9f; }
+.dark .bg-brand-600 { background-color: #2563eb; }
+
+/* The featured card and the dark buttons keep their own dark surface, but it
+   has to separate from the page behind it. */
+.dark .bg-ink-900 { background-color: #16213c; }
+.dark .ring-slate-100 { --tw-ring-color: #1a2742; }
+
+/* Cards sit on a near-black page, so the light-mode shadows do nothing. */
+.dark .shadow-xl, .dark .shadow-lg, .dark .shadow-2xl { --tw-shadow-color: rgb(0 0 0 / 0.5); }
+
+.dark .glass {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* The theme toggle itself must not animate the whole page on every switch. */
+.theme-switching, .theme-switching * {
+  transition: none !important;
+}
+
 /* ---------- Scroll reveal ---------- */
 .reveal {
   opacity: 0;

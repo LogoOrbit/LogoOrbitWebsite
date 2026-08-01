@@ -19,19 +19,6 @@ function OrderButton({ featured, children = 'Order this package' }) {
   )
 }
 
-function Reassurance({ featured }) {
-  return (
-    <p
-      className={`mt-3 flex items-center justify-center gap-1.5 text-[13px] ${
-        featured ? 'text-white/60' : 'text-ink-500'
-      }`}
-    >
-      <Icons.shield className="w-3.5 h-3.5 text-trust-500" />
-      Money-back guarantee
-    </p>
-  )
-}
-
 /** The one-line "who is this for" note that sits under every price. */
 function BestFor({ text, featured }) {
   if (!text) return null
@@ -55,7 +42,7 @@ function Badge({ children }) {
 }
 
 const shell = (featured) =>
-  `relative flex h-full flex-col rounded-3xl p-7 transition-all duration-300 ${
+  `relative flex h-full flex-col rounded-3xl p-6 sm:p-7 transition-all duration-300 ${
     featured
       ? 'bg-ink-900 text-white shadow-2xl shadow-ink-900/30 ring-2 ring-action-500/60'
       : 'bg-white border border-slate-200 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-xl'
@@ -110,7 +97,7 @@ export function PriceCard({ item }) {
     <div className={shell(featured)}>
       {featured && item.badge && <Badge>{item.badge}</Badge>}
 
-      <p className={`text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
+      <p className={`text-lg sm:text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
       {item.kind && (
         <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
           {item.kind}
@@ -121,7 +108,7 @@ export function PriceCard({ item }) {
         {item.from && (
           <span className={`text-xs font-medium ${featured ? 'text-white/50' : 'text-ink-300'}`}>from</span>
         )}
-        <span className={`text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
+        <span className={`text-[2.1rem] sm:text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
           {money(item.price)}
         </span>
         <span className={`text-[13px] ${featured ? 'text-white/50' : 'text-ink-300'}`}>one-off</span>
@@ -178,7 +165,6 @@ export function PriceCard({ item }) {
       )}
 
       <OrderButton featured={featured} />
-      <Reassurance featured={featured} />
     </div>
   )
 }
@@ -193,7 +179,7 @@ export function BundleCard({ item }) {
 
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className={`text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
+          <p className={`text-lg sm:text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
           <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
             Bundle
           </p>
@@ -208,7 +194,7 @@ export function BundleCard({ item }) {
       </div>
 
       <div className="mt-4 flex items-baseline gap-2.5">
-        <span className={`text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
+        <span className={`text-[2.1rem] sm:text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
           {money(item.price)}
         </span>
         <span className={`text-lg line-through ${featured ? 'text-white/40' : 'text-ink-300'}`}>
@@ -260,7 +246,6 @@ export function BundleCard({ item }) {
       </div>
 
       <OrderButton featured={featured} />
-      <Reassurance featured={featured} />
     </div>
   )
 }
@@ -277,8 +262,8 @@ export function BigPackage({ pkg, tone = 'dark' }) {
     >
       {dark && <div className="absolute inset-0 grid-lines opacity-50" aria-hidden="true" />}
 
-      <div className="relative p-8 sm:p-10">
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div className="relative p-6 sm:p-10">
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 sm:gap-6">
           <div className="max-w-xl">
             {pkg.eyebrow && (
               <span
@@ -289,18 +274,18 @@ export function BigPackage({ pkg, tone = 'dark' }) {
                 {pkg.eyebrow}
               </span>
             )}
-            <h3 className={`mt-3 text-3xl sm:text-4xl font-bold ${dark ? 'text-white' : 'text-ink-900'}`}>
+            <h3 className={`mt-3 text-2xl sm:text-4xl font-bold ${dark ? 'text-white' : 'text-ink-900'}`}>
               {pkg.name} <span className="font-normal opacity-60">{pkg.kind}</span>
             </h3>
             {pkg.bestFor && (
-              <p className={`mt-3 text-[15px] leading-relaxed ${dark ? 'text-white/70' : 'text-ink-500'}`}>
+              <p className={`mt-2.5 text-[15px] leading-relaxed ${dark ? 'text-white/70' : 'text-ink-500'}`}>
                 {pkg.bestFor}
               </p>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-5">
-            <span className={`text-5xl font-bold tracking-tight ${dark ? 'text-white' : 'text-ink-900'}`}>
+          <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+            <span className={`text-4xl sm:text-5xl font-bold tracking-tight ${dark ? 'text-white' : 'text-ink-900'}`}>
               {money(pkg.price)}
             </span>
             <div>
@@ -308,15 +293,11 @@ export function BigPackage({ pkg, tone = 'dark' }) {
                 Order this package
                 <Icons.arrow className="w-4 h-4" />
               </Link>
-              <p className={`mt-2 flex items-center gap-1.5 text-[13px] ${dark ? 'text-white/55' : 'text-ink-500'}`}>
-                <Icons.shield className="w-3.5 h-3.5 text-trust-400" />
-                Money-back guarantee
-              </p>
             </div>
           </div>
         </div>
 
-        <div className={`mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 border-t pt-8 ${dark ? 'border-white/10' : 'border-slate-100'}`}>
+        <div className={`mt-7 sm:mt-8 grid gap-7 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 border-t pt-7 sm:pt-8 ${dark ? 'border-white/10' : 'border-slate-100'}`}>
           {pkg.groups.map((group) => (
             <div key={group.title}>
               <p className={`text-sm font-bold uppercase tracking-wider ${dark ? 'text-orbit-300' : 'text-brand-600'}`}>

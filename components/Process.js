@@ -1,5 +1,6 @@
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
+import { Icons } from './Icons'
 import { process } from '../lib/site'
 
 export default function Process() {
@@ -27,6 +28,19 @@ export default function Process() {
                 </div>
                 <h3 className="mt-6 text-center text-lg font-bold text-ink-900">{item.title}</h3>
                 <p className="mt-2.5 text-center text-[15px] leading-relaxed text-ink-500">{item.body}</p>
+                {item.href && (
+                  <div className="mt-3 text-center">
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-2 text-[14px] font-semibold text-brand-600 transition-colors hover:bg-brand-100"
+                    >
+                      {item.cta}
+                      <Icons.arrow className="w-4 h-4" />
+                    </a>
+                  </div>
+                )}
               </Reveal>
             ))}
           </div>

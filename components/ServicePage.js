@@ -5,9 +5,10 @@ import TrustBar from './TrustBar'
 import Guarantees from './Guarantees'
 import Reveal from './Reveal'
 import PricingSection from './PricingSection'
+import ProcessSteps from './ProcessSteps'
 import { BigPackage } from './PriceCard'
 import { Icons, serviceIcon } from './Icons'
-import { process, site } from '../lib/site'
+import { site } from '../lib/site'
 import { sectionById, bigPackageById } from '../lib/pricing'
 
 export default function ServicePage({ page }) {
@@ -95,17 +96,7 @@ export default function ServicePage({ page }) {
             </h2>
           </Reveal>
 
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {process.map((item, i) => (
-              <Reveal key={item.step} delay={i * 100}>
-                <div className="grid place-items-center w-16 h-16 rounded-2xl bg-white shadow-lg shadow-brand-900/5 ring-1 ring-slate-100">
-                  <span className="text-lg font-bold text-gradient">{item.step}</span>
-                </div>
-                <h3 className="mt-5 text-lg font-bold text-ink-900">{item.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-ink-500">{item.body}</p>
-              </Reveal>
-            ))}
-          </div>
+          <ProcessSteps />
         </div>
       </section>
 

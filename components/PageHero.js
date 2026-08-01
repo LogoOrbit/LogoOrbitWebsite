@@ -16,29 +16,33 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 pt-14 pb-20 sm:pt-20 sm:pb-24 text-center">
-        <nav aria-label="Breadcrumb" className="flex items-center justify-center gap-2 text-sm text-white/55">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 pt-8 pb-14 sm:pt-20 sm:pb-24 text-center">
+        <nav aria-label="Breadcrumb" className="flex items-center justify-center gap-2 text-[13px] sm:text-sm text-white/55">
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
           <span aria-hidden="true">/</span>
           <span className="text-white/85">{breadcrumb || eyebrow}</span>
         </nav>
 
         {eyebrow && (
-          <span className="mt-6 inline-block rounded-full glass px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em]">
+          <span className="mt-4 sm:mt-6 inline-block rounded-full glass px-3.5 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em]">
             {eyebrow}
           </span>
         )}
 
-        <h1 className="mt-5 mx-auto max-w-4xl text-4xl sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.08] tracking-tight text-white">
-          {title} {highlight && <span className="text-gradient">{highlight}</span>}
+        <h1 className="mt-4 sm:mt-5 mx-auto max-w-4xl text-[2rem] sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] sm:leading-[1.08] tracking-tight text-white">
+          {/* The dark-surface variant — the light-surface gradient is
+              blue-on-blue against this mesh and barely readable. */}
+          {title} {highlight && <span className="text-gradient-light">{highlight}</span>}
         </h1>
 
         {intro && (
-          <p className="mt-6 mx-auto max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>
+          <p className="mt-4 sm:mt-6 mx-auto max-w-2xl text-[15px] sm:text-lg leading-relaxed text-white/70">
+            {intro}
+          </p>
         )}
 
         {children ?? (
-          <div className="mt-9 flex flex-col sm:flex-row justify-center gap-3.5">
+          <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row justify-center gap-3">
             <Link
               href="/contact"
               className="group btn-action px-7 py-4"

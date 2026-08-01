@@ -82,7 +82,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center gap-2 text-sm text-white/75">
               <Icons.shield className="w-5 h-5 text-trust-300" />
-              100% ownership &amp; money-back guarantee
+              100% ownership of every file you receive
             </div>
           </div>
         </div>
