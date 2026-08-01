@@ -4,7 +4,7 @@ import Reveal from './Reveal'
 import { Icons } from './Icons'
 import { site, services } from '../lib/site'
 
-const empty = { name: '', email: '', phone: '', service: '', message: '', consent: false }
+const empty = { name: '', email: '', phone: '', service: '', message: '', consent: false, website: '' }
 
 export default function Contact({ showIntro = true }) {
   const [form, setForm] = useState(empty)
@@ -155,13 +155,17 @@ export default function Contact({ showIntro = true }) {
               </div>
             ) : (
               <form onSubmit={submit} className="space-y-4">
+                <div className="absolute -left-[10000px]" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input id="website" name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={update} />
+                </div>
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-ink-700">
                       Full name
                     </label>
                     <input
-                      id="name" name="name" required value={form.name} onChange={update}
+                      id="name" name="name" required autoComplete="name" value={form.name} onChange={update}
                       placeholder="Jane Cooper" className={field}
                     />
                   </div>
@@ -170,7 +174,7 @@ export default function Contact({ showIntro = true }) {
                       Email
                     </label>
                     <input
-                      id="email" name="email" type="email" required value={form.email} onChange={update}
+                      id="email" name="email" type="email" required autoComplete="email" value={form.email} onChange={update}
                       placeholder="jane@company.com" className={field}
                     />
                   </div>
@@ -186,7 +190,7 @@ export default function Contact({ showIntro = true }) {
                         +1
                       </span>
                       <input
-                        id="phone" name="phone" type="tel" value={form.phone} onChange={update}
+                        id="phone" name="phone" type="tel" autoComplete="tel" value={form.phone} onChange={update}
                         placeholder="917 831 1779" className={`${field} rounded-l-none`}
                       />
                     </div>
@@ -235,7 +239,7 @@ export default function Contact({ showIntro = true }) {
                 </label>
 
                 {status === 'error' && (
-                  <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>
+                  <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">{error}</p>
                 )}
 
                 <button

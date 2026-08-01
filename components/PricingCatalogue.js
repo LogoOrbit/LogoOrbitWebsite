@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
 import Reveal from './Reveal'
 import CardRow from './CardRow'
 import CompareTable from './CompareTable'
@@ -54,10 +55,10 @@ function BrandProtection() {
                 <p className="mt-1.5 text-4xl font-bold tracking-tight text-ink-900">{money(brandProtection.price)}</p>
                 <p className="mt-2 text-[13px] leading-snug text-ink-500">{brandProtection.note}</p>
 
-                <a href="/brief" className="btn-action mt-5 w-full px-6 py-3.5">
+                <Link href="/brief" className="btn-action mt-5 w-full px-6 py-3.5">
                   Ask about trademarking
                   <Icons.arrow className="w-4 h-4" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

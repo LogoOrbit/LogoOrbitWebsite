@@ -16,8 +16,9 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#4f46e5" />
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeScript }} />
       </Head>
       <body className="antialiased">
         <Main />

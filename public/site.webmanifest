@@ -1,0 +1,10 @@
+{
+  "name": "LogoOrbit",
+  "short_name": "LogoOrbit",
+  "description": "Custom logo design, websites, animation, apps and marketing.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

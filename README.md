@@ -54,14 +54,17 @@ components.
 
 ## Contact form
 
-`pages/api/contact.js` validates submissions and logs them to the Vercel runtime
-logs. **It does not send email yet.** To deliver enquiries to `support@logoorbit.net`,
-uncomment the provider block in that file (a Resend example is included), then add the
-API key as a Vercel environment variable:
+`pages/api/contact.js` validates submissions, filters bots, rate-limits abuse and
+delivers enquiries through Resend. Configure these deployment environment variables:
 
 ```
-Project → Settings → Environment Variables → RESEND_API_KEY
+RESEND_API_KEY=re_...
+CONTACT_TO_EMAIL=legal@logoorbit.net
+CONTACT_FROM_EMAIL=LogoOrbit Website <website@logoorbit.net>
 ```
+
+The sending domain must be verified in Resend. Without `RESEND_API_KEY`, the endpoint
+returns a clear service-unavailable response instead of silently losing a lead.
 
 ## Accessibility & performance notes
 

@@ -105,6 +105,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
   const [solid, setSolid] = useState(false)
   const [openGroup, setOpenGroup] = useState(null)
+  const menuButtonRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 40)
@@ -116,6 +117,18 @@ export default function Nav() {
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
+  }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
   }, [open])
 
   // Close the drawer whenever navigation completes.
@@ -199,6 +212,7 @@ export default function Nav() {
           <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle light={light} />
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={() => setOpen(true)}
               aria-label="Open menu"
@@ -212,6 +226,8 @@ export default function Nav() {
 
       {/* Mobile drawer */}
       <div
+        aria-hidden={!open}
+        inert={!open}
         className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}

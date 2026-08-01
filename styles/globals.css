@@ -98,6 +98,22 @@
   }
 }
 
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-180%);
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #0b1733;
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.2);
+}
+
+.skip-link:focus { transform: translateY(0); }
+
 /* ---------- Dark mode ----------
    Tailwind v4 compiles every colour utility to var(--color-*), so most of the
    theme flips by redefining those variables. Two tokens cannot flip: `white`

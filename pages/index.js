@@ -25,7 +25,7 @@ import { site, faqs } from '../lib/site'
 import { logoPackages } from '../lib/pricing'
 
 const description =
-  'Get a custom logo made in minutes. LogoOrbit delivers original logo design, websites, animation, mobile apps, book publication and Amazon marketing, 15+ years, 8,500+ brands, 100% ownership.'
+  'Get custom logo concepts within 24 hours. LogoOrbit delivers original logo design, websites, animation, mobile apps, book publication and Amazon marketing, with 100% ownership.'
 
 export default function Home() {
   const jsonLd = {

@@ -1,13 +1,24 @@
 /**
  * Contact form endpoint.
  *
- * This validates and records the enquiry. It does NOT yet send email  
- * to deliver enquiries to support@logoorbit.net, plug an email provider in
- * where marked below (e.g. Resend, SendGrid, Postmark) and add the API key
- * as a Vercel environment variable.
+ * Validates and sends enquiries through Resend. Configure RESEND_API_KEY,
+ * CONTACT_TO_EMAIL and CONTACT_FROM_EMAIL in the deployment environment.
  */
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const SERVICE_VALUES = new Set([
+  'Logo Design', 'Website Design', 'Video, Animation & YouTube', 'Mobile Applications',
+  'Book Publication', 'Amazon Marketing', 'Other', 'Brief: logo', 'Brief: website', 'Brief: video',
+])
+const requests = new Map()
+
+function isRateLimited(ip) {
+  const now = Date.now()
+  const recent = (requests.get(ip) || []).filter((time) => now - time < 10 * 60 * 1000)
+  recent.push(now)
+  requests.set(ip, recent)
+  return recent.length > 5
+}
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -15,7 +26,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { name, email, phone, service, message, consent } = req.body || {}
+  const contentLength = Number(req.headers['content-length'] || 0)
+  if (contentLength > 20_000) return res.status(413).json({ error: 'Request is too large.' })
+
+  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim()
+  if (isRateLimited(ip)) return res.status(429).json({ error: 'Too many requests. Please try again shortly.' })
+
+  const { name, email, phone, service, message, consent, website } = req.body || {}
+
+  // Bots commonly fill fields hidden from people; return success without sending.
+  if (website) return res.status(200).json({ ok: true })
 
   if (!name || String(name).trim().length < 2) {
     return res.status(400).json({ error: 'Please enter your name.' })
@@ -23,7 +43,7 @@ export default async function handler(req, res) {
   if (!email || !EMAIL_RE.test(String(email))) {
     return res.status(400).json({ error: 'Please enter a valid email address.' })
   }
-  if (!service) {
+  if (!service || !SERVICE_VALUES.has(String(service))) {
     return res.status(400).json({ error: 'Please select a service.' })
   }
   if (!consent) {
@@ -39,24 +59,30 @@ export default async function handler(req, res) {
     message: String(message || '').trim().slice(0, 4000),
   }
 
-  // Visible in the Vercel runtime logs for this function.
-  console.log('[contact] new enquiry', enquiry)
+  const apiKey = process.env.RESEND_API_KEY
+  const to = process.env.CONTACT_TO_EMAIL || 'legal@logoorbit.net'
+  const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
+  if (!apiKey) return res.status(503).json({ error: 'Online enquiries are temporarily unavailable. Please call or email us.' })
 
-  // TODO: forward to support@logoorbit.net via your email provider, e.g.
-  //
-  //   await fetch('https://api.resend.com/emails', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       from: 'website@logoorbit.net',
-  //       to: 'support@logoorbit.net',
-  //       subject: `New ${enquiry.service} enquiry from ${enquiry.name}`,
-  //       text: JSON.stringify(enquiry, null, 2),
-  //     }),
-  //   })
+  const delivery = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to,
+      reply_to: enquiry.email,
+      subject: `New ${enquiry.service} enquiry from ${enquiry.name}`,
+      text: [
+        `Name: ${enquiry.name}`, `Email: ${enquiry.email}`, `Phone: ${enquiry.phone || 'Not provided'}`,
+        `Service: ${enquiry.service}`, '', enquiry.message || 'No message provided.', '', `Received: ${enquiry.receivedAt}`,
+      ].join('\n'),
+    }),
+  })
+
+  if (!delivery.ok) {
+    console.error('[contact] email delivery failed', delivery.status)
+    return res.status(502).json({ error: 'We could not send your enquiry. Please call or email us instead.' })
+  }
 
   return res.status(200).json({ ok: true })
 }

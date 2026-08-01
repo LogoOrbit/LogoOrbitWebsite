@@ -15,9 +15,18 @@ export default function ServicePage({ page }) {
   const Icon = serviceIcon[page.icon]
   const sections = (page.packages || []).map((id) => sectionById[id]).filter(Boolean)
   const bigPackages = (page.featureBig || []).map((id) => bigPackageById[id]).filter(Boolean)
+  const jsonLd = {
+    '@type': 'Service',
+    '@id': `${site.url}${page.slug}#service`,
+    name: page.eyebrow,
+    description: page.metaDescription,
+    url: `${site.url}${page.slug}`,
+    provider: { '@id': `${site.url}/#organization` },
+    areaServed: 'US',
+  }
 
   return (
-    <Layout title={page.metaTitle} description={page.metaDescription} path={page.slug}>
+    <Layout title={page.metaTitle} description={page.metaDescription} path={page.slug} jsonLd={jsonLd}>
       <PageHero
         eyebrow={page.eyebrow}
         title={page.title}
