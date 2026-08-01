@@ -12,15 +12,16 @@ export default function TrademarkBand() {
     <section className="py-14 sm:py-20 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal>
-          <div className="rounded-3xl border-2 border-action-500/40 bg-gradient-to-br from-action-500/10 via-white to-brand-50/60 p-6 sm:p-10">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-7">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-action-500/50 bg-white p-6 sm:p-10 shadow-lg">
+            <div className="absolute inset-0 bg-action-500/5" aria-hidden="true" />
+            <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-7">
               <div className="max-w-2xl">
                 <span className="inline-flex items-center gap-2 rounded-full bg-action-500 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
                   <Icons.shield className="w-4 h-4" />
                   {brandProtection.eyebrow}
                 </span>
 
-                <h2 className="mt-3.5 text-2xl sm:text-3xl font-bold leading-tight text-ink-900">
+                <h2 className="mt-4 text-[1.75rem] sm:text-4xl font-bold leading-tight tracking-tight text-ink-900">
                   We can register your logo as a US trademark
                 </h2>
                 <p className="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-ink-700">

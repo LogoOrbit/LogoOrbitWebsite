@@ -22,15 +22,19 @@ function BrandProtection() {
     <section id={brandProtection.id} className="scroll-mt-32 py-12 sm:py-20 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border-2 border-action-500/40 bg-gradient-to-br from-action-500/10 via-white to-brand-50/60 p-6 sm:p-10">
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-7 lg:gap-10">
+          <div className="relative overflow-hidden rounded-3xl border-2 border-action-500/50 bg-white p-6 sm:p-10 shadow-lg">
+            {/* A flat tint rather than a gradient through white, which turned
+                into an unreadable sheen once the page went dark. */}
+            <div className="absolute inset-0 bg-action-500/5" aria-hidden="true" />
+
+            <div className="relative flex flex-col lg:flex-row lg:items-start justify-between gap-7 lg:gap-10">
               <div className="max-w-2xl">
                 <span className="inline-flex items-center gap-2 rounded-full bg-action-500 px-3 py-1 text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-white">
                   <Icons.shield className="w-4 h-4" />
                   {brandProtection.eyebrow}
                 </span>
 
-                <h2 className="mt-3.5 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
+                <h2 className="mt-4 text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-tight text-ink-900">
                   {brandProtection.title}
                 </h2>
                 <p className="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-ink-700">{brandProtection.plain}</p>
@@ -70,7 +74,9 @@ function AddOns() {
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal className="max-w-3xl">
           <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Optional extras</span>
-          <h2 className="mt-3 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">{addOns.title}</h2>
+          <h2 className="mt-4 text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-tight text-ink-900">
+            {addOns.title}
+          </h2>
           <p className="mt-3 text-[15px] sm:text-lg leading-relaxed text-ink-500">{addOns.plain}</p>
         </Reveal>
 
@@ -166,10 +172,10 @@ function Group({ group, multiple }) {
     <div>
       {multiple && (
         <Reveal className="max-w-3xl">
-          <h3 className="text-xl sm:text-2xl font-bold text-ink-900">
-            {group.title}
+          <h3 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-2xl sm:text-[2rem] font-bold leading-tight text-ink-900">
+            <span>{group.title}</span>
             {group.subtitle && (
-              <span className="ml-3 align-middle rounded-full bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-brand-600">
+              <span className="rounded-full bg-action-500 px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
                 {group.subtitle}
               </span>
             )}
@@ -203,10 +209,13 @@ function Category({ category, tone }) {
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal className="max-w-3xl">
-          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
+          <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.18em] text-brand-600">
             From {money(category.from)}
           </span>
-          <h2 className="mt-3 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">{category.title}</h2>
+          <h2 className="mt-4 text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-tight text-ink-900">
+            {category.title}
+          </h2>
+          <span className="mt-4 block h-1.5 w-20 rounded-full bg-gradient-to-r from-action-500 to-orbit-400" aria-hidden="true" />
           <p className="mt-3 sm:mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">{category.plain}</p>
           {category.howToChoose && (
             <p className="mt-5 flex items-start gap-2.5 rounded-2xl border border-brand-100 bg-brand-50/60 px-4 py-3.5 sm:px-5 sm:py-4 text-[14px] sm:text-[15px] leading-relaxed text-ink-700">
@@ -230,7 +239,9 @@ function Category({ category, tone }) {
             {(category.bigPackagesTitle || category.bigPackagesBlurb) && (
               <Reveal className="max-w-3xl">
                 {category.bigPackagesTitle && (
-                  <h3 className="text-xl sm:text-2xl font-bold text-ink-900">{category.bigPackagesTitle}</h3>
+                  <h3 className="text-2xl sm:text-[2rem] font-bold leading-tight text-ink-900">
+                    {category.bigPackagesTitle}
+                  </h3>
                 )}
                 {category.bigPackagesBlurb && (
                   <p className="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-ink-500">

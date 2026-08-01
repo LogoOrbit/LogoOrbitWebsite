@@ -79,14 +79,14 @@ function TierMedal({ tier = 0, featured }) {
 function TopBar({ tier = 0 }) {
   return (
     <span
-      className={`absolute inset-x-0 top-0 h-1.5 rounded-t-3xl bg-gradient-to-r ${tierOf(tier).bar}`}
+      className={`absolute inset-x-0 top-0 h-1.5 overflow-hidden rounded-t-3xl bg-gradient-to-r ${tierOf(tier).bar}`}
       aria-hidden="true"
     />
   )
 }
 
 const shell = (featured, tier = 0) =>
-  `relative flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-7 transition-all duration-300 ${
+  `relative flex h-full flex-col rounded-3xl p-6 sm:p-7 transition-all duration-300 ${
     featured
       ? 'bg-gradient-to-b from-ink-900 to-[#111d3b] text-white shadow-2xl shadow-action-900/20 ring-2 ring-action-500 lg:-translate-y-2 lg:scale-[1.02]'
       : `bg-white border border-slate-200 hover:-translate-y-1.5 hover:shadow-xl ${tierOf(tier).hover}`
