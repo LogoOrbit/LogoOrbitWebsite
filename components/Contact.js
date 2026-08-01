@@ -137,7 +137,7 @@ export default function Contact({ showIntro = true }) {
                 <span className="grid place-items-center w-16 h-16 rounded-full bg-trust-100 text-trust-600">
                   <Icons.check className="w-8 h-8" />
                 </span>
-                <h3 className="mt-5 text-2xl font-bold text-ink-900">Thanks — we&apos;ve got it.</h3>
+                <h3 className="mt-5 text-2xl font-bold text-ink-900">Thanks, we&apos;ve got it.</h3>
                 <p className="mt-2.5 max-w-sm text-ink-500">
                   A designer will reach out shortly. If it&apos;s urgent, call us directly on{' '}
                   <a href={site.phoneHref} className="font-semibold text-brand-600">

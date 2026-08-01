@@ -35,7 +35,7 @@ export default function Footer() {
             </div>
 
             <p className="mt-5 max-w-sm text-[15px] leading-relaxed">
-              Custom logo design, websites, animation, apps and marketing — {site.years}+ years of building
+              Custom logo design, websites, animation, apps and marketing, {site.years}+ years of building
               brands that get noticed.
             </p>
 

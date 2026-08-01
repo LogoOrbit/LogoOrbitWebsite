@@ -12,7 +12,7 @@ export default function Services() {
           eyebrow="What we do"
           title="One team for every"
           highlight="digital asset you need"
-          body="Logos are where most clients start — but the same in-house team can carry your brand all the way to a live website, an animated intro and a selling Amazon listing."
+          body="Logos are where most clients start, but the same in-house team can carry your brand all the way to a live website, an animated intro and a selling Amazon listing."
         />
 
         <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

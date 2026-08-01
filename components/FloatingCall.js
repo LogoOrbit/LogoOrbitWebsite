@@ -3,7 +3,7 @@ import { useScrolled } from '../lib/hooks'
 import { site } from '../lib/site'
 
 /**
- * Desktop-only call button. Deliberately just the one circular control —
+ * Desktop-only call button. Deliberately just the one circular control  
  * the wider "get a free quote" pill that used to sit beside it overlapped
  * card content on the pricing page, and the header already carries that CTA.
  */

@@ -25,10 +25,7 @@ export default function CompareTable({ compare, items, featuredIndex }) {
     }
     if (value === false) {
       return (
-        <span className="text-ink-300">
-          <span aria-hidden="true">—</span>
-          <span className="sr-only">Not included</span>
-        </span>
+        <span className="text-[13px] font-medium text-ink-300">Not included</span>
       )
     }
     return <span className="font-medium text-ink-900">{value}</span>

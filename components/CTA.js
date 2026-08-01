@@ -21,7 +21,7 @@ export default function CTA() {
                 Try our online logo maker &amp; custom design services now
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-white/75">
-                Scalable branding solutions that maximise ROI — from a single logo to a complete identity
+                Scalable branding solutions that maximise ROI, from a single logo to a complete identity
                 system, priced for every budget.
               </p>
 

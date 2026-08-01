@@ -5,7 +5,7 @@ import LogoMark, { portfolio } from './LogoMark'
 import { site } from '../lib/site'
 
 const highlights = [
-  'Original, hand-crafted concepts — never templates',
+  'Original, hand-crafted concepts, never templates',
   'In-house design team based in the USA',
   'Free design consultation before you commit',
   'Full copyright ownership on every package',
@@ -84,7 +84,7 @@ export default function About() {
             <p className="mt-4 text-[17px] leading-relaxed text-ink-500">
               With over {site.years}+ years working alongside entrepreneurs and multinational ventures, we have
               instilled greatness into every brand mark we designed. Our team of ingenious, professional designers
-              is highly adept at hand-crafted work — and every design is original, uniquely tailored to the
+              is highly adept at hand-crafted work, and every design is original, uniquely tailored to the
               strategic goals of your company.
             </p>
           </Reveal>

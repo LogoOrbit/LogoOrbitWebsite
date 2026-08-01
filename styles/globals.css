@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /**
- * Colour system — each hue carries one job, so a visitor reads the page
+ * Colour system, each hue carries one job, so a visitor reads the page
  * before they read the words.
  *
  *   brand  (blue)    trust, competence, security  → structure, headings, links
@@ -75,9 +75,9 @@
   /* The rule above beats inheritance, so headings dropped onto a dark
      surface came out near-black on navy. Inside anything that has already
      set a light text colour, headings inherit it instead. */
-  .text-white h1, .text-white h2, .text-white h3, .text-white h4,
-  .mesh-bg h1, .mesh-bg h2, .mesh-bg h3, .mesh-bg h4,
-  .bg-ink-900 h1, .bg-ink-900 h2, .bg-ink-900 h3, .bg-ink-900 h4 {
+  .text-white h1.text-white h2.text-white h3.text-white h4,
+  .mesh-bg h1.mesh-bg h2.mesh-bg h3.mesh-bg h4,
+  .bg-ink-900 h1.bg-ink-900 h2.bg-ink-900 h3.bg-ink-900 h4 {
     color: inherit;
   }
 
@@ -129,15 +129,15 @@
 /* Text. The base heading rule is scoped to `.dark` so it still beats
    inheritance the way the light-mode rule does. */
 .dark body { color: #cbd5ea; }
-.dark h1, .dark h2, .dark h3, .dark h4 { color: #eef2fb; }
+.dark h1.dark h2.dark h3.dark h4 { color: #eef2fb; }
 .dark .text-ink-900 { color: #eef2fb; }
 .dark .text-ink-700 { color: #cbd5ea; }
 .dark .text-ink-500 { color: #97a5c2; }
 .dark .text-ink-300 { color: #6f7e9f; }
 
 /* Accents need lifting off a dark surface to stay readable. */
-.dark .text-brand-600, .dark .text-brand-700 { color: #8ab4ff; }
-.dark .text-trust-600, .dark .text-trust-700 { color: #4ade9f; }
+.dark .text-brand-600.dark .text-brand-700 { color: #8ab4ff; }
+.dark .text-trust-600.dark .text-trust-700 { color: #4ade9f; }
 .dark .bg-brand-600 { background-color: #2563eb; }
 
 /* The featured card and the dark buttons keep their own dark surface, but it
@@ -146,7 +146,7 @@
 .dark .ring-slate-100 { --tw-ring-color: #1a2742; }
 
 /* Cards sit on a near-black page, so the light-mode shadows do nothing. */
-.dark .shadow-xl, .dark .shadow-lg, .dark .shadow-2xl { --tw-shadow-color: rgb(0 0 0 / 0.5); }
+.dark .shadow-xl.dark .shadow-lg.dark .shadow-2xl { --tw-shadow-color: rgb(0 0 0 / 0.5); }
 
 .dark .glass {
   background: rgba(255, 255, 255, 0.07);
@@ -154,7 +154,7 @@
 }
 
 /* The theme toggle itself must not animate the whole page on every switch. */
-.theme-switching, .theme-switching * {
+.theme-switching.theme-switching * {
   transition: none !important;
 }
 
@@ -210,7 +210,7 @@
   100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
 }
 
-/* The concept "forming" in the brand starter — it arrives out of focus
+/* The concept "forming" in the brand starter, it arrives out of focus
    and only ever resolves part of the way, which is the whole point. */
 @keyframes forming {
   0%   { filter: blur(26px); opacity: 0.15; transform: scale(0.82) rotate(-6deg); }
@@ -253,7 +253,7 @@
   animation: shimmer 8s ease-in-out infinite;
 }
 
-/* On the dark mesh. The light variant keeps the headline legible —
+/* On the dark mesh. The light variant keeps the headline legible  
    the light-surface gradient is blue-on-blue against this background. */
 .text-gradient-light {
   background: linear-gradient(100deg, #bfdbfe 0%, #ddd6fe 45%, #fdba74 100%);

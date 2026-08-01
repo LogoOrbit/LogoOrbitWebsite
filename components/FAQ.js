@@ -13,7 +13,7 @@ export default function FAQ() {
         <SectionHeading
           eyebrow="FAQs"
           title="Questions, answered"
-          body="Still unsure about something? Call us — a real designer will pick up."
+          body="Still unsure about something? Call us, a real designer will pick up."
         />
 
         <div className="mt-12 space-y-3">

@@ -4,13 +4,100 @@ import CardRow from './CardRow'
 import CompareTable from './CompareTable'
 import { BigPackage } from './PriceCard'
 import { Icons } from './Icons'
-import { categories, finder, money } from '../lib/pricing'
+import { addOns, brandProtection, categories, finder, money } from '../lib/pricing'
 
 const tabIcon = {
   layers: Icons.layers,
   logo: Icons.logo,
   website: Icons.website,
   animation: Icons.animation,
+  shield: Icons.shield,
+  clock: Icons.clock,
+  spark: Icons.spark,
+}
+
+/** Trademark filing, given its own band because most owners never think to ask. */
+function BrandProtection() {
+  return (
+    <section id={brandProtection.id} className="scroll-mt-32 py-12 sm:py-20 bg-white">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-3xl border-2 border-action-500/40 bg-gradient-to-br from-action-500/10 via-white to-brand-50/60 p-6 sm:p-10">
+            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-7 lg:gap-10">
+              <div className="max-w-2xl">
+                <span className="inline-flex items-center gap-2 rounded-full bg-action-500 px-3 py-1 text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-white">
+                  <Icons.shield className="w-4 h-4" />
+                  {brandProtection.eyebrow}
+                </span>
+
+                <h2 className="mt-3.5 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
+                  {brandProtection.title}
+                </h2>
+                <p className="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-ink-700">{brandProtection.plain}</p>
+
+                <ul className="mt-6 grid gap-2.5">
+                  {brandProtection.points.map((point) => (
+                    <li key={point} className="flex items-start gap-2.5 text-[15px] text-ink-700">
+                      <Icons.check className="mt-0.5 w-4 h-4 shrink-0 text-trust-500" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="w-full shrink-0 rounded-3xl border border-slate-200 bg-white p-6 text-center lg:w-[20rem]">
+                <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand-600">Our filing fee</p>
+                <p className="mt-1.5 text-4xl font-bold tracking-tight text-ink-900">{money(brandProtection.price)}</p>
+                <p className="mt-2 text-[13px] leading-snug text-ink-500">{brandProtection.note}</p>
+
+                <a href="/brief" className="btn-action mt-5 w-full px-6 py-3.5">
+                  Ask about trademarking
+                  <Icons.arrow className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  )
+}
+
+/** The optional extras, kept out of the tier cards so they stay readable. */
+function AddOns() {
+  return (
+    <section id={addOns.id} className="scroll-mt-32 py-12 sm:py-20 bg-slate-50">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <Reveal className="max-w-3xl">
+          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Optional extras</span>
+          <h2 className="mt-3 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">{addOns.title}</h2>
+          <p className="mt-3 text-[15px] sm:text-lg leading-relaxed text-ink-500">{addOns.plain}</p>
+        </Reveal>
+
+        <div className="mt-8 sm:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          {addOns.items.map((item, i) => {
+            const Icon = tabIcon[item.icon] || Icons.spark
+            return (
+              <Reveal key={item.name} delay={i * 60} className="h-full">
+                <div className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg">
+                  <span className="grid place-items-center w-10 h-10 rounded-xl bg-brand-50 text-brand-600">
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <h3 className="mt-4 text-lg font-bold text-ink-900">{item.name}</h3>
+                  <p className="mt-2 flex-1 text-[14px] leading-relaxed text-ink-500">{item.body}</p>
+                  <p className="mt-4 text-[15px] font-bold text-ink-900">
+                    {item.from && <span className="text-[13px] font-medium text-ink-300">from </span>}
+                    {money(item.price)}
+                    <span className="ml-1 text-[13px] font-medium text-ink-300">{item.per || 'one-off'}</span>
+                  </p>
+                </div>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
 }
 
 const jumpTo = (id) => {
@@ -20,7 +107,7 @@ const jumpTo = (id) => {
 /**
  * "I do not know what I need" is the most common state a visitor arrives in,
  * so the page answers that before it shows a single price. These are shortcuts
- * to a section further down, not a filter — every package stays on the page.
+ * to a section further down, not a filter, every package stays on the page.
  */
 function Finder() {
   return (
@@ -32,7 +119,7 @@ function Finder() {
             Which one of these sounds like you?
           </h2>
           <p className="mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">
-            Tap the closest match to jump to those packages. Everything we sell is on this page — this only saves
+            Tap the closest match to jump to those packages. Everything we sell is on this page, this only saves
             you the scroll.
           </p>
         </Reveal>
@@ -56,7 +143,7 @@ function Finder() {
                 <div className="rounded-2xl bg-slate-50 p-4">
                   <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-ink-300">We would suggest</p>
                   <p className="mt-1 font-bold text-ink-900">
-                    {f.recommend} — {money(f.price)}
+                    {f.recommend}, {money(f.price)}
                   </p>
                   <p className="mt-1 text-[13px] leading-snug text-ink-500">{f.note}</p>
                 </div>
@@ -167,7 +254,7 @@ function Category({ category, tone }) {
 
 /**
  * Every package sits on the page. The sticky strip is a set of jump links with
- * the section you are currently reading highlighted — nothing is hidden behind
+ * the section you are currently reading highlighted, nothing is hidden behind
  * a tab, so a visitor can also just scroll from top to bottom and see the lot.
  */
 export default function PricingCatalogue() {
@@ -193,7 +280,7 @@ export default function PricingCatalogue() {
   }, [])
 
   // Keep the highlighted link in view on a phone, where the strip scrolls
-  // sideways. Only the strip moves — scrollIntoView would drag the page.
+  // sideways. Only the strip moves, scrollIntoView would drag the page.
   useEffect(() => {
     const el = strip.current
     const link = el?.querySelector('[data-current]')
@@ -207,14 +294,22 @@ export default function PricingCatalogue() {
     <>
       <Finder />
 
-      <div id="packages" className="scroll-mt-18 sticky top-18 z-40 border-y border-slate-200 bg-white/95 backdrop-blur">
+      <div id="packages" className="scroll-mt-18 sticky top-18 z-40 border-y-2 border-brand-100 bg-white/95 shadow-sm backdrop-blur">
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
-          <div ref={strip} className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-2.5 sm:py-3">
-            <span className="hidden lg:block shrink-0 pr-1 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-300">
-              Jump to
-            </span>
+          <p className="pt-3 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-brand-600">
+            Jump straight to what you need
+          </p>
 
-            {categories.map((c) => {
+          <div
+            ref={strip}
+            className="flex items-center justify-start gap-2 overflow-x-auto no-scrollbar py-2.5 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible sm:py-3"
+          >
+
+            {[
+              ...categories,
+              { id: brandProtection.id, tab: 'Trademark', tabNote: 'Protect your logo', icon: 'shield' },
+              { id: addOns.id, tab: 'Add-ons', tabNote: 'Printing, hosting, care', icon: 'spark' },
+            ].map((c) => {
               const Icon = tabIcon[c.icon] || Icons.layers
               const isCurrent = c.id === current
 
@@ -225,10 +320,10 @@ export default function PricingCatalogue() {
                   onClick={() => jumpTo(c.id)}
                   data-current={isCurrent ? 'true' : undefined}
                   aria-current={isCurrent ? 'true' : undefined}
-                  className={`flex shrink-0 items-center gap-2 sm:gap-2.5 rounded-2xl px-3 py-2 sm:px-4 sm:py-2.5 text-left transition-all ${
+                  className={`flex shrink-0 items-center gap-2 sm:gap-2.5 rounded-2xl border px-3 py-2 sm:px-4 sm:py-2.5 text-left transition-all ${
                     isCurrent
-                      ? 'bg-ink-900 text-white shadow-lg shadow-ink-900/20'
-                      : 'text-ink-700 hover:bg-slate-100'
+                      ? 'border-action-500 bg-ink-900 text-white shadow-lg shadow-ink-900/25'
+                      : 'border-slate-200 bg-white text-ink-900 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md'
                   }`}
                 >
                   <Icon className={`w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0 ${isCurrent ? 'text-orbit-300' : 'text-brand-600'}`} />
@@ -236,7 +331,7 @@ export default function PricingCatalogue() {
                     <span className="block text-[13px] sm:text-sm font-bold leading-tight">{c.tab}</span>
                     <span
                       className={`block text-[11px] sm:text-[12px] leading-tight ${
-                        isCurrent ? 'text-white/60' : 'text-ink-500'
+                        isCurrent ? 'text-action-300' : 'text-ink-500'
                       }`}
                     >
                       {c.tabNote || `from ${money(c.from)}`}
@@ -252,6 +347,9 @@ export default function PricingCatalogue() {
       {categories.map((c, i) => (
         <Category key={c.id} category={c} tone={i % 2 === 0 ? 'muted' : 'light'} />
       ))}
+
+      <BrandProtection />
+      <AddOns />
     </>
   )
 }

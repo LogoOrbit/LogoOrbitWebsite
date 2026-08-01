@@ -35,18 +35,72 @@ function BestFor({ text, featured }) {
 
 function Badge({ children }) {
   return (
-    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-action-400 to-action-600 px-3.5 py-1 text-[12px] font-bold uppercase tracking-wider text-white shadow-lg shadow-action-600/40">
-      {children}
+    <span className="absolute -top-3.5 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-action-400 to-action-600 px-4 py-1.5 text-[12px] font-bold uppercase tracking-wider text-white shadow-lg shadow-action-600/50">
+      <span className="flex items-center gap-1.5">
+        <Icons.spark className="w-3.5 h-3.5" />
+        {children}
+      </span>
     </span>
   )
 }
 
-const shell = (featured) =>
-  `relative flex h-full flex-col rounded-3xl p-6 sm:p-7 transition-all duration-300 ${
+/**
+ * Each tier gets its own colour, medal and top bar. Four identical white cards
+ * in a row give a reader nothing to hold on to; a Bronze card should be
+ * recognisably a different thing from a Platinum one at a glance.
+ *
+ * The accents are decorative only: every piece of text keeps the readable
+ * ink/white colours, so nothing here depends on colour to be understood.
+ */
+const tierStyles = [
+  { bar: 'from-amber-700 via-amber-500 to-amber-600', medal: 'from-amber-600 to-amber-400', hover: 'hover:border-amber-300' },
+  { bar: 'from-slate-400 via-slate-300 to-slate-400', medal: 'from-slate-400 to-slate-300', hover: 'hover:border-slate-400' },
+  { bar: 'from-yellow-500 via-amber-300 to-yellow-500', medal: 'from-yellow-500 to-amber-300', hover: 'hover:border-yellow-400' },
+  { bar: 'from-violet-500 via-orbit-300 to-violet-500', medal: 'from-violet-500 to-orbit-300', hover: 'hover:border-violet-400' },
+]
+
+const tierOf = (tier = 0) => tierStyles[tier % tierStyles.length]
+
+function TierMedal({ tier = 0, featured }) {
+  const style = tierOf(tier)
+
+  return (
+    <span
+      className={`grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br ${style.medal} text-[13px] font-bold text-white shadow-sm ${
+        featured ? 'ring-2 ring-white/25' : ''
+      }`}
+      aria-hidden="true"
+    >
+      {tier + 1}
+    </span>
+  )
+}
+
+function TopBar({ tier = 0 }) {
+  return (
+    <span
+      className={`absolute inset-x-0 top-0 h-1.5 rounded-t-3xl bg-gradient-to-r ${tierOf(tier).bar}`}
+      aria-hidden="true"
+    />
+  )
+}
+
+const shell = (featured, tier = 0) =>
+  `relative flex h-full flex-col overflow-hidden rounded-3xl p-6 sm:p-7 transition-all duration-300 ${
     featured
-      ? 'bg-ink-900 text-white shadow-2xl shadow-ink-900/30 ring-2 ring-action-500/60'
-      : 'bg-white border border-slate-200 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-xl'
+      ? 'bg-gradient-to-b from-ink-900 to-[#111d3b] text-white shadow-2xl shadow-action-900/20 ring-2 ring-action-500 lg:-translate-y-2 lg:scale-[1.02]'
+      : `bg-white border border-slate-200 hover:-translate-y-1.5 hover:shadow-xl ${tierOf(tier).hover}`
   }`
+
+/** Says out loud why the highlighted card is highlighted. */
+function Recommended() {
+  return (
+    <p className="mt-4 flex items-center justify-center gap-2 rounded-full bg-action-500/15 px-3 py-2 text-[12px] font-semibold text-action-300">
+      <Icons.check className="w-4 h-4 shrink-0" />
+      What our designers put most clients on
+    </p>
+  )
+}
 
 /**
  * The full spec list, hidden until asked for. The three or four points that
@@ -89,20 +143,28 @@ function FullList({ features, featured }) {
 }
 
 /** Standard package card: name, price, who it suits, what makes it different. */
-export function PriceCard({ item }) {
+export function PriceCard({ item, tier = 0 }) {
   const featured = item.featured
   const points = item.highlights?.length ? item.highlights : item.features
 
   return (
-    <div className={shell(featured)}>
+    <div className={shell(featured, tier)}>
+      <TopBar tier={tier} />
       {featured && item.badge && <Badge>{item.badge}</Badge>}
 
-      <p className={`text-lg sm:text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
-      {item.kind && (
-        <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
-          {item.kind}
-        </p>
-      )}
+      <div className={`flex items-center gap-3 ${featured ? 'mt-3' : ''}`}>
+        <TierMedal tier={tier} featured={featured} />
+        <div className="min-w-0">
+          <p className={`text-lg sm:text-xl font-bold leading-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
+            {item.name}
+          </p>
+          {item.kind && (
+            <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
+              {item.kind}
+            </p>
+          )}
+        </div>
+      </div>
 
       <p className="mt-4 flex items-baseline gap-1.5">
         {item.from && (
@@ -111,7 +173,9 @@ export function PriceCard({ item }) {
         <span className={`text-[2.1rem] sm:text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
           {money(item.price)}
         </span>
-        <span className={`text-[13px] ${featured ? 'text-white/50' : 'text-ink-300'}`}>one-off</span>
+        <span className={`text-[13px] ${featured ? 'text-white/50' : 'text-ink-300'}`}>
+          {item.per || 'one-off'}
+        </span>
       </p>
 
       <BestFor text={item.bestFor} featured={featured} />
@@ -165,24 +229,31 @@ export function PriceCard({ item }) {
       )}
 
       <OrderButton featured={featured} />
+      {featured && <Recommended />}
     </div>
   )
 }
 
 /** Bundle card: what is inside, what each part costs, and the saving. */
-export function BundleCard({ item }) {
+export function BundleCard({ item, tier = 0 }) {
   const featured = item.featured
 
   return (
-    <div className={shell(featured)}>
+    <div className={shell(featured, tier)}>
+      <TopBar tier={tier} />
       {featured && <Badge>{item.badge || 'Most popular'}</Badge>}
 
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className={`text-lg sm:text-xl font-bold ${featured ? 'text-white' : 'text-ink-900'}`}>{item.name}</p>
-          <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
-            Bundle
-          </p>
+      <div className={`flex items-start justify-between gap-3 ${featured ? 'mt-3' : ''}`}>
+        <div className="flex items-center gap-3">
+          <TierMedal tier={tier} featured={featured} />
+          <div className="min-w-0">
+            <p className={`text-lg sm:text-xl font-bold leading-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
+              {item.name}
+            </p>
+            <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
+              Bundle
+            </p>
+          </div>
         </div>
         <span
           className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-bold ${
@@ -246,6 +317,7 @@ export function BundleCard({ item }) {
       </div>
 
       <OrderButton featured={featured} />
+      {featured && <Recommended />}
     </div>
   )
 }

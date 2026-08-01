@@ -16,7 +16,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Tell us what you're"
         highlight="building"
-        intro="Send a brief and we'll come back with a plan, a timeline and a fixed price — usually within one business day."
+        intro="Send a brief and we'll come back with a plan, a timeline and a fixed price, usually within one business day."
       >
         <div className="mt-9 flex flex-col sm:flex-row justify-center gap-3.5">
           <a

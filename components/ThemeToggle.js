@@ -36,7 +36,7 @@ export default function ThemeToggle({ light = false, className = '' }) {
     try {
       localStorage.setItem('theme', next ? 'dark' : 'light')
     } catch (e) {
-      /* private mode — the choice just will not persist */
+      /* private mode, the choice just will not persist */
     }
     window.setTimeout(() => root.classList.remove('theme-switching'), 60)
 

@@ -39,7 +39,7 @@ export default function ServicePage({ page }) {
                 What you get with <span className="text-gradient">{page.eyebrow}</span>
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-500">
-                Work with the same in-house team from first brief to final handover — no outsourcing, no
+                Work with the same in-house team from first brief to final handover, no outsourcing, no
                 account-manager relay, and full ownership of everything we produce.
               </p>
 

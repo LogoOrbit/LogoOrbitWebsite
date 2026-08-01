@@ -21,7 +21,7 @@ const guarantees = [
   },
 ]
 
-/** Risk reversal — placed immediately before the pricing ask. */
+/** Risk reversal, placed immediately before the pricing ask. */
 export default function Guarantees() {
   return (
     <section className="py-16 sm:py-20 bg-trust-50/60">

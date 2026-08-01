@@ -30,7 +30,7 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
         )}
 
         <h1 className="mt-4 sm:mt-5 mx-auto max-w-4xl text-[2rem] sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] sm:leading-[1.08] tracking-tight text-white">
-          {/* The dark-surface variant — the light-surface gradient is
+          {/* The dark-surface variant, the light-surface gradient is
               blue-on-blue against this mesh and barely readable. */}
           {title} {highlight && <span className="text-gradient-light">{highlight}</span>}
         </h1>

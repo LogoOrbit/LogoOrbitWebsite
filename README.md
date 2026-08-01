@@ -1,10 +1,10 @@
-# LogoOrbit — logoorbit.net
+# LogoOrbit, logoorbit.net
 
 Marketing site for LogoOrbit: custom logo design, websites, animation, mobile apps,
 book publication and Amazon marketing.
 
 Built with **Next.js 16** (Pages Router) and **Tailwind CSS v4**. No external asset
-requests — every logo mark, icon and illustration is inline SVG, so the page renders
+requests, every logo mark, icon and illustration is inline SVG, so the page renders
 identically offline and behind strict CSPs.
 
 ## Getting started
@@ -23,7 +23,7 @@ pages/
   index.js            single-page site, SEO meta + JSON-LD structured data
   _app.js             global CSS
   _document.js        <html> shell, favicon, theme colour
-  api/contact.js      contact form endpoint (validation only — see below)
+  api/contact.js      contact form endpoint (validation only, see below)
 components/
   Nav.js              sticky header, transparent over hero, mobile drawer
   Hero.js             animated hero with rotating logo preview
@@ -49,7 +49,7 @@ lib/
   hooks.js            useInView, useCountUp, useScrolled
 ```
 
-All site copy and contact details live in `lib/site.js` — edit there, not in the
+All site copy and contact details live in `lib/site.js`, edit there, not in the
 components.
 
 ## Contact form
@@ -65,6 +65,6 @@ Project → Settings → Environment Variables → RESEND_API_KEY
 
 ## Accessibility & performance notes
 
-- Respects `prefers-reduced-motion` — all animation is disabled for those users.
+- Respects `prefers-reduced-motion`, all animation is disabled for those users.
 - No horizontal overflow at 390px or 1440px (verified with Playwright).
 - Semantic landmarks, labelled form fields, `aria-label` on icon-only controls.

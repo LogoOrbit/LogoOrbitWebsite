@@ -33,23 +33,23 @@ const capabilities = [
 const pricingFaqs = [
   {
     q: 'Is the price on the card the price I pay?',
-    a: 'Yes. Every package is a single fixed price with nothing added afterwards — no setup fee, no file-release fee, no subscription. The only thing that changes the price is you asking for extra work that is not listed, and we would agree that with you in writing first.',
+    a: 'Yes. Every package is a single fixed price with nothing added afterwards, no setup fee, no file-release fee, no subscription. The only thing that changes the price is you asking for extra work that is not listed, and we would agree that with you in writing first.',
   },
   {
     q: 'Do I have to pay all of it up front?',
-    a: 'No. On The Complete Brand it is half to start and half when you approve the finished work. On the smaller packages most clients simply pay on completion — ask and we will split it.',
+    a: 'No. On The Complete Brand it is half to start and half when you approve the finished work. On the smaller packages most clients simply pay on completion, ask and we will split it.',
   },
   {
     q: 'I do not know anything about design. Will that be a problem?',
-    a: 'No — most of our clients do not. You tell us about your business in plain words, we do the design thinking, and we show you finished options to react to. "I like this one but not the colour" is a perfectly good brief.',
+    a: 'No, most of our clients do not. You tell us about your business in plain words, we do the design thinking, and we show you finished options to react to. "I like this one but not the colour" is a perfectly good brief.',
   },
   {
     q: 'What is the difference between a logo and a branding kit?',
-    a: 'The logo is the mark itself. The branding kit is that mark applied to the things you actually hand out and post — business cards, letterheads, email signatures, social media covers, signage. Most businesses end up needing both, which is why the bundles exist.',
+    a: 'The logo is the mark itself. The branding kit is that mark applied to the things you actually hand out and post, business cards, letterheads, email signatures, social media covers, signage. Most businesses end up needing both, which is why the bundles exist.',
   },
   {
     q: 'Can I start small and add more later?',
-    a: 'Yes. Plenty of clients start with a logo and come back for the branding kit or the website. Buying them together is cheaper, but nothing is lost by taking it one step at a time — we keep your files on record.',
+    a: 'Yes. Plenty of clients start with a logo and come back for the branding kit or the website. Buying them together is cheaper, but nothing is lost by taking it one step at a time, we keep your files on record.',
   },
   {
     q: 'What if I do not like any of the designs?',
@@ -164,7 +164,7 @@ function Flagship() {
 
                 <div className="w-full shrink-0 rounded-3xl bg-white/10 p-5 sm:p-6 text-center backdrop-blur lg:w-[21rem]">
                   <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-trust-300">
-                    Save {money(flagship.saving)} — {flagship.savingPct}% off
+                    Save {money(flagship.saving)}, {flagship.savingPct}% off
                   </p>
 
                   <p className="mt-2 flex items-baseline justify-center gap-2.5">
@@ -208,7 +208,7 @@ export default function Pricing() {
   return (
     <Layout
       title="Pricing & Packages"
-      description="Simple, fixed LogoOrbit pricing — logos from $49, branding kits from $59, websites from $699, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras."
+      description="Simple, fixed LogoOrbit pricing, logos from $49, branding kits from $59, websites from $699, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras."
       path="/pricing"
     >
       <PageHero
@@ -254,7 +254,7 @@ export default function Pricing() {
 
       <Flagship />
 
-      {/* One team for the whole lot — said plainly, before the catalogue. */}
+      {/* One team for the whole lot, said plainly, before the catalogue. */}
       <section className="py-10 sm:py-16 bg-slate-50">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <Reveal className="max-w-2xl">
@@ -316,7 +316,7 @@ export default function Pricing() {
               <div className="max-w-xl text-center lg:text-left">
                 <h2 className="text-xl sm:text-3xl font-bold text-ink-900">Still not sure which one?</h2>
                 <p className="mt-3 text-[15px] sm:text-[17px] leading-relaxed text-ink-500">
-                  Tell us what you are building in a sentence or two and we will tell you which package fits — or
+                  Tell us what you are building in a sentence or two and we will tell you which package fits, or
                   quote you for something custom if none of them do. Free, and there is no pressure to buy.
                 </p>
               </div>

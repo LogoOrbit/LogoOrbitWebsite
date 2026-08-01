@@ -6,6 +6,9 @@ import TrustBar from '../components/TrustBar'
 import Marquee from '../components/Marquee'
 import Stats from '../components/Stats'
 import Services from '../components/Services'
+import VideoServices from '../components/VideoServices'
+import BriefCTA from '../components/BriefCTA'
+import TrademarkBand from '../components/TrademarkBand'
 import Process from '../components/Process'
 import Portfolio from '../components/Portfolio'
 import WhyUs from '../components/WhyUs'
@@ -22,7 +25,7 @@ import { site, faqs } from '../lib/site'
 import { logoPackages } from '../lib/pricing'
 
 const description =
-  'Get a custom logo made in minutes. LogoOrbit delivers original logo design, websites, animation, mobile apps, book publication and Amazon marketing — 15+ years, 8,500+ brands, 100% ownership.'
+  'Get a custom logo made in minutes. LogoOrbit delivers original logo design, websites, animation, mobile apps, book publication and Amazon marketing, 15+ years, 8,500+ brands, 100% ownership.'
 
 export default function Home() {
   const jsonLd = {
@@ -78,10 +81,16 @@ export default function Home() {
       <Marquee />
       <Stats />
       <Services />
+      <BriefCTA />
+
+      <VideoServices />
+
       <Process />
       <Portfolio />
       <WhyUs />
       <About />
+
+      <TrademarkBand />
 
       <Guarantees />
 
@@ -91,7 +100,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 text-center">
           <Reveal>
             <p className="text-ink-500">
-              Logo packages are just the start — we also price branding kits, animated logos, websites and
+              Logo packages are just the start, we also price branding kits, animated logos, websites and
               money-saving bundles.
             </p>
             <Link

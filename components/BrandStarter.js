@@ -4,7 +4,7 @@ import { Icons } from './Icons'
 import LogoMark from './LogoMark'
 
 /**
- * Brand Starter — the entry bar on the home page.
+ * Brand Starter, the entry bar on the home page.
  *
  * The visitor picks Logo or Website, types a name, answers three short
  * questions, then watches a concept "generate". The result is a real
@@ -24,7 +24,7 @@ const palettes = [
 const shapes = ['orbit', 'hex', 'leaf', 'wave', 'shield', 'peak', 'drop', 'cube', 'ring', 'bolt', 'bloom', 'arch']
 
 /* Stable pseudo-random pick, so the same name always returns the same
-   concept — a second run must not look like a slot machine. */
+   concept, a second run must not look like a slot machine. */
 function hash(str) {
   let h = 0
   for (let i = 0; i < str.length; i += 1) h = (h * 31 + str.charCodeAt(i)) | 0
@@ -44,7 +44,7 @@ const flows = {
     icon: 'logo',
     placeholder: 'Enter your logo name…',
     nameLabel: 'What should your logo say?',
-    nameHint: 'Your business or brand name — exactly how you want it written.',
+    nameHint: 'Your business or brand name, exactly how you want it written.',
     action: 'Create My Logo',
     building: 'Designing your logo',
     steps: [
@@ -409,7 +409,7 @@ export default function BrandStarter() {
                   ← Back
                 </button>
                 {step === steps.length && (
-                  <span className="text-sm text-ink-300">Last one — then we build it</span>
+                  <span className="text-sm text-ink-300">Last one, then we build it</span>
                 )}
               </div>
             </div>
@@ -435,7 +435,7 @@ export default function BrandStarter() {
               </div>
 
               <p className="mt-6 text-center text-[15px] font-semibold text-ink-900">
-                {flow.building} — {buildStages[stage]}…
+                {flow.building}, {buildStages[stage]}…
               </p>
               <div className="mt-3 mx-auto max-w-sm h-2 rounded-full bg-slate-100 overflow-hidden">
                 <span
@@ -483,7 +483,7 @@ export default function BrandStarter() {
                       </div>
                       <div className="px-5 py-5" style={{ color: palette.bg }}>
                         <p className="text-lg font-bold leading-tight">
-                          {answers.tagline || `${display} — built for what you do next`}
+                          {answers.tagline || `${display}, built for what you do next`}
                         </p>
                         <span
                           className="mt-3 inline-block rounded-full px-4 py-1.5 text-[11px] font-semibold text-white"
@@ -519,7 +519,7 @@ export default function BrandStarter() {
                 </h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
                   A designer has your brief and the first concept is rendered. We keep previews blurred
-                  until we&apos;ve spoken — that way nothing goes out with the wrong spelling, the wrong
+                  until we&apos;ve spoken, that way nothing goes out with the wrong spelling, the wrong
                   colours, or into the wrong hands. Say hello and we&apos;ll send the full-resolution
                   files over.
                 </p>

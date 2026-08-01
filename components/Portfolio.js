@@ -22,7 +22,7 @@ export default function Portfolio({ showHeading = true }) {
             eyebrow="Portfolio"
             title="Marks we've built for"
             highlight="real businesses"
-            body="Every concept below was drawn from scratch by our in-house team — never templated, never resold."
+            body="Every concept below was drawn from scratch by our in-house team, never templated, never resold."
           />
         )}
 

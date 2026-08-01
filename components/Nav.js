@@ -33,6 +33,13 @@ function Dropdown({ item, light, active }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
+  // A section that has its own page should still be reachable by clicking its
+  // name; only the ones that are purely a grouping stay as a button.
+  const Component = item.href ? Link : 'button'
+  const links = item.href
+    ? [{ label: `Everything under ${item.label}`, href: item.href }, ...item.children]
+    : item.children
+
   useEffect(() => {
     const onAway = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false)
@@ -48,12 +55,12 @@ function Dropdown({ item, light, active }) {
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
+      <Component
+        {...(item.href ? { href: item.href } : { type: 'button' })}
+        onClick={() => (item.href ? setOpen(false) : setOpen((o) => !o))}
         aria-expanded={open}
         aria-haspopup="true"
-        className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-[15px] font-medium transition-colors ${
+        className={`flex shrink-0 items-center gap-1 whitespace-nowrap px-2.5 py-2 rounded-lg text-[15px] font-medium transition-colors ${
           light
             ? `${active ? 'text-white bg-white/10' : 'text-white/85'} hover:text-white hover:bg-white/10`
             : `${active ? 'text-brand-600 bg-brand-50' : 'text-ink-700'} hover:text-brand-600 hover:bg-brand-50`
@@ -68,7 +75,7 @@ function Dropdown({ item, light, active }) {
         >
           <path d="M5 7.5l5 5 5-5" />
         </svg>
-      </button>
+      </Component>
 
       <div
         className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 transition-all duration-200 ${
@@ -76,9 +83,9 @@ function Dropdown({ item, light, active }) {
         }`}
       >
         <div className="w-60 rounded-2xl border border-slate-100 bg-white p-2 shadow-2xl shadow-ink-900/10">
-          {item.children.map((child) => (
+          {links.map((child) => (
             <Link
-              key={child.href}
+              key={child.label}
               href={child.href}
               onClick={() => setOpen(false)}
               className="flex items-center justify-between gap-2 rounded-xl px-3.5 py-2.5 text-[15px] font-medium text-ink-700 hover:bg-brand-50 hover:text-brand-600 transition-colors"
@@ -128,7 +135,7 @@ export default function Nav() {
         <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-between">
           <p className="flex items-center gap-2">
             <Icons.spark className="w-4 h-4 text-flare-400" />
-            Free design consultation — first concepts back in under 24 hours.
+            Free design consultation, first concepts back in under 24 hours.
           </p>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
@@ -149,7 +156,7 @@ export default function Nav() {
         <div className="mx-auto max-w-7xl px-6 h-18 flex items-center justify-between gap-4">
           <Wordmark light={light} />
 
-          <nav className="hidden lg:flex items-center gap-0.5">
+          <nav className="hidden lg:flex items-center gap-0">
             {nav.map((item) =>
               item.children ? (
                 <Dropdown key={item.label} item={item} light={light} active={groupActive(item)} />
@@ -157,7 +164,7 @@ export default function Nav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3.5 py-2 rounded-lg text-[15px] font-medium transition-colors ${
+                  className={`shrink-0 whitespace-nowrap px-2.5 py-2 rounded-lg text-[15px] font-medium transition-colors ${
                     light
                       ? `${isActive(item.href) ? 'text-white bg-white/10' : 'text-white/85'} hover:text-white hover:bg-white/10`
                       : `${isActive(item.href) ? 'text-brand-600 bg-brand-50' : 'text-ink-700'} hover:text-brand-600 hover:bg-brand-50`
@@ -173,7 +180,7 @@ export default function Nav() {
             <ThemeToggle light={light} />
             <a
               href={site.phoneHref}
-              className={`flex items-center gap-2 text-[15px] font-semibold transition-colors ${
+              className={`hidden xl:flex items-center gap-2 whitespace-nowrap text-[15px] font-semibold transition-colors ${
                 light ? 'text-white hover:text-flare-300' : 'text-ink-900 hover:text-brand-600'
               }`}
             >
@@ -183,7 +190,7 @@ export default function Nav() {
             </a>
             <Link
               href="/contact"
-              className="btn-action px-5 py-2.5 text-[15px]"
+              className="btn-action shrink-0 whitespace-nowrap px-5 py-2.5 text-[15px]"
             >
               Get a Quote
             </Link>
@@ -246,9 +253,12 @@ export default function Nav() {
                   >
                     <div className="overflow-hidden">
                       <div className="ml-3 border-l-2 border-slate-100 pl-3 pb-2">
-                        {item.children.map((child) => (
+                        {(item.href
+                          ? [{ label: `Everything under ${item.label}`, href: item.href }, ...item.children]
+                          : item.children
+                        ).map((child) => (
                           <Link
-                            key={child.href}
+                            key={child.label}
                             href={child.href}
                             onClick={() => setOpen(false)}
                             className={`block px-3 py-2.5 rounded-lg text-[15px] transition-colors ${

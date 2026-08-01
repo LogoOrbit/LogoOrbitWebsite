@@ -8,7 +8,7 @@ const points = [
   { icon: Icons.team, label: 'In-house team', sub: 'based in the USA' },
 ]
 
-/** Sits directly under the hero — the first thing a sceptical visitor checks. */
+/** Sits directly under the hero, the first thing a sceptical visitor checks. */
 export default function TrustBar() {
   return (
     <section className="border-b border-slate-100 bg-white">

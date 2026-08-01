@@ -13,7 +13,7 @@ export default function AboutPage() {
   return (
     <Layout
       title="About Us & Our Story"
-      description={`LogoOrbit has spent ${site.years}+ years building brand identities for startups, SMEs and multinational ventures — with an in-house design team and 100% original work.`}
+      description={`LogoOrbit has spent ${site.years}+ years building brand identities for startups, SMEs and multinational ventures, with an in-house design team and 100% original work.`}
       path="/about"
     >
       <PageHero

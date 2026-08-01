@@ -1,7 +1,7 @@
 /**
  * Contact form endpoint.
  *
- * This validates and records the enquiry. It does NOT yet send email —
+ * This validates and records the enquiry. It does NOT yet send email  
  * to deliver enquiries to support@logoorbit.net, plug an email provider in
  * where marked below (e.g. Resend, SendGrid, Postmark) and add the API key
  * as a Vercel environment variable.

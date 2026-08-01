@@ -46,7 +46,7 @@ export default function Hero() {
 
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
             Original logos designed by hand from{' '}
-            <span className="font-semibold text-white">$49</span> — with your first concepts back in{' '}
+            <span className="font-semibold text-white">$49</span>, with your first concepts back in{' '}
             <span className="font-semibold text-white">24 hours</span>. Then scale into a full brand with
             websites, animation, apps and marketing, all under one roof.
           </p>
@@ -134,7 +134,7 @@ export default function Hero() {
               ))}
             </div>
 
-            {/* Reassurance sits inside the card — as floating chips these
+            {/* Reassurance sits inside the card, as floating chips these
                 overlapped the card and covered the button beneath. */}
             <div className="grid grid-cols-2 gap-2.5 border-t border-slate-100 pt-4">
               <div className="flex items-center gap-2.5">
