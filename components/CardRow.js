@@ -28,7 +28,9 @@ export default function CardRow({ items, className = '' }) {
         Swipe sideways for all {items.length} options
       </p>
 
-      <div className="-mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto no-scrollbar px-5 pt-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:pt-0 sm:pb-0 lg:grid-cols-4">
+      {/* The badge on the highlighted card hangs above its top edge, so the row
+          carries the padding that keeps it clear of whatever sits above. */}
+      <div className="-mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto no-scrollbar px-5 pt-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-5 sm:gap-y-8 sm:overflow-visible sm:px-0 sm:pt-5 sm:pb-0 lg:grid-cols-4">
         {ordered.map(({ item, tier }, i) => (
           <Reveal key={item.name} delay={i * 70} className="h-full w-[85%] shrink-0 snap-center sm:w-auto sm:shrink">
             {isBundle ? <BundleCard item={item} tier={tier} /> : <PriceCard item={item} tier={tier} />}
