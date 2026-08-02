@@ -39,6 +39,14 @@ export default function Footer() {
                 <Icons.mail className="w-4.5 h-4.5 text-orbit-400" />
                 {site.email}
               </a>
+              <a
+                href={`mailto:${site.legalEmail}`}
+                className="flex items-center gap-2.5 text-[14px] hover:text-white transition-colors"
+              >
+                <Icons.shield className="w-4.5 h-4.5 text-orbit-400" />
+                {site.legalEmail}
+                <span className="text-white/40">legal</span>
+              </a>
               <p className="flex items-center gap-2.5">
                 <Icons.clock className="w-4.5 h-4.5 text-orbit-400" />
                 {site.hours}

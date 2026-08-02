@@ -6,7 +6,7 @@ import TrustBar from '../components/TrustBar'
 import Guarantees from '../components/Guarantees'
 import Reveal from '../components/Reveal'
 import ProcessSteps from '../components/ProcessSteps'
-import PricingCatalogue from '../components/PricingCatalogue'
+import PricingCatalogue, { Finder } from '../components/PricingCatalogue'
 import { Icons } from '../components/Icons'
 import { flagship, money } from '../lib/pricing'
 import { site } from '../lib/site'
@@ -162,38 +162,47 @@ function Flagship() {
                   </ul>
                 </div>
 
-                <div className="w-full shrink-0 rounded-3xl bg-white/10 p-5 sm:p-6 text-center backdrop-blur lg:w-[21rem]">
-                  <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-trust-300">
-                    Save {money(flagship.saving)}, {flagship.savingPct}% off
-                  </p>
+                <div className="relative w-full shrink-0 lg:w-[21rem]">
+                  {/* A soft breathing glow so the saving is where the eye lands. */}
+                  <div
+                    className="deal-aura pointer-events-none absolute -inset-5 rounded-[2.5rem] bg-action-500/25 blur-2xl"
+                    aria-hidden="true"
+                  />
 
-                  <p className="mt-2 flex items-baseline justify-center gap-2.5">
-                    <span className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
-                      {money(flagship.price)}
-                    </span>
-                    <span className="text-lg text-white/45 line-through">{money(flagship.was)}</span>
-                  </p>
+                  <div className="deal-panel relative rounded-3xl bg-white/10 p-5 sm:p-6 text-center ring-1 ring-white/15 backdrop-blur">
+                    <p className="deal-save inline-flex items-center gap-1.5 rounded-full bg-trust-500/15 px-3 py-1 text-[12px] font-bold uppercase tracking-[0.16em] text-trust-300">
+                      <Icons.spark className="w-3.5 h-3.5" />
+                      Save {money(flagship.saving)}, {flagship.savingPct}% off
+                    </p>
 
-                  <p className="mt-2 text-[13px] leading-snug text-white/70">
-                    The same six pieces bought one at a time come to {money(flagship.was)}.
-                  </p>
+                    <p className="mt-2.5 flex items-baseline justify-center gap-2.5">
+                      <span className="deal-price inline-block text-4xl sm:text-5xl font-bold tracking-tight text-white">
+                        {money(flagship.price)}
+                      </span>
+                      <span className="deal-was text-lg text-white/45">{money(flagship.was)}</span>
+                    </p>
 
-                  <Link href="/contact" className="btn-action mt-5 w-full px-7 py-3.5">
-                    Claim this package
-                    <Icons.arrow className="w-4 h-4" />
-                  </Link>
+                    <p className="mt-2 text-[13px] leading-snug text-white/70">
+                      The same six pieces bought one at a time come to {money(flagship.was)}.
+                    </p>
 
-                  <p className="mt-3 flex items-start justify-center gap-1.5 text-[13px] leading-snug text-white/70">
-                    <Icons.shield className="mt-0.5 w-4 h-4 shrink-0 text-trust-300" />
-                    {flagship.payment}
-                  </p>
+                    <Link href="/contact" className="btn-action deal-cta mt-5 w-full px-7 py-3.5">
+                      Claim this package
+                      <Icons.arrow className="w-4 h-4" />
+                    </Link>
 
-                  <a
-                    href="#packages"
-                    className="mt-3 block text-[13px] font-medium text-white/70 underline underline-offset-4 hover:text-white"
-                  >
-                    Or browse the smaller packages
-                  </a>
+                    <p className="mt-3 flex items-start justify-center gap-1.5 text-[13px] leading-snug text-white/70">
+                      <Icons.shield className="mt-0.5 w-4 h-4 shrink-0 text-trust-300" />
+                      {flagship.payment}
+                    </p>
+
+                    <a
+                      href="#packages"
+                      className="mt-3 block text-[13px] font-medium text-white/70 underline underline-offset-4 hover:text-white"
+                    >
+                      Or browse the smaller packages
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -254,7 +263,12 @@ export default function Pricing() {
 
       <Flagship />
 
-      {/* One team for the whole lot, said plainly, before the catalogue. */}
+      {/* Prices first. Everything that helps you choose sits underneath them. */}
+      <PricingCatalogue />
+
+      <Finder />
+
+      {/* One team for the whole lot, said plainly, once the prices are read. */}
       <section className="py-10 sm:py-16 bg-slate-50">
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <Reveal className="max-w-2xl">
@@ -284,8 +298,6 @@ export default function Pricing() {
           </div>
         </div>
       </section>
-
-      <PricingCatalogue />
 
       {/* What actually happens once you order. */}
       <section className="py-12 sm:py-20 bg-white">

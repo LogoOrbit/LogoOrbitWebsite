@@ -264,6 +264,126 @@
 .marquee-track { animation: marquee 34s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 
+/* ---------- The headline offer ----------
+   Movement here is doing one job, making the saving the first thing the eye
+   settles on, so it is slow, low contrast and mostly idle. Nothing loops
+   faster than every four seconds, nothing moves the layout, and the button
+   drops its own animation on hover so the pointer state stays honest.
+   The reduced-motion block at the foot of this file stops all of it. */
+@keyframes deal-aura {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%      { opacity: 0.75; transform: scale(1.06); }
+}
+
+/* The price lands slightly big and settles, the way a revealed number reads. */
+@keyframes deal-pop {
+  0%   { opacity: 0; transform: scale(0.9) translateY(6px); }
+  62%  { opacity: 1; transform: scale(1.035) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* The old price is struck through in front of you rather than arriving
+   already crossed out, which is what makes the saving feel earned. */
+@keyframes deal-strike {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes deal-sheen {
+  0%        { transform: translateX(-160%) skewX(-18deg); }
+  38%, 100% { transform: translateX(320%) skewX(-18deg); }
+}
+
+/* Most of this timeline is rest. One ring every four seconds reads as a
+   nudge, a continuous pulse reads as a banner ad. */
+@keyframes deal-breathe {
+  0%       { box-shadow: 0 10px 26px -8px rgba(234, 88, 12, 0.65), 0 0 0 0 rgba(249, 115, 22, 0.5); }
+  22%      { box-shadow: 0 14px 32px -8px rgba(234, 88, 12, 0.72), 0 0 0 13px rgba(249, 115, 22, 0); }
+  22.1%, 100% { box-shadow: 0 10px 26px -8px rgba(234, 88, 12, 0.65), 0 0 0 0 rgba(249, 115, 22, 0); }
+}
+
+@keyframes deal-tick {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2px); }
+}
+
+/* Soft glow behind the price panel, purely decorative. */
+.deal-aura {
+  animation: deal-aura 6.5s ease-in-out infinite;
+}
+
+/* The panel itself lifts a little when the offer is under the pointer. */
+.deal-panel {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.deal-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.7);
+}
+
+/* Price and strike-through wait for the section to be scrolled into view,
+   so the reveal happens while someone is looking at it. */
+.reveal.is-visible .deal-price {
+  animation: deal-pop 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.deal-was {
+  position: relative;
+}
+
+.deal-was::after {
+  content: '';
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  top: 52%;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.reveal.is-visible .deal-was::after {
+  animation: deal-strike 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+}
+
+.deal-save {
+  animation: deal-tick 4.5s ease-in-out infinite;
+}
+
+/* The primary action on the offer: one slow ring, one slow glare. Both are
+   dropped on hover and on keyboard focus so .btn-action:hover can take over. */
+.deal-cta {
+  position: relative;
+  overflow: hidden;
+  animation: deal-breathe 4.2s ease-out 1.2s infinite;
+}
+
+.deal-cta::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 38%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.32), transparent);
+  animation: deal-sheen 5.5s ease-in-out 1.2s infinite;
+}
+
+.deal-cta:hover,
+.deal-cta:focus-visible {
+  animation: none;
+}
+
+.deal-cta:hover::after,
+.deal-cta:focus-visible::after {
+  animation: none;
+  opacity: 0;
+}
+
 /* ---------- Card artwork ----------
    The illustrations loop forever rather than waiting for a hover, so a card is
    alive whether or not anyone is pointing at it. Everything here animates

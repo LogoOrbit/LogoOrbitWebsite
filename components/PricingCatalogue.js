@@ -114,22 +114,22 @@ const jumpTo = (id) => {
 }
 
 /**
- * "I do not know what I need" is the most common state a visitor arrives in,
- * so the page answers that before it shows a single price. These are shortcuts
- * to a section further down, not a filter, every package stays on the page.
+ * For the visitor who has read the prices and still is not sure which one is
+ * theirs. These are shortcuts back to a section of the catalogue, not a filter,
+ * every package stays on the page either way.
  */
-function Finder() {
+export function Finder() {
   return (
     <section className="py-12 sm:py-20 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal className="mx-auto max-w-2xl text-center">
-          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Start here</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Still deciding</span>
           <h2 className="mt-3 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
             Which one of these sounds like you?
           </h2>
           <p className="mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">
-            Tap the closest match to jump to those packages. Everything we sell is on this page, this only saves
-            you the scroll.
+            Tap the closest match and we will take you straight to the packages that fit, with the one most
+            people in your position pick.
           </p>
         </Reveal>
 
@@ -306,8 +306,6 @@ export default function PricingCatalogue() {
 
   return (
     <>
-      <Finder />
-
       <div id="packages" className="scroll-mt-18 sticky top-18 z-40 border-y-2 border-brand-100 bg-white/95 shadow-sm backdrop-blur">
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
           <p className="pt-3 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-brand-600">
