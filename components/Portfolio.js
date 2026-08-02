@@ -73,7 +73,7 @@ export default function Portfolio({ showHeading = true, initial = 16, step = 32,
                 >
                   <Image
                     src={`/portfolio/${item.slug}.webp`}
-                    alt={`${item.name} logo`}
+                    alt={item.name ? `${item.name} logo` : `${item.category} logo concept`}
                     width={520}
                     height={520}
                     sizes="(min-width: 1024px) 300px, (min-width: 640px) 33vw, 45vw"
@@ -82,10 +82,14 @@ export default function Portfolio({ showHeading = true, initial = 16, step = 32,
                   />
                 </div>
 
+                {/* A mark with no legible wordmark carries its industry as the
+                    headline rather than a name we would have had to invent. */}
                 <figcaption className="flex items-center justify-between gap-2 bg-white px-4 py-3.5">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-bold text-ink-900">{item.name}</p>
-                    <p className="truncate text-xs text-ink-500">{item.category}</p>
+                    <p className="truncate text-sm font-bold text-ink-900">{item.name || item.category}</p>
+                    <p className="truncate text-xs text-ink-500">
+                      {item.name ? item.category : 'Logo concept'}
+                    </p>
                   </div>
                 </figcaption>
               </figure>
