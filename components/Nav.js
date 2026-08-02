@@ -24,12 +24,11 @@ function Dropdown({ item, light, active }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
-  // A section that has its own page should still be reachable by clicking its
-  // name; only the ones that are purely a grouping stay as a button.
+  // Every top-level section now has a page of its own, so the name is a link
+  // and the list underneath is the shortcuts, not the only way in. The old
+  // synthetic "Everything under X" row is gone with it.
   const Component = item.href ? Link : 'button'
-  const links = item.href
-    ? [{ label: `Everything under ${item.label}`, href: item.href }, ...item.children]
-    : item.children
+  const links = item.children
 
   useEffect(() => {
     const onAway = (e) => {
@@ -240,19 +239,34 @@ export default function Nav() {
             {nav.map((item) =>
               item.children ? (
                 <div key={item.label}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenGroup(openGroup === item.label ? null : item.label)}
-                    aria-expanded={openGroup === item.label}
-                    className="flex w-full items-center justify-between px-3 py-3.5 rounded-xl text-lg font-medium text-ink-700"
-                  >
-                    {item.label}
-                    <Icons.plus
-                      className={`w-5 h-5 opacity-40 transition-transform ${
-                        openGroup === item.label ? 'rotate-45' : ''
+                  {/* Two targets, not one. Tapping the name opens that
+                      section's own page; the + beside it opens the shortcuts.
+                      Before this, a name with children could only ever unfold a
+                      list, so the main pages had no way in from a phone. */}
+                  <div className="flex items-center">
+                    <Link
+                      href={item.href || item.children[0].href}
+                      onClick={() => setOpen(false)}
+                      className={`flex-1 px-3 py-3.5 rounded-xl text-lg font-medium transition-colors ${
+                        isActive(item.href) ? 'bg-brand-50 text-brand-600' : 'text-ink-700'
                       }`}
-                    />
-                  </button>
+                    >
+                      {item.label}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setOpenGroup(openGroup === item.label ? null : item.label)}
+                      aria-expanded={openGroup === item.label}
+                      aria-label={`${openGroup === item.label ? 'Hide' : 'Show'} ${item.label} links`}
+                      className="shrink-0 p-3 rounded-xl text-ink-500"
+                    >
+                      <Icons.plus
+                        className={`w-5 h-5 opacity-50 transition-transform ${
+                          openGroup === item.label ? 'rotate-45' : ''
+                        }`}
+                      />
+                    </button>
+                  </div>
 
                   <div
                     className="grid transition-all duration-300"
@@ -260,10 +274,7 @@ export default function Nav() {
                   >
                     <div className="overflow-hidden">
                       <div className="ml-3 border-l-2 border-slate-100 pl-3 pb-2">
-                        {(item.href
-                          ? [{ label: `Everything under ${item.label}`, href: item.href }, ...item.children]
-                          : item.children
-                        ).map((child) => (
+                        {item.children.map((child) => (
                           <Link
                             key={child.label}
                             href={child.href}

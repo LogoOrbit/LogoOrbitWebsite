@@ -264,6 +264,119 @@
 .marquee-track { animation: marquee 34s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 
+/* ---------- Card artwork ----------
+   The illustrations loop forever rather than waiting for a hover, so a card is
+   alive whether or not anyone is pointing at it. Everything here animates
+   `transform` or `opacity` only, which the compositor can carry on its own, and
+   the prefers-reduced-motion block at the foot of this file stops the lot for
+   anyone who has asked for stillness.
+
+   These are inline SVG, not GIFs: they stay sharp at any size, weigh nothing
+   extra to download, and re-colour with the theme. */
+
+@keyframes art-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-2.5px); }
+}
+
+@keyframes art-float-far {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+
+@keyframes art-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.12); }
+}
+
+@keyframes art-beat {
+  0%, 100% { transform: scale(1); }
+  25%      { transform: scale(1.2); }
+  40%      { transform: scale(1.02); }
+  62%      { transform: scale(1.13); }
+}
+
+@keyframes art-twinkle {
+  0%, 100% { transform: scale(0.7); opacity: 0.4; }
+  50%      { transform: scale(1.15); opacity: 1; }
+}
+
+@keyframes art-rock {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+
+@keyframes art-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes art-rise {
+  0%, 100% { transform: scaleY(0.68); }
+  50%      { transform: scaleY(1); }
+}
+
+@keyframes art-fill {
+  from { transform: scaleX(0.16); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes art-scrub {
+  from { transform: translateX(var(--travel, -30px)); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes art-ripple {
+  0%   { transform: scale(0.45); opacity: 0.85; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes art-sheen {
+  0%, 100% { opacity: 0.3; }
+  50%      { opacity: 1; }
+}
+
+@keyframes art-clap {
+  0%, 70%, 100% { transform: rotate(0deg); }
+  35%           { transform: rotate(-17deg); }
+}
+
+/* Scale and rotate need a box to work from. `fill-box` is each shape's own
+   bounding box, so one class spins, pulses or rocks whatever it lands on. */
+.a-pulse, .a-beat, .a-twinkle, .a-rock, .a-spin, .a-rise, .a-fill, .a-ripple {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.a-rise { transform-origin: bottom; }
+.a-fill { transform-origin: left center; }
+
+.a-float     { animation: art-float 3.6s ease-in-out infinite; }
+.a-float-far { animation: art-float-far 5s ease-in-out infinite; }
+.a-pulse     { animation: art-pulse 2.6s ease-in-out infinite; }
+.a-beat      { animation: art-beat 2.2s ease-in-out infinite; }
+.a-twinkle   { animation: art-twinkle 2.8s ease-in-out infinite; }
+.a-rock      { animation: art-rock 5.5s ease-in-out infinite; }
+.a-spin      { animation: art-spin 18s linear infinite; }
+.a-rise      { animation: art-rise 3.2s ease-in-out infinite; }
+.a-fill      { animation: art-fill 5s ease-in-out infinite alternate; }
+.a-scrub     { animation: art-scrub 5s ease-in-out infinite alternate; }
+.a-ripple    { animation: art-ripple 2.6s ease-out infinite; }
+.a-sheen     { animation: art-sheen 3s ease-in-out infinite; }
+
+/* The clapper hinges on its corner, not its middle, so it takes the viewBox. */
+.a-clap {
+  transform-box: view-box;
+  transform-origin: 9px 14px;
+  animation: art-clap 3.4s ease-in-out infinite;
+}
+
+/* Stagger, so a row of bars or swatches moves as a wave rather than in step. */
+.ad-1 { animation-delay: 0.18s; }
+.ad-2 { animation-delay: 0.36s; }
+.ad-3 { animation-delay: 0.54s; }
+.ad-4 { animation-delay: 0.72s; }
+.ad-5 { animation-delay: 0.9s; }
+
 /* ---------- Brand utilities ---------- */
 /* On light surfaces. */
 .text-gradient {
