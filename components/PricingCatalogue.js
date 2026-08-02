@@ -20,7 +20,7 @@ const tabIcon = {
 /** Trademark filing, given its own band because most owners never think to ask. */
 function BrandProtection() {
   return (
-    <section id={brandProtection.id} className="scroll-mt-32 py-12 sm:py-20 bg-white">
+    <section id={brandProtection.id} className="scroll-mt-16 sm:scroll-mt-60 lg:scroll-mt-44 py-10 sm:py-20 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border-2 border-action-500/50 bg-white p-6 sm:p-10 shadow-lg">
@@ -71,7 +71,7 @@ function BrandProtection() {
 /** The optional extras, kept out of the tier cards so they stay readable. */
 function AddOns() {
   return (
-    <section id={addOns.id} className="scroll-mt-32 py-12 sm:py-20 bg-slate-50">
+    <section id={addOns.id} className="scroll-mt-16 sm:scroll-mt-60 lg:scroll-mt-44 py-10 sm:py-20 bg-slate-50">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal className="max-w-3xl">
           <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Optional extras</span>
@@ -110,6 +110,12 @@ function AddOns() {
 const jumpTo = (id) => {
   // Jump, do not glide. A tapped shortcut that animates the whole page reads
   // as the screen scrolling away from you rather than as a link.
+  //
+  // Where a jump lands is set by each section's `scroll-mt-*`, which has to
+  // clear the nav and this strip together. The strip is one row on a phone,
+  // three between `sm` and `lg` and two above it, hence three values rather
+  // than one, and the 5.5rem `scroll-padding-top` on `html` is already part
+  // of the total, so the classes carry only the remainder.
   document.getElementById(id)?.scrollIntoView({ block: 'start' })
 }
 
@@ -208,7 +214,7 @@ function Category({ category, tone }) {
   return (
     <section
       id={category.id}
-      className={`scroll-mt-32 py-12 sm:py-20 ${tone === 'muted' ? 'bg-slate-50' : 'bg-white'}`}
+      className={`scroll-mt-16 sm:scroll-mt-60 lg:scroll-mt-44 py-10 sm:py-20 ${tone === 'muted' ? 'bg-slate-50' : 'bg-white'}`}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal className="max-w-3xl">
@@ -308,13 +314,16 @@ export default function PricingCatalogue() {
     <>
       <div id="packages" className="scroll-mt-18 sticky top-18 z-40 border-y-2 border-brand-100 bg-white/95 shadow-sm backdrop-blur">
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
-          <p className="pt-3 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-brand-600">
+          {/* The heading is a luxury a phone cannot afford here: with the nav
+              above it and the docked call bar below, every row this strip adds
+              is a row of the card underneath that nobody can see. */}
+          <p className="hidden pt-3 text-center text-[11px] font-bold uppercase tracking-[0.18em] text-brand-600 sm:block">
             Jump straight to what you need
           </p>
 
           <div
             ref={strip}
-            className="flex items-center justify-start gap-2 overflow-x-auto no-scrollbar py-2.5 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible sm:py-3"
+            className="flex items-center justify-start gap-2 overflow-x-auto no-scrollbar py-2 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible sm:py-3"
           >
 
             {[
@@ -332,7 +341,7 @@ export default function PricingCatalogue() {
                   onClick={() => jumpTo(c.id)}
                   data-current={isCurrent ? 'true' : undefined}
                   aria-current={isCurrent ? 'true' : undefined}
-                  className={`flex shrink-0 items-center gap-2 sm:gap-2.5 rounded-2xl border px-3 py-2 sm:px-4 sm:py-2.5 text-left transition-all ${
+                  className={`flex shrink-0 items-center gap-2 sm:gap-2.5 rounded-2xl border px-2.5 py-1.5 sm:px-4 sm:py-2.5 text-left transition-all ${
                     isCurrent
                       ? 'border-action-500 bg-ink-900 text-white shadow-lg shadow-ink-900/25'
                       : 'border-slate-200 bg-white text-ink-900 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-md'

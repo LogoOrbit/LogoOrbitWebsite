@@ -7,6 +7,7 @@ import Guarantees from '../components/Guarantees'
 import Reveal from '../components/Reveal'
 import ProcessSteps from '../components/ProcessSteps'
 import PricingCatalogue, { Finder } from '../components/PricingCatalogue'
+import MoreOnPhone from '../components/MoreOnPhone'
 import { Icons } from '../components/Icons'
 import { flagship, money } from '../lib/pricing'
 import { site } from '../lib/site'
@@ -118,51 +119,39 @@ function PricingFaqs() {
   )
 }
 
-/** The offer we want every undecided visitor to see first. */
+/**
+ * The offer we want every undecided visitor to see first.
+ *
+ * On a phone the three blocks stack in the order a buyer needs them: what it
+ * is, what it costs, then what is in it. The price panel used to be last in
+ * the DOM, which on a narrow screen put it below a six-line pitch and a
+ * six-item list, so the whole point of the card sat two screens down.
+ */
 function Flagship() {
   return (
-    <section id="complete-brand" className="scroll-mt-32 py-10 sm:py-16 bg-white">
+    <section id="complete-brand" className="scroll-mt-24 sm:scroll-mt-32 py-8 sm:py-16 bg-white">
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl mesh-bg text-white">
             <div className="absolute inset-0 grid-lines opacity-50" aria-hidden="true" />
 
-            <div className="relative p-6 sm:p-10">
-              <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-7 lg:gap-10">
-                <div className="max-w-2xl">
+            <div className="relative p-5 sm:p-10">
+              <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start lg:gap-10">
+                <div className="max-w-2xl lg:col-start-1 lg:row-start-1">
                   <span className="inline-flex items-center gap-2 rounded-full bg-action-500 px-3 py-1 text-[11px] sm:text-xs font-bold uppercase tracking-[0.16em] text-white">
                     <Icons.spark className="w-4 h-4" />
                     {flagship.eyebrow}
                   </span>
 
-                  <h2 className="mt-3.5 text-2xl sm:text-4xl font-bold text-white">{flagship.name}</h2>
+                  <h2 className="mt-3.5 text-[1.7rem] sm:text-4xl font-bold leading-tight text-white">
+                    {flagship.name}
+                  </h2>
                   <p className="mt-2.5 text-[15px] sm:text-[17px] leading-relaxed text-white/75">
                     {flagship.tagline}
                   </p>
-
-                  <ul className="mt-6 space-y-2.5">
-                    {flagship.includes.map((inc) => (
-                      <li key={inc.label} className="flex items-start justify-between gap-4 text-[15px]">
-                        <span className="flex items-start gap-2.5">
-                          <Icons.check className="mt-0.5 w-4 h-4 shrink-0 text-trust-300" />
-                          <span className="text-white/85">{inc.label}</span>
-                        </span>
-                        <span className="shrink-0 text-[13px] font-semibold text-white/45">{money(inc.price)}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <ul className="mt-6 grid gap-2 border-t border-white/10 pt-5">
-                    {flagship.reasons.map((r) => (
-                      <li key={r} className="flex items-start gap-2.5 text-[14px] text-white/70">
-                        <Icons.spark className="mt-0.5 w-4 h-4 shrink-0 text-orbit-300" />
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
                 </div>
 
-                <div className="relative w-full shrink-0 lg:w-[21rem]">
+                <div className="relative w-full shrink-0 lg:col-start-2 lg:row-start-1 lg:row-span-2">
                   {/* A soft breathing glow so the saving is where the eye lands. */}
                   <div
                     className="deal-aura pointer-events-none absolute -inset-5 rounded-[2.5rem] bg-action-500/25 blur-2xl"
@@ -203,6 +192,56 @@ function Flagship() {
                       Or browse the smaller packages
                     </a>
                   </div>
+                </div>
+
+                <div className="max-w-2xl lg:col-start-1 lg:row-start-2">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-orbit-300 sm:hidden">
+                    The six pieces
+                  </p>
+
+                  <ul className="mt-3 space-y-3 sm:mt-0 sm:space-y-2.5">
+                    {flagship.includes.map((inc) => {
+                      // "Platinum Logo, unlimited concepts, editable master
+                      // files" is one line on a desktop card and three on a
+                      // phone. Leading with the name and demoting the detail
+                      // underneath keeps the list scannable at any width.
+                      const [name, ...detail] = inc.label.split(', ')
+
+                      return (
+                        <li key={inc.label} className="flex items-start justify-between gap-3 sm:gap-4">
+                          <span className="flex min-w-0 items-start gap-2.5">
+                            <Icons.check className="mt-0.5 w-4 h-4 shrink-0 text-trust-300" />
+                            <span className="min-w-0">
+                              <span className="block text-[15px] font-semibold leading-snug text-white">{name}</span>
+                              {detail.length > 0 && (
+                                <span className="block text-[13px] leading-snug text-white/60">
+                                  {detail.join(', ')}
+                                </span>
+                              )}
+                            </span>
+                          </span>
+                          <span className="shrink-0 text-[13px] font-semibold tabular-nums text-white/45">
+                            {money(inc.price)}
+                          </span>
+                        </li>
+                      )
+                    })}
+                  </ul>
+
+                  <MoreOnPhone
+                    className="mt-5 border-t border-white/10 pt-5"
+                    tone="dark"
+                    label="Why buy it as one package"
+                  >
+                    <ul className="grid gap-2 pt-4 sm:pt-0">
+                      {flagship.reasons.map((r) => (
+                        <li key={r} className="flex items-start gap-2.5 text-[14px] text-white/70">
+                          <Icons.spark className="mt-0.5 w-4 h-4 shrink-0 text-orbit-300" />
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </MoreOnPhone>
                 </div>
               </div>
             </div>

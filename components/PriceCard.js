@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Link from 'next/link'
+import MoreOnPhone from './MoreOnPhone'
 import { Icons } from './Icons'
 import { money } from '../lib/pricing'
 
@@ -166,6 +167,23 @@ export function PriceCard({ item, tier = 0 }) {
   const featured = item.featured
   const points = item.highlights?.length ? item.highlights : item.features
 
+  // The first three points are what actually separate this tier from the one
+  // above it, and they stay on the card at every width. Everything after them
+  // is spec-sheet detail, which a phone reader only wants once they have
+  // narrowed it down to this card, so it folds away below `sm`.
+  // Only fold when folding actually buys a screen back. Hiding one or two
+  // bullets behind a tap costs a card a whole extra control and saves forty
+  // pixels, and on a tier that also carries a full spec list it left two
+  // disclosures stacked on top of each other.
+  //
+  // `FullList` and the "choose a type" grid are left out of the fold for the
+  // same reason: the first is a disclosure of its own, and the second is four
+  // words in two columns, so neither is worth a tap.
+  const tail = points.slice(3)
+  const fold = tail.length >= 3
+  const lead = fold ? points.slice(0, 3) : points
+  const rest = fold ? tail : []
+
   return (
     <div className={shell(featured, tier)}>
       <TopBar tier={tier} />
@@ -199,53 +217,72 @@ export function PriceCard({ item, tier = 0 }) {
 
       <BestFor text={item.bestFor} featured={featured} />
 
-      <ul className="mt-5 flex-1 space-y-2.5">
-        {points.map((f) => (
-          <li key={f} className="flex items-start gap-2.5 text-sm">
-            <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
-            <span className={featured ? 'text-white/85' : 'text-ink-700'}>{f}</span>
-          </li>
-        ))}
-      </ul>
+      <div className="mt-5 flex-1">
+        <ul className="space-y-2.5">
+          {lead.map((f) => (
+            <li key={f} className="flex items-start gap-2.5 text-sm">
+              <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
+              <span className={featured ? 'text-white/85' : 'text-ink-700'}>{f}</span>
+            </li>
+          ))}
+        </ul>
 
-      {item.choose && (
-        <div className={`mt-5 rounded-2xl p-4 ${featured ? 'bg-white/5' : 'bg-slate-50'}`}>
-          <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
-            {item.choose.label}
-          </p>
-          <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
-            {item.choose.options.map((o) => (
-              <li key={o} className={`text-[13px] ${featured ? 'text-white/75' : 'text-ink-700'}`}>{o}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {fold && (
+          <MoreOnPhone
+            className="mt-4"
+            tone={featured ? 'dark' : 'light'}
+            label={`See full details (${rest.length} more)`}
+          >
+            <ul className="space-y-2.5 pt-4 sm:pt-0">
+              {rest.map((f) => (
+                <li key={f} className="flex items-start gap-2.5 text-sm">
+                  <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
+                  <span className={featured ? 'text-white/85' : 'text-ink-700'}>{f}</span>
+                </li>
+              ))}
+            </ul>
+          </MoreOnPhone>
+        )}
 
-      {item.highlights && <FullList features={item.features} featured={featured} />}
-
-      {item.samples && (
-        <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
-          <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
-            Watch a real example
-          </p>
-          <div className="mt-2 flex flex-col gap-1.5">
-            {item.samples.map((s) => (
-              <a
-                key={s.url}
-                href={s.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1.5 text-[13px] font-medium underline underline-offset-2 ${
-                  featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-orbit-600'
-                }`}
-              >
-                <Icons.play className="w-3.5 h-3.5" />
-                {s.label}
-              </a>
-            ))}
+        {item.choose && (
+          <div className={`mt-5 rounded-2xl p-4 ${featured ? 'bg-white/5' : 'bg-slate-50'}`}>
+            <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
+              {item.choose.label}
+            </p>
+            <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
+              {item.choose.options.map((o) => (
+                <li key={o} className={`text-[13px] ${featured ? 'text-white/75' : 'text-ink-700'}`}>{o}</li>
+              ))}
+            </ul>
           </div>
-        </div>
-      )}
+        )}
+
+        {item.highlights && <FullList features={item.features} featured={featured} />}
+
+        {item.samples && (
+          <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+            <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
+              Watch a real example
+            </p>
+            <div className="mt-2 flex flex-col gap-1.5">
+              {item.samples.map((s) => (
+                <a
+                  key={s.url}
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-1.5 text-[13px] font-medium underline underline-offset-2 ${
+                    featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-orbit-600'
+                  }`}
+                >
+                  <Icons.play className="w-3.5 h-3.5" />
+                  {s.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       <OrderButton featured={featured} />
       {featured && <Recommended />}
@@ -324,8 +361,10 @@ export function BundleCard({ item, tier = 0 }) {
         </ul>
       </div>
 
+      {/* The same number is already struck through beside the price and named
+          again in "you save", so on a phone this third telling is dropped. */}
       <div
-        className={`mt-4 flex items-center justify-between rounded-2xl px-4 py-2.5 text-sm ${
+        className={`mt-4 hidden items-center justify-between rounded-2xl px-4 py-2.5 text-sm sm:flex ${
           featured ? 'bg-white/5' : 'bg-slate-50'
         }`}
       >
@@ -344,6 +383,7 @@ export function BundleCard({ item, tier = 0 }) {
 /** Wide, multi-column card for the flagship packages. */
 export function BigPackage({ pkg, tone = 'dark' }) {
   const dark = tone === 'dark'
+  const lineCount = pkg.groups.reduce((n, g) => n + g.items.length, 0)
 
   return (
     <div
@@ -353,7 +393,7 @@ export function BigPackage({ pkg, tone = 'dark' }) {
     >
       {dark && <div className="absolute inset-0 grid-lines opacity-50" aria-hidden="true" />}
 
-      <div className="relative p-6 sm:p-10">
+      <div className="relative p-5 sm:p-10">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 sm:gap-6">
           <div className="max-w-xl">
             {pkg.eyebrow && (
@@ -365,7 +405,7 @@ export function BigPackage({ pkg, tone = 'dark' }) {
                 {pkg.eyebrow}
               </span>
             )}
-            <h3 className={`mt-3 text-2xl sm:text-4xl font-bold ${dark ? 'text-white' : 'text-ink-900'}`}>
+            <h3 className={`mt-3 text-[1.6rem] sm:text-4xl font-bold leading-tight ${dark ? 'text-white' : 'text-ink-900'}`}>
               {pkg.name} <span className="font-normal opacity-60">{pkg.kind}</span>
             </h3>
             {pkg.bestFor && (
@@ -375,12 +415,14 @@ export function BigPackage({ pkg, tone = 'dark' }) {
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 sm:gap-5">
+          {/* On a phone the price and the button are the two things worth the
+              width, so they take a row each rather than wrapping awkwardly. */}
+          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
             <span className={`text-4xl sm:text-5xl font-bold tracking-tight ${dark ? 'text-white' : 'text-ink-900'}`}>
               {money(pkg.price)}
             </span>
             <div>
-              <Link href="/contact" className="btn-action px-6 py-3.5">
+              <Link href="/contact" className="btn-action w-full px-6 py-3.5 sm:w-auto">
                 Order this package
                 <Icons.arrow className="w-4 h-4" />
               </Link>
@@ -388,23 +430,29 @@ export function BigPackage({ pkg, tone = 'dark' }) {
           </div>
         </div>
 
-        <div className={`mt-7 sm:mt-8 grid gap-7 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 border-t pt-7 sm:pt-8 ${dark ? 'border-white/10' : 'border-slate-100'}`}>
-          {pkg.groups.map((group) => (
-            <div key={group.title}>
-              <p className={`text-sm font-bold uppercase tracking-wider ${dark ? 'text-orbit-300' : 'text-brand-600'}`}>
-                {group.title}
-              </p>
-              <ul className="mt-4 space-y-2.5">
-                {group.items.map((it) => (
-                  <li key={it} className="flex items-start gap-2.5 text-sm">
-                    <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${dark ? 'text-trust-300' : 'text-trust-500'}`} />
-                    <span className={dark ? 'text-white/85' : 'text-ink-700'}>{it}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+        <MoreOnPhone
+          className={`mt-6 border-t pt-6 sm:mt-8 sm:pt-8 ${dark ? 'border-white/10' : 'border-slate-100'}`}
+          tone={dark ? 'dark' : 'light'}
+          label={`See everything included (${lineCount} items)`}
+        >
+          <div className="grid gap-7 pt-6 sm:grid-cols-2 sm:gap-8 sm:pt-0 lg:grid-cols-3">
+            {pkg.groups.map((group) => (
+              <div key={group.title}>
+                <p className={`text-sm font-bold uppercase tracking-wider ${dark ? 'text-orbit-300' : 'text-brand-600'}`}>
+                  {group.title}
+                </p>
+                <ul className="mt-4 space-y-2.5">
+                  {group.items.map((it) => (
+                    <li key={it} className="flex items-start gap-2.5 text-sm">
+                      <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${dark ? 'text-trust-300' : 'text-trust-500'}`} />
+                      <span className={dark ? 'text-white/85' : 'text-ink-700'}>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </MoreOnPhone>
       </div>
     </div>
   )
