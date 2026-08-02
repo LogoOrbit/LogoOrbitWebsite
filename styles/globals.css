@@ -153,6 +153,8 @@
 
 /* Accents need lifting off a dark surface to stay readable. */
 .dark .text-brand-600, .dark .text-brand-700 { color: #8ab4ff; }
+/* The "Orbit" half of the wordmark, violet-600 is nearly the bar it sits on. */
+.dark .text-orbit-600 { color: #a78bfa; }
 .dark .text-trust-600, .dark .text-trust-700 { color: #4ade9f; }
 .dark .text-trust-500 { color: #34d399; }
 .dark .bg-brand-600 { background-color: #2563eb; }

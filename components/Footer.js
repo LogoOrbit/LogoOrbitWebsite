@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
+import BrandMark from './BrandMark'
 import { site, services, legalLinks } from '../lib/site'
 
 const exploreLinks = [
@@ -18,17 +19,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="relative grid place-items-center w-9 h-9">
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-600 to-orbit-500" />
-                <svg viewBox="0 0 32 32" className="relative w-6 h-6 text-white" aria-hidden="true">
-                  <circle cx="16" cy="16" r="4.4" fill="currentColor" />
-                  <ellipse
-                    cx="16" cy="16" rx="13" ry="6"
-                    transform="rotate(-30 16 16)"
-                    stroke="currentColor" strokeWidth="2" fill="none" opacity="0.85"
-                  />
-                </svg>
-              </span>
+              <BrandMark className="w-10 h-10" />
               <span className="text-xl font-bold tracking-tight text-white">
                 Logo<span className="text-orbit-400">Orbit</span>
               </span>

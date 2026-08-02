@@ -37,6 +37,8 @@ export default function Home() {
         name: site.name,
         description,
         url: site.url,
+        logo: `${site.url}/logo.png`,
+        image: `${site.url}/logo.png`,
         email: site.email,
         telephone: site.phone,
         priceRange: '$$',

@@ -8,14 +8,16 @@ import { site } from '../lib/site'
 export default function Layout({ title, description, path = '/', children, jsonLd, noIndex = false }) {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Online Logo Maker & Custom Design Services`
   const canonical = `${site.url}${path === '/' ? '' : path}`
-  const socialImage = `${site.url}/og-image.svg`
+  // Facebook, LinkedIn and X all decline to render an SVG card, so the share
+  // image is a raster built from the same mark the header uses.
+  const socialImage = `${site.url}/og-image.png`
   const baseGraph = [
     {
       '@type': 'Organization',
       '@id': `${site.url}/#organization`,
       name: site.name,
       url: site.url,
-      logo: `${site.url}/favicon.svg`,
+      logo: `${site.url}/logo.png`,
       email: site.email,
       telephone: site.phone,
     },
@@ -47,6 +49,8 @@ export default function Layout({ title, description, path = '/', children, jsonL
         <meta property="og:url" content={canonical} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:image" content={socialImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={`${site.name} custom design services`} />
 
         <meta name="twitter:card" content="summary_large_image" />
