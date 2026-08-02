@@ -186,7 +186,10 @@ function Tile({ item, index }) {
   return (
     <Reveal delay={(index % 3) * 90} className="h-full">
       <figure className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-2xl hover:shadow-brand-900/10">
-        <div className="relative grid aspect-[4/3] place-items-center bg-gradient-to-b from-slate-50 to-white px-6 py-7">
+        {/* Both stops have to be theme variables. A literal `to-white` is a
+            hard white that dark mode cannot reach, and the tile washed out
+            into a grey-to-white ramp on the dark page. */}
+        <div className="relative grid aspect-[4/3] place-items-center bg-gradient-to-b from-slate-50 to-slate-100 px-6 py-7">
           <div key={run} className="flex h-full w-full flex-col items-center justify-center">
             <div className="h-24 w-24 sm:h-28 sm:w-28">
               <Mark />
