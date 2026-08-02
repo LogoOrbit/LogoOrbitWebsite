@@ -1,18 +1,37 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import { Icons } from './Icons'
-import LogoMark, { portfolio } from './LogoMark'
+import { portfolioLogos, portfolioCategories } from '../lib/portfolio'
 
-export default function Portfolio({ showHeading = true }) {
-  const categories = useMemo(
-    () => ['All', ...Array.from(new Set(portfolio.map((p) => p.category)))],
-    []
-  )
+/**
+ * The wall of client marks.
+ *
+ * There are 144 of them, which is the selling point and also the problem: all
+ * of them at once is a page nobody reaches the bottom of. So the grid opens on
+ * a slice and grows on demand, and the home page asks for a smaller slice than
+ * the portfolio page does.
+ *
+ * Tiles keep a white face in both themes. The logos were drawn for white
+ * backgrounds and many have white knocked out of the mark itself, so flipping
+ * the tile dark would show holes in other people's brands.
+ */
+export default function Portfolio({ showHeading = true, initial = 16, step = 32, showAllLink = false }) {
   const [filter, setFilter] = useState('All')
+  const [shown, setShown] = useState(initial)
 
-  const items = filter === 'All' ? portfolio : portfolio.filter((p) => p.category === filter)
+  const items = useMemo(
+    () => (filter === 'All' ? portfolioLogos : portfolioLogos.filter((l) => l.category === filter)),
+    [filter]
+  )
+
+  const visible = items.slice(0, shown)
+  const pick = (cat) => {
+    setFilter(cat)
+    setShown(initial)
+  }
 
   return (
     <section id="portfolio" className="py-20 sm:py-28 bg-white">
@@ -22,16 +41,17 @@ export default function Portfolio({ showHeading = true }) {
             eyebrow="Portfolio"
             title="Marks we've built for"
             highlight="real businesses"
-            body="Every concept below was drawn from scratch by our in-house team, never templated, never resold."
+            body={`${portfolioLogos.length} logos drawn from scratch by our in-house team, never templated, never resold.`}
           />
         )}
 
         <Reveal className={`${showHeading ? 'mt-10' : ''} flex flex-wrap justify-center gap-2`}>
-          {categories.map((cat) => (
+          {portfolioCategories.map((cat) => (
             <button
               key={cat}
               type="button"
-              onClick={() => setFilter(cat)}
+              onClick={() => pick(cat)}
+              aria-pressed={filter === cat}
               className={`rounded-full px-4 py-2.5 text-sm font-medium transition-all ${
                 filter === cat
                   ? 'bg-ink-900 text-white shadow-lg shadow-ink-900/20'
@@ -43,41 +63,61 @@ export default function Portfolio({ showHeading = true }) {
           ))}
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-5">
-          {items.map((item, i) => (
-            <Reveal key={item.name} delay={(i % 4) * 70}>
-              <figure className="group relative overflow-hidden rounded-3xl border border-slate-200 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-brand-900/10">
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+          {visible.map((item, i) => (
+            <Reveal key={item.slug} delay={(i % 4) * 70}>
+              <figure className="group h-full overflow-hidden rounded-3xl border border-slate-200 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-brand-900/10">
                 <div
-                  className="grid place-items-center aspect-square transition-transform duration-500 group-hover:scale-105"
-                  style={{ backgroundColor: item.bg, color: item.color }}
+                  className="grid place-items-center aspect-square p-5 transition-transform duration-500 group-hover:scale-105"
+                  style={{ backgroundColor: '#ffffff' }}
                 >
-                  <LogoMark shape={item.shape} className="w-20 h-20 sm:w-24 sm:h-24" />
+                  <Image
+                    src={`/portfolio/${item.slug}.webp`}
+                    alt={`${item.name} logo`}
+                    width={520}
+                    height={520}
+                    sizes="(min-width: 1024px) 300px, (min-width: 640px) 33vw, 45vw"
+                    className="h-full w-full object-contain"
+                    loading="lazy"
+                  />
                 </div>
 
                 <figcaption className="flex items-center justify-between gap-2 bg-white px-4 py-3.5">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-bold tracking-wider text-ink-900">{item.word}</p>
+                    <p className="truncate text-sm font-bold text-ink-900">{item.name}</p>
                     <p className="truncate text-xs text-ink-500">{item.category}</p>
                   </div>
-                  <span
-                    className="grid shrink-0 place-items-center w-8 h-8 rounded-full transition-colors"
-                    style={{ backgroundColor: item.bg, color: item.color }}
-                  >
-                    <Icons.arrow className="w-4 h-4" />
-                  </span>
                 </figcaption>
               </figure>
             </Reveal>
           ))}
         </div>
 
-        <Reveal className="mt-12 text-center">
+        <Reveal className="mt-12 flex flex-col items-center gap-4">
+          {shown < items.length && (
+            <button
+              type="button"
+              onClick={() => setShown(shown + step)}
+              className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-7 py-3.5 font-semibold text-ink-700 transition-colors hover:bg-slate-200"
+            >
+              Show more work
+              <span className="text-ink-500">({items.length - shown} left)</span>
+            </button>
+          )}
+
+          {showAllLink && (
+            <Link href="/portfolio" className="btn-action px-7 py-4">
+              See the full portfolio
+              <Icons.arrow className="w-5 h-5" />
+            </Link>
+          )}
+
           <Link
             href="/contact"
-            className="btn-action px-7 py-4"
+            className={showAllLink ? 'text-[15px] font-semibold text-brand-600 hover:text-brand-700' : 'btn-action px-7 py-4'}
           >
             Start a project like these
-            <Icons.arrow className="w-5 h-5" />
+            {!showAllLink && <Icons.arrow className="w-5 h-5" />}
           </Link>
         </Reveal>
       </div>

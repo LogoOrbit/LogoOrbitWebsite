@@ -20,7 +20,7 @@ export default function PortfolioPage() {
       />
 
       <TrustBar />
-      <Portfolio showHeading={false} />
+      <Portfolio showHeading={false} initial={32} step={48} />
       <Testimonials />
       <CTA />
     </Layout>

@@ -88,7 +88,8 @@ export default function Home() {
       <VideoServices />
 
       <Process />
-      <Portfolio />
+      {/* The home page shows a taste of the wall; the portfolio page has all of it. */}
+      <Portfolio initial={12} showAllLink />
       <WhyUs />
       <About />
 
