@@ -9,7 +9,7 @@ import { portfolioLogos, portfolioCategories } from '../lib/portfolio'
 /**
  * The wall of client marks.
  *
- * There are 144 of them, which is the selling point and also the problem: all
+ * There are over 150, which is the selling point and also the problem: all
  * of them at once is a page nobody reaches the bottom of. So the grid opens on
  * a slice and grows on demand, and the home page asks for a smaller slice than
  * the portfolio page does.

@@ -108,7 +108,9 @@ function AddOns() {
 }
 
 const jumpTo = (id) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  // Jump, do not glide. A tapped shortcut that animates the whole page reads
+  // as the screen scrolling away from you rather than as a link.
+  document.getElementById(id)?.scrollIntoView({ block: 'start' })
 }
 
 /**

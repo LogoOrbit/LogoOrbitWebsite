@@ -55,8 +55,11 @@
 }
 
 @layer base {
+  /* No `scroll-behavior: smooth` here on purpose. With it set, every tap on a
+     nav link or a button animated the page back to the top before the next
+     screen appeared, which read as an unwanted "scroll to top" effect. A click
+     should just take you there. */
   html {
-    scroll-behavior: smooth;
     scroll-padding-top: 5.5rem;
   }
 
@@ -327,6 +330,56 @@
   filter: saturate(1.08);
   box-shadow: 0 16px 34px -8px rgba(234, 88, 12, 0.72);
 }
+
+/* ---------- Illustrated cards ----------
+   A card sets three colour variables inline, `--accent` for fills, `--accent-ink`
+   for text on a white page and `--accent-lift` for the same text on the dark
+   one, all as bare "r g b" triples. One set of rules then paints every colour
+   way, so a six-colour row of cards needs no six sets of utilities and nothing
+   dynamic for Tailwind to miss at build time. */
+.accent-text { color: rgb(var(--accent-ink)); }
+.dark .accent-text { color: rgb(var(--accent-lift)); }
+
+.accent-chip {
+  background: rgb(var(--accent) / 0.10);
+  color: rgb(var(--accent-ink));
+}
+
+.dark .accent-chip {
+  background: rgb(var(--accent) / 0.22);
+  color: rgb(var(--accent-lift));
+}
+
+/* The tinted panel the artwork sits on. */
+.accent-band {
+  background:
+    radial-gradient(90% 120% at 18% 0%, rgb(var(--accent) / 0.24), transparent 62%),
+    linear-gradient(140deg, rgb(var(--accent) / 0.15), rgb(var(--accent) / 0.03));
+}
+
+.accent-dots {
+  background-image: radial-gradient(rgb(var(--accent) / 0.32) 1.3px, transparent 1.3px);
+  background-size: 13px 13px;
+}
+
+.accent-rule { background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent) / 0.12)); }
+
+.accent-ring { box-shadow: inset 0 0 0 1px rgb(var(--accent) / 0.25); }
+
+/* Hover lift in the card's own colour rather than a flat grey shadow. */
+.card-lift {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-6px);
+  border-color: rgb(var(--accent) / 0.45);
+  box-shadow: 0 24px 46px -22px rgb(var(--accent) / 0.6);
+}
+
+.dark .card-lift:hover { box-shadow: 0 24px 46px -20px rgb(0 0 0 / 0.75); }
 
 .mask-fade-x {
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
