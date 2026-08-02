@@ -3,6 +3,7 @@ import PageHero from '../components/PageHero'
 import TrustBar from '../components/TrustBar'
 import Portfolio from '../components/Portfolio'
 import AnimationReel from '../components/AnimationReel'
+import WebsitePortfolio from '../components/WebsitePortfolio'
 import Testimonials from '../components/Testimonials'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
@@ -33,6 +34,7 @@ export default function PortfolioPage() {
 
       <TrustBar />
       <Portfolio showHeading={false} initial={32} step={48} />
+      <WebsitePortfolio />
       <AnimationReel />
       <Testimonials />
       <CTA />

@@ -1,0 +1,135 @@
+import Image from 'next/image'
+import Reveal from './Reveal'
+import SectionHeading from './SectionHeading'
+import { Icons } from './Icons'
+import { websites } from '../lib/websites'
+
+/**
+ * Live websites we built.
+ *
+ * The card is the link, the whole tile is clickable and the address itself is
+ * never printed, so the row reads as a set of pieces of work rather than a
+ * list of URLs. Each preview panel is painted from the site's own colours and
+ * carries its real name and pitch, it is deliberately not dressed up as a
+ * screenshot. Drop a real one at /public/portfolio/websites/<slug>.webp and
+ * the card swaps the panel for the image inside a browser frame.
+ */
+function Preview({ site }) {
+  if (site.shot) {
+    return (
+      <div className="relative h-full w-full overflow-hidden bg-slate-100">
+        {/* Browser chrome, so a screenshot reads as a screen and not as artwork. */}
+        <div className="flex items-center gap-1.5 border-b border-black/5 bg-white/80 px-3 py-2 backdrop-blur">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+          <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+          <span className="ml-2 h-2.5 flex-1 rounded-full bg-slate-200/80" />
+        </div>
+        <Image
+          src={site.shot}
+          alt={`${site.name} website`}
+          width={900}
+          height={620}
+          sizes="(min-width: 1024px) 45vw, 92vw"
+          className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className="relative h-full w-full overflow-hidden"
+      style={{ background: `linear-gradient(140deg, ${site.accent} 0%, ${site.accent2} 100%)` }}
+    >
+      <div className="absolute inset-0 grid-lines opacity-30" aria-hidden="true" />
+      <div
+        className="absolute -right-16 -top-16 h-56 w-56 rounded-full opacity-30 blur-3xl"
+        style={{ background: site.accent2 }}
+        aria-hidden="true"
+      />
+
+      <div className="relative flex h-full flex-col justify-between p-6 sm:p-7">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur">
+          {site.category}
+        </span>
+
+        <div>
+          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/15 text-lg font-bold text-white backdrop-blur">
+            {site.monogram}
+          </span>
+          <p className="mt-4 text-2xl sm:text-[1.75rem] font-bold leading-tight tracking-tight text-white">
+            {site.name}
+          </p>
+          <p className="mt-1.5 max-w-sm text-[14px] leading-snug text-white/75">{site.tagline}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function WebsitePortfolio({ showHeading = true }) {
+  return (
+    <section id="websites" className="scroll-mt-28 bg-white py-20 sm:py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        {showHeading && (
+          <SectionHeading
+            eyebrow="Websites"
+            title="Sites we designed,"
+            highlight="built and launched"
+            body="Every one of these is live right now. Tap a card to open it in a new tab and judge it yourself."
+          />
+        )}
+
+        <div className="mt-12 grid gap-5 sm:gap-6 lg:grid-cols-2">
+          {websites.map((site, i) => (
+            <Reveal key={site.slug} delay={(i % 2) * 90} className="h-full">
+              <a
+                href={site.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-2xl hover:shadow-brand-900/10"
+              >
+                <div className="aspect-[16/10] w-full">
+                  <Preview site={site} />
+                </div>
+
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <h3 className="text-lg font-bold text-ink-900">{site.name}</h3>
+                      <p className="mt-0.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-300">
+                        {site.category}
+                      </p>
+                    </div>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-ink-500 transition-all group-hover:bg-action-500 group-hover:text-white">
+                      <Icons.arrow className="h-4.5 w-4.5 -rotate-45" />
+                    </span>
+                  </div>
+
+                  <p className="mt-3 flex-1 text-[15px] leading-relaxed text-ink-500">{site.body}</p>
+
+                  <div className="mt-5 flex flex-wrap items-center gap-2">
+                    {site.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-brand-50 px-3 py-1 text-[12px] font-semibold text-brand-600"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    <span className="ml-auto inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand-600 group-hover:text-action-600 transition-colors">
+                      Visit the site
+                      <Icons.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

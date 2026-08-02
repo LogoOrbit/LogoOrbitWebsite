@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
-import Layout from '../components/Layout'
-import PageHero from '../components/PageHero'
-import TrustBar from '../components/TrustBar'
-import Reveal from '../components/Reveal'
-import { Icons } from '../components/Icons'
-import { site } from '../lib/site'
+import Layout from '../../components/Layout'
+import PageHero from '../../components/PageHero'
+import TrustBar from '../../components/TrustBar'
+import Reveal from '../../components/Reveal'
+import { Icons } from '../../components/Icons'
+import { site } from '../../lib/site'
 
 /**
  * The brief form.
@@ -14,12 +14,6 @@ import { site } from '../lib/site'
  * middle section rather than asking a logo client about hosting. Every question
  * is one a business owner can answer without knowing any design words.
  */
-const kinds = [
-  { id: 'logo', label: 'A logo and brand', icon: Icons.logo, note: 'Logo, business cards, social, print' },
-  { id: 'website', label: 'A website', icon: Icons.website, note: 'New site, redesign or online shop' },
-  { id: 'video', label: 'Video and YouTube', icon: Icons.animation, note: 'Editing, thumbnails, animation' },
-]
-
 const logoQuestions = [
   { name: 'business', label: 'What does your business do?', placeholder: 'We fit kitchens for homeowners in Austin.', required: true, rows: 3 },
   { name: 'audience', label: 'Who are your customers?', placeholder: 'Homeowners, 35 to 60, mostly word of mouth.', rows: 2 },
@@ -72,7 +66,9 @@ function Field({ q, value, onChange }) {
 }
 
 export default function Brief() {
-  const [kind, setKind] = useState('logo')
+  // Logo and website briefs have their own forms under /brief; this page is the
+  // video brief, so the kind is fixed rather than picked.
+  const kind = 'video'
   const [answers, setAnswers] = useState({})
   const [contact, setContact] = useState({ name: '', email: '', phone: '', budget: '', timing: '' })
   const [state, setState] = useState({ status: 'idle', message: '' })
@@ -122,12 +118,12 @@ export default function Brief() {
 
   return (
     <Layout
-      title="Start your brief"
+      title="Video and YouTube Brief"
       description="Tell LogoOrbit what you need in plain words. A short form for a logo, a website or video work, answered by a designer within one working day."
-      path="/brief"
+      path="/brief/video"
     >
       <PageHero
-        eyebrow="Tell us what you need"
+        eyebrow="Video and YouTube"
         title="Answer a few questions."
         highlight="We do the rest."
         intro="No design words needed. Write it the way you would explain it to a friend, and a designer will come back with a plan and a price."
@@ -167,37 +163,6 @@ export default function Brief() {
             </Reveal>
           ) : (
             <form onSubmit={submit} className="space-y-8">
-              <Reveal>
-                <p className="text-[15px] font-semibold text-ink-900">First, what is this for?</p>
-                <div className="mt-3 grid sm:grid-cols-3 gap-3">
-                  {kinds.map((k) => {
-                    const Icon = k.icon
-                    const active = kind === k.id
-                    return (
-                      <button
-                        key={k.id}
-                        type="button"
-                        onClick={() => setKind(k.id)}
-                        aria-pressed={active}
-                        className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition-all ${
-                          active
-                            ? 'border-action-500 bg-brand-50 shadow-md'
-                            : 'border-slate-200 bg-white hover:border-brand-300'
-                        }`}
-                      >
-                        <span className="grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-brand-50 text-brand-600">
-                          <Icon className="w-5 h-5" />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block text-[15px] font-bold text-ink-900">{k.label}</span>
-                          <span className="block text-[13px] leading-snug text-ink-500">{k.note}</span>
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </Reveal>
-
               <Reveal className="space-y-5">
                 {questions.map((q) => (
                   <Field key={q.name} q={q} value={answers[q.name]} onChange={setAnswer} />
