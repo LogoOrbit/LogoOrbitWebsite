@@ -622,9 +622,72 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ---------- Animated logo reel ----------
+   The marks on the animation reel are drawn in SVG and animated here rather
+   than shipped as video, so a tile weighs nothing and stays sharp on any
+   screen. One rule holds the lot together: the *base* state of every element
+   is the finished logo, and the keyframes start from the hidden state. Kill
+   the animation, by preference or by an old browser, and you still get a
+   complete mark rather than a blank tile. */
+@keyframes la-draw     { from { stroke-dashoffset: var(--len, 300); } to { stroke-dashoffset: 0; } }
+@keyframes la-pop      { 0% { opacity: 0; transform: scale(0.2); } 65% { opacity: 1; transform: scale(1.12); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes la-fade-up  { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes la-in-top   { from { opacity: 0; transform: translateY(-26px) scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes la-in-left  { from { opacity: 0; transform: translateX(-26px) scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes la-in-right { from { opacity: 0; transform: translateX(26px) scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes la-spin     { to { transform: rotate(360deg); } }
+@keyframes la-ring     { 0% { opacity: 0.5; transform: scale(0.35); } 70% { opacity: 0; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes la-slide    { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: none; } }
+
+/* Draw the trace, hold it, then wipe it from the tail and start again. */
+@keyframes la-trace {
+  0%        { stroke-dashoffset: var(--len, 300); }
+  42%, 62%  { stroke-dashoffset: 0; }
+  100%      { stroke-dashoffset: calc(var(--len, 300) * -1); }
+}
+
+/* A wordmark that is uncovered rather than faded in. */
+@keyframes la-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+/* Only the parts that actually scale or travel get a fill-box origin. Setting
+   it on everything also re-bases the SVG `transform` attribute, which quietly
+   moved any shape that carried one off the canvas. */
+.la-pop,
+.la-in-top,
+.la-in-left,
+.la-in-right,
+.la-slide,
+.la-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* A satellite has to turn about the centre of the mark, not about itself. */
+.la-orbit { transform-box: view-box; transform-origin: 60px 60px; }
+
+/* The one-shot builds wait until the tile has been scrolled to. */
+.reveal.is-visible .la-draw     { animation: la-draw 1.15s cubic-bezier(0.65, 0, 0.35, 1) both; }
+.reveal.is-visible .la-pop      { animation: la-pop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.reveal.is-visible .la-fade-up  { animation: la-fade-up 0.6s ease-out both; }
+.reveal.is-visible .la-in-top   { animation: la-in-top 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.reveal.is-visible .la-in-left  { animation: la-in-left 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.reveal.is-visible .la-in-right { animation: la-in-right 0.65s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.reveal.is-visible .la-slide    { animation: la-slide 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.reveal.is-visible .la-wipe     { animation: la-wipe 0.9s cubic-bezier(0.65, 0, 0.35, 1) both; }
+
+/* The ambient loops run on their own, they are what keeps a finished mark
+   from looking like a still. */
+.la-orbit { animation: la-spin 7s linear infinite; }
+.la-ring  { animation: la-ring 3.2s ease-out infinite; opacity: 0; }
+.la-trace { animation: la-trace 4.5s ease-in-out infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
+    animation-delay: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
