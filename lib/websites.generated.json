@@ -190,22 +190,6 @@
     "accent2": "#8b5cf6"
   },
   {
-    "slug": "singulart-com",
-    "name": "Art Gallery SINGULART",
-    "monogram": "AG",
-    "href": "https://www.singulart.com/en/",
-    "category": "Painting Artist",
-    "tagline": "Art Gallery SINGULART | Buy Art Online",
-    "body": "Shop original artworks for sale from thousands of recognized artists from around the world. ✅ Buy art online worry free with our 30-day return policy.",
-    "tags": [
-      "Painting Artist",
-      "Live website"
-    ],
-    "accent": "#7c2d12",
-    "accent2": "#ea580c",
-    "shot": "/portfolio/websites/singulart-com.webp"
-  },
-  {
     "slug": "joseartgallery-com",
     "name": "Jose Art Gallery",
     "monogram": "JA",
@@ -220,22 +204,6 @@
     "accent": "#701a75",
     "accent2": "#d946ef",
     "shot": "/portfolio/websites/joseartgallery-com.webp"
-  },
-  {
-    "slug": "simpsongalleries-com",
-    "name": "Simpson Galleries",
-    "monogram": "SG",
-    "href": "https://www.simpsongalleries.com/",
-    "category": "Painting Artist",
-    "tagline": "Simpson Galleries",
-    "body": "Simpson Galleries provides expert auction and appraisal services for fine art, antiques, asian art and jewelry.",
-    "tags": [
-      "Painting Artist",
-      "Live website"
-    ],
-    "accent": "#1e3a8a",
-    "accent2": "#0284c7",
-    "shot": "/portfolio/websites/simpsongalleries-com.webp"
   },
   {
     "slug": "julesportrait-com",
@@ -913,22 +881,6 @@
     "accent": "#4c1d95",
     "accent2": "#8b5cf6",
     "shot": "/portfolio/websites/berniesandsonjeweler-com.webp"
-  },
-  {
-    "slug": "phwflooring-com",
-    "name": "Prospect Hardwood Flooring",
-    "monogram": "PH",
-    "href": "https://phwflooring.com/",
-    "category": "Flooring Business",
-    "tagline": "Hardwood flooring specialists servicing Northern Virginia and the surrounding areas | Prospect Hardwood Flooring",
-    "body": "Explore exceptional flooring options at Prospect Hardwood Flooring in Northern Virginia and the surrounding. Collaborate closely with our team for professional assistance during your…",
-    "tags": [
-      "Flooring Business",
-      "Live website"
-    ],
-    "accent": "#7c2d12",
-    "accent2": "#ea580c",
-    "shot": "/portfolio/websites/phwflooring-com.webp"
   },
   {
     "slug": "kwfloors-com",
@@ -2289,38 +2241,6 @@
     "shot": "/portfolio/websites/mdkjapan-com.webp"
   },
   {
-    "slug": "beforward-jp",
-    "name": "BE FORWARD: Japanese Used Cars for Sale",
-    "monogram": "BF",
-    "href": "https://www.beforward.jp/",
-    "category": "Auto Dealers",
-    "tagline": "BE FORWARD: Japanese Used Cars for Sale",
-    "body": "BE FORWARD is the No.1 Japanese used car exporter. We always have a large selection of Low-priced, discounted vehicles. Our customers are satisfied on their buying experience with us,…",
-    "tags": [
-      "Auto Dealers",
-      "Live website"
-    ],
-    "accent": "#7c2d12",
-    "accent2": "#ea580c",
-    "shot": "/portfolio/websites/beforward-jp.webp"
-  },
-  {
-    "slug": "49erfit-com",
-    "name": "49erfit",
-    "monogram": "4",
-    "href": "https://www.49erfit.com/",
-    "category": "Health & Fitness",
-    "tagline": "Health & Fitness website",
-    "body": "A live health & fitness website created to present the business, its services and the next step clearly.",
-    "tags": [
-      "Health & Fitness",
-      "Live website"
-    ],
-    "accent": "#701a75",
-    "accent2": "#d946ef",
-    "shot": "/portfolio/websites/49erfit-com.webp"
-  },
-  {
     "slug": "crunch-com",
     "name": "Crunch Fitness",
     "monogram": "CF",
@@ -3059,22 +2979,6 @@
     "accent": "#7c2d12",
     "accent2": "#ea580c",
     "shot": "/portfolio/websites/marinlist-com.webp"
-  },
-  {
-    "slug": "digz-house",
-    "name": "Digz",
-    "monogram": "D",
-    "href": "https://www.digz.house/",
-    "category": "Real Estate",
-    "tagline": "Real Estate website",
-    "body": "A live real estate website created to present the business, its services and the next step clearly.",
-    "tags": [
-      "Real Estate",
-      "Live website"
-    ],
-    "accent": "#701a75",
-    "accent2": "#d946ef",
-    "shot": "/portfolio/websites/digz-house.webp"
   },
   {
     "slug": "shop-nationaltree-com",
@@ -4593,22 +4497,6 @@
     "shot": "/portfolio/websites/grayscalable-com.webp"
   },
   {
-    "slug": "growthink-com",
-    "name": "Growthink",
-    "monogram": "G",
-    "href": "https://www.growthink.com/",
-    "category": "Consultation",
-    "tagline": "Business Consulting and Business Planning Services | Growthink",
-    "body": "Growthink provides expert business consulting services, including tailored business planning solutions for startups and established companies that drive growth.",
-    "tags": [
-      "Consultation",
-      "Live website"
-    ],
-    "accent": "#1e3a8a",
-    "accent2": "#0284c7",
-    "shot": "/portfolio/websites/growthink-com.webp"
-  },
-  {
     "slug": "image-line-com",
     "name": "Image-Line",
     "monogram": "I",
@@ -4861,22 +4749,6 @@
     "accent": "#1e3a8a",
     "accent2": "#0284c7",
     "shot": "/portfolio/websites/exhalespa-com.webp"
-  },
-  {
-    "slug": "thebodyserene-com",
-    "name": "Thebodyserene",
-    "monogram": "T",
-    "href": "https://thebodyserene.com/",
-    "category": "Essential, Body Spa, Soap",
-    "tagline": "Essential, Body Spa, Soap website",
-    "body": "A live essential, body spa, soap website created to present the business, its services and the next step clearly.",
-    "tags": [
-      "Essential, Body Spa, Soap",
-      "Live website"
-    ],
-    "accent": "#3f3f46",
-    "accent2": "#71717a",
-    "shot": "/portfolio/websites/thebodyserene-com.webp"
   },
   {
     "slug": "midnightcosmetics-co",
@@ -5180,22 +5052,6 @@
     "shot": "/portfolio/websites/co-pilotcoffee-com.webp"
   },
   {
-    "slug": "monmouthcoffee-co-uk",
-    "name": "Monmouth Coffee Company",
-    "monogram": "MC",
-    "href": "https://www.monmouthcoffee.co.uk/",
-    "category": "Coffee Shop",
-    "tagline": "Home - Monmouth Coffee Company",
-    "body": "A live coffee shop website created to present the business, its services and the next step clearly.",
-    "tags": [
-      "Coffee Shop",
-      "Live website"
-    ],
-    "accent": "#4c1d95",
-    "accent2": "#8b5cf6",
-    "shot": "/portfolio/websites/monmouthcoffee-co-uk.webp"
-  },
-  {
     "slug": "rovebrand-com",
     "name": "Premier Cannabis Products",
     "monogram": "PC",
@@ -5382,22 +5238,6 @@
     "accent": "#3f3f46",
     "accent2": "#71717a",
     "shot": "/portfolio/websites/gerhartslandscaping-com.webp"
-  },
-  {
-    "slug": "bobcatofnorthtexas-com",
-    "name": "Bobcat Dealer Dallas Texas",
-    "monogram": "BD",
-    "href": "https://bobcatofnorthtexas.com/",
-    "category": "Landscaping",
-    "tagline": "Bobcat Dealer Dallas Texas | Loaders, Tractors, Mower",
-    "body": "Bobcat of North Texas Bobcat dealer with rental equipment, sales, parts & service. Bobcat new & used tractors, mowers, loaders and more.",
-    "tags": [
-      "Landscaping",
-      "Live website"
-    ],
-    "accent": "#0f172a",
-    "accent2": "#2563eb",
-    "shot": "/portfolio/websites/bobcatofnorthtexas-com.webp"
   },
   {
     "slug": "hollowaydirtworkservices-com",
