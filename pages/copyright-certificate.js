@@ -15,88 +15,130 @@ const samplePdf = '/documents/logoorbit-sample-copyright-assignment-certificate.
  * place of a client's details.
  */
 const heroRecord = [
-  { label: 'Certificate ID', value: 'LO-CAC-2026-0148' },
+  { label: 'Certificate ID', value: 'SAMPLE-000000' },
   { label: 'Instrument', value: 'Assignment of copyright' },
-  { label: 'Assignee of record', value: null, wide: true },
+  { label: 'Assignee', value: null, wide: true },
+  { label: 'Project / order', value: null },
   { label: 'Effective date', value: null },
-  { label: 'Consideration', value: 'USD 499.00' },
 ]
 
 /**
- * The seven operative parts of the document. `operative` is specimen contract
- * language shown in the document panel; `plain` is the same thing said once,
- * in English, for the person deciding whether to buy it.
+ * Every operative part of the document, in the order the instrument carries
+ * them. `operative` is the certificate's own wording, taken from the public
+ * sample so the page cannot drift from the document it describes; `plain` is
+ * the same thing said once, in English, for the person deciding whether to
+ * buy it.
  */
 const clauses = [
   {
-    id: 'parties',
-    tab: 'Parties',
+    id: 'definitions',
+    tab: 'Definitions',
     number: '1',
-    heading: 'Parties and project',
+    heading: 'Definitions',
     operative:
-      'This Copyright Assignment and Commercial Use Certificate is made between LogoOrbit ("Assignor") and the entity named in the Certificate Record ("Assignee"), and relates solely to the design project identified by the order number stated in that Record.',
+      '“Work” means only the approved final logo artwork specifically identified in Exhibit A, together with the listed deliverables. “Unused Concepts” means drafts, rejected directions, sketches and alternatives not listed in Exhibit A. “Third-Party Materials” means fonts, stock assets, software, templates or other material owned or licensed by someone other than the Assignor.',
     plain:
-      'One certificate, one project, one named owner. The entity written here is the entity that ends up holding the rights — so it should be the company that will actually trade under the mark, not a founder’s personal name, unless that is genuinely who you want to own it.',
+      'Three defined terms carry the whole document. Everything that follows either grants you the Work, or explains why Unused Concepts and Third-Party Materials are not part of it. If you read one clause slowly, read this one — it is the clause that decides what the other nine are talking about.',
   },
   {
-    id: 'consideration',
-    tab: 'Consideration',
+    id: 'conditions',
+    tab: 'Conditions',
     number: '2',
-    heading: 'Consideration and condition precedent',
+    heading: 'Conditions to effectiveness',
     operative:
-      'In consideration of the design fees paid in full under the project and the separate certificate fee of USD 499.00, and conditional upon receipt of both, the Assignor agrees to the assignment set out below with effect from the Effective Date.',
+      'The assignment in Section 3 takes effect only after: (a) the Assignee has paid the separate copyright certificate fee of US $499; (b) all invoices for the underlying logo project have been paid in full; (c) the final Work has been approved; and (d) this Agreement has been completed and signed by authorised representatives of both parties. Before all conditions are satisfied, any concepts or previews are provided solely for private evaluation.',
     plain:
-      'Two payments sit behind this document: the design work, and this instrument. Until both are settled the assignment has not taken effect, and the logo has not changed hands. This is the clause that makes the ownership notice on our pricing pages true rather than decorative.',
+      'Four conditions, all of which have to be true. This is the clause behind the ownership notice on our pricing pages: until every one of them is met, previews are for your private evaluation and nothing has moved. It is also the clause that makes the order of the work obvious — approve, settle, sign, launch.',
   },
   {
-    id: 'grant',
-    tab: 'Grant of rights',
+    id: 'assignment',
+    tab: 'Assignment',
     number: '3',
     heading: 'Assignment of copyright',
     operative:
-      'The Assignor assigns to the Assignee all of the Assignor’s right, title and interest in the copyright subsisting in the Assigned Work described in Exhibit A, together with the right to reproduce, adapt, distribute, display and exploit that work commercially, worldwide, for the full term of copyright.',
+      'Subject to Section 2, the Assignor irrevocably assigns to the Assignee all of the Assignor’s right, title and interest in the Work, including the exclusive rights to reproduce, adapt, distribute, display and otherwise exploit the Work throughout the world for the full term of copyright and any renewals or extensions. The assignment includes the right to apply for copyright registration in the Assignee’s name.',
     plain:
-      'This is the sentence you are buying. Everything else on this page supports it. It is a transfer, not a licence: there is nothing to renew, no territory left out, no royalty back to us, and no continuing permission you have to keep asking for.',
+      'This is the sentence you are buying, and it is a transfer rather than a licence: worldwide, full term, irrevocable, nothing held back. Note the last line — once it is effective, registering the copyright in your own name is a filing you are entitled to make, without coming back to us for permission.',
+  },
+  {
+    id: 'commercial',
+    tab: 'Commercial use',
+    number: '4',
+    heading: 'Commercial use authorisation',
+    operative:
+      'Once effective, the Assignee may use the Work publicly and commercially in any lawful medium, including websites, social media, advertising, packaging, signage, merchandise and business documents, without an ongoing royalty payable to the Assignor. This authorisation is part of the assignment and does not extend to any excluded material.',
+    plain:
+      'The clause you actually rely on the week you launch. It names the mediums rather than gesturing at “commercial use”, so nobody has to argue later about whether a shopfront sign, a product box or a paid ad was included. No royalty, no usage cap, no per-medium permission to request.',
+  },
+  {
+    id: 'excluded',
+    tab: 'Excluded material',
+    number: '5',
+    heading: 'Excluded material and reserved rights',
+    operative:
+      'The assignment does not include Unused Concepts, the Assignor’s pre-existing tools, processes, templates, know-how, or Third-Party Materials, which remain governed by their own licence terms. The Assignor retains no ownership interest in the Work after the assignment becomes effective, except for any portfolio-display permission separately stated in the service terms or agreed in writing.',
+    plain:
+      'What stays behind, written down rather than left to be discovered. Rejected routes stay with us. A commercial typeface stays with its foundry — nobody can assign what they never owned. And we say plainly that the only thing we keep in the finished mark is permission to show it in our portfolio.',
+  },
+  {
+    id: 'representations',
+    tab: 'Representations',
+    number: '6',
+    heading: 'Assignor representations',
+    operative:
+      'The Assignor represents that it has authority to enter into this Agreement and that, to its knowledge, the human-authored portions of the Work created by it are original and have not previously been assigned. This Agreement does not guarantee copyright registrability, trademark registrability, non-conflict with every third-party right, or acceptance by a government office.',
+    plain:
+      'We stand behind what we can actually stand behind: the work is human-made, ours, and unassigned elsewhere. What we will not pretend is that no one anywhere holds a similar mark. That question is answered by a trademark clearance search, which is separate work — and any studio promising otherwise is writing a clause it cannot honour.',
+  },
+  {
+    id: 'client-material',
+    tab: 'Your material',
+    number: '7',
+    heading: 'Client-supplied material',
+    operative:
+      'The Assignee represents that it has permission to use every name, slogan, image, sketch, font or other item it supplied for the project. Rights in client-supplied material are not created or expanded by this Agreement, and the Assignee remains responsible for claims arising from that material.',
+    plain:
+      'The obligation that runs the other way. If you sent us a sketch, a photograph, a slogan or a font to work from, this instrument does not launder it — whatever rights you had in it before, you have after. Worth a moment’s thought if any part of the brief came from somewhere other than you.',
+  },
+  {
+    id: 'moral-rights',
+    tab: 'Moral rights',
+    number: '8',
+    heading: 'Moral rights',
+    operative:
+      'To the maximum extent permitted by applicable law, the Assignor waives and agrees not to assert moral rights or similar rights in the Work. Where a waiver is not legally effective, the Assignor consents to reasonable modification and use of the Work by the Assignee consistent with this Agreement.',
+    plain:
+      'The clause most ownership paperwork forgets. In several countries an author keeps personal rights over their work even after selling the copyright — enough to object to how it is altered. Here the designer waives them, so redrawing, recolouring or cropping your own logo is never somebody else’s decision.',
+  },
+  {
+    id: 'assurances',
+    tab: 'Further assurances',
+    number: '9',
+    heading: 'Further assurances',
+    operative:
+      'Each party will sign reasonable additional documents needed to confirm the transfer described here. Any government copyright registration, recordation, filing fee or trademark filing is separate from this Agreement unless expressly included in a written order.',
+    plain:
+      'Years later a registrar, an investor or a buyer’s lawyer may want one more signature to complete a chain of title. This clause commits us to giving it. It also states, again, that a government filing is a separate job — we would rather repeat ourselves than let that be assumed.',
+  },
+  {
+    id: 'governing',
+    tab: 'Governing terms',
+    number: '10',
+    heading: 'Governing terms',
+    operative:
+      'This Agreement, Exhibit A, the applicable LogoOrbit service terms and any signed statement of work form the complete agreement concerning ownership of the Work. If they conflict, the later document signed by both parties controls.',
+    plain:
+      'Four pieces of paper can end up describing the same project. Rather than leave a court to guess, the instrument names them and sets the order of precedence: the most recent thing you and we both signed wins. That is the whole clause, and it is deliberately short.',
   },
   {
     id: 'exhibit',
     tab: 'Exhibit A',
-    number: '4',
-    heading: 'Exhibit A — the assigned work',
+    number: 'A',
+    heading: 'Exhibit A — description of the Work',
     operative:
-      'Exhibit A identifies the approved final mark by name, lists each delivered file by filename and format, and records the approved lockups, colourways and any wordmark supplied with it. Only the items listed in Exhibit A are assigned by this instrument.',
+      'Only the final work and deliverables listed in this exhibit are covered by the assignment. The exhibit records the final logo name, the project or order number, the approved version, the included files, the colour specifications, the typography and its licence notes, and any excluded material — initialled and dated by both parties.',
     plain:
-      'A transfer of "the logo" is an argument waiting to happen. Exhibit A turns it into an inventory: this mark, these files, these versions. If a file is not on the schedule, it was not assigned — which cuts both ways, and is why we go through the list with you before signing.',
-  },
-  {
-    id: 'exclusions',
-    tab: 'Exclusions',
-    number: '5',
-    heading: 'Exclusions and third-party materials',
-    operative:
-      'Unused or unselected concepts, working files not listed in Exhibit A, and any third-party font, typeface, stock image or template embedded in or supplied alongside the Assigned Work are excluded from this assignment and remain subject to their own licence terms.',
-    plain:
-      'We tell you what you are not getting, in the document, before you sign it. Concepts you rejected stay with us. A commercial typeface stays with its foundry — nobody can assign what they never owned, and any studio that says otherwise is writing a clause it cannot honour.',
-  },
-  {
-    id: 'warranties',
-    tab: 'Warranties',
-    number: '6',
-    heading: 'Warranties and limits',
-    operative:
-      'The Assignor warrants that the Assigned Work was created originally by or for the Assignor and that it is free to make this assignment. The Assignor gives no warranty that the Assigned Work is registrable as a copyright or a trade mark, or that its use will not conflict with the rights of a third party.',
-    plain:
-      'We stand behind what we can actually stand behind: the work is ours to give. What we will not pretend to do is guarantee that no one, anywhere, holds a similar mark — that question is answered by a trademark clearance search, which is separate work with a separate fee.',
-  },
-  {
-    id: 'execution',
-    tab: 'Execution',
-    number: '7',
-    heading: 'Execution and effective date',
-    operative:
-      'This instrument takes effect on the Effective Date once signed by an authorised signatory of each party. Electronic signature is accepted, counterparts are permitted, and each executed certificate carries a unique Certificate ID recorded by the Assignor’s legal desk.',
-    plain:
-      'A copyright transfer has to be in a signed writing to bite. Signing is the moment the rights move — not the moment you paid, not the moment you approved the design. The date and the ID on the face of the document are what you point at years later.',
+      'A transfer of “the logo” is an argument waiting to happen. Exhibit A turns it into an inventory: this mark, this approved version, these files, these colours, this typeface. If it is not on the schedule it was not assigned — which cuts both ways, and is why we walk the list with you before anyone signs.',
   },
 ]
 
@@ -114,10 +156,11 @@ const ledger = {
   certificate: [
     'The copyright in the approved final mark, assigned to a named entity',
     'Written authorisation for public, commercial use worldwide',
-    'Exhibit A: the mark, versions and delivered files, itemised',
-    'Stated exclusions, so the boundaries are on paper',
-    'A unique Certificate ID and effective date for your records',
-    'Signature blocks executed by both parties',
+    'The right to apply for copyright registration in your own name',
+    'A moral-rights waiver, so adapting your own logo is your decision',
+    'Exhibit A: the mark, approved version, files, colours and typography, itemised',
+    'Stated exclusions, so the boundaries are on paper rather than assumed',
+    'A Certificate ID and effective date for your records',
   ],
 }
 
@@ -130,7 +173,7 @@ const chain = [
   {
     step: 'Step 02',
     title: 'Both fees are settled',
-    body: 'The project balance and the separate $499 certificate fee are paid. Until then the condition precedent in clause 2 has not been met and nothing moves.',
+    body: 'The project balance and the separate $499 certificate fee are paid. Until then the conditions in Section 2 are not met and nothing moves.',
   },
   {
     step: 'Step 03',
@@ -157,7 +200,7 @@ const registers = [
     rows: [
       ['What it is', 'A private, signed instrument transferring our copyright in your final logo to you'],
       ['Who issues it', 'LogoOrbit’s legal desk, for your specific project'],
-      ['What it gives you', 'Ownership of the mark and the right to use it publicly and commercially'],
+      ['What it gives you', 'Ownership of the mark, the right to use it commercially, and the right to register it in your own name'],
       ['What it is not', 'It is not a government record and it creates no public register entry'],
       ['How long it takes', 'Issued and signed within a few business days of approval and payment'],
     ],
@@ -284,8 +327,8 @@ function InstrumentAnatomy() {
         </div>
 
         <p className="mt-5 hidden text-[13.5px] leading-relaxed text-white/45 lg:block">
-          Specimen wording, shown so you can read the shape of the instrument before you buy it. Your certificate is
-          drafted around your own project, order number and file schedule.
+          Wording taken from the public sample, so this page cannot drift from the document it describes. Your own
+          certificate carries the same sections around your project, order number and file schedule.
         </p>
       </Reveal>
 
@@ -293,7 +336,7 @@ function InstrumentAnatomy() {
         <div id="clause-panel" role="tabpanel" aria-labelledby={`clause-tab-${clause.id}`}>
           <CertificateInstrument showSeal={false} watermark="" className="shadow-[0_40px_80px_-40px_rgba(0,0,0,0.85)]">
             <p className="doc-mono text-[10px] uppercase tracking-[0.24em] text-[#8a6a22]">
-              Clause {clause.number} of 7
+              {clause.number === 'A' ? 'Exhibit A' : `Section ${clause.number} of 10`}
             </p>
             <h3 className="doc-face mt-2 text-xl font-bold text-[#121c36] sm:text-2xl">{clause.heading}</h3>
             <p className="doc-face mt-4 text-[15px] leading-[1.85] text-[#26314f] sm:text-[16.5px]">
@@ -325,7 +368,7 @@ export default function CopyrightCertificatePage() {
   return (
     <Layout
       title="Copyright Assignment Certificate - $499"
-      description="The signed instrument that moves LogoOrbit's copyright in your approved final logo to your business. Read all seven clauses, compare it with government registration, and download the public specimen PDF."
+      description="The signed instrument that moves LogoOrbit's copyright in your approved final logo to your business. Read all ten sections, compare it with government registration, and download the public specimen PDF."
       path="/copyright-certificate"
       jsonLd={{
         '@graph': [
@@ -420,11 +463,13 @@ export default function CopyrightCertificatePage() {
           <Reveal delay={120} className="lg:pl-4">
             <div className="cert-tilt mx-auto max-w-md lg:max-w-none">
               <CertificateInstrument record={heroRecord}>
-                <p className="doc-mono text-[10px] uppercase tracking-[0.22em] text-[#8a6a22]">Operative clause</p>
+                <p className="doc-mono text-[10px] uppercase tracking-[0.22em] text-[#8a6a22]">
+                  Section 3 — Assignment of copyright
+                </p>
                 <p className="mt-2 text-[13.5px] leading-[1.8] text-[#26314f] sm:text-[14.5px]">
-                  The Assignor assigns to the Assignee all of the Assignor’s right, title and interest in the copyright
-                  subsisting in the Assigned Work described in Exhibit A, together with the right to reproduce, adapt,
-                  distribute, display and exploit that work commercially, worldwide, for the full term of copyright.
+                  Subject to Section 2, the Assignor irrevocably assigns to the Assignee all of the Assignor’s right,
+                  title and interest in the Work, including the exclusive rights to reproduce, adapt, distribute,
+                  display and otherwise exploit the Work throughout the world for the full term of copyright.
                 </p>
                 <div className="mt-4 space-y-2" aria-hidden="true">
                   <span className="block h-2 w-full cert-redact" />
@@ -434,7 +479,7 @@ export default function CopyrightCertificatePage() {
               </CertificateInstrument>
             </div>
             <p className="mt-5 text-center text-[13px] text-white/45">
-              Specimen. No client name, no signature, no legal effect.
+              Specimen. Every client field is a placeholder, and the file is unsigned and watermarked.
             </p>
           </Reveal>
         </div>
@@ -534,12 +579,12 @@ export default function CopyrightCertificatePage() {
               Anatomy of the instrument
             </span>
             <h2 className="mt-3 text-3xl font-bold leading-[1.15] text-white sm:text-4xl">
-              Seven clauses. Nothing hidden behind a{' '}
+              Ten sections and an exhibit. Nothing behind a{' '}
               <span className="cert-foil">contact form.</span>
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-white/65">
-              Most studios describe their ownership paperwork. Read ours instead — clause by clause, with the operative
-              wording on one side and what it actually means for you underneath it.
+              Most studios describe their ownership paperwork. Read ours instead — section by section, in the
+              certificate’s own words, with what each one actually means for you underneath it.
             </p>
           </Reveal>
 
@@ -675,34 +720,38 @@ export default function CopyrightCertificatePage() {
                     On the record
                   </span>
                   <h2 className="mt-3 text-2xl font-bold text-white sm:text-3xl">
-                    Every certificate carries its own ID.
+                    Read all four pages before you decide.
                   </h2>
                   <p className="mt-4 max-w-xl text-[15.5px] leading-relaxed text-white/70">
-                    The ID and effective date are printed on the face of the instrument and recorded by our legal desk,
-                    so the document can be tied back to one project and one signature years after the launch.
+                    The specimen is the whole instrument: the certificate face, the ten sections, and the Exhibit A
+                    schedule with its initial blocks. It is published without a form in front of it so your own lawyer
+                    can read it before you spend anything.
                   </p>
 
                   <div className="mt-6 inline-flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl border border-white/12 bg-white/[0.05] px-5 py-4">
-                    <span className="doc-mono text-lg font-bold tracking-[0.14em] text-[#f0d89a]">LO-CAC-2026-0148</span>
-                    <span className="text-[13px] text-white/45">issue year · sequence</span>
+                    <span className="doc-mono text-lg font-bold tracking-[0.14em] text-[#f0d89a]">SAMPLE-000000</span>
+                    <span className="text-[13px] text-white/45">
+                      the specimen ID · yours carries a real one and an effective date
+                    </span>
                   </div>
 
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                     <a href={samplePdf} download className="btn-action px-7 py-3.5">
-                      Download the specimen PDF
+                      Download the specimen
                     </a>
                     <a
                       href={`mailto:${site.legalEmail}?subject=Certificate%20verification`}
                       className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-white/10"
                     >
                       <Icons.mail className="h-4.5 w-4.5" />
-                      Verify an ID with the legal desk
+                      Ask the legal desk
                     </a>
                   </div>
 
                   <p className="mt-5 text-[13px] leading-relaxed text-white/45">
-                    The specimen contains no client name, personal details, signature or client artwork. It is
-                    watermarked and has no legal effect. PDF, US Letter, 4 pages.
+                    Every client field in the specimen is a placeholder, and no client artwork appears in it. It is
+                    incomplete, unsigned, visibly watermarked, transfers nothing, and is not a certificate issued by the
+                    U.S. Copyright Office or any other government authority. PDF, US Letter, 4 pages.
                   </p>
                 </div>
 
