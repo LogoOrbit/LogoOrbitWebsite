@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
+import BrandProtectionBand from '../components/BrandProtectionBand'
 import PageHero from '../components/PageHero'
 import LegalCounsel from '../components/LegalCounsel'
 import Reveal from '../components/Reveal'
@@ -44,9 +45,9 @@ const documents = [
     body: 'What we collect, why, who ever sees it, and how to have it corrected or deleted.',
   },
   {
-    href: '/pricing#trademark',
+    href: '/trademark-filing',
     title: 'Trademark filing service',
-    body: 'Clearance search, USPTO application and examiner responses. $299 per class plus the government fee.',
+    body: 'Clearance search, USPTO application and examiner responses. $599 plus $350 per class, and the government fee on top.',
   },
 ]
 
@@ -160,6 +161,8 @@ export default function LegalPage() {
           </Reveal>
         </div>
       </section>
+
+      <BrandProtectionBand tone="light" />
 
       <CTA />
     </Layout>

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
+import BrandProtectionBand from '../components/BrandProtectionBand'
 import PageHero from '../components/PageHero'
 import TrustBar from '../components/TrustBar'
 import About from '../components/About'
@@ -114,6 +115,8 @@ export default function AboutPage({ sectors, cities }) {
       />
 
       <LinkGrid eyebrow="Where" title="Markets we serve" items={cities} compact tone="light" />
+
+      <BrandProtectionBand />
 
       <CTA />
     </Layout>

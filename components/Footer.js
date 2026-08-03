@@ -19,6 +19,7 @@ const exploreLinks = [
   { label: 'Design Resources', href: '/resources' },
   { label: 'Design Glossary', href: '/glossary' },
   { label: 'Copyright Certificate', href: '/copyright-certificate' },
+  { label: 'Trademark Filing', href: '/trademark-filing' },
 ]
 
 /**

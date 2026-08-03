@@ -218,7 +218,7 @@ const registers = [
   },
   {
     name: 'USPTO trademark',
-    price: 'From $299 per class + government fee',
+    price: 'From $599 + $350 per class + government fee',
     rows: [
       ['What it is', 'Registration of a brand name or mark for use in commerce in specific classes'],
       ['Who issues it', 'The United States Patent and Trademark Office'],

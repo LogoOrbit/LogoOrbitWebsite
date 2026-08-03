@@ -8,7 +8,7 @@ import Stats from '../components/Stats'
 import Services from '../components/Services'
 import VideoServices from '../components/VideoServices'
 import BriefCTA from '../components/BriefCTA'
-import TrademarkBand from '../components/TrademarkBand'
+import BrandProtectionBand from '../components/BrandProtectionBand'
 import Process from '../components/Process'
 import Portfolio from '../components/Portfolio'
 import WhyUs from '../components/WhyUs'
@@ -83,7 +83,7 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
       <WhyUs />
       <About />
 
-      <TrademarkBand />
+      <BrandProtectionBand tone="light" />
 
       <Guarantees />
 

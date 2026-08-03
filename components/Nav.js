@@ -138,9 +138,13 @@ export default function Nav() {
         <div className="mx-auto flex min-h-9 max-w-7xl items-center justify-center px-4 py-2 md:justify-between md:px-6 md:py-0">
           <p className="flex items-center gap-2 text-center md:text-left">
             <Icons.shield className="hidden h-4 w-4 shrink-0 text-flare-400 sm:block" />
-            <span>Logo copyright transfers only through our separate $499 written certificate.</span>
+            <span className="hidden sm:inline">Own the logo, then register the name.</span>
             <Link href="/copyright-certificate" className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
-              Learn more
+              $499 copyright certificate
+            </Link>
+            <span aria-hidden="true" className="hidden text-white/40 sm:inline">·</span>
+            <Link href="/trademark-filing" className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
+              Trademark filing
             </Link>
           </p>
           <div className="hidden items-center gap-5 md:flex">

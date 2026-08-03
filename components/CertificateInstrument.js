@@ -62,7 +62,13 @@ export function CertificateCrest({ className = 'h-14 w-14', id: fixedId }) {
  * The impressed seal. The lettering runs on a circular path the way it does on
  * a real embossed seal, rather than being faked with letter-spacing.
  */
-export function CertificateSeal({ className = 'h-28 w-28', id: fixedId, plate = true }) {
+export function CertificateSeal({
+  className = 'h-28 w-28',
+  id: fixedId,
+  plate = true,
+  arc = 'LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·',
+  foot = '17 U.S.C. § 204(a)',
+}) {
   const uid = useId().replace(/:/g, '')
   const id = fixedId || `seal-${uid}`
 
@@ -97,7 +103,7 @@ export function CertificateSeal({ className = 'h-28 w-28', id: fixedId, plate = 
         style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
       >
         <textPath href={`#${id}-arc`} startOffset="50%" textAnchor="middle">
-          LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·
+          {arc}
         </textPath>
       </text>
 
@@ -117,7 +123,7 @@ export function CertificateSeal({ className = 'h-28 w-28', id: fixedId, plate = 
         fill={`url(#${id}-foil)`}
         style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}
       >
-        17 U.S.C. § 204(a)
+        {foot}
       </text>
     </svg>
   )
@@ -141,8 +147,10 @@ function CornerRule({ className }) {
 }
 
 /**
- * The paper. `record` fills the metadata block, `children` is the body of the
- * instrument, and `footer` defaults to the execution block.
+ * The paper. `record` fills the metadata block and `children` is the body of
+ * the instrument. The heading and the two signature captions default to the
+ * copyright assignment, and are overridden by the trademark page, which is
+ * the same stock carrying a different document.
  */
 export default function CertificateInstrument({
   record,
@@ -150,6 +158,14 @@ export default function CertificateInstrument({
   showSeal = true,
   watermark = 'SPECIMEN',
   className = '',
+  title = (
+    <>
+      Copyright Assignment &amp;<br className="sm:hidden" /> Commercial Use Certificate
+    </>
+  ),
+  subtitle = 'An instrument of transfer executed under 17 U.S.C. § 204(a)',
+  parties = ['Assignor — LogoOrbit', 'Assignee — client of record'],
+  seal,
 }) {
   return (
     <article
@@ -187,11 +203,9 @@ export default function CertificateInstrument({
             LogoOrbit · Legal Compliance Department
           </p>
           <h3 className="doc-face mt-2 text-[1.05rem] font-bold leading-tight tracking-tight text-[#121c36] sm:text-[1.4rem]">
-            Copyright Assignment &amp;<br className="sm:hidden" /> Commercial Use Certificate
+            {title}
           </h3>
-          <p className="doc-face mt-1.5 text-[11px] italic text-[#4a5372] sm:text-[12.5px]">
-            An instrument of transfer executed under 17 U.S.C. § 204(a)
-          </p>
+          <p className="doc-face mt-1.5 text-[11px] italic text-[#4a5372] sm:text-[12.5px]">{subtitle}</p>
           <div className="cert-foil-rule mx-auto mt-3.5 h-px w-3/4" aria-hidden="true" />
         </header>
 
@@ -212,7 +226,7 @@ export default function CertificateInstrument({
 
         <footer className="relative mt-6 border-t border-dashed border-[#1b2440]/20 pt-5">
           <div className="grid grid-cols-2 gap-5">
-            {['Assignor — LogoOrbit', 'Assignee — client of record'].map((party) => (
+            {parties.map((party) => (
               <div key={party}>
                 <span className="block h-8 w-full" aria-hidden="true" />
                 <span className="block h-px w-full bg-[#1b2440]/45" aria-hidden="true" />
@@ -227,7 +241,7 @@ export default function CertificateInstrument({
               one lands on paper, without burying the party names under it. */}
           {showSeal && (
             <span className="cert-seal absolute -top-9 right-1 sm:-top-12 sm:right-2">
-              <CertificateSeal className="h-20 w-20 opacity-95 sm:h-24 sm:w-24" />
+              <CertificateSeal className="h-20 w-20 opacity-95 sm:h-24 sm:w-24" {...seal} />
             </span>
           )}
         </footer>

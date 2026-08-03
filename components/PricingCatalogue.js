@@ -56,10 +56,13 @@ function BrandProtection() {
               <div className="w-full shrink-0 rounded-3xl border border-slate-200 bg-white p-6 text-center lg:w-[20rem]">
                 <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand-600">Our filing fee</p>
                 <p className="mt-1.5 text-4xl font-bold tracking-tight text-ink-900">{money(brandProtection.price)}</p>
+                <p className="text-[13px] font-semibold text-ink-500">
+                  plus {money(brandProtection.classPrice)} per class
+                </p>
                 <p className="mt-2 text-[13px] leading-snug text-ink-500">{brandProtection.note}</p>
 
-                <Link href="/brief" className="btn-action mt-5 w-full px-6 py-3.5">
-                  Ask about trademarking
+                <Link href={brandProtection.href} className="btn-action mt-5 w-full px-6 py-3.5">
+                  How trademark filing works
                   <Icons.arrow className="w-4 h-4" />
                 </Link>
               </div>

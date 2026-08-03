@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Layout from '../components/Layout'
+import BrandProtectionBand from '../components/BrandProtectionBand'
 import PageHero from '../components/PageHero'
 import TrustBar from '../components/TrustBar'
 import Services from '../components/Services'
@@ -236,6 +237,7 @@ export default function ServicesPage({ groups, allItems }) {
       />
 
       <Process />
+      <BrandProtectionBand />
       <Guarantees />
       <CTA />
     </Layout>

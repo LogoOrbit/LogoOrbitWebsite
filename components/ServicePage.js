@@ -15,6 +15,7 @@ import { sectionById, bigPackageById } from '../lib/pricing'
 import { breadcrumb, faqSchema, serviceSchema } from '../lib/seo'
 import { resources } from '../lib/resources'
 import CopyrightOwnershipNotice from './CopyrightOwnershipNotice'
+import BrandProtectionBand from './BrandProtectionBand'
 
 const resourceMap = {
   '/logo-design': ['logo-design-process', 'logo-file-formats', 'logo-design-cost'],
@@ -126,6 +127,8 @@ export default function ServicePage({ page, related = [], industries = [], guide
       </section>
 
       {page.slug === '/logo-design' && <CopyrightOwnershipNotice />}
+
+      <BrandProtectionBand tone="light" />
 
       {/* Process */}
       <section className="py-16 sm:py-20 bg-slate-50">
