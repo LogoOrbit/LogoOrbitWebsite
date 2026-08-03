@@ -703,6 +703,141 @@
 .la-ring  { animation: la-ring 3.2s ease-out infinite; opacity: 0; }
 .la-trace { animation: la-trace 4.5s ease-in-out infinite; }
 
+/* ---------- The copyright certificate ----------
+   Every other page here sells design, so every other page is painted in the
+   studio palette. This one sells a signed legal instrument, and it is the one
+   place the site is allowed to look like a deed instead of a brochure: a navy
+   vault, foil gold, and cream security paper.
+
+   The document itself is drawn in CSS and SVG rather than shipped as an image
+   of a certificate. It stays sharp at any size, weighs nothing, re-flows on a
+   phone, re-colours with the theme, and the text in it is real text a screen
+   reader can read. */
+.cert-vault {
+  background:
+    radial-gradient(44rem 38rem at 84% 8%, rgba(202, 160, 68, 0.20), transparent 62%),
+    radial-gradient(52rem 46rem at 6% 2%, rgba(30, 64, 155, 0.42), transparent 64%),
+    radial-gradient(38rem 32rem at 50% 108%, rgba(124, 58, 237, 0.22), transparent 60%),
+    linear-gradient(168deg, #050b1c 0%, #0a1330 54%, #111a3c 100%);
+}
+
+/* Engine-turned lines, the diagonal hatching on share certificates and
+   banknotes. Cheap to draw, and instantly reads as "security document". */
+.cert-engrave {
+  background-image: repeating-linear-gradient(
+    -38deg,
+    rgba(255, 255, 255, 0.055) 0 1px,
+    transparent 1px 10px
+  );
+}
+
+.cert-guilloche {
+  background-image:
+    repeating-radial-gradient(circle at 50% 50%, rgba(202, 160, 68, 0.5) 0 0.5px, transparent 0.5px 4.5px),
+    repeating-conic-gradient(from 0deg at 50% 50%, rgba(202, 160, 68, 0.3) 0deg 1.5deg, transparent 1.5deg 5deg);
+}
+
+/* Foil. One gradient, used as ink, as a rule and as a border. */
+.cert-foil {
+  background: linear-gradient(100deg, #7d5a15 0%, #caa044 20%, #f7e8b4 46%, #c79a3c 68%, #8a641a 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 9s ease-in-out infinite;
+}
+
+.cert-foil-rule {
+  background: linear-gradient(90deg, transparent, #b98f33 12%, #f7e8b4 50%, #b98f33 88%, transparent);
+}
+
+/* Cream stock with a faint laid pattern. It keeps its paper colour in dark
+   mode on purpose, a certificate is a physical object and inverting it would
+   read as a screenshot of a website rather than a document. */
+.cert-paper {
+  background-color: #fbf8f1;
+  background-image:
+    radial-gradient(130% 90% at 50% 0%, rgba(202, 160, 68, 0.11), transparent 62%),
+    repeating-linear-gradient(90deg, rgba(11, 23, 51, 0.028) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(0deg, rgba(11, 23, 51, 0.022) 0 1px, transparent 1px 5px);
+  color: #1b2440;
+}
+
+.dark .cert-paper { background-color: #f7f3e9; color: #1b2440; }
+
+/* Headings inside the document are document text, not page headings, so they
+   opt out of both the light and the dark heading colour rules. */
+.cert-paper h1, .cert-paper h2, .cert-paper h3, .cert-paper h4,
+.dark .cert-paper h1, .dark .cert-paper h2, .dark .cert-paper h3, .dark .cert-paper h4 {
+  color: inherit;
+}
+
+.doc-face {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+}
+
+.doc-mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* Blanked fields on the public sample. A real certificate carries a name
+   here, the sample carries a bar, and the bar is the point. */
+.cert-redact {
+  background-image: linear-gradient(100deg, rgba(27, 36, 64, 0.16), rgba(27, 36, 64, 0.07));
+  border-radius: 3px;
+}
+
+/* The document sits at a slight angle until you look at it, then squares up.
+   Flat on small screens, where the rotation only costs width. */
+.cert-tilt {
+  transform: perspective(1500px) rotateY(-10deg) rotateX(3deg) rotate(-1.2deg);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cert-tilt:hover { transform: perspective(1500px) rotateY(0deg) rotateX(0deg) rotate(0deg); }
+
+@media (max-width: 767px) {
+  .cert-tilt { transform: none; }
+}
+
+/* The seal is stamped on once the document has been scrolled to, the way a
+   seal arrives on paper: hard, slightly over-scaled, then settled. */
+@keyframes seal-press {
+  0%   { opacity: 0; transform: scale(2.1) rotate(-18deg); }
+  58%  { opacity: 1; transform: scale(0.93) rotate(4deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.reveal.is-visible .cert-seal {
+  animation: seal-press 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+}
+
+.cert-seal-ring { animation: spin-slow 44s linear infinite; }
+
+/* The chain-of-title rail. A line that fills as the section arrives, so the
+   four steps read as one continuous transfer rather than four cards. */
+.cert-spine::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 1.4375rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #caa044, rgba(202, 160, 68, 0.15));
+}
+
+@media (min-width: 1024px) {
+  .cert-spine::before {
+    inset-inline: 0;
+    top: 1.4375rem;
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(202, 160, 68, 0.15), #caa044, rgba(202, 160, 68, 0.15));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
