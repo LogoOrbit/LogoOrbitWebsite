@@ -6,6 +6,7 @@ import FaqAccordion from '../components/FaqAccordion'
 import CertificateInstrument, { CertificateSeal } from '../components/CertificateInstrument'
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
+import { salesTax } from '../lib/pricing'
 
 const samplePdf = '/documents/logoorbit-sample-copyright-assignment-certificate.pdf'
 
@@ -458,6 +459,7 @@ export default function CopyrightCertificatePage() {
                 </div>
               ))}
             </dl>
+            <p className="mt-3 max-w-lg text-[12.5px] leading-relaxed text-white/40">{salesTax.short}</p>
           </div>
 
           <Reveal delay={120} className="lg:pl-4">
@@ -787,7 +789,7 @@ export default function CopyrightCertificatePage() {
               </a>
             </div>
             <p className="mt-6 text-[13.5px] leading-relaxed text-ink-300">
-              LogoOrbit prepares this instrument for its own design projects. It is not a substitute for advice from a
+              {salesTax.short} LogoOrbit prepares this instrument for its own design projects. It is not a substitute for advice from a
               lawyer admitted in your jurisdiction on your own facts.
             </p>
           </Reveal>

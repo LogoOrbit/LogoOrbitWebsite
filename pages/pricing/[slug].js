@@ -8,7 +8,7 @@ import LinkGrid from '../../components/LinkGrid'
 import CTA from '../../components/CTA'
 import { Icons } from '../../components/Icons'
 import { packages, packageBySlug } from '../../lib/packages'
-import { money } from '../../lib/pricing'
+import { money, salesTax } from '../../lib/pricing'
 import { site, whatsappLink } from '../../lib/site'
 import { absolute, breadcrumb, faqSchema, ORG_ID } from '../../lib/seo'
 
@@ -68,6 +68,8 @@ export default function PackagePage({ pkg, siblings }) {
               Save {money(pkg.saving)} · {pkg.savingPct}% off buying the parts separately
             </span>
           ) : null}
+
+          <p className="text-[13px] text-white/50">{salesTax.short}</p>
 
           <div className="mt-2 flex flex-col sm:flex-row justify-center gap-3">
             <Link href="/contact" className="group btn-action px-7 py-4">

@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import { salesTax } from '../lib/pricing'
 import CardRow from './CardRow'
 import CompareTable from './CompareTable'
 
@@ -18,6 +19,8 @@ export default function PricingSection({ section, tone = 'light' }) {
         </Reveal>
 
         <CardRow items={section.items} className="mt-8 sm:mt-12" />
+
+        <p className="mt-5 text-[13px] leading-relaxed text-ink-300">{salesTax.short}</p>
 
         {section.compare && (
           <CompareTable

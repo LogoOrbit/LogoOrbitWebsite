@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
-import { brandProtection } from '../lib/pricing'
+import { brandProtection, salesTax } from '../lib/pricing'
 
 /**
  * The two legal steps that sit either side of the design work: owning the
@@ -32,6 +32,8 @@ export default function BrandProtectionBand({ tone = 'muted', compact = false })
             the name on the federal register so a competitor cannot trade under it.
           </p>
         </Reveal>
+
+        <p className="mt-4 text-[13px] text-ink-300">{salesTax.short}</p>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           <Reveal>

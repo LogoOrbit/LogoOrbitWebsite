@@ -6,7 +6,7 @@ import CompareTable from './CompareTable'
 import { BigPackage } from './PriceCard'
 import { Icons } from './Icons'
 import { addOnArt, toneVars } from './Illustrations'
-import { addOns, brandProtection, categories, finder, money } from '../lib/pricing'
+import { addOns, brandProtection, categories, finder, money, salesTax } from '../lib/pricing'
 import CopyrightOwnershipNotice from './CopyrightOwnershipNotice'
 
 const tabIcon = {
@@ -60,6 +60,7 @@ function BrandProtection() {
                   plus {money(brandProtection.classPrice)} per class
                 </p>
                 <p className="mt-2 text-[13px] leading-snug text-ink-500">{brandProtection.note}</p>
+                <p className="mt-2 text-[12px] leading-snug text-ink-300">{salesTax.short}</p>
 
                 <Link href={brandProtection.href} className="btn-action mt-5 w-full px-6 py-3.5">
                   How trademark filing works
@@ -485,6 +486,15 @@ export default function PricingCatalogue() {
       <CopyrightOwnershipNotice />
       <BrandProtection />
       <AddOns />
+
+      <section className="bg-white pb-14 sm:pb-20">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <p className="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center text-[14px] leading-relaxed text-ink-500">
+            {salesTax.long} Government and third-party fees, such as a USPTO filing fee, are charged at cost and are
+            not ours to tax.
+          </p>
+        </div>
+      </section>
     </>
   )
 }
