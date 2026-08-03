@@ -12,6 +12,7 @@ const tabIcon = {
   logo: Icons.logo,
   website: Icons.website,
   animation: Icons.animation,
+  mobile: Icons.mobile,
   shield: Icons.shield,
   clock: Icons.clock,
   spark: Icons.spark,

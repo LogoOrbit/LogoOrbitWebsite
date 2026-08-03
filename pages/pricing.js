@@ -256,7 +256,7 @@ export default function Pricing() {
   return (
     <Layout
       title="Pricing & Packages"
-      description="Simple, fixed LogoOrbit pricing, logos from $49, branding kits from $59, websites from $699, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras."
+      description="Simple, fixed LogoOrbit pricing, logos from $49, branding kits from $59, websites from $699, mobile apps from $999, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras."
       path="/pricing"
     >
       <PageHero
