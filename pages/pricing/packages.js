@@ -6,7 +6,7 @@ import LinkGrid from '../../components/LinkGrid'
 import CTA from '../../components/CTA'
 import { Icons } from '../../components/Icons'
 import { packages, packageFamilies } from '../../lib/packages'
-import { money } from '../../lib/pricing'
+import { money, salesTax } from '../../lib/pricing'
 import { breadcrumb, collectionPageSchema, itemListSchema } from '../../lib/seo'
 
 const description =
@@ -40,6 +40,14 @@ export default function PackageIndex({ families }) {
         highlight="each on its own page"
         intro="The pricing page is built for comparing tiers side by side. This is the index: every package with its full specification, what it deliberately leaves out, and what happens after you order."
       />
+
+      <section className="bg-white pt-10 sm:pt-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <p className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center text-[14px] leading-relaxed text-ink-500">
+            {salesTax.long}
+          </p>
+        </div>
+      </section>
 
       {families.map((family, i) => (
         <section

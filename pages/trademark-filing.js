@@ -6,7 +6,7 @@ import FaqAccordion from '../components/FaqAccordion'
 import CertificateInstrument, { CertificateSeal } from '../components/CertificateInstrument'
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
-import { brandProtection } from '../lib/pricing'
+import { brandProtection, salesTax } from '../lib/pricing'
 
 const SERVICE = brandProtection.price
 const PER_CLASS = brandProtection.classPrice
@@ -275,7 +275,9 @@ function ClassFinder() {
     setCount(1)
   }
 
-  const total = SERVICE + count * PER_CLASS
+  const subtotal = SERVICE + count * PER_CLASS
+  const tax = Math.round(subtotal * salesTax.rate) / 100
+  const total = subtotal + tax
 
   return (
     <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
@@ -368,9 +370,17 @@ function ClassFinder() {
                 </dt>
                 <dd className="doc-mono font-semibold text-white">${count * PER_CLASS}</dd>
               </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <dt className="text-white/65">{salesTax.label}, {salesTax.rate}%</dt>
+                <dd className="doc-mono font-semibold text-white">
+                  ${tax.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </dd>
+              </div>
               <div className="flex items-baseline justify-between gap-4 border-t border-white/10 pt-3">
                 <dt className="font-semibold text-white">LogoOrbit total</dt>
-                <dd className="doc-mono text-2xl font-bold text-[#f0d89a]">${total.toLocaleString('en-US')}</dd>
+                <dd className="doc-mono text-2xl font-bold text-[#f0d89a]">
+                  ${total.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </dd>
               </div>
             </dl>
 
@@ -493,6 +503,7 @@ export default function TrademarkFilingPage() {
                 </div>
               ))}
             </dl>
+            <p className="mt-3 max-w-lg text-[12.5px] leading-relaxed text-white/40">{salesTax.short}</p>
           </div>
 
           <Reveal delay={120} className="lg:pl-4">
@@ -828,7 +839,8 @@ export default function TrademarkFilingPage() {
             <h2 className="text-3xl font-bold text-ink-900 sm:text-4xl">Get the name on the register.</h2>
             <p className="mx-auto mt-4 max-w-2xl text-[17px] leading-relaxed text-ink-500">
               Send the mark, the legal name behind the business, and a list of what you sell. We come back with the
-              search result, the classes we recommend, and the total before anything is filed.
+              search result, the classes we recommend, and the total — tax and USPTO fee included in the figure —
+              before anything is filed.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
               <Link href="/contact?subject=Trademark%20Filing" className="btn-action px-7 py-4">
