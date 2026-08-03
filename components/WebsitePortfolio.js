@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Reveal from './Reveal'
@@ -71,6 +72,9 @@ function Preview({ site }) {
 }
 
 export default function WebsitePortfolio({ showHeading = true }) {
+  const [visibleCount, setVisibleCount] = useState(24)
+  const visibleWebsites = websites.slice(0, visibleCount)
+
   return (
     <section id="websites" className="scroll-mt-28 bg-white py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-6">
@@ -84,7 +88,7 @@ export default function WebsitePortfolio({ showHeading = true }) {
         )}
 
         <div className="mt-12 grid gap-5 sm:gap-6 lg:grid-cols-2">
-          {websites.map((site, i) => (
+          {visibleWebsites.map((site, i) => (
             <Reveal key={site.slug} delay={(i % 2) * 90} className="h-full">
               <a
                 href={site.href}
@@ -140,6 +144,21 @@ export default function WebsitePortfolio({ showHeading = true }) {
             </Reveal>
           ))}
         </div>
+
+        {visibleCount < websites.length && (
+          <div className="mt-10 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((count) => Math.min(count + 24, websites.length))}
+              className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 font-semibold text-white shadow-lg shadow-brand-900/10 transition-all hover:-translate-y-0.5 hover:bg-brand-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+            >
+              Show more websites
+              <span className="text-sm text-white/75">
+                {Math.min(visibleCount, websites.length)} of {websites.length}
+              </span>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )
