@@ -87,46 +87,46 @@ export default function WebsitePortfolio({ showHeading = true }) {
           />
         )}
 
-        <div className="mt-12 grid gap-5 sm:gap-6 lg:grid-cols-2">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
           {visibleWebsites.map((site, i) => (
-            <Reveal key={site.slug} delay={(i % 2) * 90} className="h-full">
+            <Reveal key={site.slug} delay={(i % 4) * 70} className="h-full">
               <a
                 href={site.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-2xl hover:shadow-brand-900/10"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-xl hover:shadow-brand-900/10"
               >
                 <div className="aspect-[16/10] w-full">
                   <Preview site={site} />
                 </div>
 
-                <div className="flex flex-1 flex-col p-5 sm:p-6">
-                  <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-1 flex-col p-4 sm:p-5">
+                  <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <h3 className="text-lg font-bold text-ink-900">{site.name}</h3>
-                      <p className="mt-0.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-300">
+                      <h3 className="truncate text-base font-bold text-ink-900">{site.name}</h3>
+                      <p className="mt-0.5 truncate text-[11px] font-semibold uppercase tracking-[0.13em] text-ink-300">
                         {site.category}
                       </p>
                     </div>
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-slate-100 text-ink-500 transition-all group-hover:bg-action-500 group-hover:text-white">
-                      <Icons.arrow className="h-4.5 w-4.5 -rotate-45" />
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-100 text-ink-500 transition-all group-hover:bg-action-500 group-hover:text-white">
+                      <Icons.arrow className="h-4 w-4 -rotate-45" />
                     </span>
                   </div>
 
-                  <p className="mt-3 flex-1 text-[15px] leading-relaxed text-ink-500">{site.body}</p>
+                  <p className="mt-2.5 flex-1 text-[14px] leading-relaxed text-ink-500 line-clamp-2">{site.body}</p>
 
-                  <div className="mt-5 flex flex-wrap items-center gap-2">
-                    {site.tags.map((tag) => (
+                  <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                    {site.tags.slice(0, 2).map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-brand-50 px-3 py-1 text-[12px] font-semibold text-brand-600"
+                        className="rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-semibold text-brand-600"
                       >
                         {tag}
                       </span>
                     ))}
-                    <span className="ml-auto inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand-600 group-hover:text-action-600 transition-colors">
-                      Visit the site
-                      <Icons.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <span className="ml-auto inline-flex items-center gap-1 text-[13px] font-semibold text-brand-600 group-hover:text-action-600 transition-colors">
+                      Visit
+                      <Icons.arrow className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
                 </div>
@@ -136,10 +136,10 @@ export default function WebsitePortfolio({ showHeading = true }) {
                   answered, how it was made and what was handed over. */}
               <Link
                 href={`/portfolio/websites/${site.slug}`}
-                className="mt-3 inline-flex items-center gap-1.5 text-[14px] font-semibold text-ink-700 hover:text-brand-600"
+                className="mt-2.5 inline-flex items-center gap-1.5 text-[13px] font-semibold text-ink-700 hover:text-brand-600"
               >
                 Read how it was built
-                <Icons.arrow className="h-4 w-4" />
+                <Icons.arrow className="h-3.5 w-3.5" />
               </Link>
             </Reveal>
           ))}
