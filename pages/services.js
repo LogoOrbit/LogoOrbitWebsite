@@ -15,6 +15,15 @@ import { serviceGroups, catalogServices } from '../lib/catalog'
 import { industryPages } from '../lib/industries'
 import { breadcrumb, collectionPageSchema, itemListSchema } from '../lib/seo'
 
+const capabilities = [
+  { title: 'Brand identity systems', body: 'Logo families, color, typography, imagery, icons and practical guidelines that keep every touchpoint consistent.', href: '/logo-design' },
+  { title: 'UI and UX design', body: 'User flows, wireframes, accessible interface design, responsive prototypes and design systems for websites and applications.', href: '/website-design' },
+  { title: 'Packaging design', body: 'Dieline-ready packaging, labels, product variants, retail hierarchy and ecommerce presentation built for production.', href: '/contact' },
+  { title: 'Print and sales collateral', body: 'Business cards, stationery, brochures, presentations, signage and campaign materials prepared for real vendors.', href: '/contact' },
+  { title: 'Motion graphics', body: 'Logo animation, explainers, social motion, title sequences, transitions, editing and sound for branded video.', href: '/animation' },
+  { title: 'Digital marketing design', body: 'Campaign creative, social systems, display assets, landing-page design and marketplace content built around one identity.', href: '/amazon-marketing' },
+]
+
 /**
  * The hub the Services menu points at.
  *
@@ -72,6 +81,27 @@ export default function ServicesPage({ groups, allItems }) {
       </section>
 
       <Services />
+      <section className="py-16 sm:py-20 bg-slate-50">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <Reveal className="max-w-3xl">
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Creative capabilities</span>
+            <h2 className="mt-3 text-3xl sm:text-4xl font-bold leading-tight text-ink-900">The disciplines behind a complete brand</h2>
+            <p className="mt-4 text-lg leading-relaxed text-ink-500">Use them individually or connect them into one system. Scope, deliverables, ownership and production requirements are agreed before work begins.</p>
+          </Reveal>
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {capabilities.map((capability, index) => (
+              <Reveal key={capability.title} delay={index * 60}>
+                <Link href={capability.href} className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-7 transition-all hover:-translate-y-1 hover:border-brand-300 hover:shadow-xl">
+                  <span className="text-sm font-bold tracking-[0.18em] text-brand-600">{String(index + 1).padStart(2, '0')}</span>
+                  <h3 className="mt-4 text-xl font-bold text-ink-900">{capability.title}</h3>
+                  <p className="mt-3 flex-1 text-[15px] leading-relaxed text-ink-500">{capability.body}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 font-semibold text-brand-600">Discuss the work <Icons.arrow className="w-4 h-4" /></span>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
       <VideoServices />
 
       {/* The full catalogue, grouped by discipline. */}

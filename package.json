@@ -27,6 +27,7 @@
     "tailwindcss": "^4.3.3"
   },
   "overrides": {
+    "postcss": "$postcss",
     "next": {
       "sharp": "0.35.3"
     }

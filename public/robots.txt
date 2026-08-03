@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /brief/logo.html
+Disallow: /brief/website.html
 
 # Crawl the whole site; nothing here needs a delay.
 User-agent: Googlebot
@@ -9,4 +11,5 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+Host: www.logoorbit.net
 Sitemap: https://www.logoorbit.net/sitemap.xml

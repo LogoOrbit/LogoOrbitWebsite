@@ -13,11 +13,24 @@ import LinkGrid from './LinkGrid'
 import { site } from '../lib/site'
 import { sectionById, bigPackageById } from '../lib/pricing'
 import { breadcrumb, faqSchema, serviceSchema } from '../lib/seo'
+import { resources } from '../lib/resources'
+
+const resourceMap = {
+  '/logo-design': ['logo-design-process', 'logo-file-formats', 'logo-design-cost'],
+  '/website-design': ['website-design-brief', 'brand-identity-checklist', 'rebranding-checklist'],
+  '/animation': ['brand-identity-checklist', 'logo-file-formats', 'logo-design-process'],
+  '/mobile-application': ['website-design-brief', 'brand-identity-checklist', 'rebranding-checklist'],
+  '/book-publications': ['packaging-design-checklist', 'brand-identity-checklist', 'logo-file-formats'],
+  '/amazon-marketing': ['packaging-design-checklist', 'brand-identity-checklist', 'website-design-brief'],
+}
 
 export default function ServicePage({ page, related = [], industries = [], guides = [] }) {
   const Icon = serviceIcon[page.icon]
   const sections = (page.packages || []).map((id) => sectionById[id]).filter(Boolean)
   const bigPackages = (page.featureBig || []).map((id) => bigPackageById[id]).filter(Boolean)
+  const relatedResources = (resourceMap[page.slug] || [])
+    .map((slug) => resources.find((resource) => resource.slug === slug))
+    .filter(Boolean)
 
   const jsonLd = {
     '@graph': [
@@ -172,6 +185,29 @@ export default function ServicePage({ page, related = [], industries = [], guide
           items={guides}
           tone="light"
         />
+      )}
+
+      {relatedResources.length > 0 && (
+        <section className="py-16 sm:py-20 bg-slate-50">
+          <div className="mx-auto max-w-7xl px-6">
+            <Reveal className="max-w-2xl">
+              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Practical resources</span>
+              <h2 className="mt-3 text-3xl sm:text-4xl font-bold leading-tight text-ink-900">Checklists for a stronger brief and handover</h2>
+            </Reveal>
+            <div className="mt-9 grid md:grid-cols-3 gap-5">
+              {relatedResources.map((resource, index) => (
+                <Reveal key={resource.slug} delay={index * 70}>
+                  <Link href={`/resources/${resource.slug}`} className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:border-brand-300 hover:shadow-xl">
+                    <span className="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">{resource.category}</span>
+                    <h3 className="mt-3 text-lg font-bold text-ink-900">{resource.title}</h3>
+                    <p className="mt-3 flex-1 text-[15px] leading-relaxed text-ink-500">{resource.description}</p>
+                    <span className="mt-5 inline-flex items-center gap-2 font-semibold text-brand-600">Read resource <Icons.arrow className="w-4 h-4" /></span>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* CTA */}

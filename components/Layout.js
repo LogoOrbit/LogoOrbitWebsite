@@ -128,6 +128,7 @@ export default function Layout({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content={`${site.name} custom design services`} />
+        <meta property="og:image:type" content="image/png" />
         {article?.published && <meta property="article:published_time" content={article.published} />}
         {article?.updated && <meta property="article:modified_time" content={article.updated} />}
         {article?.section && <meta property="article:section" content={article.section} />}

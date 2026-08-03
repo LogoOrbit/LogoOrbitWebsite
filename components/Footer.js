@@ -13,6 +13,8 @@ const exploreLinks = [
   { label: 'About Us', href: '/about' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Contact Us', href: '/contact' },
+  { label: 'Design Resources', href: '/resources' },
+  { label: 'Design Glossary', href: '/glossary' },
 ]
 
 /**
