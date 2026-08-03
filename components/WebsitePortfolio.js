@@ -89,12 +89,12 @@ export default function WebsitePortfolio({ showHeading = true }) {
 
         <div className="mt-10 grid grid-cols-1 gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
           {visibleWebsites.map((site, i) => (
-            <Reveal key={site.slug} delay={(i % 4) * 70} className="h-full">
+            <Reveal key={site.slug} delay={(i % 4) * 70} className="flex h-full flex-col">
               <a
                 href={site.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-xl hover:shadow-brand-900/10"
+                className="group flex flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-xl hover:shadow-brand-900/10"
               >
                 <div className="aspect-[16/10] w-full">
                   <Preview site={site} />
