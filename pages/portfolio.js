@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
 import TrustBar from '../components/TrustBar'
@@ -67,8 +68,35 @@ export default function PortfolioPage({ sectors, sampleWork }) {
 
       <TrustBar />
       <Portfolio showHeading={false} initial={32} step={48} />
+      <div className="bg-white pb-4 text-center">
+        <Link
+          href="/portfolio/logo-design"
+          className="text-[15px] font-semibold text-brand-600 hover:text-brand-700"
+        >
+          See the full logo design portfolio
+          <Icons.arrow className="ml-1.5 inline h-4 w-4" />
+        </Link>
+      </div>
       <WebsitePortfolio />
+      <div className="bg-white pb-4 text-center">
+        <Link
+          href="/portfolio/website-design"
+          className="text-[15px] font-semibold text-brand-600 hover:text-brand-700"
+        >
+          See the full website design portfolio
+          <Icons.arrow className="ml-1.5 inline h-4 w-4" />
+        </Link>
+      </div>
       <AnimationReel />
+      <div className="bg-slate-50 pb-4 text-center">
+        <Link
+          href="/portfolio/animation"
+          className="text-[15px] font-semibold text-brand-600 hover:text-brand-700"
+        >
+          See the full logo animation portfolio
+          <Icons.arrow className="ml-1.5 inline h-4 w-4" />
+        </Link>
+      </div>
       <Testimonials />
 
       <LinkGrid
