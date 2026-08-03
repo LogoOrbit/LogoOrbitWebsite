@@ -7,18 +7,42 @@ import MissionVision from '../components/MissionVision'
 import WhyUs from '../components/WhyUs'
 import Stats from '../components/Stats'
 import Process from '../components/Process'
+import Testimonials from '../components/Testimonials'
 import Reveal from '../components/Reveal'
+import LinkGrid from '../components/LinkGrid'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
-import { site } from '../lib/site'
+import { site, process as processSteps } from '../lib/site'
+import { industryPages } from '../lib/industries'
+import { locationPages } from '../lib/locations'
+import { ORG_ID, SITE_ID, absolute, breadcrumb, howToSchema } from '../lib/seo'
 
-export default function AboutPage() {
+export default function AboutPage({ sectors, cities }) {
+  const description = `LogoOrbit has spent ${site.years}+ years building brand identities for startups, SMEs and multinational ventures, with an in-house design team, 100% original work and full copyright transferred to every client.`
+
+  const jsonLd = {
+    '@graph': [
+      {
+        '@type': 'AboutPage',
+        '@id': `${absolute('/about')}#about`,
+        url: absolute('/about'),
+        name: 'About LogoOrbit',
+        description,
+        isPartOf: { '@id': SITE_ID },
+        mainEntity: { '@id': ORG_ID },
+      },
+      howToSchema({
+        path: '/about',
+        name: 'How a LogoOrbit project works',
+        description: 'The four steps every design project goes through, from first brief to final handover.',
+        steps: processSteps.map((s) => ({ title: s.title, body: s.body })),
+      }),
+      breadcrumb([{ name: 'About', href: '/about' }]),
+    ],
+  }
+
   return (
-    <Layout
-      title="About Us & Our Story"
-      description={`LogoOrbit has spent ${site.years}+ years building brand identities for startups, SMEs and multinational ventures, with an in-house US design team and 100% original work.`}
-      path="/about"
-    >
+    <Layout title="About Us & Our Story" description={description} path="/about" jsonLd={jsonLd}>
       <PageHero
         eyebrow="Our Story"
         breadcrumb="About"
@@ -33,6 +57,7 @@ export default function AboutPage() {
       <MissionVision />
       <WhyUs />
       <Process />
+      <Testimonials />
 
       {/* Pointers to the pages people go looking for next */}
       <section className="py-16 sm:py-20 bg-white">
@@ -80,7 +105,26 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <LinkGrid
+        eyebrow="Who we work with"
+        title="Sectors we have branded"
+        items={sectors}
+        compact
+        tone="muted"
+      />
+
+      <LinkGrid eyebrow="Where" title="Markets we serve" items={cities} compact tone="light" />
+
       <CTA />
     </Layout>
   )
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      sectors: industryPages.map((i) => ({ name: i.name, href: `/industries/${i.slug}` })),
+      cities: locationPages.map((l) => ({ name: `${l.city}, ${l.country}`, href: `/locations/${l.slug}` })),
+    },
+  }
 }

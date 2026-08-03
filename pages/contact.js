@@ -4,16 +4,33 @@ import TrustBar from '../components/TrustBar'
 import Contact from '../components/Contact'
 import FAQ from '../components/FAQ'
 import LegalCounsel from '../components/LegalCounsel'
+import LinkGrid from '../components/LinkGrid'
 import { Icons } from '../components/Icons'
-import { site, whatsapp, whatsappLink } from '../lib/site'
+import { site, faqs, whatsapp, whatsappLink } from '../lib/site'
+import { locationPages } from '../lib/locations'
+import { ORG_ID, SITE_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
-export default function ContactPage() {
+export default function ContactPage({ cities }) {
+  const description = `Talk to the LogoOrbit design team. Call ${site.phone}, message ${whatsapp.display} on WhatsApp, email ${site.email}, or send a brief for a free consultation and fixed quote.`
+
+  const jsonLd = {
+    '@graph': [
+      {
+        '@type': 'ContactPage',
+        '@id': `${absolute('/contact')}#contact`,
+        url: absolute('/contact'),
+        name: 'Contact LogoOrbit',
+        description,
+        isPartOf: { '@id': SITE_ID },
+        mainEntity: { '@id': ORG_ID },
+      },
+      breadcrumb([{ name: 'Contact', href: '/contact' }]),
+      faqSchema(faqs, '/contact'),
+    ],
+  }
+
   return (
-    <Layout
-      title="Contact Us"
-      description={`Talk to the LogoOrbit design team. Call ${site.phone}, message ${whatsapp.display} on WhatsApp, email ${site.email}, or send a brief for a free consultation and fixed quote.`}
-      path="/contact"
-    >
+    <Layout title="Contact Us" description={description} path="/contact" jsonLd={jsonLd}>
       <PageHero
         eyebrow="Contact"
         title="Tell us what you're"
@@ -49,6 +66,23 @@ export default function ContactPage() {
       <Contact showIntro={false} />
       <LegalCounsel compact />
       <FAQ />
+
+      <LinkGrid
+        eyebrow="Wherever you are"
+        title="Markets we work with"
+        body="Everything is delivered digitally and quoted in USD, so the distance makes no difference to the result."
+        items={cities}
+        compact
+        tone="light"
+      />
     </Layout>
   )
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      cities: locationPages.map((l) => ({ name: `${l.city}, ${l.country}`, href: `/locations/${l.slug}` })),
+    },
+  }
 }

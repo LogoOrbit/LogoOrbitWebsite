@@ -5,10 +5,48 @@ import { site, services, legalLinks, whatsapp, whatsappLink } from '../lib/site'
 
 const exploreLinks = [
   { label: 'Home', href: '/' },
+  { label: 'All services', href: '/services' },
+  { label: 'Industries', href: '/industries' },
+  { label: 'Where we work', href: '/locations' },
+  { label: 'Guides', href: '/guides' },
   { label: 'Portfolio', href: '/portfolio' },
   { label: 'About Us', href: '/about' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Contact Us', href: '/contact' },
+]
+
+/**
+ * A flat row of the most-searched specialist pages.
+ *
+ * The catalogue is too large to list in a footer column, so this is the slice
+ * with the most search demand behind it. Everything else is one click away
+ * through /services.
+ */
+const popularServices = [
+  { label: 'Brand identity', href: '/services/brand-identity-design' },
+  { label: 'Business cards', href: '/services/business-card-design' },
+  { label: 'Packaging design', href: '/services/packaging-design' },
+  { label: 'UI/UX design', href: '/services/ui-ux-design' },
+  { label: 'Landing pages', href: '/services/landing-page-design' },
+  { label: 'E-commerce', href: '/services/ecommerce-website-design' },
+  { label: 'Shopify stores', href: '/services/shopify-store-design' },
+  { label: 'WordPress sites', href: '/services/wordpress-website-design' },
+  { label: 'Social media design', href: '/services/social-media-design' },
+  { label: 'YouTube thumbnails', href: '/services/youtube-thumbnail-design' },
+  { label: 'Pitch decks', href: '/services/pitch-deck-design' },
+  { label: 'Presentations', href: '/services/presentation-design' },
+  { label: 'Brochures', href: '/services/brochure-design' },
+  { label: 'Menu design', href: '/services/menu-design' },
+  { label: 'Vehicle wraps', href: '/services/vehicle-wrap-design' },
+  { label: 'Signage', href: '/services/signage-design' },
+  { label: 'T-shirt design', href: '/services/apparel-design' },
+  { label: 'Illustration', href: '/services/custom-illustration' },
+  { label: 'Icon sets', href: '/services/icon-design' },
+  { label: 'Motion graphics', href: '/services/motion-graphics' },
+  { label: 'Video editing', href: '/services/video-editing' },
+  { label: 'Book covers', href: '/services/book-cover-design' },
+  { label: 'Amazon listings', href: '/services/amazon-listing-design' },
+  { label: 'Design subscription', href: '/services/design-subscription' },
 ]
 
 export default function Footer() {
@@ -102,8 +140,27 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Legal row */}
+        {/* Specialist services, flat, so nothing deep is more than one click away */}
         <div className="mt-12 border-t border-white/10 pt-8">
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Popular services</h3>
+          <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[14px]">
+            {popularServices.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="inline-block py-1 hover:text-white transition-colors">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link href="/services" className="inline-block py-1 font-semibold text-orbit-400 hover:text-white transition-colors">
+                See all services
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Legal row */}
+        <div className="mt-10 border-t border-white/10 pt-8">
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
             {legalLinks.map((link) => (
               <li key={link.label}>

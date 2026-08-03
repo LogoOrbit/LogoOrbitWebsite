@@ -8,9 +8,12 @@ import Reveal from '../components/Reveal'
 import ProcessSteps from '../components/ProcessSteps'
 import PricingCatalogue, { Finder } from '../components/PricingCatalogue'
 import MoreOnPhone from '../components/MoreOnPhone'
+import LinkGrid from '../components/LinkGrid'
 import { Icons } from '../components/Icons'
 import { flagship, money } from '../lib/pricing'
-import { site } from '../lib/site'
+import { site, services } from '../lib/site'
+import { catalogServices } from '../lib/catalog'
+import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
 const promises = [
   { icon: Icons.check, label: 'One fixed price', sub: 'quoted up front' },
@@ -252,13 +255,43 @@ function Flagship() {
   )
 }
 
-export default function Pricing() {
+export default function Pricing({ priced }) {
+  const description =
+    'Simple, fixed LogoOrbit pricing, logos from $49, branding kits from $59, websites from $699, mobile apps from $999, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras.'
+
+  const jsonLd = {
+    '@graph': [
+      {
+        '@type': 'OfferCatalog',
+        '@id': `${absolute('/pricing')}#catalog`,
+        name: 'LogoOrbit packages and pricing',
+        url: absolute('/pricing'),
+        provider: { '@id': ORG_ID },
+        itemListElement: [
+          {
+            '@type': 'Offer',
+            name: flagship.name,
+            price: String(flagship.price),
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
+            url: `${absolute('/pricing')}#complete-brand`,
+            description: flagship.tagline,
+          },
+          ...services.map((s) => ({
+            '@type': 'Offer',
+            itemOffered: { '@type': 'Service', name: s.name, url: absolute(s.href) },
+            priceCurrency: 'USD',
+            availability: 'https://schema.org/InStock',
+          })),
+        ],
+      },
+      breadcrumb([{ name: 'Pricing', href: '/pricing' }]),
+      faqSchema(pricingFaqs, '/pricing'),
+    ],
+  }
+
   return (
-    <Layout
-      title="Pricing & Packages"
-      description="Simple, fixed LogoOrbit pricing, logos from $49, branding kits from $59, websites from $699, mobile apps from $999, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras."
-      path="/pricing"
-    >
+    <Layout title="Pricing & Packages" description={description} path="/pricing" jsonLd={jsonLd}>
       <PageHero
         eyebrow="Pricing"
         title="Pick what you need."
@@ -389,6 +422,27 @@ export default function Pricing() {
           </Reveal>
         </div>
       </section>
+
+      {/* The catalogue prices, so a visitor searching for one specific job can
+          find its page rather than hunting through the package tables. */}
+      <LinkGrid
+        eyebrow="Priced individually"
+        title="Everything else, with a starting price"
+        body="Each of these has its own page explaining exactly what is included at that price."
+        items={priced}
+        tone="muted"
+      />
     </Layout>
   )
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      priced: catalogServices
+        .slice()
+        .sort((a, b) => a.price - b.price)
+        .map((s) => ({ name: s.name, href: `/services/${s.slug}`, meta: s.priceLabel })),
+    },
+  }
 }

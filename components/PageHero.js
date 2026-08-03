@@ -1,8 +1,17 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
 
-/** Dark gradient header used at the top of every inner page. */
-export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb, children }) {
+/**
+ * Dark gradient header used at the top of every inner page.
+ *
+ * `trail` takes an array of {name, href} for pages that sit two levels down,
+ * so /services/packaging-design shows Home / Services / Packaging Design
+ * rather than pretending to be a child of the root. `breadcrumb` remains for
+ * the single-level pages that were here first.
+ */
+export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb, trail, children }) {
+  const crumbs = trail?.length ? trail : [{ name: breadcrumb || eyebrow }]
+
   return (
     <section className="relative -mt-18 pt-18 overflow-hidden mesh-bg text-white">
       <div className="absolute inset-0 grid-lines opacity-60" aria-hidden="true" />
@@ -17,10 +26,21 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
       />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-6 pt-8 pb-14 sm:pt-20 sm:pb-24 text-center">
-        <nav aria-label="Breadcrumb" className="flex items-center justify-center gap-2 text-[13px] sm:text-sm text-white/55">
+        <nav
+          aria-label="Breadcrumb"
+          className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[13px] sm:text-sm text-white/55"
+        >
           <Link href="/" className="hover:text-white transition-colors">Home</Link>
-          <span aria-hidden="true">/</span>
-          <span className="text-white/85">{breadcrumb || eyebrow}</span>
+          {crumbs.map((crumb, i) => (
+            <span key={crumb.name} className="flex items-center gap-2">
+              <span aria-hidden="true">/</span>
+              {crumb.href && i < crumbs.length - 1 ? (
+                <Link href={crumb.href} className="hover:text-white transition-colors">{crumb.name}</Link>
+              ) : (
+                <span className="text-white/85">{crumb.name}</span>
+              )}
+            </span>
+          ))}
         </nav>
 
         {eyebrow && (

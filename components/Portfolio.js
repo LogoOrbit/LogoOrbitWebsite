@@ -18,14 +18,25 @@ import { portfolioLogos, portfolioCategories } from '../lib/portfolio'
  * backgrounds and many have white knocked out of the mark itself, so flipping
  * the tile dark would show holes in other people's brands.
  */
-export default function Portfolio({ showHeading = true, initial = 16, step = 32, showAllLink = false }) {
-  const [filter, setFilter] = useState('All')
+export default function Portfolio({
+  showHeading = true,
+  initial = 16,
+  step = 32,
+  showAllLink = false,
+  filterTo = null,
+}) {
+  const [filter, setFilter] = useState(filterTo || 'All')
   const [shown, setShown] = useState(initial)
 
   const items = useMemo(
     () => (filter === 'All' ? portfolioLogos : portfolioLogos.filter((l) => l.category === filter)),
     [filter]
   )
+
+  // An industry page opens on its own category and hides the chip row: the
+  // visitor came for one sector, and the filter would only invite them away
+  // from the reason they landed here.
+  const locked = Boolean(filterTo)
 
   const visible = items.slice(0, shown)
   const pick = (cat) => {
@@ -45,7 +56,21 @@ export default function Portfolio({ showHeading = true, initial = 16, step = 32,
           />
         )}
 
-        <Reveal className={`${showHeading ? 'mt-10' : ''} flex flex-wrap justify-center gap-2`}>
+        {locked && (
+          <Reveal className="text-center">
+            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Our work</span>
+            <h2 className="mt-3 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
+              {filterTo} marks we have <span className="text-gradient">drawn from scratch</span>
+            </h2>
+            <p className="mt-4 mx-auto max-w-2xl text-[15px] sm:text-lg leading-relaxed text-ink-500">
+              Real client work from this sector. Every one was drawn for that business and never resold.
+            </p>
+          </Reveal>
+        )}
+
+        <Reveal
+          className={`${showHeading ? 'mt-10' : ''} ${locked ? 'hidden' : 'flex'} flex-wrap justify-center gap-2`}
+        >
           {portfolioCategories.map((cat) => (
             <button
               key={cat}
@@ -109,7 +134,7 @@ export default function Portfolio({ showHeading = true, initial = 16, step = 32,
             </button>
           )}
 
-          {showAllLink && (
+          {(showAllLink || locked) && (
             <Link href="/portfolio" className="btn-action px-7 py-4">
               See the full portfolio
               <Icons.arrow className="w-5 h-5" />
@@ -118,10 +143,14 @@ export default function Portfolio({ showHeading = true, initial = 16, step = 32,
 
           <Link
             href="/contact"
-            className={showAllLink ? 'text-[15px] font-semibold text-brand-600 hover:text-brand-700' : 'btn-action px-7 py-4'}
+            className={
+              showAllLink || locked
+                ? 'text-[15px] font-semibold text-brand-600 hover:text-brand-700'
+                : 'btn-action px-7 py-4'
+            }
           >
             Start a project like these
-            {!showAllLink && <Icons.arrow className="w-5 h-5" />}
+            {!showAllLink && !locked && <Icons.arrow className="w-5 h-5" />}
           </Link>
         </Reveal>
       </div>

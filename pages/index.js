@@ -20,58 +20,48 @@ import Testimonials from '../components/Testimonials'
 import CTA from '../components/CTA'
 import FAQ from '../components/FAQ'
 import Contact from '../components/Contact'
+import LinkGrid from '../components/LinkGrid'
 import { Icons } from '../components/Icons'
-import { site, faqs } from '../lib/site'
+import { site, faqs, services } from '../lib/site'
 import { logoPackages } from '../lib/pricing'
+import { catalogServices } from '../lib/catalog'
+import { industryPages } from '../lib/industries'
+import { locationPages } from '../lib/locations'
+import { guides } from '../lib/guides'
+import { ORG_ID, SITE_ID, faqSchema, itemListSchema } from '../lib/seo'
 
 const description =
-  'Get custom logo concepts within 24 hours. LogoOrbit delivers original logo design, websites, animation, mobile apps, book publication and Amazon marketing, with 100% ownership.'
+  'Get custom logo concepts within 24 hours. LogoOrbit delivers original logo design, brand identity, websites, UI/UX, animation, mobile apps, packaging, print and marketing creative, with 100% ownership.'
 
-export default function Home() {
+export default function Home({ hubs, popular, sectors, cities, reads }) {
+  // The Organization node lives in Layout so every page agrees on it. The home
+  // page adds the things that are genuinely page-level: the WebPage itself, the
+  // FAQ block below, and the list of what we sell.
   const jsonLd = {
-    '@context': 'https://schema.org',
     '@graph': [
       {
-        '@type': 'ProfessionalService',
-        '@id': `${site.url}/#business`,
-        name: site.name,
-        description,
+        '@type': 'WebPage',
+        '@id': `${site.url}/#webpage`,
         url: site.url,
-        logo: `${site.url}/logo.png`,
-        image: `${site.url}/logo.png`,
-        email: site.email,
-        telephone: site.phone,
-        priceRange: '$$',
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: '244 5th Ave. Suite 22',
-          addressLocality: 'New York',
-          addressRegion: 'NY',
-          postalCode: '10001',
-          addressCountry: 'US',
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: site.rating,
-          reviewCount: site.reviewCount,
-          bestRating: 5,
-        },
-        openingHoursSpecification: {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-          opens: '11:00',
-          closes: '20:00',
-        },
+        name: `${site.name} | Online Logo Maker & Custom Design Services`,
+        description,
+        isPartOf: { '@id': SITE_ID },
+        about: { '@id': ORG_ID },
+        primaryImageOfPage: { '@type': 'ImageObject', url: `${site.url}/og-image.png` },
       },
       {
-        '@type': 'FAQPage',
-        '@id': `${site.url}/#faq`,
-        mainEntity: faqs.map((f) => ({
-          '@type': 'Question',
-          name: f.q,
-          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        '@type': 'OfferCatalog',
+        '@id': `${site.url}/#catalog`,
+        name: 'LogoOrbit design services',
+        url: `${site.url}/services`,
+        provider: { '@id': ORG_ID },
+        itemListElement: services.map((s) => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: s.name, url: `${site.url}${s.href}` },
         })),
       },
+      itemListSchema({ path: '/', name: 'Design services', items: popular }),
+      faqSchema(faqs, '/'),
     ],
   }
 
@@ -118,9 +108,91 @@ export default function Home() {
       </section>
 
       <Testimonials />
+
+      {/* The home page is the strongest page on the site, so the three hubs
+          that hold the deeper pages together are linked from it directly
+          rather than being reachable only through the footer. */}
+      <LinkGrid
+        eyebrow="Find your way in"
+        title="Three ways to start"
+        body="By what you need making, by the sector you are in, or by reading up first. All three lead to the same team."
+        items={hubs}
+        tone="light"
+      />
+
+      <LinkGrid
+        eyebrow="Popular services"
+        title="The specific things people ask us for"
+        items={popular}
+        compact
+        tone="muted"
+      />
+
+      <LinkGrid eyebrow="By industry" title="Sectors we design for" items={sectors} compact tone="light" />
+
+      <LinkGrid eyebrow="Where we work" title="Clients on five continents" items={cities} compact tone="muted" />
+
+      <LinkGrid
+        eyebrow="Guides"
+        title="Straight answers, before you spend anything"
+        items={reads}
+        tone="light"
+      />
+
       <CTA />
       <FAQ />
       <Contact />
     </Layout>
   )
+}
+
+export function getStaticProps() {
+  return {
+    props: {
+      hubs: [
+        {
+          name: 'Every service we offer',
+          href: '/services',
+          description: `Six headline services and ${catalogServices.length} specialist ones underneath them, each with its own page and its own price.`,
+        },
+        {
+          name: 'Industries we design for',
+          href: '/industries',
+          description: `${industryPages.length} sectors, each written around the constraints that actually shape the brief in that market.`,
+        },
+        {
+          name: 'Guides and resources',
+          href: '/guides',
+          description: `${guides.length} guides on cost, file formats, rebranding, web design and working with designers.`,
+        },
+      ],
+      popular: catalogServices
+        .filter((s) =>
+          [
+            'brand-identity-design',
+            'business-card-design',
+            'packaging-design',
+            'ui-ux-design',
+            'landing-page-design',
+            'ecommerce-website-design',
+            'social-media-design',
+            'youtube-thumbnail-design',
+            'pitch-deck-design',
+            'brochure-design',
+            'vehicle-wrap-design',
+            'apparel-design',
+            'custom-illustration',
+            'motion-graphics',
+            'book-cover-design',
+            'design-subscription',
+          ].includes(s.slug)
+        )
+        .map((s) => ({ name: s.name, href: `/services/${s.slug}` })),
+      sectors: industryPages.map((i) => ({ name: i.name, href: `/industries/${i.slug}` })),
+      cities: locationPages.map((l) => ({ name: `${l.city}, ${l.country}`, href: `/locations/${l.slug}` })),
+      reads: guides
+        .slice(0, 6)
+        .map((g) => ({ name: g.title, href: `/guides/${g.slug}`, description: g.excerpt })),
+    },
+  }
 }

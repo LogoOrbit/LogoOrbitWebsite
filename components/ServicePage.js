@@ -8,27 +8,42 @@ import PricingSection from './PricingSection'
 import ProcessSteps from './ProcessSteps'
 import { BigPackage } from './PriceCard'
 import { Icons, serviceIcon } from './Icons'
+import FaqAccordion from './FaqAccordion'
+import LinkGrid from './LinkGrid'
 import { site } from '../lib/site'
 import { sectionById, bigPackageById } from '../lib/pricing'
+import { breadcrumb, faqSchema, serviceSchema } from '../lib/seo'
 
-export default function ServicePage({ page }) {
+export default function ServicePage({ page, related = [], industries = [], guides = [] }) {
   const Icon = serviceIcon[page.icon]
   const sections = (page.packages || []).map((id) => sectionById[id]).filter(Boolean)
   const bigPackages = (page.featureBig || []).map((id) => bigPackageById[id]).filter(Boolean)
+
   const jsonLd = {
-    '@type': 'Service',
-    '@id': `${site.url}${page.slug}#service`,
-    name: page.eyebrow,
-    description: page.metaDescription,
-    url: `${site.url}${page.slug}`,
-    provider: { '@id': `${site.url}/#organization` },
-    areaServed: 'US',
+    '@graph': [
+      serviceSchema({
+        path: page.slug,
+        name: page.eyebrow,
+        description: page.metaDescription,
+        price: page.price,
+        serviceType: page.eyebrow,
+      }),
+      breadcrumb([
+        { name: 'Services', href: '/services' },
+        { name: page.eyebrow, href: page.slug },
+      ]),
+      faqSchema(page.faqs, page.slug),
+    ].filter(Boolean),
   }
 
   return (
     <Layout title={page.metaTitle} description={page.metaDescription} path={page.slug} jsonLd={jsonLd}>
       <PageHero
         eyebrow={page.eyebrow}
+        trail={[
+          { name: 'Services', href: '/services' },
+          { name: page.eyebrow, href: page.slug },
+        ]}
         title={page.title}
         highlight={page.highlight}
         intro={page.intro}
@@ -127,6 +142,37 @@ export default function ServicePage({ page }) {
       )}
 
       <Guarantees />
+
+      <FaqAccordion items={page.faqs} heading={`${page.eyebrow} questions`} eyebrow="Before you order" tone="muted" />
+
+      {related.length > 0 && (
+        <LinkGrid
+          eyebrow="Goes with this"
+          title="The pieces clients usually add"
+          body="One team covers all of it, so nothing has to be handed to a second supplier halfway through."
+          items={related}
+          tone="light"
+        />
+      )}
+
+      {industries.length > 0 && (
+        <LinkGrid
+          eyebrow="By industry"
+          title={`${page.eyebrow} by sector`}
+          items={industries}
+          compact
+          tone="muted"
+        />
+      )}
+
+      {guides.length > 0 && (
+        <LinkGrid
+          eyebrow="Read first"
+          title="Guides worth reading before you commission this"
+          items={guides}
+          tone="light"
+        />
+      )}
 
       {/* CTA */}
       <section className="py-16 sm:py-20 bg-white">

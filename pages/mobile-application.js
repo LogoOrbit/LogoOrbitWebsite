@@ -1,6 +1,11 @@
 import ServicePage from '../components/ServicePage'
 import { servicePages } from '../lib/pages'
+import { serviceRelations } from '../lib/relations'
 
-export default function Page() {
-  return <ServicePage page={servicePages['mobile-application']} />
+export default function Page(props) {
+  return <ServicePage page={servicePages['mobile-application']} {...props} />
+}
+
+export function getStaticProps() {
+  return { props: serviceRelations('mobile-application') }
 }
