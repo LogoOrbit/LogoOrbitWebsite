@@ -11,8 +11,8 @@ const guarantees = [
   },
   {
     icon: Icons.check,
-    title: 'You own it outright',
-    body: 'Copyright transfers to you on delivery, along with the editable source files. No licence to renew and nothing to pay again later.',
+    title: 'Clear rights in writing',
+    body: 'Rights are stated in writing before you order. Logo copyright assignment and public or commercial use require the separate $499 signed certificate.',
   },
   {
     icon: Icons.spark,
@@ -29,13 +29,13 @@ export default function Guarantees() {
         <Reveal className="max-w-2xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-trust-100 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-trust-700">
             <Icons.shield className="w-4 h-4" />
-            Included every time
+            Clear commitments
           </span>
           <h2 className="mt-4 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
-            The same three things in every package
+            Three promises we put in writing
           </h2>
           <p className="mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">
-            Whatever you spend, these never change.
+            Your quote states what is included, what is separate and when any rights take effect.
           </p>
         </Reveal>
 

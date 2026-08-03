@@ -14,6 +14,7 @@ import { site } from '../lib/site'
 import { sectionById, bigPackageById } from '../lib/pricing'
 import { breadcrumb, faqSchema, serviceSchema } from '../lib/seo'
 import { resources } from '../lib/resources'
+import CopyrightOwnershipNotice from './CopyrightOwnershipNotice'
 
 const resourceMap = {
   '/logo-design': ['logo-design-process', 'logo-file-formats', 'logo-design-cost'],
@@ -76,8 +77,9 @@ export default function ServicePage({ page, related = [], industries = [], guide
                 What you get with <span className="text-gradient">{page.eyebrow}</span>
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-500">
-                Work with the same in-house team from first brief to final handover, no outsourcing, no
-                account-manager relay, and full ownership of everything we produce.
+                {page.slug === '/logo-design'
+                  ? 'Work with the same in-house team from first brief to final handover. The design package covers production; copyright ownership is transferred separately through our written certificate.'
+                  : 'Work with the same in-house team from first brief to final handover, no outsourcing, no account-manager relay, and a clear written handover.'}
               </p>
 
               <ul className="mt-8 grid sm:grid-cols-2 gap-x-6 gap-y-3">
@@ -122,6 +124,8 @@ export default function ServicePage({ page, related = [], industries = [], guide
           </div>
         </div>
       </section>
+
+      {page.slug === '/logo-design' && <CopyrightOwnershipNotice />}
 
       {/* Process */}
       <section className="py-16 sm:py-20 bg-slate-50">

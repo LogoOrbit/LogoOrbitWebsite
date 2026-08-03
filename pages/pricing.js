@@ -18,7 +18,7 @@ import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 const promises = [
   { icon: Icons.check, label: 'One fixed price', sub: 'quoted up front' },
   { icon: Icons.shield, label: 'Free consultation', sub: 'before you pay' },
-  { icon: Icons.spark, label: 'You own everything', sub: 'copyright included' },
+  { icon: Icons.spark, label: 'Rights in writing', sub: 'logo assignment sold separately' },
 ]
 
 /** What a client can hand us, in the words they would use. */

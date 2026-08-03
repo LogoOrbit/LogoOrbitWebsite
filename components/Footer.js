@@ -15,6 +15,7 @@ const exploreLinks = [
   { label: 'Contact Us', href: '/contact' },
   { label: 'Design Resources', href: '/resources' },
   { label: 'Design Glossary', href: '/glossary' },
+  { label: 'Copyright Certificate', href: '/copyright-certificate' },
 ]
 
 /**

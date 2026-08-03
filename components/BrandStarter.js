@@ -527,7 +527,7 @@ export default function BrandStarter() {
                 <ul className="mt-4 space-y-1.5 text-sm text-ink-500">
                   {[
                     'Full-resolution, unblurred preview',
-                    'Vector source files and full ownership',
+                    'Vector source files; logo copyright certificate available separately',
                     'Unlimited revisions until it is right',
                   ].map((line) => (
                     <li key={line} className="flex items-start gap-2">

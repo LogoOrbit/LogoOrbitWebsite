@@ -29,6 +29,11 @@ const route = [
 
 const documents = [
   {
+    href: '/copyright-certificate',
+    title: 'Copyright Assignment Certificate',
+    body: 'The separate $499 written transfer required before a LogoOrbit logo may be used publicly or commercially.',
+  },
+  {
     href: '/terms',
     title: 'Terms & Conditions',
     body: 'Revisions, delivery, copyright transfer, trademark filings, billing and cancellation.',
@@ -102,7 +107,7 @@ export default function LegalPage() {
             body="We keep the legal route deliberately short, because the questions that end up here are usually the ones somebody is anxious about."
           />
 
-          <div className="mt-12 grid md:grid-cols-3 gap-5">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {route.map((r, i) => (
               <Reveal key={r.step} delay={i * 90}>
                 <div className="h-full rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl">

@@ -7,6 +7,7 @@ import { BigPackage } from './PriceCard'
 import { Icons } from './Icons'
 import { addOnArt, toneVars } from './Illustrations'
 import { addOns, brandProtection, categories, finder, money } from '../lib/pricing'
+import CopyrightOwnershipNotice from './CopyrightOwnershipNotice'
 
 const tabIcon = {
   layers: Icons.layers,
@@ -478,6 +479,7 @@ export default function PricingCatalogue() {
         <Category key={c.id} category={c} tone={i % 2 === 0 ? 'muted' : 'light'} />
       ))}
 
+      <CopyrightOwnershipNotice />
       <BrandProtection />
       <AddOns />
     </>

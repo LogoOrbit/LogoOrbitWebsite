@@ -3,7 +3,7 @@ import { site } from '../lib/site'
 
 const points = [
   { icon: Icons.shield, label: 'Unlimited revisions', sub: 'on Gold and above' },
-  { icon: Icons.check, label: '100% ownership', sub: 'copyright transferred' },
+  { icon: Icons.check, label: 'Rights in writing', sub: 'logo certificate available' },
   { icon: Icons.clock, label: '24-hour', sub: 'first concepts' },
   { icon: Icons.team, label: 'In-house team', sub: 'based in the USA' },
 ]

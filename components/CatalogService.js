@@ -18,7 +18,7 @@ const promises = [
   { icon: Icons.spark, title: 'Drawn for you', body: 'Original work every time. Nothing templated, nothing resold to anyone else.' },
   { icon: Icons.clock, title: 'Fast turnaround', body: 'First work back within 24 to 48 hours on most briefs, sooner if you have a deadline.' },
   { icon: Icons.shield, title: 'Revisions until right', body: 'No counter running in the background. We keep going until you are happy with it.' },
-  { icon: Icons.check, title: 'You own everything', body: 'Full copyright transferred in writing, with every source file, on delivery.' },
+  { icon: Icons.check, title: 'Rights stated clearly', body: 'Every quote explains the file handover and any separate ownership document before you order.' },
 ]
 
 export default function CatalogService({ service, related, guides = [] }) {
@@ -75,7 +75,7 @@ export default function CatalogService({ service, related, guides = [] }) {
           </a>
         </div>
         <p className="mt-5 text-[14px] text-white/60">
-          {service.priceLabel} · free consultation · full copyright included
+          {service.priceLabel} · free consultation · written scope before you order
         </p>
       </PageHero>
 

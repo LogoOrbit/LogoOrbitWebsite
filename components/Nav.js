@@ -134,13 +134,16 @@ export default function Nav() {
 
   return (
     <>
-      <div className="hidden md:block bg-ink-900 text-white/80 text-[13px]">
-        <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-between">
-          <p className="flex items-center gap-2">
-            <Icons.spark className="w-4 h-4 text-flare-400" />
-            Free design consultation, first concepts back in under 24 hours.
+      <div className="bg-ink-900 text-white/80 text-[12px] sm:text-[13px]">
+        <div className="mx-auto flex min-h-9 max-w-7xl items-center justify-center px-4 py-2 md:justify-between md:px-6 md:py-0">
+          <p className="flex items-center gap-2 text-center md:text-left">
+            <Icons.shield className="hidden h-4 w-4 shrink-0 text-flare-400 sm:block" />
+            <span>Logo copyright transfers only through our separate $499 written certificate.</span>
+            <Link href="/copyright-certificate" className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
+              Learn more
+            </Link>
           </p>
-          <div className="flex items-center gap-5">
+          <div className="hidden items-center gap-5 md:flex">
             <span className="flex items-center gap-1.5">
               <Icons.clock className="w-4 h-4" /> {site.hours}
             </span>

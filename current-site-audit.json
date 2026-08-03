@@ -1,0 +1,42 @@
+[
+  {
+    "href": "https://cinegmafilms.com/",
+    "category": "Current",
+    "live": true,
+    "status": 200,
+    "finalUrl": "https://cinegmafilms.com/",
+    "title": "Pakistani Filmmaker Syed Asad Raza Abidi — Cinegma Films",
+    "description": "Cinegma Films is the independent production banner of Pakistani filmmaker Syed Asad Raza Abidi — director, editor, colorist and founder based in Karachi. Creator of Janjaal (Tussle), winner of 14 international awards across 9 countries.",
+    "elapsedMs": 476
+  },
+  {
+    "href": "https://www.themindcareservices.com/",
+    "category": "Current",
+    "live": true,
+    "status": 200,
+    "finalUrl": "https://www.themindcareservices.com/",
+    "title": "MindCare Services — Therapy & Mental Health in Karachi",
+    "description": "Warm, evidence-based therapy and rehab care in Karachi — in clinic, at home, or online. Book a free consultation with MindCare Services.",
+    "elapsedMs": 426
+  },
+  {
+    "href": "https://omniconvert-two.vercel.app/",
+    "category": "Current",
+    "live": true,
+    "status": 200,
+    "finalUrl": "https://omniconvert-two.vercel.app/",
+    "title": "OmniConvert — Free Online File Converter",
+    "description": "Convert documents, images, audio, video, archives, eBooks, fonts and 3D files online for free. Merge, split, compress and OCR PDFs. No watermarks, no limits, open source.",
+    "elapsedMs": 453
+  },
+  {
+    "href": "https://domainhunter-ai.vercel.app/",
+    "category": "Current",
+    "live": true,
+    "status": 200,
+    "finalUrl": "https://domainhunter-ai.vercel.app/",
+    "title": "DomainHunter AI",
+    "description": "Discover, evaluate, and prioritize evidence-backed potential buyers for premium domains.",
+    "elapsedMs": 1161
+  }
+]

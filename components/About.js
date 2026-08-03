@@ -8,7 +8,7 @@ const highlights = [
   'Original, hand-crafted concepts, never templates',
   'In-house design team based in the USA',
   'Free design consultation before you commit',
-  'Full copyright ownership on every package',
+  'Project-specific logo copyright assignment available for $499',
 ]
 
 export default function About() {
