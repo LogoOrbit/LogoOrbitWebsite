@@ -172,7 +172,8 @@
       "Live website"
     ],
     "accent": "#14532d",
-    "accent2": "#16a34a"
+    "accent2": "#16a34a",
+    "shot": "/portfolio/websites/lauragoodsonart-com.webp"
   },
   {
     "slug": "mesonart-com",
@@ -187,7 +188,8 @@
       "Live website"
     ],
     "accent": "#4c1d95",
-    "accent2": "#8b5cf6"
+    "accent2": "#8b5cf6",
+    "shot": "/portfolio/websites/mesonart-com.webp"
   },
   {
     "slug": "joseartgallery-com",
@@ -234,7 +236,8 @@
       "Live website"
     ],
     "accent": "#0f172a",
-    "accent2": "#2563eb"
+    "accent2": "#2563eb",
+    "shot": "/portfolio/websites/jacoblovettart-com.webp"
   },
   {
     "slug": "davidlarned-com",
@@ -313,7 +316,8 @@
       "Live website"
     ],
     "accent": "#1e3a8a",
-    "accent2": "#0284c7"
+    "accent2": "#0284c7",
+    "shot": "/portfolio/websites/fallenpatriots-org.webp"
   },
   {
     "slug": "milestonebaptist-com",
@@ -392,7 +396,8 @@
       "Live website"
     ],
     "accent": "#4c1d95",
-    "accent2": "#8b5cf6"
+    "accent2": "#8b5cf6",
+    "shot": "/portfolio/websites/casey-org.webp"
   },
   {
     "slug": "childtrends-org",
@@ -407,7 +412,8 @@
       "Live website"
     ],
     "accent": "#7c2d12",
-    "accent2": "#ea580c"
+    "accent2": "#ea580c",
+    "shot": "/portfolio/websites/childtrends-org.webp"
   },
   {
     "slug": "healthyfamiliesamerica-org",
@@ -470,7 +476,8 @@
       "Live website"
     ],
     "accent": "#0f172a",
-    "accent2": "#2563eb"
+    "accent2": "#2563eb",
+    "shot": "/portfolio/websites/navigatelifetexas-org.webp"
   },
   {
     "slug": "centerstreetlending-com",
@@ -773,7 +780,8 @@
       "Live website"
     ],
     "accent": "#4c1d95",
-    "accent2": "#8b5cf6"
+    "accent2": "#8b5cf6",
+    "shot": "/portfolio/websites/luvansh-com.webp"
   },
   {
     "slug": "bluenile-com",
@@ -804,7 +812,8 @@
       "Live website"
     ],
     "accent": "#1e3a8a",
-    "accent2": "#0284c7"
+    "accent2": "#0284c7",
+    "shot": "/portfolio/websites/sydneyevan-com.webp"
   },
   {
     "slug": "us-pasqualebruni-com",
@@ -819,7 +828,8 @@
       "Live website"
     ],
     "accent": "#3f3f46",
-    "accent2": "#71717a"
+    "accent2": "#71717a",
+    "shot": "/portfolio/websites/us-pasqualebruni-com.webp"
   },
   {
     "slug": "kravitjewelers-com",
@@ -834,7 +844,8 @@
       "Live website"
     ],
     "accent": "#0f172a",
-    "accent2": "#2563eb"
+    "accent2": "#2563eb",
+    "shot": "/portfolio/websites/kravitjewelers-com.webp"
   },
   {
     "slug": "annasheffield-com",
@@ -849,7 +860,8 @@
       "Live website"
     ],
     "accent": "#164e63",
-    "accent2": "#0891b2"
+    "accent2": "#0891b2",
+    "shot": "/portfolio/websites/annasheffield-com.webp"
   },
   {
     "slug": "langerman-diamonds-com",
@@ -864,7 +876,8 @@
       "Live website"
     ],
     "accent": "#14532d",
-    "accent2": "#16a34a"
+    "accent2": "#16a34a",
+    "shot": "/portfolio/websites/langerman-diamonds-com.webp"
   },
   {
     "slug": "berniesandsonjeweler-com",
@@ -895,7 +908,8 @@
       "Live website"
     ],
     "accent": "#701a75",
-    "accent2": "#d946ef"
+    "accent2": "#d946ef",
+    "shot": "/portfolio/websites/kwfloors-com.webp"
   },
   {
     "slug": "kristynik-com",
@@ -1054,7 +1068,8 @@
       "Live website"
     ],
     "accent": "#3f3f46",
-    "accent2": "#71717a"
+    "accent2": "#71717a",
+    "shot": "/portfolio/websites/flstranslation-com.webp"
   },
   {
     "slug": "universal-translation-services-com",
@@ -1069,7 +1084,8 @@
       "Live website"
     ],
     "accent": "#0f172a",
-    "accent2": "#2563eb"
+    "accent2": "#2563eb",
+    "shot": "/portfolio/websites/universal-translation-services-com.webp"
   },
   {
     "slug": "jrlanguage-com",
@@ -1100,7 +1116,8 @@
       "Live website"
     ],
     "accent": "#14532d",
-    "accent2": "#16a34a"
+    "accent2": "#16a34a",
+    "shot": "/portfolio/websites/flightelf-com.webp"
   },
   {
     "slug": "enterprise-dronenerds-com",
@@ -1163,7 +1180,8 @@
       "Live website"
     ],
     "accent": "#1e3a8a",
-    "accent2": "#0284c7"
+    "accent2": "#0284c7",
+    "shot": "/portfolio/websites/ulctechnologies-com.webp"
   },
   {
     "slug": "gpscentral-ca",
@@ -1321,7 +1339,8 @@
       "Live website"
     ],
     "accent": "#164e63",
-    "accent2": "#0891b2"
+    "accent2": "#0891b2",
+    "shot": "/portfolio/websites/certapro-com.webp"
   },
   {
     "slug": "servicesplus-net",
@@ -1416,7 +1435,8 @@
       "Live website"
     ],
     "accent": "#3f3f46",
-    "accent2": "#71717a"
+    "accent2": "#71717a",
+    "shot": "/portfolio/websites/ridecorrectconnect-com.webp"
   },
   {
     "slug": "sunnybrookhorses-com",
