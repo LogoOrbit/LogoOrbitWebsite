@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import Link from 'next/link'
-import { site, services, legalCounsel, whatsapp, whatsappLink } from '../lib/site'
+import { site, services, salesTeam, legalCounsel, whatsapp, whatsappLink } from '../lib/site'
 
 const empty = { name: '', email: '', phone: '', service: '', message: '', consent: false, website: '' }
 
@@ -120,6 +120,26 @@ export default function Contact({ showIntro = true }) {
                 </span>
               </span>
             </a>
+
+            {/* A new enquiry can skip the shared inbox and go straight to the
+                person who will price it. */}
+            <div className="flex items-start gap-4 rounded-2xl border border-slate-200 p-4">
+              <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-brand-50 text-brand-600">
+                <Icons.team className="w-5.5 h-5.5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm text-ink-500">Sales, for a quote on a new project</span>
+                {salesTeam.map((person) => (
+                  <a
+                    key={person.email}
+                    href={`mailto:${person.email}?subject=Project%20enquiry`}
+                    className="block truncate font-semibold text-ink-900 hover:text-brand-600 transition-colors"
+                  >
+                    {person.name} · {person.email}
+                  </a>
+                ))}
+              </span>
+            </div>
 
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 p-4">
               <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-flare-400/15 text-flare-500">

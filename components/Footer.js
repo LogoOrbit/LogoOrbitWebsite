@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
 import BrandMark from './BrandMark'
-import { site, services, legalLinks, whatsapp, whatsappLink } from '../lib/site'
+import { site, services, salesTeam, legalLinks, whatsapp, whatsappLink } from '../lib/site'
 
 const exploreLinks = [
   { label: 'Home', href: '/' },
@@ -88,12 +88,20 @@ export default function Footer() {
                 {site.email}
               </a>
               <Link
+                href="/contact#sales"
+                className="flex items-center gap-2.5 text-[14px] hover:text-white transition-colors"
+              >
+                <Icons.team className="w-4.5 h-4.5 text-orbit-400" />
+                {salesTeam.map((p) => p.name.split(' ')[0]).join(' or ')}
+                <span className="text-white/40">sales</span>
+              </Link>
+              <Link
                 href="/legal"
                 className="flex items-center gap-2.5 text-[14px] hover:text-white transition-colors"
               >
                 <Icons.scales className="w-4.5 h-4.5 text-orbit-400" />
                 {site.legalEmail}
-                <span className="text-white/40">legal</span>
+                <span className="text-white/40">legal, email only</span>
               </Link>
               <p className="flex items-center gap-2.5">
                 <Icons.clock className="w-4.5 h-4.5 text-orbit-400" />

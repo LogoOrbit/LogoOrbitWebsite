@@ -2,16 +2,17 @@ import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
 import TrustBar from '../components/TrustBar'
 import Contact from '../components/Contact'
+import SalesTeam from '../components/SalesTeam'
 import FAQ from '../components/FAQ'
 import LegalCounsel from '../components/LegalCounsel'
 import LinkGrid from '../components/LinkGrid'
 import { Icons } from '../components/Icons'
-import { site, faqs, whatsapp, whatsappLink } from '../lib/site'
+import { site, faqs, salesTeam, whatsapp, whatsappLink } from '../lib/site'
 import { locationPages } from '../lib/locations'
 import { ORG_ID, SITE_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
 export default function ContactPage({ cities }) {
-  const description = `Talk to the LogoOrbit design team. Call ${site.phone}, message ${whatsapp.display} on WhatsApp, email ${site.email}, or send a brief for a free consultation and fixed quote.`
+  const description = `Talk to the LogoOrbit design team. Call ${site.phone}, message ${whatsapp.display} on WhatsApp, email ${site.email}, or write to Brock or Sam in sales for a fixed quote on a new project.`
 
   const jsonLd = {
     '@graph': [
@@ -26,6 +27,13 @@ export default function ContactPage({ cities }) {
       },
       breadcrumb([{ name: 'Contact', href: '/contact' }]),
       faqSchema(faqs, '/contact'),
+      ...salesTeam.map((person) => ({
+        '@type': 'Person',
+        name: person.name,
+        jobTitle: person.role,
+        email: person.email,
+        worksFor: { '@id': ORG_ID },
+      })),
     ],
   }
 
@@ -64,6 +72,7 @@ export default function ContactPage({ cities }) {
 
       <TrustBar />
       <Contact showIntro={false} />
+      <SalesTeam />
       <LegalCounsel compact />
       <FAQ />
 

@@ -1,6 +1,6 @@
 import Reveal from './Reveal'
 import { Icons } from './Icons'
-import { legalCounsel, whatsapp, whatsappLink } from '../lib/site'
+import { legalCounsel, site } from '../lib/site'
 
 /**
  * The shared skeleton for terms and privacy: a plain-English summary card, a
@@ -119,15 +119,17 @@ export default function PolicyPage({ summaryTitle, summary, sections, updated })
                     {legalCounsel.email}
                   </a>
                   <a
-                    href={whatsappLink('Hi Greg, I have a question about the LogoOrbit policies.')}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-[#25d366] bg-white px-6 py-3.5 font-semibold text-ink-900 hover:bg-[#25d366]/10 transition-colors"
+                    href={`mailto:${site.email}`}
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3.5 font-semibold text-ink-900 hover:border-brand-300 transition-colors"
                   >
-                    <Icons.whatsapp className="w-4.5 h-4.5 text-[#128c4a]" />
-                    {whatsapp.display}
+                    <Icons.mail className="w-4.5 h-4.5 text-brand-600" />
+                    {site.email}
                   </a>
                 </div>
+                <p className="mt-4 text-[13px] leading-relaxed text-ink-500">
+                  Email is the only way to reach the legal desk. Anything about an order, a file or a price is
+                  faster through support, on {site.email}, the phone or WhatsApp.
+                </p>
               </div>
             </Reveal>
           </div>

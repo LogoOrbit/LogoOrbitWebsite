@@ -1,18 +1,18 @@
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import LawyerAvatar from './LawyerAvatar'
-import { legalCounsel, whatsapp, whatsappLink } from '../lib/site'
-
-const waMessage = `Hi Greg, I have a legal question about my LogoOrbit project.`
+import { legalCounsel, site } from '../lib/site'
 
 /**
  * The legal desk, put on the page as a person rather than as an address.
  *
  * Most sites bury this in a footer line and a generic inbox, so nobody is
  * sure whether anyone is on the other end. Showing the counsel, what he is
- * admitted to practise, which teams sit under him and the two ways to reach
- * him answers the only question a worried client actually has: is there a
- * real lawyer here, and how fast can I speak to them.
+ * admitted to practise and which teams sit under him answers the only
+ * question a worried client actually has: is there a real lawyer here.
+ *
+ * There is one route to him and it is email. The WhatsApp number belongs to
+ * the support team, so it is deliberately not offered here.
  */
 export default function LegalCounsel({ compact = false }) {
   return (
@@ -71,7 +71,7 @@ export default function LegalCounsel({ compact = false }) {
                   ))}
                 </ul>
 
-                <div className="mt-8 grid sm:grid-cols-2 gap-3">
+                <div className="mt-8">
                   <a
                     href={`mailto:${legalCounsel.email}?subject=Legal%20enquiry`}
                     className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 transition-colors hover:border-brand-300"
@@ -81,33 +81,18 @@ export default function LegalCounsel({ compact = false }) {
                     </span>
                     <span className="min-w-0">
                       <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-ink-300">
-                        Email the legal team
+                        The only way to reach Greg
                       </span>
                       <span className="block truncate font-semibold text-ink-900">{legalCounsel.email}</span>
-                    </span>
-                  </a>
-
-                  <a
-                    href={whatsappLink(waMessage)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-2xl border border-[#25d366]/40 bg-[#25d366]/8 px-4 py-3.5 transition-colors hover:border-[#25d366]"
-                  >
-                    <span className="grid shrink-0 place-items-center w-10 h-10 rounded-xl bg-[#25d366] text-white">
-                      <Icons.whatsapp className="w-5 h-5" />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block text-[11px] font-bold uppercase tracking-[0.14em] text-ink-300">
-                        WhatsApp
-                      </span>
-                      <span className="block truncate font-semibold text-ink-900">{whatsapp.display}</span>
                     </span>
                   </a>
                 </div>
 
                 <p className="mt-4 text-[13px] leading-relaxed text-ink-500">
-                  Legal messages are answered in the order they arrive, normally within one working day. Design and
-                  order questions are faster through support, that inbox is watched all day.
+                  Email is the only route to the legal desk, so that every question arrives in writing with a record
+                  attached. Messages are answered in the order they arrive, normally within one working day. Our
+                  phone and WhatsApp lines are support lines, they do not reach Greg, and design or order questions
+                  are faster through {site.email}, that inbox is watched all day.
                 </p>
               </div>
             </div>

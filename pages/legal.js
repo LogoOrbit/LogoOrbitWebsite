@@ -6,14 +6,14 @@ import Reveal from '../components/Reveal'
 import SectionHeading from '../components/SectionHeading'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
-import { site, legalCounsel, whatsapp, whatsappLink } from '../lib/site'
+import { site, legalCounsel } from '../lib/site'
 
 /** Where legal questions go, and what happens after they arrive. */
 const route = [
   {
     step: '01',
     title: 'Send it in writing',
-    body: 'Email the legal address, or message the WhatsApp number for anything short. Include the order name so we can pull the file while we read.',
+    body: `Email ${legalCounsel.email}. It is the only route to the legal desk, and it keeps a record of what was asked. Include the order name so we can pull the file while we read.`,
   },
   {
     step: '02',
@@ -49,7 +49,7 @@ export default function LegalPage() {
   return (
     <Layout
       title="Legal & Compliance"
-      description={`${legalCounsel.name}, ${legalCounsel.role} at LogoOrbit, handles copyright, trademark filings, brand protection and privacy requests. Reach the legal desk by email or WhatsApp.`}
+      description={`${legalCounsel.name}, ${legalCounsel.role} at LogoOrbit, handles copyright, trademark filings, brand protection and privacy requests. Reach the legal desk by email at ${legalCounsel.email}.`}
       path="/legal"
       jsonLd={{
         '@type': 'ContactPage',
@@ -60,7 +60,6 @@ export default function LegalPage() {
           name: legalCounsel.name,
           jobTitle: legalCounsel.role,
           email: legalCounsel.email,
-          telephone: whatsapp.display,
           worksFor: { '@id': `${site.url}/#organization` },
           memberOf: { '@type': 'Organization', name: legalCounsel.bar },
         },
@@ -79,15 +78,16 @@ export default function LegalPage() {
             {legalCounsel.email}
           </a>
           <a
-            href={whatsappLink('Hi Greg, I have a legal question about my LogoOrbit project.')}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`mailto:${site.email}`}
             className="inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white hover:bg-white/20 transition-colors"
           >
-            <Icons.whatsapp className="w-5 h-5" />
-            WhatsApp the legal desk
+            <Icons.mail className="w-5 h-5" />
+            Not a legal question? {site.email}
           </a>
         </div>
+        <p className="mt-5 text-[14px] text-white/70">
+          Email is the only way to reach the legal desk. Our phone and WhatsApp lines are answered by support.
+        </p>
       </PageHero>
 
       <LegalCounsel />
