@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { Icons } from './Icons'
 import BrandMark from './BrandMark'
 import ThemeToggle from './ThemeToggle'
+import SearchOverlay from './SearchOverlay'
 import { nav, site } from '../lib/site'
 
 function Wordmark({ light }) {
@@ -95,7 +96,26 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
   const [solid, setSolid] = useState(false)
   const [openGroup, setOpenGroup] = useState(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [shortcutLabel, setShortcutLabel] = useState('Ctrl K')
   const menuButtonRef = useRef(null)
+
+  useEffect(() => {
+    if (/Mac|iPhone|iPad|iPod/.test(window.navigator.platform || window.navigator.userAgent)) {
+      setShortcutLabel('⌘K')
+    }
+  }, [])
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 40)
@@ -187,6 +207,26 @@ export default function Nav() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search the site"
+              className={`flex items-center gap-2 rounded-full border px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                light
+                  ? 'border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
+                  : 'border-slate-200 text-ink-500 hover:border-brand-300 hover:text-brand-600'
+              }`}
+            >
+              <Icons.search className="w-4 h-4" />
+              <span className="hidden xl:inline">Search</span>
+              <span
+                className={`hidden xl:inline rounded border px-1.5 py-0.5 text-[11px] font-normal ${
+                  light ? 'border-white/25 text-white/70' : 'border-slate-200 text-ink-400'
+                }`}
+              >
+                {shortcutLabel}
+              </span>
+            </button>
             <ThemeToggle light={light} />
             <a
               href={site.phoneHref}
@@ -207,6 +247,14 @@ export default function Nav() {
           </div>
 
           <div className="flex items-center gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search the site"
+              className={`p-2 rounded-lg ${light ? 'text-white' : 'text-ink-900'}`}
+            >
+              <Icons.search className="w-6 h-6" />
+            </button>
             <ThemeToggle light={light} />
             <button
               ref={menuButtonRef}
@@ -333,6 +381,8 @@ export default function Nav() {
           </div>
         </div>
       </div>
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   )
 }

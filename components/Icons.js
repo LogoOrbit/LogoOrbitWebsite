@@ -151,6 +151,12 @@ export const Icons = {
       <path d="M12 5.5v13M5.5 12h13" />
     </Svg>
   ),
+  search: (p) => (
+    <Svg {...p}>
+      <circle cx="10.8" cy="10.8" r="6.8" />
+      <path d="M20 20l-4.6-4.6" />
+    </Svg>
+  ),
   scales: (p) => (
     <Svg {...p}>
       <path d="M12 4.2v15.4M8.4 19.6h7.2" />
