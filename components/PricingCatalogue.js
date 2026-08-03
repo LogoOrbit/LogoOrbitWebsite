@@ -5,6 +5,7 @@ import CardRow from './CardRow'
 import CompareTable from './CompareTable'
 import { BigPackage } from './PriceCard'
 import { Icons } from './Icons'
+import { addOnArt, toneVars } from './Illustrations'
 import { addOns, brandProtection, categories, finder, money } from '../lib/pricing'
 
 const tabIcon = {
@@ -69,39 +70,137 @@ function BrandProtection() {
   )
 }
 
-/** The optional extras, kept out of the tier cards so they stay readable. */
+/**
+ * The optional extras, kept out of the tier cards so they stay readable.
+ *
+ * These were seven identical white boxes with the same small blue icon in the
+ * corner, which is the one part of the catalogue nobody stopped to read. Each
+ * extra now carries its own drawn scene and colour way, the same pair the
+ * service cards use, so the row can be told apart from the pictures, and the
+ * price sits in a tag at the top right rather than buried under the copy.
+ */
 function AddOns() {
   return (
-    <section id={addOns.id} className="scroll-mt-16 sm:scroll-mt-60 lg:scroll-mt-44 py-10 sm:py-20 bg-slate-50">
+    <section
+      id={addOns.id}
+      className="relative isolate overflow-hidden scroll-mt-16 sm:scroll-mt-60 lg:scroll-mt-44 py-10 sm:py-20 bg-slate-50"
+    >
+      {/* Two soft washes so the band behind the cards is not a flat grey. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-28 top-8 -z-10 h-72 w-72 rounded-full bg-brand-200/40 blur-3xl"
+      />
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 bottom-0 -z-10 h-80 w-80 rounded-full bg-orbit-200/40 blur-3xl"
+      />
+
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <Reveal className="max-w-3xl">
-          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Optional extras</span>
+          <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.18em] text-brand-600">
+            <Icons.spark className="w-4 h-4" />
+            Optional extras
+          </span>
           <h2 className="mt-4 text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-tight text-ink-900">
             {addOns.title}
           </h2>
-          <p className="mt-3 text-[15px] sm:text-lg leading-relaxed text-ink-500">{addOns.plain}</p>
+          <span className="mt-4 block h-1.5 w-20 rounded-full bg-gradient-to-r from-action-500 to-orbit-400" aria-hidden="true" />
+          <p className="mt-3 sm:mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">{addOns.plain}</p>
         </Reveal>
 
         <div className="mt-8 sm:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
           {addOns.items.map((item, i) => {
-            const Icon = tabIcon[item.icon] || Icons.spark
+            const Art = addOnArt[item.art] || addOnArt.social
             return (
               <Reveal key={item.name} delay={i * 60} className="h-full">
-                <div className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lg">
-                  <span className="grid place-items-center w-10 h-10 rounded-xl bg-brand-50 text-brand-600">
-                    <Icon className="w-5 h-5" />
+                <article
+                  className="group card-lift relative flex h-full flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white p-5 sm:p-6 shadow-sm"
+                  style={toneVars(item.tone)}
+                >
+                  <span className="absolute inset-x-0 top-0 h-1 accent-rule" aria-hidden="true" />
+                  <span
+                    className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full accent-band blur-xl"
+                    aria-hidden="true"
+                  />
+
+                  <div className="relative flex items-start justify-between gap-3">
+                    <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl accent-band accent-ring">
+                      <Art className="h-11 w-11 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3" />
+                    </span>
+
+                    {/* The price as a tag rather than a line of body copy, so a
+                        reader skimming the row gets the numbers for free. */}
+                    <span className="shrink-0 rounded-2xl accent-chip px-3.5 py-2 text-right">
+                      <span className="block text-[17px] font-bold leading-none tabular-nums">
+                        {item.from && <span className="text-[11px] font-semibold opacity-70">from </span>}
+                        {money(item.price)}
+                      </span>
+                      <span className="mt-1.5 block text-[10px] font-bold uppercase tracking-[0.14em] opacity-75">
+                        {item.per || 'one-off'}
+                      </span>
+                    </span>
+                  </div>
+
+                  <span className="relative mt-4 block text-[10.5px] font-bold uppercase tracking-[0.16em] accent-text">
+                    {item.kind}
                   </span>
-                  <h3 className="mt-4 text-lg font-bold text-ink-900">{item.name}</h3>
-                  <p className="mt-2 flex-1 text-[14px] leading-relaxed text-ink-500">{item.body}</p>
-                  <p className="mt-4 text-[15px] font-bold text-ink-900">
-                    {item.from && <span className="text-[13px] font-medium text-ink-300">from </span>}
-                    {money(item.price)}
-                    <span className="ml-1 text-[13px] font-medium text-ink-300">{item.per || 'one-off'}</span>
-                  </p>
-                </div>
+                  <h3 className="relative mt-1 text-[19px] font-bold leading-snug text-ink-900">{item.name}</h3>
+                  <p className="relative mt-2 text-[14px] leading-relaxed text-ink-500">{item.body}</p>
+
+                  {item.tiers && (
+                    <ul className="relative mt-4 flex flex-wrap gap-1.5">
+                      {item.tiers.map((t) => (
+                        <li
+                          key={t.qty}
+                          className="rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-[12px] font-semibold text-ink-700"
+                        >
+                          {t.qty} <span className="accent-text">{money(t.price)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* Pushed to the bottom so the links line up across a row of
+                      cards whose descriptions are different lengths. */}
+                  <div className="relative mt-auto pt-5">
+                    <Link
+                      href="/brief"
+                      className="inline-flex items-center gap-1.5 text-[13.5px] font-bold accent-text transition-transform duration-200 group-hover:translate-x-1"
+                    >
+                      Add this to my quote
+                      <Icons.arrow className="h-4 w-4 shrink-0" />
+                    </Link>
+                  </div>
+                </article>
               </Reveal>
             )
           })}
+
+          {/* Seven cards leave a hole at the end of a three-up row. This fills
+              it with the thing someone reading a list of extras actually needs
+              next, rather than with whitespace, and takes both remaining
+              columns so the row closes cleanly. */}
+          <Reveal delay={addOns.items.length * 60} className="h-full lg:col-span-2">
+            <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[28px] border border-dashed border-brand-300 bg-brand-50/60 p-6 sm:p-8">
+              <span className="absolute inset-0 accent-dots opacity-50" style={toneVars('blue')} aria-hidden="true" />
+              <div className="relative max-w-lg">
+                <span className="grid h-11 w-11 place-items-center rounded-2xl bg-white text-brand-600 shadow-sm">
+                  <Icons.spark className="h-5 w-5" />
+                </span>
+                <h3 className="mt-4 text-[21px] sm:text-2xl font-bold leading-snug text-ink-900">
+                  Not sure which of these you need?
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-500">
+                  Tell us what the job is and we will put the package and any extras into one written quote, with
+                  nothing added that you would not use.
+                </p>
+                <Link href="/brief" className="btn-action mt-5 px-6 py-3.5">
+                  Get a quote with extras
+                  <Icons.arrow className="h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

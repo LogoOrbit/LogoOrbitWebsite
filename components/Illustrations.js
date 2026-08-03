@@ -388,6 +388,185 @@ function SubtitleArt(p) {
   )
 }
 
+/* ---------------------------------------------------------------- add-ons */
+
+/** A fanned stack of printed cards, the top one carrying the mark. */
+function CardsArt(p) {
+  return (
+    <Small {...p}>
+      <g transform="rotate(-13 32 38)">
+        <rect x="8" y="24" width="46" height="28" rx="5" fill={FAINT} stroke={EDGE} strokeWidth="1.6" />
+      </g>
+      <g transform="rotate(-6 32 36)">
+        <rect x="9" y="20" width="46" height="28" rx="5" fill="#e0e7ff" stroke={EDGE} strokeWidth="1.6" />
+      </g>
+      <g className="a-float">
+        <rect x="10" y="14" width="46" height="28" rx="5" fill={PAPER} stroke={EDGE} strokeWidth="1.8" />
+        <circle className="a-pulse" cx="22" cy="24" r="5.5" fill="#2563eb" />
+        <rect x="31" y="21" width="18" height="3.4" rx="1.7" fill="#93c5fd" />
+        <rect x="31" y="28" width="12" height="3" rx="1.5" fill={FAINT} />
+        <rect x="17" y="34" width="26" height="3" rx="1.5" fill={FAINT} />
+      </g>
+      <Sparkle x="56" y="12" s={1} fill="#f97316" />
+    </Small>
+  )
+}
+
+/** A globe wired to a server: the domain, then the box it lives on. */
+function HostingArt(p) {
+  return (
+    <Small {...p}>
+      <g className="a-float">
+        <circle cx="26" cy="22" r="15" fill="#ede9fe" stroke="#7c3aed" strokeWidth="2.2" />
+        <path d="M11 22h30M26 7c7 8 7 22 0 30M26 7c-7 8-7 22 0 30" stroke="#7c3aed" strokeWidth="2" />
+      </g>
+      {/* The link from the name to the machine, pulsing along. */}
+      <path d="M41 30c8 2 10 6 10 10" stroke="#c4b5fd" strokeWidth="2.4" strokeLinecap="round" strokeDasharray="3 4" />
+      <rect x="20" y="42" width="38" height="9" rx="3.5" fill={PAPER} stroke={EDGE} strokeWidth="1.8" />
+      <rect x="20" y="53" width="38" height="9" rx="3.5" fill={PAPER} stroke={EDGE} strokeWidth="1.8" />
+      <circle className="a-twinkle" cx="26" cy="46.5" r="2.4" fill="#34d399" />
+      <circle className="a-twinkle ad-2" cx="26" cy="57.5" r="2.4" fill="#34d399" />
+      <rect className="a-sheen" x="33" y="45" width="18" height="3" rx="1.5" fill={FAINT} />
+      <rect className="a-sheen ad-3" x="33" y="56" width="12" height="3" rx="1.5" fill={FAINT} />
+      <Sparkle x="55" y="14" s={0.9} fill="#a78bfa" />
+    </Small>
+  )
+}
+
+/** A shield with a tick, watched over by a turning cog: the care plan. */
+function CareArt(p) {
+  return (
+    <Small {...p}>
+      <path
+        className="a-float"
+        d="M30 6l19 7v16c0 13-8 22-19 27-11-5-19-14-19-27V13z"
+        fill="#d1fae5"
+        stroke="#059669"
+        strokeWidth="2.4"
+        strokeLinejoin="round"
+      />
+      <path className="a-pulse" d="M21 30l7 7 13-14" stroke="#059669" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Maintenance, quietly turning over in the corner. */}
+      <g className="a-spin">
+        <path
+          d="M50 38l3.6.8 2.2-3 2.6 2.6-3 2.2.8 3.6-3.6.9-.9 3.6-3.6-.9.8-3.6-3-2.2 2.6-2.6 2.2 3z"
+          fill="#047857"
+        />
+        <circle cx="51.5" cy="45" r="3.4" fill={PAPER} />
+      </g>
+      <Sparkle x="9" y="52" s={0.9} fill="#6ee7b7" />
+    </Small>
+  )
+}
+
+/** One page, then another sliding out from behind it. */
+function PagesArt(p) {
+  return (
+    <Small {...p}>
+      <g className="a-float-far">
+        <rect x="26" y="8" width="32" height="42" rx="5" fill="#cffafe" stroke="#0891b2" strokeWidth="1.8" />
+        <rect x="32" y="16" width="18" height="3.4" rx="1.7" fill="#67e8f9" />
+        <rect x="32" y="24" width="13" height="3" rx="1.5" fill="#a5f3fc" />
+      </g>
+      <rect x="8" y="14" width="34" height="44" rx="6" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <rect x="14" y="21" width="22" height="7" rx="3" fill="#0891b2" />
+      <rect className="a-sheen" x="14" y="33" width="18" height="3.4" rx="1.7" fill={FAINT} />
+      <rect className="a-sheen ad-2" x="14" y="41" width="22" height="3.4" rx="1.7" fill={FAINT} />
+      <rect className="a-sheen ad-4" x="14" y="49" width="12" height="3.4" rx="1.7" fill={FAINT} />
+      {/* The page being added. */}
+      <g className="a-pulse">
+        <circle cx="50" cy="52" r="9" fill="#0891b2" />
+        <path d="M50 47.5v9M45.5 52h9" stroke={PAPER} strokeWidth="2.6" strokeLinecap="round" />
+      </g>
+    </Small>
+  )
+}
+
+/** A stopwatch with a paper plane shooting past it. */
+function RushArt(p) {
+  return (
+    <Small {...p}>
+      <path d="M4 19h11M2 29h8M5 39h11" stroke="#fdba74" strokeWidth="2.6" strokeLinecap="round" className="a-scrub" style={{ '--travel': '-8px' }} />
+      <g className="a-float">
+        <circle cx="32" cy="29" r="16" fill={PAPER} stroke="#ea580c" strokeWidth="2.6" />
+        <rect x="27" y="5" width="10" height="4.6" rx="2.3" fill="#ea580c" />
+        <rect x="29.5" y="9" width="5" height="4" fill="#ea580c" />
+        {/* The hand sweeps the dial, which is the whole promise. It has to turn
+            about the centre of the face, not about its own thin bounding box,
+            so it takes the view-box origin the way the orbits do. */}
+        <g className="a-spin" style={{ transformBox: 'view-box', transformOrigin: '32px 29px' }}>
+          <path d="M32 29V18" stroke="#f97316" strokeWidth="3.2" strokeLinecap="round" />
+        </g>
+        <circle cx="32" cy="29" r="2.8" fill="#0b1733" />
+      </g>
+      {/* The job, already on its way out. The float lives on an inner group
+          because a CSS transform would overwrite the placement attribute. */}
+      <g transform="translate(41 44) scale(0.9)">
+        <g className="a-float-far">
+          <path d="M2 21l21-9L2 3v7l15 2-15 2z" fill="#f97316" />
+        </g>
+      </g>
+    </Small>
+  )
+}
+
+/** A phone catching an update, with the badge that says one is waiting. */
+function AppCareArt(p) {
+  return (
+    <Small {...p}>
+      <rect x="16" y="6" width="32" height="52" rx="8" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <path d="M16 14a8 8 0 018-8h16a8 8 0 018 8v5H16z" fill="#db2777" />
+      <rect x="27" y="10" width="10" height="2.6" rx="1.3" fill="#fbcfe8" />
+      {/* The refresh arrow keeps coming round. The placement sits on an outer
+          group so the spin, which is a CSS transform, does not overwrite it. */}
+      <g transform="translate(21 22) scale(0.92)">
+        <g className="a-spin">
+          <path
+            d="M17.65 6.35A7.96 7.96 0 0012 4a8 8 0 108 8h-2a6 6 0 11-6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4z"
+            fill="#db2777"
+          />
+        </g>
+      </g>
+      <rect className="a-fill" x="22" y="46" width="20" height="4" rx="2" fill="#f9a8d4" />
+      {/* The badge that says an update is waiting. */}
+      <g className="a-beat">
+        <circle cx="47" cy="12" r="7" fill="#f97316" stroke={PAPER} strokeWidth="2" />
+        <path d="M47 8.5v6M44.4 11.9l2.6 2.6 2.6-2.6" stroke={PAPER} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+    </Small>
+  )
+}
+
+/** A grid of posts with a heart lifting off it. */
+function SocialArt(p) {
+  return (
+    <Small {...p}>
+      <rect x="6" y="16" width="42" height="42" rx="7" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <rect className="a-pulse" x="12" y="22" width="14" height="14" rx="4" fill="#fbbf24" />
+      <rect className="a-pulse ad-1" x="29" y="22" width="14" height="14" rx="4" fill="#fde68a" />
+      <rect className="a-pulse ad-2" x="12" y="39" width="14" height="14" rx="4" fill="#fde68a" />
+      <rect className="a-pulse ad-3" x="29" y="39" width="14" height="14" rx="4" fill="#d97706" />
+      <path
+        className="a-beat"
+        d="M50 20c0-3.6 4.3-4.7 6.1-1.8 1.8-2.9 6.1-1.8 6.1 1.8 0 3.8-6.1 7.9-6.1 7.9S50 23.8 50 20z"
+        fill="#f97316"
+      />
+      <Sparkle x="55" y="44" s={1.1} />
+      <Sparkle x="9" y="9" s={0.85} fill="#fcd34d" className="a-twinkle ad-3" />
+    </Small>
+  )
+}
+
+export const addOnArt = {
+  cards: CardsArt,
+  hosting: HostingArt,
+  care: CareArt,
+  pages: PagesArt,
+  rush: RushArt,
+  appCare: AppCareArt,
+  social: SocialArt,
+}
+
 /* ------------------------------------------------------------------ tones */
 
 /**
@@ -405,6 +584,7 @@ export const tones = {
   emerald: { accent: '5 150 105', ink: '4 120 87', lift: '110 231 183' },
   pink: { accent: '219 39 119', ink: '190 24 93', lift: '249 168 212' },
   amber: { accent: '217 119 6', ink: '180 83 9', lift: '252 211 77' },
+  cyan: { accent: '8 145 178', ink: '14 116 144', lift: '103 232 249' },
 }
 
 /** Spreads a tone onto an element as inline custom properties. */
