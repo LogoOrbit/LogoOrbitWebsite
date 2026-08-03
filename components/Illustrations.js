@@ -567,6 +567,171 @@ export const addOnArt = {
   social: SocialArt,
 }
 
+/* ----------------------------------------------------------- capabilities */
+
+/** A construction sheet: the mark on its grid, with the palette under it. */
+function IdentityArt(p) {
+  return (
+    <Small {...p}>
+      <rect x="4" y="4" width="56" height="42" rx="5" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <path d="M18 4v42M46 4v42M4 18h56M4 32h56" stroke={FAINT} strokeWidth="1.5" strokeDasharray="3 3" />
+      <g transform="rotate(-25 32 25)">
+        <ellipse className="a-spin" cx="32" cy="25" rx="18" ry="7.5" stroke="#8b5cf6" strokeWidth="3" />
+      </g>
+      <circle className="a-pulse" cx="32" cy="25" r="8.5" fill="#2563eb" />
+      <rect className="a-float" x="10" y="52" width="12" height="9" rx="3" fill="#2563eb" />
+      <rect className="a-float ad-2" x="26" y="52" width="12" height="9" rx="3" fill="#8b5cf6" />
+      <rect className="a-float ad-4" x="42" y="52" width="12" height="9" rx="3" fill="#f97316" />
+      <Sparkle x="56" y="12" s={1} />
+    </Small>
+  )
+}
+
+/** A screen being designed, a component floating off it, and the click. */
+function InterfaceArt(p) {
+  return (
+    <Small {...p}>
+      <rect x="4" y="12" width="36" height="46" rx="6" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <path d="M4 18a6 6 0 016-6h24a6 6 0 016 6v4H4z" fill="#7c3aed" />
+      <rect className="a-sheen" x="9" y="27" width="26" height="10" rx="3" fill="#ddd6fe" />
+      <rect className="a-sheen ad-2" x="9" y="41" width="18" height="4" rx="2" fill={FAINT} />
+      <rect className="a-sheen ad-4" x="9" y="49" width="22" height="4" rx="2" fill={FAINT} />
+      {/* One component lifted out of the screen: the design-system half. */}
+      <g className="a-float-far">
+        <rect x="38" y="4" width="24" height="18" rx="6" fill="#ede9fe" stroke="#7c3aed" strokeWidth="2" />
+        <rect x="43" y="9.5" width="15" height="8" rx="4" fill="#c4b5fd" />
+        <circle className="a-pulse" cx="54" cy="13.5" r="3.4" fill="#7c3aed" />
+      </g>
+      <circle className="a-ripple" cx="43" cy="42" r="10" stroke="#7c3aed" strokeWidth="2.5" opacity="0.5" />
+      <path
+        className="a-float"
+        d="M40 36l14 7-5.6 1.9L46 50z"
+        fill={PAPER}
+        stroke={NIGHT}
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+    </Small>
+  )
+}
+
+/** A carton with its label on, and the fold marks it was cut from. */
+function PackagingArt(p) {
+  return (
+    <Small {...p}>
+      <path d="M2 22h6M2 48h6M56 14h6M56 40h6" stroke={EDGE} strokeWidth="2" strokeLinecap="round" strokeDasharray="3 3" />
+      <g className="a-float">
+        <path d="M10 22l10-8h34l-10 8z" fill="#34d399" />
+        <path d="M44 22l10-8v26l-10 8z" fill="#047857" />
+        <rect x="10" y="22" width="34" height="26" fill="#059669" />
+        <rect x="32" y="22" width="6" height="26" fill="#a7f3d0" />
+        <rect x="13" y="27" width="16" height="15" rx="3" fill={PAPER} />
+        <circle className="a-pulse" cx="18" cy="32" r="3.2" fill="#059669" />
+        <rect x="23" y="30.5" width="4" height="3" rx="1.5" fill="#6ee7b7" />
+        <rect x="16" y="37" width="10" height="2.6" rx="1.3" fill={FAINT} />
+      </g>
+      <Sparkle x="56" y="56" s={1} fill="#6ee7b7" />
+    </Small>
+  )
+}
+
+/** A letterhead, a sheet behind it, and the printed card in front. */
+function CollateralArt(p) {
+  return (
+    <Small {...p}>
+      <g transform="rotate(-9 30 26)">
+        <rect x="8" y="6" width="30" height="40" rx="4" fill="#cffafe" stroke="#0891b2" strokeWidth="1.8" />
+      </g>
+      <rect x="16" y="4" width="32" height="42" rx="4" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <rect x="22" y="10" width="14" height="6" rx="3" fill="#0891b2" />
+      <rect className="a-sheen" x="22" y="21" width="20" height="3.4" rx="1.7" fill={FAINT} />
+      <rect className="a-sheen ad-2" x="22" y="28" width="16" height="3.4" rx="1.7" fill={FAINT} />
+      <rect className="a-sheen ad-4" x="22" y="35" width="20" height="3.4" rx="1.7" fill={FAINT} />
+      <g className="a-float">
+        <rect x="14" y="40" width="38" height="22" rx="4" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+        <circle className="a-pulse" cx="24" cy="51" r="5" fill="#0891b2" />
+        <rect x="32" y="46" width="15" height="3.4" rx="1.7" fill="#67e8f9" />
+        <rect x="32" y="53" width="10" height="3" rx="1.5" fill={FAINT} />
+      </g>
+      <Sparkle x="56" y="13" s={0.95} fill="#67e8f9" />
+    </Small>
+  )
+}
+
+/** An easing curve, the shot it drives, and keyframes on the timeline. */
+function MotionArt(p) {
+  return (
+    <Small {...p}>
+      <path
+        className="a-sheen"
+        d="M4 32C14 32 16 8 32 8"
+        stroke="#fdba74"
+        strokeWidth="2.6"
+        strokeLinecap="round"
+        strokeDasharray="4 4"
+      />
+      <g className="a-pulse">
+        <circle cx="44" cy="20" r="12" fill="#f97316" />
+        <path d="M40 14l10 6-10 6z" fill={PAPER} />
+      </g>
+      <rect x="4" y="42" width="56" height="7" rx="3.5" fill={FAINT} />
+      <rect className="a-fill" x="4" y="42" width="34" height="7" rx="3.5" fill="#f97316" />
+      {/* The rotation sits on a wrapper: a-pulse would overwrite it. */}
+      <g transform="rotate(45 14 45.5)">
+        <rect className="a-pulse" x="10" y="41.5" width="8" height="8" rx="1.6" fill="#8b5cf6" />
+      </g>
+      <g transform="rotate(45 32 45.5)">
+        <rect className="a-pulse ad-2" x="28" y="41.5" width="8" height="8" rx="1.6" fill="#c4b5fd" />
+      </g>
+      <g transform="rotate(45 50 45.5)">
+        <rect className="a-pulse ad-4" x="46" y="41.5" width="8" height="8" rx="1.6" fill="#8b5cf6" />
+      </g>
+      <g className="a-scrub" style={{ '--travel': '-28px' }}>
+        <path d="M38 36v22" stroke="#64748b" strokeWidth="2.6" strokeLinecap="round" />
+        <circle cx="38" cy="58" r="4" fill="#64748b" />
+      </g>
+    </Small>
+  )
+}
+
+/** An advert with the click on its button, the numbers it moved underneath. */
+function CampaignArt(p) {
+  return (
+    <Small {...p}>
+      <rect x="4" y="6" width="40" height="28" rx="6" fill={PAPER} stroke={EDGE} strokeWidth="2" />
+      <rect className="a-sheen" x="10" y="12" width="22" height="6" rx="3" fill="#fbbf24" />
+      <rect className="a-sheen ad-2" x="10" y="22" width="13" height="4" rx="2" fill={FAINT} />
+      <rect className="a-pulse" x="27" y="21" width="14" height="8" rx="4" fill="#d97706" />
+      <path
+        className="a-float"
+        d="M32 28l14 7-5.6 1.9L38 42z"
+        fill={PAPER}
+        stroke={NIGHT}
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <rect className="a-rise" x="4" y="46" width="8" height="14" rx="3" fill="#fcd34d" />
+      <rect className="a-rise ad-2" x="15" y="42" width="8" height="18" rx="3" fill="#fbbf24" />
+      <rect className="a-rise ad-4" x="26" y="38" width="8" height="22" rx="3" fill="#d97706" />
+      <path
+        className="a-beat"
+        d="M46 50c0-3.4 4-4.4 5.7-1.7 1.7-2.7 5.7-1.7 5.7 1.7 0 3.6-5.7 7.4-5.7 7.4S46 53.6 46 50z"
+        fill="#f97316"
+      />
+      <Sparkle x="55" y="12" s={1} />
+    </Small>
+  )
+}
+
+export const capabilityArt = {
+  identity: IdentityArt,
+  interface: InterfaceArt,
+  packaging: PackagingArt,
+  collateral: CollateralArt,
+  motion: MotionArt,
+  campaign: CampaignArt,
+}
+
 /* ------------------------------------------------------------------ tones */
 
 /**
