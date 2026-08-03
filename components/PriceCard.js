@@ -3,6 +3,29 @@ import Link from 'next/link'
 import MoreOnPhone from './MoreOnPhone'
 import { Icons } from './Icons'
 import { money } from '../lib/pricing'
+import { packagePathFor } from '../lib/packages'
+
+/**
+ * Every card now has a page behind it: the full specification, how the tier
+ * compares to the ones either side, and what happens after you order. The
+ * card stays a comparison object, the page carries the detail.
+ */
+function DetailsLink({ item, featured, label = 'See the full package page' }) {
+  const href = packagePathFor(item)
+  if (!href) return null
+
+  return (
+    <Link
+      href={href}
+      className={`mt-3 inline-flex w-full items-center justify-center gap-1.5 text-[14px] font-semibold transition-colors ${
+        featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-brand-700'
+      }`}
+    >
+      {label}
+      <Icons.arrow className="w-4 h-4" />
+    </Link>
+  )
+}
 
 function OrderButton({ featured, children = 'Order this package' }) {
   return (
@@ -285,6 +308,7 @@ export function PriceCard({ item, tier = 0 }) {
       </div>
 
       <OrderButton featured={featured} />
+      <DetailsLink item={item} featured={featured} />
       {featured && <Recommended />}
     </div>
   )
@@ -375,6 +399,7 @@ export function BundleCard({ item, tier = 0 }) {
       </div>
 
       <OrderButton featured={featured} />
+      <DetailsLink item={item} featured={featured} label="See what is in this bundle" />
       {featured && <Recommended />}
     </div>
   )
@@ -421,11 +446,12 @@ export function BigPackage({ pkg, tone = 'dark' }) {
             <span className={`text-4xl sm:text-5xl font-bold tracking-tight ${dark ? 'text-white' : 'text-ink-900'}`}>
               {money(pkg.price)}
             </span>
-            <div>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
               <Link href="/contact" className="btn-action w-full px-6 py-3.5 sm:w-auto">
                 Order this package
                 <Icons.arrow className="w-4 h-4" />
               </Link>
+              <DetailsLink item={pkg} featured={dark} label="Read the full details" />
             </div>
           </div>
         </div>

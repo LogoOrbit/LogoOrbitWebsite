@@ -6,7 +6,13 @@ import Reveal from '../components/Reveal'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
 import { site, whatsapp, whatsappLink } from '../lib/site'
-import { faqGroups, faqCount } from '../lib/faqs'
+import { faqGroups, faqCount, faqItems } from '../lib/faqs'
+
+/** The same groups, but with the per-question page slugs attached. */
+const groupsWithSlugs = faqGroups.map((group) => ({
+  ...group,
+  items: faqItems.filter((item) => item.group.id === group.id),
+}))
 
 function Group({ group }) {
   const [open, setOpen] = useState(null)
@@ -52,7 +58,16 @@ function Group({ group }) {
                   style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
                 >
                   <div className="overflow-hidden">
-                    <p className="px-5 pb-5 text-[15px] leading-relaxed text-ink-500 sm:px-6">{item.a}</p>
+                    <p className="px-5 text-[15px] leading-relaxed text-ink-500 sm:px-6">{item.a}</p>
+                    {/* Every question also has a page of its own, with the
+                        longer answer and the pages that go into it properly. */}
+                    <Link
+                      href={`/faqs/${item.slug}`}
+                      className="mx-5 mb-5 mt-3 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand-600 hover:text-brand-700 sm:mx-6"
+                    >
+                      Read the longer answer
+                      <Icons.arrow className="w-4 h-4" />
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -144,7 +159,7 @@ export default function FaqsPage() {
           </aside>
 
           <div className="min-w-0">
-            {faqGroups.map((group) => (
+            {groupsWithSlugs.map((group) => (
               <Group key={group.id} group={group} />
             ))}
 

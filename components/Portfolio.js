@@ -91,7 +91,14 @@ export default function Portfolio({
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           {visible.map((item, i) => (
             <Reveal key={item.slug} delay={(i % 4) * 70}>
-              <figure className="group h-full overflow-hidden rounded-3xl border border-slate-200 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-brand-900/10">
+              {/* Every tile is a link now: each mark has a page of its own
+                  explaining what that sector needs and what was delivered. */}
+              <Link
+                href={`/portfolio/${item.slug}`}
+                className="block h-full"
+                aria-label={`${item.name || item.category} logo, see the full case study`}
+              >
+              <figure className="group h-full overflow-hidden rounded-3xl border border-slate-200 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-200 hover:shadow-2xl hover:shadow-brand-900/10">
                 <div
                   className="grid place-items-center aspect-square p-5 transition-transform duration-500 group-hover:scale-105"
                   style={{ backgroundColor: '#ffffff' }}
@@ -116,8 +123,10 @@ export default function Portfolio({
                       {item.name ? item.category : 'Logo concept'}
                     </p>
                   </div>
+                  <Icons.arrow className="w-4 h-4 shrink-0 text-ink-300 transition-all group-hover:translate-x-0.5 group-hover:text-brand-600" />
                 </figcaption>
               </figure>
+              </Link>
             </Reveal>
           ))}
         </div>

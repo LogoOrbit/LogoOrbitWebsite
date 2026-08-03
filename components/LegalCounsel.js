@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import LawyerAvatar from './LawyerAvatar'
@@ -87,6 +88,14 @@ export default function LegalCounsel({ compact = false }) {
                     </span>
                   </a>
                 </div>
+
+                <Link
+                  href="/team/greg-adams"
+                  className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand-600 hover:text-brand-700"
+                >
+                  Read Greg’s full profile
+                  <Icons.arrow className="w-4 h-4" />
+                </Link>
 
                 <p className="mt-4 text-[13px] leading-relaxed text-ink-500">
                   Email is the only route to the legal desk, so that every question arrives in writing with a record

@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import { Icons, Star } from './Icons'
 import { testimonials, site } from '../lib/site'
+import { reviewPages } from '../lib/reviews'
+
+/** Each quote also has a page of its own, matched by the reviewer's name. */
+const pageFor = (name) => reviewPages.find((r) => r.name === name)
 
 const avatarTint = [
   'bg-brand-100 text-brand-700',
@@ -71,10 +76,19 @@ export default function Testimonials() {
                   >
                     {t.name.charAt(0)}
                   </span>
-                  <div>
+                  <div className="min-w-0">
                     <p className="font-semibold text-ink-900">{t.name}</p>
                     <p className="text-sm text-ink-500">{t.company}</p>
                   </div>
+                  {pageFor(t.name) && (
+                    <Link
+                      href={`/reviews/${pageFor(t.name).slug}`}
+                      className="ml-auto inline-flex shrink-0 items-center gap-1 text-[13px] font-semibold text-brand-600 hover:text-brand-700"
+                    >
+                      Read it
+                      <Icons.arrow className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
                 </figcaption>
               </figure>
             ))}

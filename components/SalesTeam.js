@@ -1,7 +1,12 @@
+import Link from 'next/link'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import SalesAvatar from './SalesAvatar'
 import { salesTeam, site } from '../lib/site'
+import { team } from '../lib/team'
+
+/** Matches a card to its profile page by email, which is the stable key. */
+const profileFor = (email) => team.find((person) => person.email === email)
 
 /**
  * The sales desk, given the same treatment as the legal desk: a face, a name,
@@ -110,6 +115,18 @@ export default function SalesTeam({ compact = false }) {
                         </span>
                       </a>
                     </div>
+
+                    {/* Each rep also has a page of their own: what lands on
+                        the desk, what they will ask, how fast they answer. */}
+                    {profileFor(person.email) && (
+                      <Link
+                        href={`/team/${profileFor(person.email).slug}`}
+                        className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-semibold text-brand-600 hover:text-brand-700"
+                      >
+                        Read {person.name.split(' ')[0]}’s full profile
+                        <Icons.arrow className="w-4 h-4" />
+                      </Link>
+                    )}
 
                     <p className="mt-4 text-[13px] leading-relaxed text-ink-500">
                       Quotes are fixed, not estimates that move later. If the job is closer to the other desk,

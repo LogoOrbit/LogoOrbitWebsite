@@ -3,10 +3,11 @@ import PageHero from '../components/PageHero'
 import Reveal from '../components/Reveal'
 import SectionHeading from '../components/SectionHeading'
 import Testimonials from '../components/Testimonials'
+import LinkGrid from '../components/LinkGrid'
 import CTA from '../components/CTA'
 import { Icons, Star } from '../components/Icons'
 import { site, whatsapp, whatsappLink } from '../lib/site'
-import { reviewThemes, reviewFacts, reviewPlatforms, reviewSources } from '../lib/reviews'
+import { reviewThemes, reviewFacts, reviewPlatforms, reviewSources, reviewPages } from '../lib/reviews'
 
 export default function ReviewsPage() {
   return (
@@ -81,6 +82,20 @@ export default function ReviewsPage() {
 
       {/* The quotes themselves */}
       <Testimonials />
+
+      {/* Every review also has a page of its own, with our note on what it is
+          pointing at kept clearly separate from the client's words. */}
+      <LinkGrid
+        eyebrow="Read them one at a time"
+        title="Every review, on its own page"
+        body="The quote as it was written, what kind of work it was left for, and the pattern in our feedback it belongs to."
+        items={reviewPages.map((r) => ({
+          name: `${r.name}, ${r.company}`,
+          href: `/reviews/${r.slug}`,
+          description: r.subject,
+        }))}
+        tone="light"
+      />
 
       {/* Where the feedback comes from */}
       <section className="py-16 sm:py-20 bg-slate-50">

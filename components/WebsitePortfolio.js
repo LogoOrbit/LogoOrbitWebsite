@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import { Icons } from './Icons'
@@ -126,6 +127,16 @@ export default function WebsitePortfolio({ showHeading = true }) {
                   </div>
                 </div>
               </a>
+
+              {/* Every build also has a written page of its own: the brief it
+                  answered, how it was made and what was handed over. */}
+              <Link
+                href={`/portfolio/websites/${site.slug}`}
+                className="mt-3 inline-flex items-center gap-1.5 text-[14px] font-semibold text-ink-700 hover:text-brand-600"
+              >
+                Read how it was built
+                <Icons.arrow className="h-4 w-4" />
+              </Link>
             </Reveal>
           ))}
         </div>
