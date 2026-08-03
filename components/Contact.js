@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
-import { site, services } from '../lib/site'
+import Link from 'next/link'
+import { site, services, legalCounsel, whatsapp, whatsappLink } from '../lib/site'
 
 const empty = { name: '', email: '', phone: '', service: '', message: '', consent: false, website: '' }
 
@@ -89,6 +90,23 @@ export default function Contact({ showIntro = true }) {
             </a>
 
             <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-4 rounded-2xl border border-[#25d366]/40 bg-[#25d366]/8 p-4 transition-all hover:border-[#25d366] hover:shadow-lg"
+            >
+              <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-[#25d366] text-white animate-pulse-ring-wa">
+                <Icons.whatsapp className="w-5.5 h-5.5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm text-ink-500">WhatsApp, for quick questions</span>
+                <span className="block font-semibold text-ink-900 group-hover:text-[#128c4a] transition-colors">
+                  {whatsapp.display}
+                </span>
+              </span>
+            </a>
+
+            <a
               href={`mailto:${site.email}`}
               className="group flex items-center gap-4 rounded-2xl border border-slate-200 p-4 transition-all hover:border-brand-200 hover:shadow-lg"
             >
@@ -126,6 +144,24 @@ export default function Contact({ showIntro = true }) {
                 ))}
               </span>
             </div>
+
+            {/* Anything about rights, contracts or data skips support and goes
+                straight to the legal desk. */}
+            <Link
+              href="/legal"
+              className="group flex items-start gap-4 rounded-2xl border border-slate-200 p-4 transition-all hover:border-brand-200 hover:shadow-lg"
+            >
+              <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-brand-50 text-brand-600">
+                <Icons.scales className="w-5.5 h-5.5" />
+              </span>
+              <span className="min-w-0">
+                <span className="block text-sm text-ink-500">Legal, copyright &amp; trademarks</span>
+                <span className="block font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
+                  {legalCounsel.name}, {legalCounsel.role}
+                </span>
+                <span className="block truncate text-[14px] text-ink-500">{legalCounsel.email}</span>
+              </span>
+            </Link>
           </Reveal>
         </div>
 
@@ -227,13 +263,13 @@ export default function Contact({ showIntro = true }) {
                   />
                   <span>
                     I agree to be contacted by SMS or email in line with the{' '}
-                    <a href={`${site.url}/privacy-policy.php`} className="font-medium text-brand-600 underline underline-offset-2">
+                    <Link href="/privacy" className="font-medium text-brand-600 underline underline-offset-2">
                       Privacy Policy
-                    </a>{' '}
+                    </Link>{' '}
                     and{' '}
-                    <a href={`${site.url}/terms-condition.php`} className="font-medium text-brand-600 underline underline-offset-2">
+                    <Link href="/terms" className="font-medium text-brand-600 underline underline-offset-2">
                       Terms &amp; Conditions
-                    </a>
+                    </Link>
                     . Carrier charges may apply for SMS. Reply STOP or UNSUBSCRIBE at any time.
                   </span>
                 </label>

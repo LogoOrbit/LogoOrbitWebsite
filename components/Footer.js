@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
 import BrandMark from './BrandMark'
-import { site, services, legalLinks } from '../lib/site'
+import { site, services, legalLinks, whatsapp, whatsappLink } from '../lib/site'
 
 const exploreLinks = [
   { label: 'Home', href: '/' },
@@ -35,18 +35,28 @@ export default function Footer() {
                 <Icons.phone className="w-4.5 h-4.5 text-orbit-400" />
                 {site.phone}
               </a>
+              <a
+                href={whatsappLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 hover:text-white transition-colors"
+              >
+                <Icons.whatsapp className="w-4.5 h-4.5 text-[#25d366]" />
+                {whatsapp.display}
+                <span className="text-white/40">WhatsApp</span>
+              </a>
               <a href={`mailto:${site.email}`} className="flex items-center gap-2.5 hover:text-white transition-colors">
                 <Icons.mail className="w-4.5 h-4.5 text-orbit-400" />
                 {site.email}
               </a>
-              <a
-                href={`mailto:${site.legalEmail}`}
+              <Link
+                href="/legal"
                 className="flex items-center gap-2.5 text-[14px] hover:text-white transition-colors"
               >
-                <Icons.shield className="w-4.5 h-4.5 text-orbit-400" />
+                <Icons.scales className="w-4.5 h-4.5 text-orbit-400" />
                 {site.legalEmail}
                 <span className="text-white/40">legal</span>
-              </a>
+              </Link>
               <p className="flex items-center gap-2.5">
                 <Icons.clock className="w-4.5 h-4.5 text-orbit-400" />
                 {site.hours}
@@ -97,7 +107,9 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
             {legalLinks.map((link) => (
               <li key={link.label}>
-                <a href={link.href} className="inline-block py-1 hover:text-white transition-colors">{link.label}</a>
+                <Link href={link.href} className="inline-block py-1 hover:text-white transition-colors">
+                  {link.label}
+                </Link>
               </li>
             ))}
           </ul>

@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Nav from './Nav'
 import Footer from './Footer'
 import FloatingCall from './FloatingCall'
+import WhatsAppButton from './WhatsAppButton'
 import MobileCTABar from './MobileCTABar'
 import { site } from '../lib/site'
 
@@ -67,6 +68,7 @@ export default function Layout({ title, description, path = '/', children, jsonL
       <Footer />
       <div className="h-[76px] lg:hidden" aria-hidden="true" />
       <FloatingCall />
+      <WhatsAppButton />
       <MobileCTABar />
     </>
   )

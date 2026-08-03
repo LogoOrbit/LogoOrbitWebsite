@@ -13,4 +13,9 @@
   <url><loc>https://www.logoorbit.net/about</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://www.logoorbit.net/brief</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.logoorbit.net/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.logoorbit.net/reviews</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.logoorbit.net/faqs</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.logoorbit.net/legal</loc><changefreq>yearly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://www.logoorbit.net/terms</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://www.logoorbit.net/privacy</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
 </urlset>

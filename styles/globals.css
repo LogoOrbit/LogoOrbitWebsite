@@ -232,6 +232,25 @@
   100% { box-shadow: 0 0 0 0 rgba(249, 115, 22, 0); }
 }
 
+/* The WhatsApp button. Its own ring rather than the orange one, so the colour
+   still says "messaging" from the corner of the eye, and a small tilt every
+   few seconds so the button reads as live without ever moving the layout. */
+@keyframes pulse-ring-wa {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.55); }
+  70%  { box-shadow: 0 0 0 18px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+@keyframes wa-nudge {
+  0%, 82%, 100% { transform: rotate(0deg) scale(1); }
+  86%           { transform: rotate(-11deg) scale(1.08); }
+  92%           { transform: rotate(9deg) scale(1.08); }
+  96%           { transform: rotate(-4deg) scale(1.03); }
+}
+
+.animate-pulse-ring-wa { animation: pulse-ring-wa 2.4s ease-out infinite; }
+.animate-wa-nudge      { animation: wa-nudge 6s ease-in-out infinite; }
+
 /* The concept "forming" in the brand starter, it arrives out of focus
    and only ever resolves part of the way, which is the whole point. */
 @keyframes forming {
