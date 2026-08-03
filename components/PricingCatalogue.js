@@ -108,6 +108,19 @@ function AddOns() {
   )
 }
 
+/**
+ * The strip and the scroll-spy have to be built from the same list. Trademark
+ * and Add-ons are sections of this page like any other, but they live outside
+ * `categories`, and when only the categories were observed the two chips could
+ * be tapped and never lit up, so the strip claimed you were still reading the
+ * category above them.
+ */
+const tabs = [
+  ...categories,
+  { id: brandProtection.id, tab: 'Trademark', tabNote: 'Protect your logo', icon: 'shield' },
+  { id: addOns.id, tab: 'Add-ons', tabNote: 'Printing, hosting, care', icon: 'spark' },
+]
+
 const jumpTo = (id) => {
   // Jump, do not glide. A tapped shortcut that animates the whole page reads
   // as the screen scrolling away from you rather than as a link.
@@ -283,7 +296,7 @@ export default function PricingCatalogue() {
   const strip = useRef(null)
 
   useEffect(() => {
-    const sections = categories.map((c) => document.getElementById(c.id)).filter(Boolean)
+    const sections = tabs.map((c) => document.getElementById(c.id)).filter(Boolean)
     if (!sections.length) return
 
     const observer = new IntersectionObserver(
@@ -327,11 +340,7 @@ export default function PricingCatalogue() {
             className="flex items-center justify-start gap-2 overflow-x-auto no-scrollbar py-2 sm:flex-wrap sm:justify-center sm:gap-2 sm:overflow-visible sm:py-3"
           >
 
-            {[
-              ...categories,
-              { id: brandProtection.id, tab: 'Trademark', tabNote: 'Protect your logo', icon: 'shield' },
-              { id: addOns.id, tab: 'Add-ons', tabNote: 'Printing, hosting, care', icon: 'spark' },
-            ].map((c) => {
+            {tabs.map((c) => {
               const Icon = tabIcon[c.icon] || Icons.layers
               const isCurrent = c.id === current
 
