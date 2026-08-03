@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
+import SalesAvatar from './SalesAvatar'
 import Link from 'next/link'
 import { site, services, salesTeam, legalCounsel, whatsapp, whatsappLink } from '../lib/site'
 
@@ -122,24 +123,27 @@ export default function Contact({ showIntro = true }) {
             </a>
 
             {/* A new enquiry can skip the shared inbox and go straight to the
-                person who will price it. */}
-            <div className="flex items-start gap-4 rounded-2xl border border-slate-200 p-4">
-              <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-brand-50 text-brand-600">
-                <Icons.team className="w-5.5 h-5.5" />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-sm text-ink-500">Sales, for a quote on a new project</span>
-                {salesTeam.map((person) => (
-                  <a
-                    key={person.email}
-                    href={`mailto:${person.email}?subject=Project%20enquiry`}
-                    className="block truncate font-semibold text-ink-900 hover:text-brand-600 transition-colors"
-                  >
-                    {person.name} · {person.email}
-                  </a>
-                ))}
-              </span>
-            </div>
+                person who will price it. They get a card each, because they
+                cover different work and a visitor should be able to tell at a
+                glance which of the two is theirs. */}
+            {salesTeam.map((person) => (
+              <a
+                key={person.email}
+                href={`mailto:${person.email}?subject=Project%20enquiry`}
+                className={`group flex items-center gap-4 rounded-2xl border border-slate-200 p-4 transition-all ${person.theme.hover} hover:shadow-lg`}
+              >
+                <SalesAvatar variant={person.avatar} id={`${person.avatar}-mini`} className="w-12 h-12 shrink-0" />
+                <span className="min-w-0">
+                  <span className="block text-sm text-ink-500">
+                    {person.role} · {person.focus}
+                  </span>
+                  <span className={`block font-semibold text-ink-900 transition-colors ${person.theme.hoverText}`}>
+                    {person.name}
+                  </span>
+                  <span className="block truncate text-[14px] text-ink-500">{person.email}</span>
+                </span>
+              </a>
+            ))}
 
             <div className="flex items-center gap-4 rounded-2xl border border-slate-200 p-4">
               <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-flare-400/15 text-flare-500">
