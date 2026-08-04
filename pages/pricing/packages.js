@@ -160,6 +160,7 @@ export function getStaticProps() {
           sectionTitle: p.sectionTitle,
           kind: p.kind,
           bestFor: p.bestFor,
+          price: p.price,
           priceLabel: p.priceLabel,
           was: p.was,
           featured: p.featured,
