@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
 import CartSummary from '../components/CartSummary'
+import ProtectionCheck from '../components/ProtectionCheck'
 import { Icons } from '../components/Icons'
 import {
   useCart,
@@ -281,8 +282,13 @@ export default function CheckoutPage() {
                 </div>
               </Step>
 
-              {/* --------------------------------------------- 2. who you are */}
-              <Step n="2" title="Who we are quoting for">
+              {/* ------------------------------------------- 2. protecting it */}
+              <Step n="2" title="Before you order: is this protected?">
+                <ProtectionCheck />
+              </Step>
+
+              {/* --------------------------------------------- 3. who you are */}
+              <Step n="3" title="Who we are quoting for">
                 {/* Named so the summary panel and the phone action bar can
                     carry their own Place order buttons without duplicating
                     the form or lifting its state out of this page. */}
@@ -366,8 +372,8 @@ export default function CheckoutPage() {
                 </form>
               </Step>
 
-              {/* ------------------------------------------- 3. talk to a human */}
-              <Step n="3" title="Or talk to an agent right now">
+              {/* ------------------------------------------- 4. talk to a human */}
+              <Step n="4" title="Or talk to an agent right now">
                 <p className="text-[15px] leading-relaxed text-ink-500">
                   Want it moving today? Both of these carry the same order — the WhatsApp button writes your
                   full selection and total into the message box for you, so all you do is press send.

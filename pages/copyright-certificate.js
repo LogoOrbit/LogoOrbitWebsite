@@ -7,7 +7,7 @@ import CertificateInstrument, { CertificateSeal } from '../components/Certificat
 import AddToCart from '../components/AddToCart'
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
-import { salesTax } from '../lib/pricing'
+import { copyrightCertificate, salesTax } from '../lib/pricing'
 
 const samplePdf = '/documents/logoorbit-sample-copyright-assignment-certificate.pdf'
 
@@ -440,14 +440,14 @@ export default function CopyrightCertificatePage() {
                   sku: '/copyright-certificate',
                   name: 'Copyright assignment certificate',
                   kind: 'Ownership document',
-                  price: 499,
+                  price: copyrightCertificate.price,
                   href: '/copyright-certificate',
                   note: 'issued once the project balance is paid',
                 }}
                 variant="featured"
                 full={false}
                 padding="px-7 py-4"
-                label="Add to cart · $499"
+                label={`Add to cart · $${copyrightCertificate.price}`}
               />
               <Link href="/contact?subject=Copyright%20Certificate" className="btn-action px-7 py-4">
                 Request the certificate - $499
