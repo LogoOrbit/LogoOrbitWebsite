@@ -9,7 +9,7 @@ import { site } from '../../lib/site'
 /**
  * The brief chooser.
  *
- * The logo and website briefs are the long, step-by-step forms in
+ * The logo, website and mobile app briefs are the long, step-by-step forms in
  * /public/brief. They are served as plain HTML rather than rebuilt as pages,
  * which is why they are linked by file rather than by route, and why they
  * arrive carrying their own styling instead of the site chrome.
@@ -31,6 +31,15 @@ const briefs = [
     title: 'Website brief',
     body: 'Pages, features, who it is for and what it has to get people to do, plus anything you already own.',
     meta: '8 steps, about 7 minutes',
+    external: true,
+  },
+  {
+    id: 'app',
+    href: '/brief/app.html',
+    icon: Icons.mobile,
+    title: 'Mobile app brief',
+    body: 'Screens, features, logins and payments. Mostly tapping, in plain words, with a "?" on anything technical.',
+    meta: '9 steps, about 5 minutes',
     external: true,
   },
   {
@@ -62,7 +71,7 @@ export default function BriefChooser() {
 
       <section className="py-14 sm:py-20 bg-white">
         <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {briefs.map((brief, i) => {
               const Icon = brief.icon
               const inner = (

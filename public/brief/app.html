@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LogoOrbit - Website Design Brief</title>
-<meta name="description" content="Plan your new website in about 5 minutes. Tap-to-answer brief for pages, features, style and SEO - LogoOrbit's design team takes it from there.">
+<title>LogoOrbit - Mobile App Brief</title>
+<meta name="description" content="Plan your mobile app in about 5 minutes. Tap-to-answer brief for screens, features, payments and launch - LogoOrbit's app team takes it from there.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='30' fill='%234f46e5'/><ellipse cx='50' cy='50' rx='46' ry='18' fill='none' stroke='%237c3aed' stroke-width='7' transform='rotate(-24 50 50)'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,9 +50,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);background-
 .tbtns{display:flex;gap:8px;align-items:center}
 .pagelink{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:9px 15px;font-size:12.5px;font-weight:700;color:var(--text2);text-decoration:none;box-shadow:var(--shadow);transition:all .18s;white-space:nowrap}
 .pagelink:hover{border-color:var(--accent-border);color:var(--accent)}
-/* Two cross-links plus the theme switch will not fit a small phone; the
-   secondary one steps aside rather than pushing the brand off screen. */
-@media(max-width:600px){.pagelink.alt{display:none}}
 .tswitch{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:5px;cursor:pointer;box-shadow:var(--shadow)}
 .tswitch span{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;color:var(--text3)}
 .tswitch span.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
@@ -211,6 +208,13 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 .foot{text-align:center;font-size:12px;color:var(--text3);margin-top:2rem}
 </style>
+<style>
+/* ─────────── APP BRIEF EXTRAS ─────────── */
+/* A one-line plain-English hint under a question, for anyone who does not
+   know the word in the question. Kept small so it never competes with it. */
+.hint{display:block;font-size:12.5px;font-weight:500;color:var(--text3);margin:-.35rem 0 .6rem;line-height:1.5}
+.ql .em{font-style:normal;margin-right:5px}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -221,8 +225,7 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
     <span class="brand-name">Logo<em>Orbit</em></span>
   </a>
   <div class="tbtns">
-    <a class="pagelink" href="logo.html">Logo brief ↗</a>
-    <a class="pagelink alt" href="app.html">App brief ↗</a>
+    <a class="pagelink" href="website.html">Website brief ↗</a>
     <div class="tswitch" id="tsw" title="Toggle theme">
       <span id="t-light" class="on">☀️</span>
       <span id="t-dark">🌙</span>
@@ -231,21 +234,21 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 </div>
 
 <div class="hero">
-  <div class="eyebrow">WEBSITE DESIGN &amp; DEVELOPMENT BRIEF</div>
-  <h1>Let's build your<br><em>perfect website</em></h1>
-  <p>Answer with quick taps. Takes about 5 minutes. Fields marked <span class="req">*</span> are required.</p>
+  <div class="eyebrow">MOBILE APP DESIGN &amp; DEVELOPMENT BRIEF</div>
+  <h1>Let's build your<br><em>mobile app</em></h1>
+  <p>Mostly tapping. Takes about 5 minutes. Short answers are fine. Fields marked <span class="req">*</span> are required. Not sure about something? Tap <span class="ibtn">?</span> or pick <b>Not sure</b> and we will guide you.</p>
 </div>
 
 <div class="rail" id="rail">
   <div class="bar" id="railbar"></div>
   <div class="rstep cur"><div class="dot">1</div><div class="rl">You</div></div>
-  <div class="rstep"><div class="dot">2</div><div class="rl">Business</div></div>
-  <div class="rstep"><div class="dot">3</div><div class="rl">Website</div></div>
-  <div class="rstep"><div class="dot">4</div><div class="rl">Pages</div></div>
-  <div class="rstep"><div class="dot">5</div><div class="rl">Style</div></div>
-  <div class="rstep"><div class="dot">6</div><div class="rl">Colors</div></div>
+  <div class="rstep"><div class="dot">2</div><div class="rl">Idea</div></div>
+  <div class="rstep"><div class="dot">3</div><div class="rl">Phones</div></div>
+  <div class="rstep"><div class="dot">4</div><div class="rl">Screens</div></div>
+  <div class="rstep"><div class="dot">5</div><div class="rl">Features</div></div>
+  <div class="rstep"><div class="dot">6</div><div class="rl">Style</div></div>
   <div class="rstep"><div class="dot">7</div><div class="rl">Content</div></div>
-  <div class="rstep"><div class="dot">8</div><div class="rl">Extras</div></div>
+  <div class="rstep"><div class="dot">8</div><div class="rl">Launch</div></div>
   <div class="rstep"><div class="dot">9</div><div class="rl">Review</div></div>
 </div>
 
@@ -253,28 +256,30 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 1 -->
 <div class="card" id="s1">
-  <div class="chead"><div class="ck">Step 1 · About you</div><div class="ct">You &amp; your company</div><div class="cs">The basics so we know who we're building for.</div></div>
-  <div class="q"><span class="ql">Your full name <span class="req">*</span></span><input type="text" name="name" data-req placeholder="Jane Smith"></div>
+  <div class="chead"><div class="ck">Step 1 · About you</div><div class="ct">Who are we building for?</div><div class="cs">Just the basics so we can reply to you.</div></div>
+  <div class="q"><span class="ql">Your name <span class="req">*</span></span><input type="text" name="name" data-req placeholder="Jane Smith"></div>
   <div class="q"><span class="ql">Your email <span class="req">*</span></span><input type="email" name="email" data-req placeholder="jane@company.com"></div>
-  <div class="q"><span class="ql">Company / Business name <span class="req">*</span></span><input type="text" name="company" data-req placeholder="e.g. Acme Studios LLC"></div>
-  <div class="q"><span class="ql">Phone number <span class="opt">(yours or the best contact's)</span></span><input type="tel" name="phone" placeholder="e.g. +1 555 123 4567"></div>
-  <div class="q"><span class="ql">Industry / niche <span class="req">*</span></span>
+  <div class="q"><span class="ql">Business or app name <span class="req">*</span></span>
+    <span class="hint">No name yet? Type "not decided".</span>
+    <input type="text" name="company" data-req placeholder="e.g. FreshCart">
+  </div>
+  <div class="q"><span class="ql">Phone or WhatsApp <span class="opt">(optional)</span></span><input type="tel" name="phone" placeholder="e.g. +1 555 123 4567"></div>
+  <div class="q"><span class="ql">What is your business? <span class="req">*</span></span>
     <div class="chips" data-chips="industry">
-      <span class="chip" data-v="Fashion & Beauty">Fashion & Beauty</span>
-      <span class="chip" data-v="Food & Beverage">Food & Drink</span>
-      <span class="chip" data-v="Tech & Software">Tech</span>
-      <span class="chip" data-v="Health & Fitness">Health & Fitness</span>
-      <span class="chip" data-v="Real Estate & Construction">Real Estate</span>
-      <span class="chip" data-v="Education">Education</span>
-      <span class="chip" data-v="Finance & Legal">Finance / Legal</span>
-      <span class="chip" data-v="Automotive & Transport">Automotive</span>
-      <span class="chip" data-v="Creative & Media">Creative / Media</span>
-      <span class="chip" data-v="Retail & E-commerce">Retail</span>
-      <span class="chip" data-v="Travel & Hospitality">Travel</span>
-      <span class="chip" data-v="Non-profit">Non-profit</span>
+      <span class="chip" data-v="Shopping & Retail">🛍 Shopping</span>
+      <span class="chip" data-v="Food & Delivery">🍔 Food &amp; Delivery</span>
+      <span class="chip" data-v="Health & Fitness">💪 Health &amp; Fitness</span>
+      <span class="chip" data-v="Education & Learning">🎓 Education</span>
+      <span class="chip" data-v="Travel & Transport">🚗 Travel &amp; Taxi</span>
+      <span class="chip" data-v="Finance & Payments">💳 Money</span>
+      <span class="chip" data-v="Real Estate & Property">🏠 Property</span>
+      <span class="chip" data-v="Services & Bookings">📅 Bookings</span>
+      <span class="chip" data-v="Social & Community">💬 Social</span>
+      <span class="chip" data-v="Media & Entertainment">🎬 Media</span>
+      <span class="chip" data-v="Business & Office tool">🏢 Office tool</span>
       <span class="chip" data-other>Other…</span>
     </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="Type your industry…"></div>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="Type your line of business…"></div>
     <input type="hidden" name="industry" data-reqhidden>
   </div>
   <div class="stepwarn">Please fill the required fields above.</div>
@@ -283,19 +288,34 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 2 -->
 <div class="card" id="s2" style="display:none">
-  <div class="chead"><div class="ck">Step 2 · Your business</div><div class="ct">What you do</div><div class="cs">Help us understand your services, customers and competition.</div></div>
-  <div class="q"><span class="ql">What services or products do you offer? <span class="req">*</span></span><textarea name="services" data-req placeholder="e.g. Residential landscaping, garden design and monthly maintenance plans…"></textarea></div>
-  <div class="q"><span class="ql">What makes you different from competitors? <span class="req">*</span></span><textarea name="differentiator" data-req placeholder="e.g. 24-hour turnaround, 15 years of experience, family-owned…"></textarea></div>
-  <div class="q"><span class="ql">Who are your customers? <span class="req">*</span></span><input type="text" name="audience" data-req placeholder="e.g. Local homeowners aged 30–55, small business owners…"></div>
-  <div class="q"><span class="ql">Your main competitors? <span class="opt">(optional)</span></span><textarea name="competitors" placeholder="e.g. GreenPro Inc. Like their gallery, dislike their menu"></textarea></div>
-  <div class="q"><span class="ql">Do you have an online marketing plan?</span>
-    <div class="chips" data-chips="marketing">
-      <span class="chip" data-v="YES">YES</span>
-      <span class="chip" data-v="NO">NO</span>
-      <span class="chip" data-v="Planning one">Planning one</span>
-    </div>
-    <input type="hidden" name="marketing">
+  <div class="chead"><div class="ck">Step 2 · Your idea</div><div class="ct">What is the app for?</div><div class="cs">Write it the way you would tell a friend. Any language is fine.</div></div>
+  <div class="q"><span class="ql">In one line, what does your app do? <span class="req">*</span></span>
+    <span class="hint">Example: "People order fresh food from local shops."</span>
+    <input type="text" name="idea" data-req placeholder="People order fresh food from local shops">
   </div>
+  <div class="q"><span class="ql">What problem does it fix? <span class="req">*</span></span>
+    <textarea name="problem" data-req placeholder="e.g. Customers call us all day to check prices and order. It wastes time and we lose orders."></textarea>
+  </div>
+  <div class="q"><span class="ql">Who will use it? <span class="req">*</span> <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="users" data-multi>
+      <span class="chip" data-v="Everyone / general public">Everyone</span>
+      <span class="chip" data-v="My existing customers">My customers</span>
+      <span class="chip" data-v="My staff / team">My staff</span>
+      <span class="chip" data-v="Other businesses">Other businesses</span>
+      <span class="chip" data-v="Students / parents">Students / parents</span>
+      <span class="chip" data-v="Drivers / delivery riders">Drivers / riders</span>
+      <span class="chip" data-v="Members only">Members only</span>
+      <span class="chip" data-other>Other…</span>
+    </div>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="Who else will use it?"></div>
+    <input type="hidden" name="users" data-reqhidden>
+  </div>
+  <div class="q"><span class="ql">Which country or city? <span class="opt">(optional)</span></span><input type="text" name="region" placeholder="e.g. USA, or Dubai only"></div>
+  <div class="q"><span class="ql">Any app that is close to yours? <span class="opt">(optional)</span></span>
+    <span class="hint">Just the name is enough. It helps us picture it fast.</span>
+    <textarea name="similar" placeholder="e.g. Like Uber Eats, but only for our 3 shops"></textarea>
+  </div>
+  <div class="q"><span class="ql">What will make yours better? <span class="opt">(optional)</span></span><input type="text" name="better" placeholder="e.g. Cheaper delivery, works in Urdu too"></div>
   <div class="stepwarn">Please fill the required fields above.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(1)">← Back</button>
@@ -305,45 +325,50 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 3 -->
 <div class="card" id="s3" style="display:none">
-  <div class="chead"><div class="ck">Step 3 · The website</div><div class="ct">What are we building?</div><div class="cs">Not sure? Pick "You decide" and we'll recommend the best fit.</div></div>
-  <div class="q"><span class="ql">What kind of website do you need? <span class="req">*</span></span>
-    <div class="igrid" data-chips="sitetype">
-      <div class="ic-btn" data-v="Business / Company website"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="10" y="3" width="56" height="26" rx="3"/><path d="M10 9h56"/><circle cx="14.5" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="6" r="1" fill="currentColor" stroke="none"/><path d="M15 14h24M15 18h18" stroke-width="2"/><rect x="47" y="13" width="14" height="6.5" rx="1.5" fill="currentColor" stroke="none" opacity=".8"/><path d="M15 24h12M31 24h12M47 24h12"/></svg></span><span class="lbl">Business Site</span><span class="sub">Present your company &amp; services professionally</span></div>
-      <div class="ic-btn" data-v="Online store / E-commerce"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="14" y="4" width="14" height="11" rx="2"/><rect x="31" y="4" width="14" height="11" rx="2"/><rect x="48" y="4" width="14" height="11" rx="2"/><path d="M24 22h28l-2.5 7h-22z"/><circle cx="30" cy="29" r=".8" fill="currentColor"/><circle cx="47" cy="29" r=".8" fill="currentColor"/><path d="M24 22l-2-4h-4"/></svg></span><span class="lbl">Online Store</span><span class="sub">Sell products online with cart &amp; checkout</span></div>
-      <div class="ic-btn" data-v="Portfolio / Showcase"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="14" y="4" width="22" height="14" rx="2"/><circle cx="20" cy="9" r="2"/><path d="M14 15l6-4 5 3 6-5 5 4"/><rect x="40" y="4" width="22" height="14" rx="2"/><path d="M40 14l7-6 6 5 5-3 4 3"/><rect x="14" y="21" width="22" height="8" rx="2"/><rect x="40" y="21" width="22" height="8" rx="2"/></svg></span><span class="lbl">Portfolio</span><span class="sub">Showcase your work, art or photography</span></div>
-      <div class="ic-btn" data-v="Landing page (single page)"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="18" y="3" width="40" height="26" rx="3"/><path d="M25 10h26M28 14.5h20" stroke-width="2"/><rect x="30" y="19.5" width="16" height="5.5" rx="2.5" fill="currentColor" stroke="none" opacity=".85"/></svg></span><span class="lbl">Landing Page</span><span class="sub">One focused page that converts visitors</span></div>
-      <div class="ic-btn" data-v="Blog / Magazine"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="16" y="3" width="44" height="26" rx="3"/><path d="M22 10h20M22 14h32M22 18h32M22 22h24" stroke-width="1.8"/><rect x="46" y="8" width="8" height="5" rx="1" fill="currentColor" stroke="none" opacity=".7"/></svg></span><span class="lbl">Blog / Magazine</span><span class="sub">Publish articles, news or stories</span></div>
-      <div class="ic-btn" data-v="Booking / Appointments"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="22" y="5" width="32" height="24" rx="3"/><path d="M22 12h32M30 5V2.5M46 5V2.5" stroke-width="1.8"/><path d="M29 19l4 4 8-8" stroke-width="2.2"/></svg></span><span class="lbl">Booking Site</span><span class="sub">Let clients book appointments online</span></div>
-      <div class="ic-btn" data-v="Redesign of my existing website"><span class="ico"><svg viewBox="0 0 76 32" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="20" y="6" width="36" height="20" rx="3"/><path d="M30 16a8 8 0 0114-4M46 16a8 8 0 01-14 4" stroke-width="2"/><path d="M44 8v4h-4M32 24v-4h4" stroke-width="2"/></svg></span><span class="lbl">Redesign</span><span class="sub">Refresh &amp; modernize my current site</span></div>
-      <div class="ic-btn" data-v="Not sure, designer's choice"><span class="ico"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2l3.2 10.8L30 16l-10.8 3.2L16 30l-3.2-10.8L2 16l10.8-3.2z"/><circle cx="26" cy="6" r="2.2" opacity=".6"/></svg></span><span class="lbl">You decide</span><span class="sub">Let LogoOrbit recommend the best fit</span></div>
+  <div class="chead"><div class="ck">Step 3 · Phones</div><div class="ct">Where should it run?</div><div class="cs">Not sure? Tap "You decide" and we will pick what suits your users.</div></div>
+  <div class="q"><span class="ql">Which phones? <span class="req">*</span></span>
+    <div class="igrid" data-chips="platform">
+      <div class="ic-btn" data-v="Android phones"><span class="ico"><svg viewBox="0 0 40 32" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="13" y="2" width="14" height="28" rx="3"/><path d="M17.5 5.5h5"/><circle cx="20" cy="26.5" r="1.2" fill="currentColor" stroke="none"/></svg></span><span class="lbl">Android</span><span class="sub">Samsung, Xiaomi, Google Pixel and so on</span></div>
+      <div class="ic-btn" data-v="iPhone (iOS)"><span class="ico"><svg viewBox="0 0 40 32" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="13" y="2" width="14" height="28" rx="4"/><path d="M17 4.6h6"/><path d="M16 27.5h8"/></svg></span><span class="lbl">iPhone</span><span class="sub">Apple phones only</span></div>
+      <div class="ic-btn" data-v="Both Android and iPhone"><span class="ico"><svg viewBox="0 0 56 32" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8" y="4" width="13" height="24" rx="3"/><rect x="26" y="2" width="14" height="28" rx="4"/><path d="M12 7h5M30 4.6h6"/></svg></span><span class="lbl">Both</span><span class="sub">Most people pick this — twice the reach</span></div>
+      <div class="ic-btn" data-v="Phones and tablets"><span class="ico"><svg viewBox="0 0 56 32" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="6" width="12" height="21" rx="3"/><rect x="24" y="2" width="24" height="28" rx="3"/><path d="M36 27h.01" stroke-width="2.4"/></svg></span><span class="lbl">Phones + tablets</span><span class="sub">Bigger screens like iPad too</span></div>
+      <div class="ic-btn" data-v="Phones plus a browser version"><span class="ico"><svg viewBox="0 0 56 32" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="6" width="12" height="21" rx="3"/><rect x="24" y="5" width="26" height="20" rx="2.5"/><path d="M24 10h26"/></svg></span><span class="lbl">Phones + web</span><span class="sub">Also opens in a normal browser</span></div>
+      <div class="ic-btn" data-v="Not sure, you decide"><span class="ico"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 2l3.2 10.8L30 16l-10.8 3.2L16 30l-3.2-10.8L2 16l10.8-3.2z"/><circle cx="26" cy="6" r="2.2" opacity=".6"/></svg></span><span class="lbl">You decide</span><span class="sub">We recommend the best fit</span></div>
     </div>
-    <input type="hidden" name="sitetype" data-reqhidden>
+    <input type="hidden" name="platform" data-reqhidden>
   </div>
-  <div class="q"><span class="ql">Do you currently have a website? <span class="req">*</span></span>
-    <div class="chips" data-chips="existing">
-      <span class="chip" data-v="NO, this is a brand new website">NO, brand new</span>
-      <span class="chip" data-v="YES, it needs a full redesign">YES, needs redesign</span>
-      <span class="chip" data-v="YES, keep it, just improve it">YES, just improve it</span>
+  <div class="q"><span class="ql">Is this a new app? <span class="req">*</span></span>
+    <div class="chips" data-chips="projectstage">
+      <span class="chip" data-v="Brand new app, starting from zero">Brand new</span>
+      <span class="chip" data-v="I have an app, it needs new features">Add to my app</span>
+      <span class="chip" data-v="I have an app, rebuild it properly">Rebuild my app</span>
+      <span class="chip" data-v="I have a website, I want an app of it">I have a website</span>
     </div>
-    <input type="hidden" name="existing" data-reqhidden>
+    <input type="hidden" name="projectstage" data-reqhidden>
   </div>
-  <div class="q"><span class="ql">Current website address <span class="opt">(if you have one)</span></span><input type="text" name="existing_url" placeholder="e.g. www.mycompany.com"></div>
-  <div class="q"><span class="ql">Main goal of the website? <span class="opt">(tap all)</span></span>
-    <div class="chips" data-chips="goal" data-multi>
-      <span class="chip" data-v="Generate leads / inquiries">Generate leads</span>
-      <span class="chip" data-v="Increase online sales">Increase online sales</span>
-      <span class="chip" data-v="Provide information">Provide information</span>
-      <span class="chip" data-v="Showcase my work">Showcase my work</span>
-      <span class="chip" data-v="Take bookings / appointments">Take bookings</span>
-      <span class="chip" data-v="Look credible & professional">Look credible</span>
-      <span class="chip" data-v="Build a community / audience">Build an audience</span>
-      <span class="chip" data-other>Other…</span>
+  <div class="q"><span class="ql">Link to your app or website <span class="opt">(if you have one)</span></span><input type="text" name="existing_url" placeholder="e.g. www.mycompany.com or a Play Store link"></div>
+  <div class="q"><span class="ql">Do you have store accounts? <span class="ibtn" onclick="tg('t-dev')">?</span></span>
+    <div class="tip" id="t-dev">To put an app on the Play Store or App Store you need a developer account with Google or Apple. They cost a small yearly fee. If you do not have one, we set it up for you.</div>
+    <div class="chips" data-chips="devaccounts">
+      <span class="chip yes" data-v="YES, both Google and Apple">✓ Yes, both</span>
+      <span class="chip" data-v="Google Play only">Google only</span>
+      <span class="chip" data-v="Apple only">Apple only</span>
+      <span class="chip" data-v="NO, please set them up for me">No, set them up</span>
+      <span class="chip" data-v="Not sure">Not sure</span>
     </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="What should the site achieve?"></div>
-    <input type="hidden" name="goal">
+    <input type="hidden" name="devaccounts">
   </div>
-  <div class="q"><span class="ql">Anything else the site should do? <span class="opt">(optional)</span></span><input type="text" name="secondary" placeholder="e.g. Collect newsletter subscribers, recruit staff…"></div>
-  <div class="stepwarn">Please pick a website type and tell us if you have a site already.</div>
+  <div class="q"><span class="ql">Must it work with no internet?</span>
+    <span class="hint">Some apps still need to open on a weak signal.</span>
+    <div class="chips" data-chips="offline">
+      <span class="chip" data-v="YES, it must work offline">Yes</span>
+      <span class="chip" data-v="NO, internet is fine">No</span>
+      <span class="chip" data-v="Only some parts should work offline">Only some parts</span>
+      <span class="chip" data-v="Not sure">Not sure</span>
+    </div>
+    <input type="hidden" name="offline">
+  </div>
+  <div class="stepwarn">Please pick the phones and tell us if the app is new.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(2)">← Back</button>
     <button type="button" class="bnx" onclick="go(4)">Continue →</button>
@@ -352,71 +377,75 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 4 -->
 <div class="card" id="s4" style="display:none">
-  <div class="chead"><div class="ck">Step 4 · Pages &amp; features</div><div class="ct">What goes inside</div><div class="cs">Tap what you need. We'll suggest anything you miss.</div></div>
-  <div class="q"><span class="ql">Which pages do you need? <span class="req">*</span> <span class="opt">(tap all)</span></span>
-    <div class="chips" data-chips="pages" data-multi>
-      <span class="chip" data-v="Home">Home</span>
-      <span class="chip" data-v="About Us">About</span>
-      <span class="chip" data-v="Services">Services</span>
-      <span class="chip" data-v="Products / Shop">Products / Shop</span>
-      <span class="chip" data-v="Portfolio / Gallery">Portfolio / Gallery</span>
-      <span class="chip" data-v="Blog / News">Blog / News</span>
-      <span class="chip" data-v="Testimonials / Reviews">Testimonials</span>
-      <span class="chip" data-v="FAQ">FAQ</span>
-      <span class="chip" data-v="Pricing">Pricing</span>
-      <span class="chip" data-v="Contact">Contact</span>
+  <div class="chead"><div class="ck">Step 4 · Screens</div><div class="ct">What will people see?</div><div class="cs">Tap what you want inside the app. We will suggest anything you miss.</div></div>
+  <div class="q"><span class="ql">Which screens do you need? <span class="req">*</span> <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="screens" data-multi>
+      <span class="chip" data-v="Welcome / intro screens">Welcome screens</span>
+      <span class="chip" data-v="Sign up and login">Sign up / login</span>
+      <span class="chip" data-v="Home screen">Home</span>
+      <span class="chip" data-v="Search">Search</span>
+      <span class="chip" data-v="List of products or services">Product list</span>
+      <span class="chip" data-v="Product or service details">Product details</span>
+      <span class="chip" data-v="Cart and checkout">Cart / checkout</span>
+      <span class="chip" data-v="Booking or calendar">Booking / calendar</span>
+      <span class="chip" data-v="Map and live tracking">Map / tracking</span>
+      <span class="chip" data-v="Chat or messages">Chat</span>
+      <span class="chip" data-v="My orders / history">My orders</span>
+      <span class="chip" data-v="Profile">Profile</span>
+      <span class="chip" data-v="Notifications">Notifications</span>
+      <span class="chip" data-v="Wallet or payments">Wallet</span>
+      <span class="chip" data-v="Reviews and ratings">Reviews</span>
+      <span class="chip" data-v="Help and support">Help</span>
+      <span class="chip" data-v="Settings">Settings</span>
       <span class="chip" data-v="Not sure, you recommend">Not sure, you recommend</span>
       <span class="chip" data-other>Other…</span>
     </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="What other pages?"></div>
-    <input type="hidden" name="pages" data-reqhidden>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="What other screens?"></div>
+    <input type="hidden" name="screens" data-reqhidden>
   </div>
-  <div class="q"><span class="ql">Which features do you need? <span class="opt">(tap all)</span></span>
-    <div class="chips" data-chips="features" data-multi>
-      <span class="chip" data-v="Contact form">Contact form</span>
-      <span class="chip" data-v="E-commerce / online payments">E-commerce / payments</span>
-      <span class="chip" data-v="Booking / scheduling">Booking / scheduling</span>
-      <span class="chip" data-v="Automated email responder">Auto email responder</span>
-      <span class="chip" data-v="Search functionality">Search</span>
-      <span class="chip" data-v="Live chat / WhatsApp button">Live chat / WhatsApp</span>
-      <span class="chip" data-v="Photo / video gallery">Photo gallery</span>
-      <span class="chip" data-v="Newsletter signup">Newsletter signup</span>
-      <span class="chip" data-v="Blog / articles">Blog</span>
-      <span class="chip" data-v="Customer reviews">Customer reviews</span>
-      <span class="chip" data-v="Google Maps / directions">Google Maps</span>
-      <span class="chip" data-v="Member login area">Member login</span>
-      <span class="chip" data-v="Multiple languages">Multiple languages</span>
-      <span class="chip" data-other>Other…</span>
-    </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="What other features?"></div>
-    <input type="hidden" name="features">
-  </div>
-  <div class="q"><span class="ql">Any integrations needed? <span class="opt">(tap all)</span></span>
-    <div class="chips" data-chips="integrations" data-multi>
-      <span class="chip" data-v="Social media">Social media</span>
-      <span class="chip" data-v="Email marketing (Mailchimp etc.)">Email marketing</span>
-      <span class="chip" data-v="Payment gateways (Stripe/PayPal)">Payment gateways</span>
-      <span class="chip" data-v="Google Analytics">Google Analytics</span>
-      <span class="chip" data-v="CRM (HubSpot, Salesforce etc.)">CRM</span>
-      <span class="chip" data-v="None / Not sure">None / Not sure</span>
-      <span class="chip" data-other>Other…</span>
-    </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="Which integrations?"></div>
-    <input type="hidden" name="integrations">
-  </div>
-  <div class="q"><span class="ql">Any compliance needs? <span class="opt">(tap all)</span></span>
-    <div class="chips" data-chips="compliance" data-multi>
-      <span class="chip" data-v="GDPR (EU privacy)">GDPR</span>
-      <span class="chip" data-v="ADA (accessibility)">ADA</span>
-      <span class="chip" data-v="DMCA">DMCA</span>
-      <span class="chip" data-v="None">None</span>
+  <div class="q"><span class="ql">Roughly how big is the app?</span>
+    <div class="chips" data-chips="size">
+      <span class="chip" data-v="Small (about 5-10 screens)">Small · 5–10 screens</span>
+      <span class="chip" data-v="Medium (about 10-20 screens)">Medium · 10–20</span>
+      <span class="chip" data-v="Large (about 20-40 screens)">Large · 20–40</span>
+      <span class="chip" data-v="Very large (40+ screens)">Very large · 40+</span>
       <span class="chip" data-v="Not sure">Not sure</span>
+    </div>
+    <input type="hidden" name="size">
+  </div>
+  <div class="q"><span class="ql">Must people sign up to use it? <span class="req">*</span></span>
+    <div class="chips" data-chips="accounts">
+      <span class="chip" data-v="YES, sign up before anything">Yes, straight away</span>
+      <span class="chip" data-v="NO, they can look around first">Look around first</span>
+      <span class="chip" data-v="No accounts at all">No accounts at all</span>
+      <span class="chip" data-v="Not sure">Not sure</span>
+    </div>
+    <input type="hidden" name="accounts" data-reqhidden>
+  </div>
+  <div class="q"><span class="ql">Are there different types of users? <span class="opt">(tap all)</span> <span class="ibtn" onclick="tg('t-roles')">?</span></span>
+    <div class="tip" id="t-roles">A user type is a person who sees a different app. A customer orders food, a rider delivers it, you check the money. Each one needs its own screens, so this changes the price a lot.</div>
+    <div class="chips" data-chips="roles" data-multi>
+      <span class="chip" data-v="Just one type of user">Only one type</span>
+      <span class="chip" data-v="Customer and me (admin)">Customer + me</span>
+      <span class="chip" data-v="Buyer and seller">Buyer + seller</span>
+      <span class="chip" data-v="Driver or delivery rider">Driver / rider</span>
+      <span class="chip" data-v="Teacher and student">Teacher + student</span>
+      <span class="chip" data-v="Staff with different permissions">Staff levels</span>
       <span class="chip" data-other>Other…</span>
     </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="Which requirements?"></div>
-    <input type="hidden" name="compliance">
+    <div class="otherbox"><input type="text" data-otherinput placeholder="Who else uses a different view?"></div>
+    <input type="hidden" name="roles">
   </div>
-  <div class="stepwarn">Please pick at least one page (or "Not sure").</div>
+  <div class="q"><span class="ql">Do you want a control panel? <span class="ibtn" onclick="tg('t-admin')">?</span></span>
+    <div class="tip" id="t-admin">A control panel is a private website where you add products, see orders, and check users. Without it, you have to ask us for every change.</div>
+    <div class="chips" data-chips="admin">
+      <span class="chip yes" data-v="YES, I want to manage it myself">✓ Yes, I'll manage it</span>
+      <span class="chip" data-v="NO">No</span>
+      <span class="chip" data-v="Not sure, tell me more">Not sure</span>
+    </div>
+    <input type="hidden" name="admin">
+  </div>
+  <div class="stepwarn">Please pick your screens and answer the sign up question.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(3)">← Back</button>
     <button type="button" class="bnx" onclick="go(5)">Continue →</button>
@@ -425,35 +454,87 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 5 -->
 <div class="card" id="s5" style="display:none">
-  <div class="chead"><div class="ck">Step 5 · Look &amp; feel</div><div class="ct">Design style</div><div class="cs">Tap the styles that fit your brand.</div></div>
-  <div class="q"><span class="ql">Pick your style <span class="opt">(tap all)</span></span>
-    <div class="chips" data-chips="style" data-multi>
-      <span class="chip" data-v="Modern & Sleek" style="font-family:'Sora',sans-serif;letter-spacing:.5px">Modern</span>
-      <span class="chip" data-v="Minimalist & Clean" style="letter-spacing:2.5px;font-weight:400">Minimalist</span>
-      <span class="chip" data-v="Bold & Strong" style="font-weight:800">Bold</span>
-      <span class="chip" data-v="Elegant & Luxury" style="font-family:Georgia,serif;font-style:italic">Elegant / Luxury</span>
-      <span class="chip" data-v="Corporate & Professional" style="font-family:Arial,Helvetica,sans-serif;font-weight:600">Professional</span>
-      <span class="chip" data-v="Playful & Fun" style="font-family:'Comic Sans MS',cursive;font-size:12.5px">Playful</span>
-      <span class="chip" data-v="Warm & Friendly" style="font-family:'Trebuchet MS',sans-serif">Warm / Friendly</span>
-      <span class="chip" data-v="Creative & Artistic" style="font-family:'Segoe Script','Bradley Hand',cursive;font-size:12px">Creative / Artistic</span>
-      <span class="chip" data-v="Tech & Futuristic" style="font-family:Consolas,monospace;letter-spacing:1px">Futuristic</span>
-      <span class="chip" data-v="Vintage & Retro" style="font-family:'Courier New',monospace;font-weight:700">Vintage</span>
+  <div class="chead"><div class="ck">Step 5 · Features</div><div class="ct">What can it do?</div><div class="cs">Tap everything you want. Nothing here is a promise of price, we quote after.</div></div>
+  <div class="q"><span class="ql">How will people log in? <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="login" data-multi>
+      <span class="chip" data-v="Email and password">Email + password</span>
+      <span class="chip" data-v="Phone number with an SMS code">Phone + SMS code</span>
+      <span class="chip" data-v="Google account">Google</span>
+      <span class="chip" data-v="Apple account">Apple</span>
+      <span class="chip" data-v="Facebook account">Facebook</span>
+      <span class="chip" data-v="Fingerprint or Face ID">Fingerprint / Face</span>
+      <span class="chip" data-v="No login needed">No login</span>
+      <span class="chip" data-v="Not sure">Not sure</span>
     </div>
-    <input type="hidden" name="style">
+    <input type="hidden" name="login">
   </div>
-  <div class="q"><span class="ql">Light or dark design?</span>
-    <div class="chips" data-chips="modepref">
-      <span class="chip" data-v="Light & airy">☀️ Light &amp; airy</span>
-      <span class="chip" data-v="Dark & dramatic">🌙 Dark &amp; dramatic</span>
-      <span class="chip" data-v="Both (light/dark toggle)">Both, with a toggle</span>
-      <span class="chip" data-v="Designer's choice">You decide</span>
+  <div class="q promo"><span class="pbadge">💳 Money</span><span class="ql">Will people pay inside the app? <span class="req">*</span></span>
+    <div class="chips" data-chips="payments">
+      <span class="chip yes" data-v="YES, one-off payments">Yes, one-off</span>
+      <span class="chip" data-v="YES, monthly subscriptions">Yes, monthly plans</span>
+      <span class="chip" data-v="YES, both one-off and subscriptions">Yes, both</span>
+      <span class="chip no" data-v="NO payments in the app">No</span>
+      <span class="chip" data-v="Not sure">Not sure</span>
     </div>
-    <input type="hidden" name="modepref">
+    <div class="pnote">Taking payment inside the app means the money reaches you before the work leaves you.</div>
+    <input type="hidden" name="payments" data-reqhidden>
   </div>
-  <div class="q"><span class="ql">Websites you like? <span class="req">*</span></span><textarea name="references" data-req placeholder="e.g. www.apple.com, love how clean it is"></textarea></div>
-  <div class="q"><span class="ql">Anything to include? <span class="opt">(optional, e.g. logo, fonts, photos)</span></span><input type="text" name="design_elements" placeholder="e.g. Our logo, brand font 'Montserrat', team photos…"></div>
-  <div class="q"><span class="ql">Anything to <b>avoid</b>? <span class="opt">(optional)</span></span><input type="text" name="avoid_design" placeholder="e.g. No stock photos of handshakes, nothing cluttered…"></div>
-  <div class="stepwarn">Please share at least one website you like.</div>
+  <div class="q"><span class="ql">Which payment methods? <span class="opt">(tap all, skip if no payments)</span></span>
+    <div class="chips" data-chips="paymethods" data-multi>
+      <span class="chip" data-v="Card (Stripe)">Card</span>
+      <span class="chip" data-v="PayPal">PayPal</span>
+      <span class="chip" data-v="Apple Pay / Google Pay">Apple / Google Pay</span>
+      <span class="chip" data-v="Cash on delivery">Cash on delivery</span>
+      <span class="chip" data-v="Bank transfer">Bank transfer</span>
+      <span class="chip" data-v="Local wallet (JazzCash, Easypaisa, M-Pesa etc.)">Local wallet</span>
+      <span class="chip" data-v="You advise me">You advise me</span>
+    </div>
+    <input type="hidden" name="paymethods">
+  </div>
+  <div class="q"><span class="ql">Which features do you need? <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="features" data-multi>
+      <span class="chip" data-v="Push notifications">🔔 Push alerts</span>
+      <span class="chip" data-v="Chat between users">💬 Chat</span>
+      <span class="chip" data-v="Maps and location">📍 Maps</span>
+      <span class="chip" data-v="Camera and photo upload">📷 Camera</span>
+      <span class="chip" data-v="File upload (PDF, documents)">📎 File upload</span>
+      <span class="chip" data-v="QR or barcode scanner">🔳 QR scanner</span>
+      <span class="chip" data-v="Video">🎥 Video</span>
+      <span class="chip" data-v="Audio or music">🎵 Audio</span>
+      <span class="chip" data-v="Booking and calendar">📅 Booking</span>
+      <span class="chip" data-v="Ratings and reviews">⭐ Ratings</span>
+      <span class="chip" data-v="Favourites / wishlist">❤️ Favourites</span>
+      <span class="chip" data-v="Share to social media">🔗 Sharing</span>
+      <span class="chip" data-v="Search and filters">🔍 Filters</span>
+      <span class="chip" data-v="More than one language">🌍 More languages</span>
+      <span class="chip" data-v="Dark mode">🌙 Dark mode</span>
+      <span class="chip" data-v="Reports and statistics">📊 Reports</span>
+      <span class="chip" data-v="Ads inside the app">📢 Ads</span>
+      <span class="chip" data-v="AI features (chatbot, suggestions)">🤖 AI</span>
+      <span class="chip" data-other>Other…</span>
+    </div>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="What else should it do?"></div>
+    <input type="hidden" name="features">
+  </div>
+  <div class="q"><span class="ql">If you picked languages, which ones? <span class="opt">(optional)</span></span><input type="text" name="languages" placeholder="e.g. English and Arabic"></div>
+  <div class="q"><span class="ql">Should it connect to anything you already use? <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="integrations" data-multi>
+      <span class="chip" data-v="My website or existing system">My website</span>
+      <span class="chip" data-v="WhatsApp">WhatsApp</span>
+      <span class="chip" data-v="Social media">Social media</span>
+      <span class="chip" data-v="Google Maps">Google Maps</span>
+      <span class="chip" data-v="Payment gateway (Stripe, PayPal)">Payment gateway</span>
+      <span class="chip" data-v="Delivery or courier service">Delivery service</span>
+      <span class="chip" data-v="Accounting / POS software">Accounting / POS</span>
+      <span class="chip" data-v="CRM (HubSpot, Salesforce etc.)">CRM</span>
+      <span class="chip" data-v="Email marketing (Mailchimp etc.)">Email marketing</span>
+      <span class="chip" data-v="Nothing / Not sure">Nothing / Not sure</span>
+      <span class="chip" data-other>Other…</span>
+    </div>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="What should it connect to?"></div>
+    <input type="hidden" name="integrations">
+  </div>
+  <div class="stepwarn">Please answer the payments question above.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(4)">← Back</button>
     <button type="button" class="bnx" onclick="go(6)">Continue →</button>
@@ -462,22 +543,49 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 6 -->
 <div class="card" id="s6" style="display:none">
-  <div class="chead"><div class="ck">Step 6 · Colors</div><div class="ct">Your color world</div><div class="cs">Tap a ready-made palette, pick single colors, or add your exact brand color.</div></div>
-  <div class="q"><span class="ql">Tap a color palette you like</span>
+  <div class="chead"><div class="ck">Step 6 · Look &amp; feel</div><div class="ct">How should it look?</div><div class="cs">Tap what feels right. There is no wrong answer here.</div></div>
+  <div class="q"><span class="ql">Pick your style <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="style" data-multi>
+      <span class="chip" data-v="Modern & Sleek" style="font-family:'Sora',sans-serif;letter-spacing:.5px">Modern</span>
+      <span class="chip" data-v="Minimalist & Clean" style="letter-spacing:2.5px;font-weight:400">Minimal</span>
+      <span class="chip" data-v="Bold & Strong" style="font-weight:800">Bold</span>
+      <span class="chip" data-v="Elegant & Luxury" style="font-family:Georgia,serif;font-style:italic">Elegant</span>
+      <span class="chip" data-v="Corporate & Professional" style="font-family:Arial,Helvetica,sans-serif;font-weight:600">Professional</span>
+      <span class="chip" data-v="Playful & Fun" style="font-family:'Comic Sans MS',cursive;font-size:12.5px">Playful</span>
+      <span class="chip" data-v="Warm & Friendly" style="font-family:'Trebuchet MS',sans-serif">Friendly</span>
+      <span class="chip" data-v="Tech & Futuristic" style="font-family:Consolas,monospace;letter-spacing:1px">Futuristic</span>
+      <span class="chip" data-v="Big text, very easy to read" style="font-size:15px;font-weight:700">Big &amp; easy to read</span>
+    </div>
+    <input type="hidden" name="style">
+  </div>
+  <div class="q"><span class="ql">Light or dark?</span>
+    <div class="chips" data-chips="modepref">
+      <span class="chip" data-v="Light & airy">☀️ Light</span>
+      <span class="chip" data-v="Dark & dramatic">🌙 Dark</span>
+      <span class="chip" data-v="Both (light/dark toggle)">Both, user picks</span>
+      <span class="chip" data-v="Designer's choice">You decide</span>
+    </div>
+    <input type="hidden" name="modepref">
+  </div>
+  <div class="q"><span class="ql">Apps you like the look of <span class="opt">(optional)</span></span>
+    <span class="hint">Any app on your phone counts. Just name it.</span>
+    <textarea name="references" placeholder="e.g. Airbnb, it feels calm and simple"></textarea>
+  </div>
+  <div class="q"><span class="ql">Tap a colour set you like</span>
     <div class="palgrid" id="palettes">
       <div class="pal" data-v="Midnight Luxe (navy · gold · white)"><div class="sw"><i style="background:#1a1a2e"></i><i style="background:#c9a96e"></i><i style="background:#f5f5f0"></i></div><span class="pn">Midnight Luxe</span></div>
       <div class="pal" data-v="Ocean Fresh (deep blue · teal · white)"><div class="sw"><i style="background:#023e8a"></i><i style="background:#00b4d8"></i><i style="background:#f8f9fa"></i></div><span class="pn">Ocean Fresh</span></div>
-      <div class="pal" data-v="Earth & Sage (forest · sage · cream)"><div class="sw"><i style="background:#2d6a4f"></i><i style="background:#95d5b2"></i><i style="background:#fefae0"></i></div><span class="pn">Earth & Sage</span></div>
+      <div class="pal" data-v="Earth & Sage (forest · sage · cream)"><div class="sw"><i style="background:#2d6a4f"></i><i style="background:#95d5b2"></i><i style="background:#fefae0"></i></div><span class="pn">Earth &amp; Sage</span></div>
       <div class="pal" data-v="Sunset Bold (red · orange · yellow)"><div class="sw"><i style="background:#e63946"></i><i style="background:#f4a261"></i><i style="background:#f9c74f"></i></div><span class="pn">Sunset Bold</span></div>
       <div class="pal" data-v="Royal Purple (purple · violet · silver)"><div class="sw"><i style="background:#4B0082"></i><i style="background:#7c3aed"></i><i style="background:#c0c0c0"></i></div><span class="pn">Royal Purple</span></div>
       <div class="pal" data-v="Monochrome (black · grey · white)"><div class="sw"><i style="background:#111"></i><i style="background:#888"></i><i style="background:#f5f5f5"></i></div><span class="pn">Monochrome</span></div>
-      <div class="pal" data-v="Blush & Rose (pink · rose · cream)"><div class="sw"><i style="background:#ff6b9d"></i><i style="background:#f4acb7"></i><i style="background:#fff0f3"></i></div><span class="pn">Blush & Rose</span></div>
+      <div class="pal" data-v="Blush & Rose (pink · rose · cream)"><div class="sw"><i style="background:#ff6b9d"></i><i style="background:#f4acb7"></i><i style="background:#fff0f3"></i></div><span class="pn">Blush &amp; Rose</span></div>
       <div class="pal" data-v="Fire & Charcoal (orange · charcoal · white)"><div class="sw"><i style="background:#FF4500"></i><i style="background:#2b2d42"></i><i style="background:#edf2f4"></i></div><span class="pn">Fire &amp; Charcoal</span></div>
     </div>
     <input type="hidden" name="palettes_sel">
   </div>
   <div class="q">
-    <span class="ql">…or pick single colors / add your exact brand color</span>
+    <span class="ql">…or pick single colours / add your exact brand colour</span>
     <div class="cpresets" id="cpreset">
       <div class="cp" style="background:#111111" data-v="Black"></div>
       <div class="cp" style="background:#f5f5f0" data-v="White"></div>
@@ -501,7 +609,7 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
       <div class="cp" style="background:#a8dadc" data-v="Soft Teal"></div>
     </div>
     <div class="crow">
-      <label>Custom color:</label>
+      <label>Custom colour:</label>
       <input type="color" id="cpk" value="#4f46e5">
       <input type="text" class="chex" id="chx" placeholder="#4f46e5" maxlength="7">
       <button type="button" class="addbtn" onclick="addColor()">+ Add</button>
@@ -509,9 +617,17 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
     <div class="seltags" id="stags"></div>
     <input type="hidden" name="colors">
   </div>
-  <div class="q"><span class="ql">Any brand colors or guidelines? <span class="opt">(optional)</span></span><input type="text" name="brand_guidelines" placeholder="e.g. We have a brand book PDF; primary color is #0A6EBD…"></div>
-  <div class="q"><span class="ql">Colors to avoid? <span class="opt">(optional)</span></span><input type="text" name="avoid_colors" placeholder="e.g. No pink, avoid neon…"></div>
-  <div class="stepwarn"></div>
+  <div class="q promo"><span class="pbadge">⭐ Most popular</span><span class="ql">Do you have a logo? <span class="req">*</span></span>
+    <div class="chips" data-chips="logo">
+      <span class="chip" data-v="YES, I'll send it">✓ Yes, I'll send it</span>
+      <span class="chip yes" data-v="NO, design one for me">✓ No, design one</span>
+      <span class="chip" data-v="I have one but it needs a refresh">Needs a refresh</span>
+    </div>
+    <div class="pnote">Your logo becomes the app icon people see every day. A sharp one gets tapped more.</div>
+    <input type="hidden" name="logo" data-reqhidden>
+  </div>
+  <div class="q"><span class="ql">Anything to <b>avoid</b>? <span class="opt">(optional)</span></span><input type="text" name="avoid_design" placeholder="e.g. No red, nothing crowded, no tiny text"></div>
+  <div class="stepwarn">Please answer the logo question above.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(5)">← Back</button>
     <button type="button" class="bnx" onclick="go(7)">Continue →</button>
@@ -520,41 +636,57 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 7 -->
 <div class="card" id="s7" style="display:none">
-  <div class="chead"><div class="ck">Step 7 · Content &amp; hosting</div><div class="ct">Content, domain &amp; keywords</div><div class="cs">What you have ready.</div></div>
-  <div class="q"><span class="ql">Who will provide the content? <span class="req">*</span></span>
+  <div class="chead"><div class="ck">Step 7 · Content &amp; data</div><div class="ct">What do you already have?</div><div class="cs">"Nothing yet" is a perfectly good answer. We start from zero all the time.</div></div>
+  <div class="q"><span class="ql">Do you have designs already? <span class="req">*</span></span>
+    <div class="chips" data-chips="designs">
+      <span class="chip" data-v="NO, please design it">No, design it for me</span>
+      <span class="chip" data-v="YES, finished designs (Figma / XD)">Yes, finished designs</span>
+      <span class="chip" data-v="Only rough sketches or notes">Rough sketches only</span>
+      <span class="chip" data-v="Not sure">Not sure</span>
+    </div>
+    <input type="hidden" name="designs" data-reqhidden>
+  </div>
+  <div class="q"><span class="ql">Who writes the words and gives the photos?</span>
     <div class="chips" data-chips="content">
-      <span class="chip" data-v="Customer, I will provide the content">I'll provide the content</span>
-      <span class="chip" data-v="As per my Project Manager's suggestion">Per my Project Manager's suggestion</span>
-      <span class="chip" data-v="A mix, I need some help">A mix, I need some help</span>
+      <span class="chip" data-v="I will provide everything">I will</span>
+      <span class="chip" data-v="Please write and source it for me">Please do it for me</span>
+      <span class="chip" data-v="A mix, I need some help">A mix</span>
     </div>
-    <input type="hidden" name="content" data-reqhidden>
+    <input type="hidden" name="content">
   </div>
-  <div class="q"><span class="ql">Do you have photos?</span>
-    <div class="chips" data-chips="photos">
-      <span class="chip" data-v="I have my own photos">Have my own</span>
-      <span class="chip" data-v="Need stock photos">Need stock photos</span>
-      <span class="chip" data-v="A mix of both">A mix of both</span>
-    </div>
-    <input type="hidden" name="photos">
-  </div>
-  <div class="q"><span class="ql">Do you have a domain? <span class="req">*</span></span>
-    <div class="chips" data-chips="domain">
-      <span class="chip yes" data-v="YES">✓ YES</span>
-      <span class="chip" data-v="NO, I need one">NO, need one</span>
+  <div class="q"><span class="ql">Is there a system to plug into? <span class="ibtn" onclick="tg('t-backend')">?</span></span>
+    <div class="tip" id="t-backend">Apps usually keep their data on a server, so your products, users and orders live in one place. If you already have one (a website, a shop system, a database), we can connect to it instead of building a new one.</div>
+    <div class="chips" data-chips="backend">
+      <span class="chip" data-v="NO, please build everything">No, build it for me</span>
+      <span class="chip" data-v="YES, and there is documentation for it">Yes, with documents</span>
+      <span class="chip" data-v="YES, but no documentation">Yes, no documents</span>
       <span class="chip" data-v="Not sure">Not sure</span>
     </div>
-    <input type="hidden" name="domain" data-reqhidden>
+    <input type="hidden" name="backend">
   </div>
-  <div class="q"><span class="ql">Do you have hosting? <span class="req">*</span></span>
-    <div class="chips" data-chips="hosting">
-      <span class="chip yes" data-v="YES">✓ YES</span>
-      <span class="chip" data-v="NO, I need hosting">NO, need hosting</span>
+  <div class="q"><span class="ql">Where is your customer list today?</span>
+    <div class="chips" data-chips="existing_data">
+      <span class="chip" data-v="On my website">On my website</span>
+      <span class="chip" data-v="In Excel or Google Sheets">Excel / Sheets</span>
+      <span class="chip" data-v="On paper">On paper</span>
+      <span class="chip" data-v="I do not have one yet">Do not have one</span>
+      <span class="chip" data-other>Other…</span>
+    </div>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="Where is it kept?"></div>
+    <input type="hidden" name="existing_data">
+  </div>
+  <div class="q"><span class="ql">Any rules you must follow? <span class="opt">(tap all)</span></span>
+    <div class="chips" data-chips="compliance" data-multi>
+      <span class="chip" data-v="GDPR (EU privacy)">GDPR</span>
+      <span class="chip" data-v="HIPAA (health data)">Health data</span>
+      <span class="chip" data-v="Made for children">Made for children</span>
+      <span class="chip" data-v="Accessibility (easy for disabled users)">Accessibility</span>
+      <span class="chip" data-v="None">None</span>
       <span class="chip" data-v="Not sure">Not sure</span>
     </div>
-    <input type="hidden" name="hosting" data-reqhidden>
+    <input type="hidden" name="compliance">
   </div>
-  <div class="q"><span class="ql">What keywords will customers search? <span class="opt">(optional)</span></span><input type="text" name="keywords" placeholder="e.g. landscaper near me, garden design Miami…"></div>
-  <div class="stepwarn">Please answer the required questions above.</div>
+  <div class="stepwarn">Please tell us about your designs above.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(6)">← Back</button>
     <button type="button" class="bnx" onclick="go(8)">Continue →</button>
@@ -563,55 +695,58 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 8 -->
 <div class="card" id="s8" style="display:none">
-  <div class="chead"><div class="ck">Step 8 · Extras &amp; process</div><div class="ct">Logo, SEO &amp; working together</div><div class="cs">Add-ons and how we work together.</div></div>
-  <div class="q promo"><span class="pbadge">⭐ Most popular</span><span class="ql">Do you have a logo? <span class="req">*</span></span>
-    <div class="chips" data-chips="logo">
-      <span class="chip" data-v="YES, I'll provide it">✓ YES, I'll provide it</span>
-      <span class="chip yes" data-v="NO, I'd like one designed">✓ NO, design one for me</span>
-      <span class="chip" data-v="I have one but it needs a refresh">Needs a refresh</span>
+  <div class="chead"><div class="ck">Step 8 · Launch</div><div class="ct">Getting it live</div><div class="cs">Last few taps, then you can check everything.</div></div>
+  <div class="q promo gold"><span class="pbadge">🚀 Get it on the stores</span><span class="ql">Shall we publish it for you? <span class="req">*</span></span>
+    <div class="chips" data-chips="publish">
+      <span class="chip yes" data-v="YES, publish it to the stores for me">✓ Yes, publish it</span>
+      <span class="chip no" data-v="NO, I will publish it myself">No, I'll do it</span>
+      <span class="chip" data-v="Tell me more first">Tell me more</span>
     </div>
-    <div class="pnote">A logo + website launch together makes your brand look established from day one.</div>
-    <input type="hidden" name="logo" data-reqhidden>
+    <div class="pnote">We handle the store listing, the screenshots and the review, so your app actually gets approved.</div>
+    <input type="hidden" name="publish" data-reqhidden>
   </div>
-  <div class="q promo gold"><span class="pbadge">🔍 Get found on Google</span><span class="ql">Want SEO to rank on Google? <span class="req">*</span></span>
-    <div class="chips" data-chips="seo">
-      <span class="chip yes" data-v="YES">✓ YES</span>
-      <span class="chip no" data-v="NO">NO</span>
-      <span class="chip" data-v="Tell me more first">Tell me more first</span>
-    </div>
-    <div class="pnote">SEO helps your website rank higher on Google so new customers find you without ads.</div>
-    <input type="hidden" name="seo" data-reqhidden>
-  </div>
-  <div class="q"><span class="ql">Want maintenance after launch? <span class="req">*</span> <span class="opt">(updates, backups, edits)</span></span>
+  <div class="q"><span class="ql">Want us to look after it after launch? <span class="req">*</span> <span class="opt">(updates, fixes, new phones)</span></span>
     <div class="chips" data-chips="maintenance">
-      <span class="chip yes" data-v="YES">✓ YES</span>
-      <span class="chip no" data-v="NO, I'll manage it myself">NO, I'll manage it</span>
+      <span class="chip yes" data-v="YES">✓ Yes</span>
+      <span class="chip no" data-v="NO, I'll manage it">No, I'll manage it</span>
       <span class="chip" data-v="Maybe, tell me options">Maybe, tell me options</span>
     </div>
     <input type="hidden" name="maintenance" data-reqhidden>
   </div>
-  <div class="q"><span class="ql">How should we send updates?</span>
+  <div class="q"><span class="ql">When do you need it live? <span class="req">*</span></span>
+    <div class="chips" data-chips="deadline">
+      <span class="chip" data-v="ASAP">ASAP</span>
+      <span class="chip" data-v="Within 1 month">1 month</span>
+      <span class="chip" data-v="Within 2-3 months">2–3 months</span>
+      <span class="chip" data-v="Within 3-6 months">3–6 months</span>
+      <span class="chip" data-v="No rush">No rush</span>
+      <span class="chip" data-other>Exact date…</span>
+    </div>
+    <div class="otherbox"><input type="text" data-otherinput placeholder="e.g. Before Eid, or 15 March"></div>
+    <input type="hidden" name="deadline" data-reqhidden>
+  </div>
+  <div class="q"><span class="ql">Roughly what budget? <span class="opt">(optional, but it helps a lot)</span></span>
+    <span class="hint">This tells us what to build first. Nobody is held to it.</span>
+    <div class="chips" data-chips="budget">
+      <span class="chip" data-v="Under $1,000">Under $1,000</span>
+      <span class="chip" data-v="$1,000 to $3,000">$1,000 – $3,000</span>
+      <span class="chip" data-v="$3,000 to $7,000">$3,000 – $7,000</span>
+      <span class="chip" data-v="$7,000 to $15,000">$7,000 – $15,000</span>
+      <span class="chip" data-v="Over $15,000">Over $15,000</span>
+      <span class="chip" data-v="Not sure yet">Not sure yet</span>
+    </div>
+    <input type="hidden" name="budget">
+  </div>
+  <div class="q"><span class="ql">How should we update you? <span class="opt">(tap all)</span></span>
     <div class="chips" data-chips="feedback" data-multi>
       <span class="chip" data-v="Email">Email</span>
-      <span class="chip" data-v="WhatsApp / Text">WhatsApp / Text</span>
-      <span class="chip" data-v="Phone / Video calls">Phone / Video Calls</span>
+      <span class="chip" data-v="WhatsApp / Text">WhatsApp</span>
+      <span class="chip" data-v="Phone / Video calls">Calls</span>
       <span class="chip" data-v="Whatever is easiest">Whatever's easiest</span>
     </div>
     <input type="hidden" name="feedback">
   </div>
-  <div class="q"><span class="ql">When do you need your website live? <span class="req">*</span></span>
-    <div class="chips" data-chips="deadline">
-      <span class="chip" data-v="ASAP">ASAP</span>
-      <span class="chip" data-v="Within 2 weeks">2 weeks</span>
-      <span class="chip" data-v="Within 1 month">1 month</span>
-      <span class="chip" data-v="Within 2-3 months">2–3 months</span>
-      <span class="chip" data-v="No rush">No rush</span>
-      <span class="chip" data-other>Exact date…</span>
-    </div>
-    <div class="otherbox"><input type="text" data-otherinput placeholder="e.g. Before March 15"></div>
-    <input type="hidden" name="deadline" data-reqhidden>
-  </div>
-  <div class="q"><span class="ql">Anything else? <span class="opt">(optional)</span></span><textarea name="extra" placeholder="Ideas, must-haves, links to examples, special requests…"></textarea></div>
+  <div class="q"><span class="ql">Anything else we should know? <span class="opt">(optional)</span></span><textarea name="extra" placeholder="Ideas, must-haves, links, anything you are worried about…"></textarea></div>
   <div class="stepwarn">Please answer the required questions above.</div>
   <div class="nav">
     <button type="button" class="bbk" onclick="go(7)">← Back</button>
@@ -621,16 +756,16 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <!-- STEP 9 : REVIEW -->
 <div class="card" id="s9" style="display:none">
-  <div class="chead"><div class="ck">Step 9 · Review</div><div class="ct">One last look</div><div class="cs">Check everything before sending. Tap "Edit" to jump back to any section.</div></div>
+  <div class="chead"><div class="ck">Step 9 · Review</div><div class="ct">One last look</div><div class="cs">Check it over before sending. Tap "Edit" to jump back to any part.</div></div>
   <div id="review"></div>
-  <div class="q promo"><span class="pbadge">🎁 Complete your brand</span><span class="ql">Popular add-ons <span class="opt">(tap to add, pricing comes with your quote)</span></span>
+  <div class="q promo"><span class="pbadge">🎁 Popular with app clients</span><span class="ql">Want any of these too? <span class="opt">(tap to add, pricing comes with your quote)</span></span>
     <div class="addons">
-      <div class="ao" data-v="Logo Design" onclick="ao(this)"><span class="tick">✓</span><span class="t">⭐ Logo Design</span><span class="d">A logo that matches your new site</span><span class="add">+ Add</span></div>
-      <div class="ao" data-v="SEO / High Google Ranking" onclick="ao(this)"><span class="tick">✓</span><span class="t">🔍 Rank on Google</span><span class="d">SEO so customers find you first</span><span class="add">+ Add</span></div>
-      <div class="ao" data-v="Marketing Campaign" onclick="ao(this)"><span class="tick">✓</span><span class="t">📣 Marketing Campaign</span><span class="d">Social and email ads that bring sales</span><span class="add">+ Add</span></div>
-      <div class="ao" data-v="Business Cards" onclick="ao(this)"><span class="tick">✓</span><span class="t">💼 Business Cards</span><span class="d">Printed with your branding</span><span class="add">+ Add</span></div>
-      <div class="ao" data-v="Letterhead & Stationery" onclick="ao(this)"><span class="tick">✓</span><span class="t">📄 Letterhead</span><span class="d">Branded invoices and documents</span><span class="add">+ Add</span></div>
-      <div class="ao" data-v="Flyers & Banners" onclick="ao(this)"><span class="tick">✓</span><span class="t">🖼 Flyers & Banners</span><span class="d">Print ads for local reach</span><span class="add">+ Add</span></div>
+      <div class="ao" data-v="Logo Design" onclick="ao(this)"><span class="tick">✓</span><span class="t">⭐ Logo &amp; App Icon</span><span class="d">The icon people tap every day</span><span class="add">+ Add</span></div>
+      <div class="ao" data-v="Matching Website" onclick="ao(this)"><span class="tick">✓</span><span class="t">🌐 Matching Website</span><span class="d">So people find you before the app</span><span class="add">+ Add</span></div>
+      <div class="ao" data-v="App Store Listing & Screenshots" onclick="ao(this)"><span class="tick">✓</span><span class="t">📱 Store Screenshots</span><span class="d">The pictures that sell your app</span><span class="add">+ Add</span></div>
+      <div class="ao" data-v="App Store Optimisation (ASO)" onclick="ao(this)"><span class="tick">✓</span><span class="t">🔍 Get Found In Search</span><span class="d">Rank when people search the store</span><span class="add">+ Add</span></div>
+      <div class="ao" data-v="Marketing Campaign" onclick="ao(this)"><span class="tick">✓</span><span class="t">📣 Launch Campaign</span><span class="d">Social ads that bring first users</span><span class="add">+ Add</span></div>
+      <div class="ao" data-v="Promo Video" onclick="ao(this)"><span class="tick">✓</span><span class="t">🎬 Promo Video</span><span class="d">A short video showing the app</span><span class="add">+ Add</span></div>
     </div>
     <input type="hidden" name="addons">
   </div>
@@ -647,12 +782,12 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 <div class="ty" id="ty">
   <span class="rocket">🚀</span>
   <div class="badge">✓&nbsp; SUBMITTED</div>
-  <h2>Your brief is in orbit!</h2>
-  <p>Thanks for trusting <strong>LogoOrbit</strong> with your website.<br>Our design team has received every detail and will<br>be in touch within 1–2 business days.</p>
+  <h2>Your app brief is in orbit!</h2>
+  <p>Thanks for trusting <strong>LogoOrbit</strong> with your app.<br>Our team has every detail and will be in touch<br>within 1–2 business days.</p>
   <button type="button" class="pdfbtn" onclick="downloadPdf()">⬇ &nbsp;Download a PDF copy of your brief</button>
 </div>
 
-<div class="foot">© LogoOrbit - Professional logo, brand &amp; website design</div>
+<div class="foot">© LogoOrbit - Mobile apps, logos, brands &amp; websites</div>
 
 </div>
 <script src="jspdf.umd.min.js"></script>
@@ -667,20 +802,19 @@ function setTheme(t){
 }
 setTheme((()=>{try{return localStorage.getItem('lo-theme')}catch(e){return null}})()||'light');
 document.getElementById('tsw').addEventListener('click',()=>setTheme(html.dataset.theme==='light'?'dark':'light'));
-/* keyboard access for tap targets */
-document.querySelectorAll('.chip,.ic-btn,.pal,.cp,.ao,.tswitch').forEach(el=>{
+/* keyboard access for tap targets, including the plain-English "?" helpers */
+document.querySelectorAll('.chip,.ic-btn,.pal,.cp,.ao,.tswitch,.ibtn').forEach(el=>{
   el.tabIndex=0;el.setAttribute('role','button');
   if(el.dataset.v)el.setAttribute('aria-label',el.dataset.v);
   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
 });
 function tg(id){document.getElementById(id).classList.toggle('show')}
-function ao(el){el.classList.toggle('on');el.querySelector('.add').textContent=el.classList.contains('on')?'\u2713 Added to your brief':'+ Add';document.querySelector('input[name="addons"]').value=[...document.querySelectorAll('.ao.on')].map(x=>x.dataset.v).join(', ');}
+function ao(el){el.classList.toggle('on');el.querySelector('.add').textContent=el.classList.contains('on')?'✓ Added to your brief':'+ Add';document.querySelector('input[name="addons"]').value=[...document.querySelectorAll('.ao.on')].map(x=>x.dataset.v).join(', ');}
 
 /* ── navigation ── */
 const TOTAL=9;
 let cur=1;
 const BRIEF_API='/api/brief';
-const CRM_SUBMISSION_ID=(crypto.randomUUID?crypto.randomUUID():(Date.now()+'-'+Math.random().toString(36).slice(2)));
 const STEP_OF_SECTION=[1,2,3,4,5,6,7,8];
 
 function validateStep(n){
@@ -791,31 +925,31 @@ function rmCol(i){
 /* ── brief structure (shared by review, email, PDF) ── */
 const FIELDS=[
  ['CLIENT & COMPANY',[
-  ['Full Name','name'],['Email','email'],['Company / Business','company'],
-  ['Phone Number','phone'],['Industry / Niche','industry']]],
- ['YOUR BUSINESS',[
-  ['Services / Products Provided','services'],['What Sets You Apart','differentiator'],
-  ['Target Audience','audience'],['Competitors (Like / Dislike)','competitors'],
-  ['Online Marketing Strategy','marketing']]],
- ['WEBSITE & GOALS',[
-  ['Type of Website','sitetype'],['Existing Website','existing'],['Current Website URL','existing_url'],
-  ['Main Goals','goal'],['Secondary Objectives','secondary']]],
- ['PAGES, FEATURES & INTEGRATIONS',[
-  ['Pages Needed','pages'],['Features Needed','features'],
-  ['Third-party Integrations','integrations'],['Security / Compliance','compliance']]],
+  ['Full Name','name'],['Email','email'],['Business / App Name','company'],
+  ['Phone / WhatsApp','phone'],['Industry','industry']]],
+ ['THE APP IDEA',[
+  ['What The App Does','idea'],['Problem It Solves','problem'],['Who Will Use It','users'],
+  ['Country / City','region'],['Similar Apps','similar'],['What Makes It Better','better']]],
+ ['PLATFORMS & STAGE',[
+  ['Runs On','platform'],['Project Stage','projectstage'],['Current App / Website','existing_url'],
+  ['Store Developer Accounts','devaccounts'],['Works Without Internet','offline']]],
+ ['SCREENS & USER TYPES',[
+  ['Screens Needed','screens'],['Rough Size','size'],['Sign Up Required','accounts'],
+  ['Types Of Users','roles'],['Admin Control Panel','admin']]],
+ ['FEATURES & CONNECTIONS',[
+  ['Login Methods','login'],['Payments In App','payments'],['Payment Methods','paymethods'],
+  ['Features Needed','features'],['Languages','languages'],['Connects With','integrations']]],
  ['LOOK & FEEL',[
-  ['Design Style','style'],['Light / Dark Preference','modepref'],
-  ['Reference Websites','references'],['Design Elements to Incorporate','design_elements'],
-  ['Design to Avoid','avoid_design']]],
- ['COLORS & BRANDING',[
-  ['Selected Palettes','palettes_sel'],['Preferred Colors','colors'],
-  ['Brand Guidelines','brand_guidelines'],['Colors to Avoid','avoid_colors']]],
- ['CONTENT, DOMAIN & KEYWORDS',[
-  ['Content Provided By','content'],['Photos & Images','photos'],
-  ['Domain (URL)','domain'],['Hosting','hosting'],['SEO Keywords','keywords']]],
- ['EXTRAS & PROCESS',[
-  ['Logo','logo'],['SEO','seo'],['Maintenance & Support','maintenance'],
-  ['Feedback & Revision Process','feedback'],['Launch Deadline','deadline'],['Add-ons Requested','addons'],['Additional Notes','extra']]]
+  ['Design Style','style'],['Light / Dark Preference','modepref'],['Reference Apps','references'],
+  ['Selected Palettes','palettes_sel'],['Preferred Colours','colors'],['Logo','logo'],
+  ['Design To Avoid','avoid_design']]],
+ ['CONTENT & DATA',[
+  ['Existing Designs','designs'],['Content Provided By','content'],['Existing System / Backend','backend'],
+  ['Where Customer Data Lives','existing_data'],['Rules To Follow','compliance']]],
+ ['LAUNCH & SUPPORT',[
+  ['Publish To App Stores','publish'],['Maintenance & Support','maintenance'],['Deadline','deadline'],
+  ['Budget','budget'],['Preferred Updates','feedback'],['Add-ons Requested','addons'],
+  ['Additional Notes','extra']]]
 ];
 let lastData=null;
 
@@ -837,32 +971,39 @@ function buildReview(){
 
 function buildPara(data){
   const v=k=>(data[k]||'').trim();
-  let para=`${v('name')||'A client'} from ${v('company')||'an unnamed company'} (${v('industry')||'industry not given'}) needs a ${v('sitetype')||'website'}. `;
+  let para=`${v('name')||'A client'} from ${v('company')||'an unnamed business'} (${v('industry')||'industry not given'}) needs a mobile app for ${v('platform')||'phones'}. `;
   if(v('phone')) para+=`Phone: ${v('phone')}. `;
-  if(v('services')) para+=`They offer: ${v('services')}. `;
-  if(v('differentiator')) para+=`What sets them apart: ${v('differentiator')}. `;
-  if(v('audience')) para+=`Audience: ${v('audience')}. `;
-  para+=`Existing site: ${v('existing')||'-'}`+(v('existing_url')?` (${v('existing_url')})`:'')+`. `;
-  if(v('goal')) para+=`Main goals: ${v('goal')}. `;
-  if(v('secondary')) para+=`Secondary: ${v('secondary')}. `;
-  if(v('pages')) para+=`Pages: ${v('pages')}. `;
+  if(v('idea')) para+=`The app: ${v('idea')}. `;
+  if(v('problem')) para+=`Problem it solves: ${v('problem')}. `;
+  if(v('users')) para+=`Users: ${v('users')}`+(v('region')?` in ${v('region')}`:'')+`. `;
+  if(v('similar')) para+=`Similar to: ${v('similar')}. `;
+  if(v('better')) para+=`Their edge: ${v('better')}. `;
+  para+=`Stage: ${v('projectstage')||'-'}`+(v('existing_url')?` (${v('existing_url')})`:'')+`. `;
+  if(v('devaccounts')) para+=`Store accounts: ${v('devaccounts')}. `;
+  if(v('offline')) para+=`Offline use: ${v('offline')}. `;
+  if(v('screens')) para+=`Screens: ${v('screens')}. `;
+  if(v('size')) para+=`Rough size: ${v('size')}. `;
+  if(v('accounts')) para+=`Sign up: ${v('accounts')}. `;
+  if(v('roles')) para+=`User types: ${v('roles')}. `;
+  if(v('admin')) para+=`Admin panel: ${v('admin')}. `;
+  if(v('login')) para+=`Login: ${v('login')}. `;
+  para+=`Payments: ${v('payments')||'-'}`+(v('paymethods')?` via ${v('paymethods')}`:'')+`. `;
   if(v('features')) para+=`Features: ${v('features')}. `;
-  if(v('integrations')) para+=`Integrations: ${v('integrations')}. `;
-  if(v('compliance')) para+=`Compliance: ${v('compliance')}. `;
+  if(v('languages')) para+=`Languages: ${v('languages')}. `;
+  if(v('integrations')) para+=`Connects with: ${v('integrations')}. `;
   if(v('style')) para+=`Style: ${v('style')}`+(v('modepref')?` (${v('modepref')})`:'')+`. `;
-  if(v('references')) para+=`Reference sites: ${v('references')}. `;
-  if(v('design_elements')) para+=`Incorporate: ${v('design_elements')}. `;
+  if(v('references')) para+=`Reference apps: ${v('references')}. `;
+  const colorBits=[v('palettes_sel'),v('colors')].filter(Boolean).join('; ');
+  if(colorBits) para+=`Colours: ${colorBits}. `;
   if(v('avoid_design')) para+=`Avoid: ${v('avoid_design')}. `;
-  const colorBits=[v('palettes_sel'),v('colors'),v('brand_guidelines')].filter(Boolean).join('; ');
-  if(colorBits) para+=`Colors/branding: ${colorBits}. `;
-  if(v('avoid_colors')) para+=`No ${v('avoid_colors')}. `;
-  para+=`Content: ${v('content')||'-'}. Photos: ${v('photos')||'-'}. Domain: ${v('domain')||'-'}. Hosting: ${v('hosting')||'-'}. `;
-  if(v('keywords')) para+=`SEO keywords: ${v('keywords')}. `;
-  para+=`Logo: ${v('logo')||'-'}. SEO: ${v('seo')||'-'}. Maintenance: ${v('maintenance')||'-'}. `;
-  if(v('competitors')) para+=`Competitors: ${v('competitors')}. `;
-  if(v('marketing')) para+=`Marketing strategy: ${v('marketing')}. `;
-  if(v('feedback')) para+=`Prefers updates via ${v('feedback')}. `;
+  para+=`Logo: ${v('logo')||'-'}. Designs ready: ${v('designs')||'-'}. Content: ${v('content')||'-'}. `;
+  if(v('backend')) para+=`Existing system: ${v('backend')}. `;
+  if(v('existing_data')) para+=`Customer data lives: ${v('existing_data')}. `;
+  if(v('compliance')) para+=`Rules: ${v('compliance')}. `;
+  para+=`Publishing: ${v('publish')||'-'}. Maintenance: ${v('maintenance')||'-'}. `;
   if(v('deadline')) para+=`Deadline: ${v('deadline')}. `;
+  if(v('budget')) para+=`Budget: ${v('budget')}. `;
+  if(v('feedback')) para+=`Prefers updates via ${v('feedback')}. `;
   if(v('addons')) para+=`ADD-ONS REQUESTED: ${v('addons')}. `;
   if(v('extra')) para+=`Extra notes: ${v('extra')}.`;
   return para;
@@ -886,7 +1027,7 @@ function buildPdf(data){
   doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);
   doc.text('LogoOrbit',M+21,18.5);
   doc.setFontSize(10.5);doc.setFont('helvetica','normal');doc.setTextColor(232,230,255);
-  doc.text('Website Design Brief',M+21,25.5);
+  doc.text('Mobile App Brief',M+21,25.5);
   doc.setFontSize(9);doc.text(new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),W-M,14.5,{align:'right'});
   doc.setFont('helvetica','bold');doc.setFontSize(11.5);doc.text(v('company')||'',W-M,21,{align:'right'});
   doc.setFont('helvetica','normal');doc.setFontSize(9);doc.text([v('name'),v('email')].filter(Boolean).join('  ·  '),W-M,26.8,{align:'right'});
@@ -895,15 +1036,15 @@ function buildPdf(data){
   doc.setFillColor(248,249,252);doc.setDrawColor(226,228,240);doc.setLineWidth(.4);
   doc.roundedRect(M,y,W-2*M,38,4,4,'FD');
   doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(...LG);
-  doc.text('PROJECT',W/2,y+8,{align:'center'});
+  doc.text('APP',W/2,y+8,{align:'center'});
   let nameCol=INK;
   if(cols.length){const c=hx(cols[0].hex);if((c[0]*.299+c[1]*.587+c[2]*.114)<190)nameCol=c;}
   doc.setTextColor(...nameCol);doc.setFontSize(26);
-  doc.text(v('company')||v('name')||'Your Website',W/2,y+21,{align:'center'});
+  doc.text(v('company')||v('name')||'Your App',W/2,y+21,{align:'center'});
   doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...AC);
-  doc.text((v('sitetype')||'Website').toUpperCase(),W/2,y+29,{align:'center'});
+  doc.text((v('platform')||'Mobile App').toUpperCase(),W/2,y+29,{align:'center'});
   doc.setFont('helvetica','normal');doc.setFontSize(8.5);doc.setTextColor(...GRAY);
-  if(v('existing_url'))doc.text(v('existing_url'),W/2,y+34.5,{align:'center'});
+  if(v('idea'))doc.text(doc.splitTextToSize(v('idea'),W-2*M-20)[0],W/2,y+34.5,{align:'center'});
   y+=46;
   const para=buildPara(data);
   doc.setFont('helvetica','normal');doc.setFontSize(9.5);
@@ -916,23 +1057,23 @@ function buildPdf(data){
   doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(45,45,70);
   doc.text(pl,M+6,y+12.5);
   y+=pl.length*4.4+21;
-  const MULTI=new Set(["goal", "pages", "features", "integrations", "compliance", "style", "palettes_sel", "feedback", "addons"]),PILLS=new Set(["sitetype", "existing", "modepref", "content", "photos", "domain", "hosting", "logo", "seo", "maintenance", "deadline", "marketing"]),SKIP=new Set(['colors']);
+  const MULTI=new Set(["users","screens","roles","login","paymethods","features","integrations","style","palettes_sel","compliance","feedback","addons"]),PILLS=new Set(["platform","projectstage","devaccounts","offline","size","accounts","admin","payments","modepref","logo","designs","content","backend","existing_data","publish","maintenance","deadline","budget","industry"]),SKIP=new Set(['colors']);
   const sec=t=>{need(20);doc.setFillColor(...AC);doc.roundedRect(M,y-4.4,2.4,6.6,1.2,1.2,'F');doc.setFont('helvetica','bold');doc.setFontSize(11.5);doc.setTextColor(...INK);doc.text(t,M+6,y);doc.setDrawColor(229,231,240);doc.setLineWidth(.3);doc.line(M,y+3,W-M,y+3);y+=10;};
   const pills=arr=>{doc.setFont('helvetica','bold');doc.setFontSize(8.5);let x=M+2;arr.forEach(t=>{const w=doc.getTextWidth(t)+8;if(x+w>W-M&&x>M+2){x=M+2;y+=9;need(12);}doc.setFillColor(238,240,255);doc.setDrawColor(180,186,255);doc.setLineWidth(.3);doc.roundedRect(x,y-4.7,w,7,3.5,3.5,'FD');doc.setTextColor(...AC);doc.text(t,x+4,y);x+=w+2.6;});y+=12;};
   const row=(label,key)=>{const val=v(key);if(!val||SKIP.has(key))return;need(15);doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(...LG);doc.text(label.toUpperCase(),M+2,y);y+=5.5;
     if(MULTI.has(key)){pills(val.split(/,\s|;\s/));}
     else if(PILLS.has(key)){pills([val]);}
     else{doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(35,38,58);const ls=doc.splitTextToSize(val,W-2*M-4);need(ls.length*4.6+5);doc.text(ls,M+2,y);y+=ls.length*4.6+6;}};
-  const swatches=()=>{if(!cols.length)return;need(22);doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(...LG);doc.text('CHOSEN COLORS',M+2,y);y+=7;let x=M+4;cols.forEach(c=>{if(x>W-M-26){x=M+4;y+=17;need(20);}const rgb=hx(c.hex);doc.setFillColor(...rgb);doc.setDrawColor(190,192,205);doc.setLineWidth(.3);doc.circle(x+5,y+1,5,'FD');doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(...GRAY);doc.text((c.name||c.hex).slice(0,14),x+5,y+10,{align:'center'});x+=27;});y+=17;};
-  FIELDS.forEach((s0,idx)=>{if(idx===0)return;const secName=s0[0],rows=s0[1];const filled=rows.filter(r=>v(r[1])&&!SKIP.has(r[1]));const isCol=secName.indexOf('COLORS')===0;if(!filled.length&&!(isCol&&cols.length))return;sec(secName);filled.forEach(r=>row(r[0],r[1]));if(isCol)swatches();y+=4;});
+  const swatches=()=>{if(!cols.length)return;need(22);doc.setFont('helvetica','bold');doc.setFontSize(7.5);doc.setTextColor(...LG);doc.text('CHOSEN COLOURS',M+2,y);y+=7;let x=M+4;cols.forEach(c=>{if(x>W-M-26){x=M+4;y+=17;need(20);}const rgb=hx(c.hex);doc.setFillColor(...rgb);doc.setDrawColor(190,192,205);doc.setLineWidth(.3);doc.circle(x+5,y+1,5,'FD');doc.setFont('helvetica','normal');doc.setFontSize(6.5);doc.setTextColor(...GRAY);doc.text((c.name||c.hex).slice(0,14),x+5,y+10,{align:'center'});x+=27;});y+=17;};
+  FIELDS.forEach((s0,idx)=>{if(idx===0)return;const secName=s0[0],rows=s0[1];const filled=rows.filter(r=>v(r[1])&&!SKIP.has(r[1]));const isCol=secName.indexOf('LOOK')===0;if(!filled.length&&!(isCol&&cols.length))return;sec(secName);filled.forEach(r=>row(r[0],r[1]));if(isCol)swatches();y+=4;});
   const pages=doc.getNumberOfPages();
-  for(let i=1;i<=pages;i++){doc.setPage(i);band(289,8);doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('LogoOrbit  ·  Website Design Brief  ·  Page '+i+' of '+pages,W/2,294,{align:'center'});}
+  for(let i=1;i<=pages;i++){doc.setPage(i);band(289,8);doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(8);doc.text('LogoOrbit  ·  Mobile App Brief  ·  Page '+i+' of '+pages,W/2,294,{align:'center'});}
   return doc;
 }
 
 function pdfName(d){
   const who=((d&&(d.company||d.name))||'client').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'');
-  return 'LogoOrbit-Website-Brief-'+who+'.pdf';
+  return 'LogoOrbit-App-Brief-'+who+'.pdf';
 }
 function downloadPdf(){
   if(!lastData) return;
@@ -955,7 +1096,6 @@ function downloadPdf(){
   }catch(e){}
 })();
 
-
 /* ── abort signal, with a fallback for browsers without AbortSignal.timeout ── */
 const tmo=ms=>{
   if(AbortSignal.timeout) return AbortSignal.timeout(ms);
@@ -973,7 +1113,6 @@ document.getElementById('brief').addEventListener('submit',async function(e){
 
   const para=buildPara(data);
 
-
   // clean, sectioned brief: only answered questions, one per block
   let brief='';
   FIELDS.forEach(([sec,rows])=>{
@@ -989,7 +1128,7 @@ document.getElementById('brief').addEventListener('submit',async function(e){
       headers:{'Content-Type':'application/json'},
       signal:tmo(25000),
       body:JSON.stringify({
-        type:'website',
+        type:'app',
         name:data.name,email:data.email,company:data.company||'',
         summary:para,brief:brief.trim(),
         pdfBase64,filename:pdfName(data)

@@ -20,6 +20,7 @@
  */
 
 import { randomInt } from 'crypto'
+import { deskRecipients } from '../../lib/notify'
 import { salesTax } from '../../lib/pricing'
 import { site, whatsapp } from '../../lib/site'
 
@@ -288,16 +289,14 @@ export default async function handler(req, res) {
   /**
    * Orders go to the sales desk and to the legal desk, which keeps the record
    * of what was agreed before any assignment or filing paperwork is drawn up.
-   * ORDER_TO_EMAIL overrides the list entirely and accepts a comma-separated
-   * set of addresses, so the recipients can be changed without a deploy.
+   * ORDER_TO_EMAIL names that desk list and accepts a comma-separated set of
+   * addresses, so the recipients can be changed without a deploy. The owner's
+   * own inbox is added on top of whatever it says.
    */
-  const to = [
-    ...new Set(
-      process.env.ORDER_TO_EMAIL
-        ? process.env.ORDER_TO_EMAIL.split(',').map((a) => a.trim()).filter(Boolean)
-        : ['asadsyed711@gmail.com', 'legal@logoorbit.net', process.env.CONTACT_TO_EMAIL || 'sales@logoorbit.net']
-    ),
-  ]
+  const to = deskRecipients(process.env.ORDER_TO_EMAIL, [
+    'legal@logoorbit.net',
+    process.env.CONTACT_TO_EMAIL || 'sales@logoorbit.net',
+  ])
   const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
 
   const send = async (payload) => {

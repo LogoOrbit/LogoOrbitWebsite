@@ -5,6 +5,8 @@
  * CONTACT_TO_EMAIL and CONTACT_FROM_EMAIL in the deployment environment.
  */
 
+import { deskRecipients } from '../../lib/notify'
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const SERVICE_VALUES = new Set([
   'Logo Design', 'Website Design', 'Video, Animation & YouTube', 'Mobile Applications',
@@ -60,7 +62,7 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY
-  const to = process.env.CONTACT_TO_EMAIL || 'support@logoorbit.net'
+  const to = deskRecipients(process.env.CONTACT_TO_EMAIL, ['support@logoorbit.net'])
   const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
   if (!apiKey) return res.status(503).json({ error: 'Online enquiries are temporarily unavailable. Please call or email us.' })
 

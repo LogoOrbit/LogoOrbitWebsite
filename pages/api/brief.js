@@ -1,5 +1,6 @@
 /**
- * Brief endpoint for the logo and website brief forms in /public/brief.
+ * Brief endpoint for the logo, website and mobile app brief forms in
+ * /public/brief.
  *
  * The form builds the PDF in the browser with jsPDF, so the client can keep a
  * copy without waiting on us, and posts that same document here as base64. We
@@ -9,8 +10,10 @@
  * CONTACT_FROM_EMAIL in the deployment environment.
  */
 
+import { deskRecipients } from '../../lib/notify'
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const TYPES = { logo: 'Logo', website: 'Website' }
+const TYPES = { logo: 'Logo', website: 'Website', app: 'Mobile App' }
 
 // A text-only jsPDF brief runs to a few tens of kilobytes. Base64 inflates it
 // by a third, so this leaves room for a long brief and still refuses anything
@@ -74,7 +77,9 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY
-  const to = process.env.BRIEF_TO_EMAIL || process.env.CONTACT_TO_EMAIL || 'support@logoorbit.net'
+  const to = deskRecipients(process.env.BRIEF_TO_EMAIL || process.env.CONTACT_TO_EMAIL, [
+    'support@logoorbit.net',
+  ])
   const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
   if (!apiKey) {
     return res.status(503).json({ error: 'Briefs are temporarily unavailable. Please call or email us.' })

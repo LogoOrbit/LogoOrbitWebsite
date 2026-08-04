@@ -50,6 +50,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);background-
 .tbtns{display:flex;gap:8px;align-items:center}
 .pagelink{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:9px 15px;font-size:12.5px;font-weight:700;color:var(--text2);text-decoration:none;box-shadow:var(--shadow);transition:all .18s;white-space:nowrap}
 .pagelink:hover{border-color:var(--accent-border);color:var(--accent)}
+/* Two cross-links plus the theme switch will not fit a small phone; the
+   secondary one steps aside rather than pushing the brand off screen. */
+@media(max-width:600px){.pagelink.alt{display:none}}
 .tswitch{display:flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:5px;cursor:pointer;box-shadow:var(--shadow)}
 .tswitch span{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;color:var(--text3)}
 .tswitch span.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
@@ -219,6 +222,7 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
   </a>
   <div class="tbtns">
     <a class="pagelink" href="website.html">Website brief ↗</a>
+    <a class="pagelink alt" href="app.html">App brief ↗</a>
     <div class="tswitch" id="tsw" title="Toggle theme">
       <span id="t-light" class="on">☀️</span>
       <span id="t-dark">🌙</span>
