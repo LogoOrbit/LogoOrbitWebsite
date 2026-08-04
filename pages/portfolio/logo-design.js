@@ -60,7 +60,7 @@ export default function LogoPortfolioPage({ sampleWork }) {
       />
 
       <TrustBar />
-      <Portfolio showHeading={false} initial={32} step={48} />
+      <Portfolio showHeading={false} initial={12} step={12} />
       <Testimonials />
       <CTA />
     </Layout>
