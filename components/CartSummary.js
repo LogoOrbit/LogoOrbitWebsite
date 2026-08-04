@@ -7,9 +7,7 @@ import { site } from '../lib/site'
  * The money panel: subtotal, tax, total, and the way out.
  *
  * Shared by the cart page and the checkout page so the two can never disagree
- * about what the order comes to. Monthly items are shown as their own block
- * rather than folded into the one-off total, because a customer signing off on
- * "$3,148" needs to know which part of it recurs.
+ * about what the order comes to.
  */
 export default function CartSummary({ sticky = false, checkoutLink = false, children }) {
   const { totals } = useCart()
@@ -41,20 +39,6 @@ export default function CartSummary({ sticky = false, checkoutLink = false, chil
         <span className="text-[15px] font-bold text-ink-900">Total due</span>
         <span className="text-3xl font-bold tabular-nums tracking-tight text-ink-900">{cash(totals.total)}</span>
       </div>
-
-      {totals.hasRecurring && (
-        <div className="mt-4 rounded-2xl bg-brand-50/70 p-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-600">Then monthly</p>
-          <div className="mt-1 flex items-baseline justify-between">
-            <span className="text-[13.5px] text-ink-500">Recurring items with tax</span>
-            <span className="text-lg font-bold tabular-nums text-ink-900">{cash(totals.recurringTotal)}</span>
-          </div>
-          <p className="mt-1.5 text-[12.5px] leading-snug text-ink-500">
-            Billed every month and cancellable at any time. It is kept out of the total above so the one-off
-            figure stays honest.
-          </p>
-        </div>
-      )}
 
       {totals.estimated && (
         <p className="mt-4 rounded-2xl bg-flare-300/15 p-3.5 text-[12.5px] leading-snug text-ink-700">

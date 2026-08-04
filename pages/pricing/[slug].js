@@ -79,7 +79,6 @@ export default function PackagePage({ pkg, siblings }) {
                 name: pkg.name,
                 kind: pkg.sectionTitle,
                 price: pkg.price,
-                per: pkg.per || null,
                 from: /from/i.test(pkg.priceLabel || ''),
                 href: path,
               }}

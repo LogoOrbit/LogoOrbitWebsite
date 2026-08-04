@@ -55,7 +55,6 @@ const popularServices = [
   { label: 'Video editing', href: '/services/video-editing' },
   { label: 'Book covers', href: '/services/book-cover-design' },
   { label: 'Amazon listings', href: '/services/amazon-listing-design' },
-  { label: 'Design subscription', href: '/services/design-subscription' },
 ]
 
 export default function Footer() {

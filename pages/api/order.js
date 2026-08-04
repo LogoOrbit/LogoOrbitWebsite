@@ -43,7 +43,6 @@ function cleanLine(raw) {
     kind: String(raw.kind || 'Package').trim().slice(0, 60),
     price: round2(price),
     qty: Math.min(99, qty),
-    per: raw.per ? String(raw.per).trim().slice(0, 30) : null,
     from: Boolean(raw.from),
   }
 }
@@ -81,15 +80,9 @@ export default async function handler(req, res) {
   const lines = items.map(cleanLine).filter(Boolean)
   if (lines.length === 0) return res.status(400).json({ error: 'We could not read your cart. Please try again.' })
 
-  const oneOff = lines.filter((l) => !l.per)
-  const recurring = lines.filter((l) => l.per)
-  const sum = (list) => round2(list.reduce((n, l) => n + l.price * l.qty, 0))
-
-  const subtotal = sum(oneOff)
+  const subtotal = round2(lines.reduce((n, l) => n + l.price * l.qty, 0))
   const tax = round2(subtotal * (salesTax.rate / 100))
   const total = round2(subtotal + tax)
-  const recurringSubtotal = sum(recurring)
-  const recurringTotal = round2(recurringSubtotal * (1 + salesTax.rate / 100))
 
   const clientTotal = Number(totals?.total)
   const mismatch = Number.isFinite(clientTotal) && Math.abs(clientTotal - total) > 0.01
@@ -114,17 +107,14 @@ export default async function handler(req, res) {
     `Items (${units}):`,
     ...lines.map(
       (l, i) =>
-        `${i + 1}. ${l.name} (${l.kind}) — ${l.qty} x ${l.from ? 'from ' : ''}${cash(l.price)}${
-          l.per ? ` ${l.per}` : ''
-        } = ${cash(round2(l.price * l.qty))}${l.per ? ` ${l.per}` : ''}`
+        `${i + 1}. ${l.name} (${l.kind}) — ${l.qty} x ${l.from ? 'from ' : ''}${cash(l.price)} = ${cash(
+          round2(l.price * l.qty)
+        )}`
     ),
     '',
     `Subtotal: ${cash(subtotal)}`,
     `${salesTax.label} (${salesTax.rate}%): ${cash(tax)}`,
     `Total: ${cash(total)}`,
-    ...(recurring.length
-      ? ['', `Monthly items: ${cash(recurringSubtotal)} before tax, ${cash(recurringTotal)} with tax, per month`]
-      : []),
     ...(lines.some((l) => l.from)
       ? ['', 'Contains "from" prices — the total above is an estimate and needs confirming.']
       : []),
@@ -178,21 +168,14 @@ export default async function handler(req, res) {
           (l) =>
             `<tr><td style="${td}"><strong>${esc(l.name)}</strong><br><span style="font-size:12px;color:#5a6480">${esc(
               l.kind
-            )}${l.per ? ` · billed ${esc(l.per)}` : ''}</span></td><td style="${num}">${l.qty}</td><td style="${num}">${
+            )}</span></td><td style="${num}">${l.qty}</td><td style="${num}">${
               l.from ? 'from ' : ''
-            }${esc(cash(l.price))}</td><td style="${num}">${esc(cash(round2(l.price * l.qty)))}${
-              l.per ? ` ${esc(l.per)}` : ''
-            }</td></tr>`
+            }${esc(cash(l.price))}</td><td style="${num}">${esc(cash(round2(l.price * l.qty)))}</td></tr>`
         )
         .join('')}
       ${totalRow('Subtotal', cash(subtotal))}
       ${totalRow(`${salesTax.label} (${salesTax.rate}%)`, cash(tax))}
       ${totalRow('Total', cash(total), true)}
-      ${
-        recurring.length
-          ? totalRow(`Plus monthly, with tax`, `${cash(recurringTotal)} a month`)
-          : ''
-      }
     </tbody>
   </table>
 

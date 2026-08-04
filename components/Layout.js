@@ -146,7 +146,7 @@ export default function Layout({
       <Nav />
       <main id="main-content">{children}</main>
       <Footer />
-      <div className="h-[76px] lg:hidden" aria-hidden="true" />
+      <div className="h-[76px] xl:hidden" aria-hidden="true" />
       <FloatingCall />
       <WhatsAppButton />
       <MobileCTABar />

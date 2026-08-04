@@ -184,7 +184,6 @@ export function getStaticProps() {
             'custom-illustration',
             'motion-graphics',
             'book-cover-design',
-            'design-subscription',
           ].includes(s.slug)
         )
         .map((s) => ({ name: s.name, href: `/services/${s.slug}` })),

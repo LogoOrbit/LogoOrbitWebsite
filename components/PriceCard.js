@@ -21,7 +21,6 @@ export function cartItemFor(item, kind) {
     name: item.name,
     kind: kind || item.kind || 'Package',
     price: item.price,
-    per: item.per || null,
     from: Boolean(item.from),
     href,
   }
@@ -263,7 +262,7 @@ export function PriceCard({ item, tier = 0 }) {
           {money(item.price)}
         </span>
         <span className={`text-[13px] ${featured ? 'text-white/70' : 'text-ink-500'}`}>
-          {item.per || 'one-off'}
+          one-off
         </span>
       </p>
 

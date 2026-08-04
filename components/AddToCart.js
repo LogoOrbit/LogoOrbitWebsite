@@ -65,8 +65,8 @@ export function QtyStepper({ value, onChange, tone = 'light', size = 'md', label
 }
 
 /**
- * @param item     anything with a name and a price. `kind`, `per`, `from`,
- *                 `href`, `sku` and `note` are all used when present.
+ * @param item     anything with a name and a price. `kind`, `from`, `href`,
+ *                 `sku` and `note` are all used when present.
  * @param variant  'solid' (default), 'featured' for dark cards, 'ghost' for a
  *                 quieter row inside a page body.
  */

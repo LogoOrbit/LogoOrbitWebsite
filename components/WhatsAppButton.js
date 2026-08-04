@@ -56,7 +56,7 @@ export default function WhatsAppButton() {
   if (hidden) return null
 
   return (
-    <div className="fixed right-4 bottom-24 lg:right-6 lg:bottom-6 z-40 flex flex-col items-end gap-3">
+    <div className="fixed right-4 bottom-24 xl:right-6 xl:bottom-6 z-40 flex flex-col items-end gap-3">
       {/* The prompt. Pointer events are off while it is hidden so it can
           never sit invisibly on top of page content. */}
       <div
@@ -106,7 +106,7 @@ export default function WhatsAppButton() {
 
           {/* Hover label, desktop only, so the button explains itself before
               anyone has to click it. */}
-          <span className="pointer-events-none absolute right-full mr-3 hidden lg:block whitespace-nowrap rounded-full bg-ink-900 px-3.5 py-2 text-sm font-semibold text-white opacity-0 translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
+          <span className="pointer-events-none absolute right-full mr-3 hidden xl:block whitespace-nowrap rounded-full bg-ink-900 px-3.5 py-2 text-sm font-semibold text-white opacity-0 translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0">
             Chat on WhatsApp
           </span>
 

@@ -52,7 +52,7 @@ function Dropdown({ item, light, active }) {
         onClick={() => (item.href ? setOpen(false) : setOpen((o) => !o))}
         aria-expanded={open}
         aria-haspopup="true"
-        className={`flex shrink-0 items-center gap-1 whitespace-nowrap px-2.5 py-2 rounded-lg text-[15px] font-medium transition-colors ${
+        className={`flex shrink-0 items-center gap-1 whitespace-nowrap px-2 py-2 rounded-lg text-[15px] font-medium transition-colors ${
           light
             ? `${active ? 'text-white bg-white/10' : 'text-white/85'} hover:text-white hover:bg-white/10`
             : `${active ? 'text-brand-600 bg-brand-50' : 'text-ink-700'} hover:text-brand-600 hover:bg-brand-50`
@@ -184,10 +184,14 @@ export default function Nav() {
           solid ? 'bg-white/90 backdrop-blur-lg shadow-[0_1px_24px_rgba(15,10,60,0.09)]' : 'bg-transparent'
         }`}
       >
-        <div className="mx-auto max-w-7xl px-6 h-18 flex items-center justify-between gap-4">
+        {/* The row carries more than the 1280px content column can hold, so on
+            very wide screens it is allowed a little past it rather than
+            spilling off the side of the page, which is what it used to do
+            at every laptop width. */}
+        <div className="mx-auto max-w-7xl 2xl:max-w-[88rem] px-6 h-18 flex items-center justify-between gap-4">
           <Wordmark light={light} />
 
-          <nav className="hidden lg:flex items-center gap-0">
+          <nav className="hidden xl:flex items-center gap-0">
             {nav.map((item) =>
               item.children ? (
                 <Dropdown key={item.label} item={item} light={light} active={groupActive(item)} />
@@ -207,38 +211,37 @@ export default function Nav() {
             )}
           </nav>
 
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden xl:flex items-center gap-2.5">
+            {/* The search label and its keyboard chip cost about 100px of a
+                row that did not have it to give, so the magnifier stands on
+                its own and the shortcut moves into the tooltip. */}
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
               aria-label="Search the site"
-              className={`flex items-center gap-2 rounded-full border px-3.5 py-2 text-[13px] font-medium transition-colors ${
+              title={`Search the site (${shortcutLabel})`}
+              className={`flex items-center gap-2 rounded-full border p-2.5 transition-colors ${
                 light
                   ? 'border-white/25 text-white/85 hover:bg-white/10 hover:text-white'
                   : 'border-slate-200 text-ink-500 hover:border-brand-300 hover:text-brand-600'
               }`}
             >
               <Icons.search className="w-4 h-4" />
-              <span className="hidden xl:inline">Search</span>
-              <span
-                className={`hidden xl:inline rounded border px-1.5 py-0.5 text-[11px] font-normal ${
-                  light ? 'border-white/25 text-white/70' : 'border-slate-200 text-ink-400'
-                }`}
-              >
-                {shortcutLabel}
-              </span>
             </button>
             <CartIndicator light={light} />
             <ThemeToggle light={light} />
+            {/* The number itself only appears where there is room for it.
+                Below that the icon is still a tap-to-call link, and the
+                number is in the top strip, the footer and the call button. */}
             <a
               href={site.phoneHref}
-              className={`hidden xl:flex items-center gap-2 whitespace-nowrap text-[15px] font-semibold transition-colors ${
+              aria-label={`Call ${site.phone}`}
+              className={`flex items-center gap-2 whitespace-nowrap text-[15px] font-semibold transition-colors ${
                 light ? 'text-white hover:text-flare-300' : 'text-ink-900 hover:text-brand-600'
               }`}
             >
               <Icons.phone className="w-4.5 h-4.5" />
-              <span className="hidden xl:inline">{site.phone}</span>
-              <span className="xl:hidden">Call Now</span>
+              <span className="hidden 2xl:inline">{site.phone}</span>
             </a>
             <Link
               href="/contact"
@@ -248,7 +251,7 @@ export default function Nav() {
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-2 xl:hidden">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
@@ -276,7 +279,7 @@ export default function Nav() {
       <div
         aria-hidden={!open}
         inert={!open}
-        className={`fixed inset-0 z-[60] lg:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-[60] xl:hidden transition-opacity duration-300 ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >

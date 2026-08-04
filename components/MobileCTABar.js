@@ -23,7 +23,7 @@ export default function MobileCTABar() {
 
   return (
     <div
-      className={`lg:hidden fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur-lg transition-transform duration-300 ${
+      className={`xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 backdrop-blur-lg transition-transform duration-300 ${
         shown ? 'translate-y-0' : 'translate-y-full'
       }`}
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}

@@ -86,7 +86,7 @@ const capabilities = [
  * the deeper pages becoming orphans.
  */
 const description =
-  'Every design service under one roof: logos and brand identity, websites, UI/UX, packaging, print, social and ad creative, motion, illustration, presentations and ongoing design subscriptions.'
+  'Every design service under one roof: logos and brand identity, websites, UI/UX, packaging, print, social and ad creative, motion, illustration and presentations.'
 
 export default function ServicesPage({ groups, allItems }) {
   const jsonLd = {

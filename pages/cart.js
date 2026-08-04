@@ -27,7 +27,7 @@ function Line({ item, onQty, onRemove }) {
         )}
         <p className="mt-1 text-[13.5px] text-ink-500">
           {item.from && <span className="font-semibold">from </span>}
-          {cash(item.price)} {item.per ? item.per : 'one-off'}
+          {cash(item.price)} one-off
           {item.note && <span className="text-ink-300"> · {item.note}</span>}
         </p>
       </div>
@@ -37,7 +37,6 @@ function Line({ item, onQty, onRemove }) {
 
         <p className="min-w-[6rem] text-right text-[18px] font-bold tabular-nums text-ink-900">
           {cash(item.price * item.qty)}
-          {item.per && <span className="block text-[11px] font-semibold text-ink-500">{item.per}</span>}
         </p>
 
         <button

@@ -264,12 +264,10 @@ export default function CheckoutPage() {
                         <p className="text-[13px] text-ink-500">
                           {item.kind} · {item.qty} × {item.from ? 'from ' : ''}
                           {cash(item.price)}
-                          {item.per ? ` ${item.per}` : ''}
                         </p>
                       </div>
                       <p className="shrink-0 text-[15px] font-bold tabular-nums text-ink-900">
                         {cash(item.price * item.qty)}
-                        {item.per && <span className="block text-[11px] font-semibold text-ink-500">{item.per}</span>}
                       </p>
                     </li>
                   ))}

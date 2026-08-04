@@ -158,7 +158,7 @@ function AddOns() {
                         {money(item.price)}
                       </span>
                       <span className="mt-1.5 block text-[10px] font-bold uppercase tracking-[0.14em] opacity-75">
-                        {item.per || 'one-off'}
+                        one-off
                       </span>
                     </span>
                   </div>
@@ -191,7 +191,6 @@ function AddOns() {
                         name: item.name,
                         kind: `Add-on · ${item.kind}`,
                         price: item.price,
-                        per: item.per || null,
                         from: item.from,
                         href: '/pricing#add-ons',
                       }}
