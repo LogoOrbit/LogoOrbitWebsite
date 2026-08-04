@@ -5,6 +5,7 @@ import { site, services, salesTeam, legalLinks, whatsapp, whatsappLink } from '.
 
 const exploreLinks = [
   { label: 'Home', href: '/' },
+  { label: 'Search the site', href: '/search' },
   { label: 'All services', href: '/services' },
   { label: 'Industries', href: '/industries' },
   { label: 'Where we work', href: '/locations' },

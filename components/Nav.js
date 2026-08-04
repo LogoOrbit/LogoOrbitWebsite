@@ -290,6 +290,20 @@ export default function Nav() {
             </button>
           </div>
 
+          <div className="px-4 pt-4">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false)
+                setSearchOpen(true)
+              }}
+              className="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-3.5 text-left text-[15px] text-ink-500 hover:border-brand-300 hover:text-brand-600"
+            >
+              <Icons.search className="w-5 h-5 shrink-0" />
+              Search the site
+            </button>
+          </div>
+
           <nav className="flex flex-col p-4">
             {nav.map((item) =>
               item.children ? (

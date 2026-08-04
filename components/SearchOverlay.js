@@ -2,20 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Icons } from './Icons'
-import { rankResults } from '../lib/search'
-
-// Fetched once per page load and kept here rather than in component state,
-// so closing and reopening the palette (or navigating between pages, which
-// keeps this module in memory) never re-fetches it.
-let indexPromise = null
-function loadIndex() {
-  if (!indexPromise) {
-    indexPromise = fetch('/api/search-index')
-      .then((res) => res.json())
-      .catch(() => [])
-  }
-  return indexPromise
-}
+import { loadSearchIndex, rankResults } from '../lib/search'
 
 /**
  * Site-wide search, opened from Nav via a button or Ctrl/Cmd+K.
@@ -33,7 +20,7 @@ export default function SearchOverlay({ open, onClose }) {
   const itemRefs = useRef([])
 
   useEffect(() => {
-    if (open) loadIndex().then(setIndex)
+    if (open) loadSearchIndex().then(setIndex)
   }, [open])
 
   useEffect(() => {
@@ -177,6 +164,17 @@ export default function SearchOverlay({ open, onClose }) {
               </button>
             ))}
           </div>
+
+          {results.length > 0 && (
+            <button
+              type="button"
+              onClick={() => go(`/search?q=${encodeURIComponent(query.trim())}`)}
+              className="flex w-full items-center justify-center gap-1.5 border-t border-slate-100 px-4 py-3 text-[13px] font-medium text-brand-600 hover:bg-brand-50"
+            >
+              See all results for &ldquo;{query.trim()}&rdquo;
+              <Icons.arrow className="w-4 h-4" />
+            </button>
+          )}
 
           <div className="hidden items-center justify-between border-t border-slate-100 px-4 py-2 text-[12px] text-ink-400 sm:flex">
             <span>↑↓ to navigate · Enter to select · Esc to close</span>
