@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import BrandStarter from '../components/BrandStarter'
+import OfferBand from '../components/OfferBand'
 import TrustBar from '../components/TrustBar'
 import Marquee from '../components/Marquee'
 import Stats from '../components/Stats'
@@ -68,6 +69,7 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
   return (
     <Layout description={description} path="/" jsonLd={jsonLd}>
       <Hero />
+      <OfferBand />
       <BrandStarter />
       <TrustBar />
       <Marquee />
