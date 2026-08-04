@@ -424,14 +424,33 @@ p.operative {
 
 /* --- execution block ------------------------------------------------------ */
 
-/* The signature block belongs at the foot of the sheet, not floating in the
-   middle of it, so it takes the slack the clauses leave behind. */
+/* Follows Section 10 directly. Pinning it to the foot of the sheet with
+   margin-top:auto opened a two-inch hole in the middle of the page, which
+   reads as a broken layout rather than as a signature block; a contract page
+   that simply ends early does not. */
 .execution {
-  margin-top: auto;
+  margin-top: 26px;
   padding-bottom: 4px;
   position: relative;
   border-top: 1px dashed rgba(27, 36, 64, 0.28);
   padding-top: 16px;
+}
+
+.exec-record {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid rgba(201, 160, 68, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.exec-record > div { padding: 11px 15px; }
+.exec-record > div + div { border-left: 1px solid rgba(201, 160, 68, 0.3); }
+.exec-record .v {
+  margin-top: 6px;
+  font-size: 10.4px;
+  font-weight: 700;
+  color: #1b2440;
 }
 .sign-grid {
   display: grid;
@@ -444,21 +463,24 @@ p.operative {
   color: #1b2440;
   min-height: 26px;
 }
+/* Room to actually sign. The line wants a pen's worth of space above it, and
+   each label needs enough air that it reads as belonging to the rule beneath
+   it rather than to the one it sits under. */
 .sign-line {
-  margin-top: 22px;
+  margin-top: 44px;
   height: 1px;
   background: rgba(27, 36, 64, 0.45);
 }
 .sign-caption {
-  margin-top: 5px;
+  margin-top: 6px;
   font-size: 7.6px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #4a5372;
 }
-.sign-fields { margin-top: 12px; }
-.sign-fields .f { margin-top: 8px; }
+.sign-fields { margin-top: 20px; }
+.sign-fields .f { margin-top: 15px; }
 .sign-fields .f .k {
   font-size: 7.4px;
   font-weight: 700;
@@ -467,11 +489,11 @@ p.operative {
   color: #8a6a22;
 }
 .sign-fields .f .v {
-  margin-top: 3px;
+  margin-top: 4px;
+  min-height: 15px;
   font-size: 9.8px;
   color: #4a5372;
   border-bottom: 1px solid rgba(27, 36, 64, 0.22);
-  padding-bottom: 3px;
 }
 
 .seal-mount {
@@ -895,6 +917,21 @@ p.operative {
           bind the named party.
         </p>
 
+        <div class="exec-record">
+          <div>
+            <p class="mono label">Certificate ID</p>
+            <p class="mono v">SAMPLE-000000</p>
+          </div>
+          <div>
+            <p class="mono label">Effective date</p>
+            <p class="v"><span class="redact"></span></p>
+          </div>
+          <div>
+            <p class="mono label">Counterparts</p>
+            <p class="v">Permitted, including electronic</p>
+          </div>
+        </div>
+
         <div class="sign-grid">
           <div>
             <p class="mono label" style="margin-top:14px">Assignor — LogoOrbit</p>
@@ -909,7 +946,7 @@ p.operative {
           </div>
           <div>
             <p class="mono label" style="margin-top:14px">Assignee — client of record</p>
-            <p class="party-name"><span class="redact" style="width:86%"></span></p>
+            <p class="party-name"><span class="redact" style="width:64%"></span></p>
             <div class="sign-line"></div>
             <p class="mono sign-caption">Authorized signature</p>
             <div class="sign-fields">
