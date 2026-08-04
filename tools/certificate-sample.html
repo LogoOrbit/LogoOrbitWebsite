@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>LogoOrbit Sample Copyright Assignment and Commercial Use Certificate</title>
+<style>
+/* ---------------------------------------------------------------------------
+   Print source for the public specimen PDF.
+
+   The design tokens here are lifted from styles/globals.css and
+   components/CertificateInstrument.js on purpose: the vault gradients, the
+   foil ramp, the cream stock, the crest and the seal are the same objects the
+   /copyright-certificate page draws on screen. Changing one without the other
+   is what makes a downloaded sample look like somebody else's document.
+
+   Rendered with headless Chromium — see tools/build-certificate-pdf.sh.
+--------------------------------------------------------------------------- */
+
+@page { size: 8.5in 11in; margin: 0; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: "Liberation Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  color: #1b2440;
+}
+
+.mono {
+  font-family: "Liberation Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.page {
+  position: relative;
+  width: 8.5in;
+  height: 11in;
+  overflow: hidden;
+  page-break-after: always;
+}
+.page:last-child { page-break-after: auto; }
+
+/* --- the vault, from .cert-vault + .cert-engrave --------------------------- */
+
+.vault {
+  background:
+    radial-gradient(44rem 38rem at 84% 8%, rgba(202, 160, 68, 0.20), transparent 62%),
+    radial-gradient(52rem 46rem at 6% 2%, rgba(30, 64, 155, 0.42), transparent 64%),
+    radial-gradient(38rem 32rem at 50% 108%, rgba(124, 58, 237, 0.22), transparent 60%),
+    linear-gradient(168deg, #050b1c 0%, #0a1330 54%, #111a3c 100%);
+  color: #ffffff;
+}
+
+.engrave {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(-38deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 10px);
+  opacity: 0.7;
+}
+
+/* --- the stock, from .cert-paper ------------------------------------------ */
+
+.paper {
+  background-color: #fbf8f1;
+  background-image:
+    radial-gradient(130% 90% at 50% 0%, rgba(202, 160, 68, 0.11), transparent 62%),
+    repeating-linear-gradient(90deg, rgba(11, 23, 51, 0.028) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(0deg, rgba(11, 23, 51, 0.022) 0 1px, transparent 1px 5px);
+  color: #1b2440;
+}
+
+/* --- foil ----------------------------------------------------------------- */
+
+.foil-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #b98f33 12%, #f7e8b4 50%, #b98f33 88%, transparent);
+}
+
+/* --- the document border, from CertificateInstrument ---------------------- */
+
+.frame-outer,
+.frame-inner {
+  position: absolute;
+  pointer-events: none;
+}
+.frame-outer {
+  inset: 0.34in;
+  border: 1px solid rgba(201, 160, 68, 0.55);
+  border-radius: 10px;
+}
+.frame-inner {
+  inset: 0.44in;
+  border: 1px solid rgba(201, 160, 68, 0.3);
+  border-radius: 7px;
+}
+
+.corner { position: absolute; width: 0.46in; height: 0.46in; }
+.corner.tl { left: 0.34in; top: 0.34in; }
+.corner.tr { right: 0.34in; top: 0.34in; transform: rotate(90deg); }
+.corner.br { right: 0.34in; bottom: 0.34in; transform: rotate(180deg); }
+.corner.bl { left: 0.34in; bottom: 0.34in; transform: rotate(270deg); }
+
+/* --- SPECIMEN watermark --------------------------------------------------- */
+
+.watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 86px;
+  letter-spacing: 0.3em;
+  transform: rotate(-24deg);
+  white-space: nowrap;
+}
+.watermark.on-paper { color: rgba(27, 36, 64, 0.055); }
+.watermark.on-vault { color: rgba(255, 255, 255, 0.045); }
+
+/* --- shared type ---------------------------------------------------------- */
+
+.eyebrow {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.label {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.field-value {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #1b2440;
+  letter-spacing: 0.01em;
+}
+
+.redact {
+  display: block;
+  height: 11px;
+  border-radius: 3px;
+  background-image: linear-gradient(100deg, rgba(27, 36, 64, 0.16), rgba(27, 36, 64, 0.07));
+}
+
+/* ========================= page 1 — the certificate face ================== */
+
+.cover-inner {
+  position: relative;
+  height: 100%;
+  padding: 0.95in 0.9in 0.72in;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.crest-halo {
+  position: relative;
+  width: 1.35in;
+  height: 1.35in;
+  margin: 0 auto;
+}
+.crest-halo .guilloche {
+  position: absolute;
+  inset: -0.14in;
+  border-radius: 999px;
+  opacity: 0.45;
+  background-image:
+    repeating-radial-gradient(circle at 50% 50%, rgba(202, 160, 68, 0.5) 0 0.5px, transparent 0.5px 4.5px),
+    repeating-conic-gradient(from 0deg at 50% 50%, rgba(202, 160, 68, 0.3) 0deg 1.5deg, transparent 1.5deg 5deg);
+  -webkit-mask-image: radial-gradient(circle, #000 40%, transparent 72%);
+  mask-image: radial-gradient(circle, #000 40%, transparent 72%);
+}
+
+.cover-dept {
+  margin-top: 20px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #e7c877;
+}
+
+/* Set as SVG text rather than CSS background-clip:text: Skia's PDF backend
+   drops the text clip and prints the foil ramp as a solid slab behind the
+   line. An SVG gradient fill exports the ink itself, and the words stay
+   selectable. */
+.cover-title { margin-top: 16px; }
+
+.cover-subtitle {
+  margin-top: 12px;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.cover-rule { margin: 20px auto 0; width: 74%; }
+
+.record {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 26px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.045);
+  padding: 18px 22px;
+}
+.record .wide { grid-column: span 2; }
+.record dt {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a044;
+}
+.record dd {
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+}
+.record .blank {
+  display: block;
+  height: 11px;
+  border-radius: 3px;
+  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+}
+
+.assurances {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.assurances div {
+  background: rgba(10, 19, 48, 0.86);
+  padding: 13px 8px;
+}
+.assurances .v { font-size: 13px; font-weight: 700; color: #e7c877; }
+.assurances .k { margin-top: 4px; font-size: 9px; color: rgba(255, 255, 255, 0.5); }
+
+.notice {
+  margin-top: 22px;
+  text-align: left;
+  border: 1px solid rgba(201, 160, 68, 0.4);
+  background: rgba(201, 160, 68, 0.09);
+  border-radius: 10px;
+  padding: 15px 18px;
+}
+.notice .h {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e7c877;
+}
+.notice p {
+  margin-top: 7px;
+  font-size: 10.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.cover-seal { margin-top: auto; padding-top: 18px; }
+
+.cover-foot {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 8.4px;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+/* ========================= pages 2–4 — the instrument ==================== */
+
+.sheet {
+  position: relative;
+  height: 100%;
+  padding: 0.66in 0.78in 0.62in;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 9px;
+}
+.sheet-head .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #121c36;
+}
+.sheet-head .doc {
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+  text-align: right;
+}
+
+.sheet-body {
+  flex: 1;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-foot {
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid rgba(27, 36, 64, 0.14);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 7.6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(27, 36, 64, 0.45);
+}
+
+h2.part {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #121c36;
+}
+
+p.lede {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #26314f;
+}
+
+h3.clause {
+  margin-top: 18px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #121c36;
+}
+h3.clause .n {
+  display: inline-block;
+  min-width: 15px;
+  color: #8a6a22;
+}
+
+p.operative {
+  margin-top: 5px;
+  font-size: 10.4px;
+  line-height: 1.7;
+  color: #26314f;
+  text-align: justify;
+}
+
+/* --- the parties block ---------------------------------------------------- */
+
+.parties {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid rgba(201, 160, 68, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.parties > div { padding: 13px 16px; }
+.parties > div + div { border-left: 1px solid rgba(201, 160, 68, 0.3); }
+.parties .row + .row { margin-top: 11px; }
+.parties .val {
+  margin-top: 5px;
+  font-size: 10.6px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #1b2440;
+}
+.parties .val.soft { font-weight: 400; color: #4a5372; }
+
+.status-strip {
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border-left: 3px solid #c9a044;
+  background: rgba(201, 160, 68, 0.09);
+  border-radius: 0 8px 8px 0;
+  padding: 11px 15px;
+}
+.status-strip .k { flex: 0 0 1.05in; }
+.status-strip p {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #26314f;
+}
+
+/* --- execution block ------------------------------------------------------ */
+
+/* The signature block belongs at the foot of the sheet, not floating in the
+   middle of it, so it takes the slack the clauses leave behind. */
+.execution {
+  margin-top: auto;
+  padding-bottom: 4px;
+  position: relative;
+  border-top: 1px dashed rgba(27, 36, 64, 0.28);
+  padding-top: 16px;
+}
+.sign-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+.sign-grid .party-name {
+  font-size: 10.4px;
+  font-weight: 700;
+  color: #1b2440;
+  min-height: 26px;
+}
+.sign-line {
+  margin-top: 22px;
+  height: 1px;
+  background: rgba(27, 36, 64, 0.45);
+}
+.sign-caption {
+  margin-top: 5px;
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4a5372;
+}
+.sign-fields { margin-top: 12px; }
+.sign-fields .f { margin-top: 8px; }
+.sign-fields .f .k {
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.sign-fields .f .v {
+  margin-top: 3px;
+  font-size: 9.8px;
+  color: #4a5372;
+  border-bottom: 1px solid rgba(27, 36, 64, 0.22);
+  padding-bottom: 3px;
+}
+
+.seal-mount {
+  position: absolute;
+  right: 2px;
+  top: -46px;
+}
+
+/* --- Exhibit A ------------------------------------------------------------ */
+
+.exhibit {
+  margin-top: 16px;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgba(201, 160, 68, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.exhibit th {
+  text-align: left;
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+  background: rgba(201, 160, 68, 0.12);
+  padding: 9px 14px;
+}
+.exhibit td {
+  padding: 9px 14px;
+  font-size: 10px;
+  color: #26314f;
+  border-top: 1px solid rgba(27, 36, 64, 0.1);
+  vertical-align: top;
+}
+.exhibit td.k {
+  width: 2.1in;
+  font-weight: 700;
+  color: #1b2440;
+}
+.exhibit tr:nth-child(even) td { background: rgba(27, 36, 64, 0.022); }
+
+.artwork-well {
+  margin-top: 18px;
+  border: 1px dashed rgba(201, 160, 68, 0.6);
+  border-radius: 10px;
+  background: rgba(201, 160, 68, 0.05);
+  flex: 1;
+  min-height: 2.05in;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.artwork-well .k {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.artwork-well .v {
+  font-size: 10px;
+  font-style: italic;
+  color: #4a5372;
+}
+
+.initials {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.initials .line {
+  margin-top: 20px;
+  height: 1px;
+  background: rgba(27, 36, 64, 0.45);
+}
+
+.fine {
+  margin-top: 16px;
+  padding-bottom: 4px;
+  font-size: 9px;
+  line-height: 1.6;
+  font-style: italic;
+  color: #4a5372;
+}
+</style>
+</head>
+<body>
+
+<!-- The foil ink, the crest and the seal, drawn once and referenced by every
+     page. Same geometry as components/CertificateInstrument.js. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="foil" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8a641a" />
+      <stop offset="28%" stop-color="#caa044" />
+      <stop offset="52%" stop-color="#f7e8b4" />
+      <stop offset="76%" stop-color="#c79a3c" />
+      <stop offset="100%" stop-color="#7d5a15" />
+    </linearGradient>
+
+    <g id="crest">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="url(#foil)" stroke-width="1.4" />
+      <circle cx="32" cy="32" r="26" fill="none" stroke="url(#foil)" stroke-width="0.7" opacity="0.7" />
+      <ellipse cx="32" cy="32" rx="19" ry="8.5" transform="rotate(-30 32 32)" fill="none" stroke="url(#foil)" stroke-width="1.8" />
+      <circle cx="32" cy="32" r="6" fill="url(#foil)" />
+      <circle cx="46.5" cy="23" r="3" fill="url(#foil)" />
+    </g>
+
+    <path id="seal-arc" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0" fill="none" />
+  </defs>
+</svg>
+
+<!-- ============================ PAGE 1 — the face ======================= -->
+<section class="page vault">
+  <div class="engrave"></div>
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <div class="watermark on-vault">SPECIMEN</div>
+
+  <div class="cover-inner">
+    <div class="crest-halo">
+      <div class="guilloche"></div>
+      <svg viewBox="0 0 64 64" width="100%" height="100%" style="position:relative"><use href="#crest" /></svg>
+    </div>
+
+    <p class="mono cover-dept">LogoOrbit · Legal Compliance Department</p>
+
+    <h1 class="cover-title">
+      <svg viewBox="0 0 643 88" width="100%" height="88" role="img"
+           aria-label="Copyright Assignment and Commercial Use Certificate">
+        <text x="321.5" y="34" text-anchor="middle" font-size="35" font-weight="700" fill="url(#foil)"
+              style="font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif; letter-spacing: -0.3px">Copyright Assignment &amp;</text>
+        <text x="321.5" y="76" text-anchor="middle" font-size="35" font-weight="700" fill="url(#foil)"
+              style="font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif; letter-spacing: -0.3px">Commercial Use Certificate</text>
+      </svg>
+    </h1>
+
+    <p class="cover-subtitle">An instrument of transfer executed under 17 U.S.C. § 204(a)</p>
+
+    <div class="foil-rule cover-rule"></div>
+
+    <dl class="mono record">
+      <div>
+        <dt>Certificate ID</dt>
+        <dd>SAMPLE-000000</dd>
+      </div>
+      <div>
+        <dt>Instrument</dt>
+        <dd>Assignment of copyright</dd>
+      </div>
+      <div class="wide">
+        <dt>Assignee</dt>
+        <dd><span class="blank"></span></dd>
+      </div>
+      <div>
+        <dt>Project / order</dt>
+        <dd><span class="blank"></span></dd>
+      </div>
+      <div>
+        <dt>Effective date</dt>
+        <dd><span class="blank"></span></dd>
+      </div>
+    </dl>
+
+    <div class="assurances">
+      <div><p class="v">One-time</p><p class="k">No renewal, no royalty</p></div>
+      <div><p class="v">Worldwide</p><p class="k">Full term of copyright</p></div>
+      <div><p class="v">Signed</p><p class="k">By both parties, on paper</p></div>
+    </div>
+
+    <div class="notice">
+      <p class="mono h">Important — read before relying on this file</p>
+      <p>
+        This public specimen is incomplete, unsigned and visibly watermarked. Every client field is a placeholder and no
+        client artwork appears in it. It transfers and licenses nothing, is not proof of ownership, and is not a
+        certificate issued by the U.S. Copyright Office or any other government authority.
+      </p>
+    </div>
+
+    <div class="cover-seal">
+      <svg viewBox="0 0 120 120" width="126" height="126" aria-label="LogoOrbit legal desk seal">
+        <circle cx="60" cy="60" r="56" fill="none" stroke="url(#foil)" stroke-width="2.5" stroke-dasharray="1.5 5" />
+        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+        <circle cx="60" cy="60" r="35" fill="none" stroke="url(#foil)" stroke-width="1" opacity="0.8" />
+        <text font-size="8.2" letter-spacing="1.6" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">
+          <textPath href="#seal-arc" startOffset="50%" text-anchor="middle">LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·</textPath>
+        </text>
+        <g transform="translate(60 60)">
+          <ellipse rx="17" ry="7.5" transform="rotate(-30)" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+          <circle r="5.2" fill="url(#foil)" />
+          <circle cx="13" cy="-8" r="2.6" fill="url(#foil)" />
+        </g>
+        <text x="60" y="88" text-anchor="middle" font-size="6.6" letter-spacing="1.1" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">17 U.S.C. § 204(a)</text>
+      </svg>
+    </div>
+
+    <div class="mono cover-foot">
+      <span>Specimen issued by the LogoOrbit legal desk</span>
+      <span>logoorbit.net</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 2 — parties &amp; §1–5 ================ -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <div class="watermark on-paper">SPECIMEN</div>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Copyright Assignment Agreement</h2>
+      <p class="lede">
+        This Copyright Assignment Agreement (the “Agreement”) documents the transfer of the approved final logo work
+        identified below. It becomes effective only when every condition in Section 2 has been satisfied.
+      </p>
+
+      <div class="parties">
+        <div>
+          <div class="row">
+            <p class="mono label">Assignor</p>
+            <p class="val">Nexus Forge Group / Phelps &amp; Associates</p>
+          </div>
+          <div class="row">
+            <p class="mono label">Registered address</p>
+            <p class="val soft">8 The Green Ste A<br />Dover, Delaware 19901</p>
+          </div>
+          <div class="row">
+            <p class="mono label">Project / order</p>
+            <p class="val soft"><span class="redact"></span></p>
+          </div>
+        </div>
+        <div>
+          <div class="row">
+            <p class="mono label">Assignee</p>
+            <p class="val soft"><span class="redact"></span></p>
+          </div>
+          <div class="row">
+            <p class="mono label">Assignee address</p>
+            <p class="val soft"><span class="redact"></span><span class="redact" style="margin-top:6px;width:78%"></span></p>
+          </div>
+          <div class="row">
+            <p class="mono label">Final work</p>
+            <p class="val soft"><span class="redact"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-strip">
+        <div class="k">
+          <p class="mono label">Sample status</p>
+        </div>
+        <p>
+          This downloadable example is incomplete, unsigned, visibly watermarked, and does not transfer or license any
+          rights. Blanked fields are drawn as bars on the specimen; your own certificate carries real values.
+        </p>
+      </div>
+
+      <h3 class="clause"><span class="n">1.</span> Definitions</h3>
+      <p class="operative">
+        “Work” means only the approved final logo artwork specifically identified in Exhibit A, together with the listed
+        deliverables. “Unused Concepts” means drafts, rejected directions, sketches, and alternatives not listed in
+        Exhibit A. “Third-Party Materials” means fonts, stock assets, software, templates, or other material owned or
+        licensed by someone other than the Assignor.
+      </p>
+
+      <h3 class="clause"><span class="n">2.</span> Conditions to Effectiveness</h3>
+      <p class="operative">
+        The assignment in Section 3 takes effect only after: (a) the Assignee has paid the separate copyright certificate
+        fee of US $499; (b) all invoices for the underlying logo project have been paid in full; (c) the final Work has
+        been approved; and (d) this Agreement has been completed and signed by authorized representatives of both
+        parties. Before all conditions are satisfied, any concepts or previews are provided solely for private
+        evaluation and may not be published, distributed, sold, registered, or used commercially.
+      </p>
+
+      <h3 class="clause"><span class="n">3.</span> Assignment of Copyright</h3>
+      <p class="operative">
+        Subject to Section 2, the Assignor irrevocably assigns to the Assignee all of the Assignor’s right, title, and
+        interest in the Work, including the exclusive rights to reproduce, adapt, distribute, display, and otherwise
+        exploit the Work throughout the world for the full term of copyright and any renewals or extensions. The
+        assignment includes the right to apply for copyright registration in the Assignee’s name and to enforce the
+        assigned rights for acts occurring on or after the Effective Date.
+      </p>
+
+      <h3 class="clause"><span class="n">4.</span> Commercial Use Authorization</h3>
+      <p class="operative">
+        Once effective, the Assignee may use the Work publicly and commercially in any lawful medium, including
+        websites, social media, advertising, packaging, signage, merchandise, and business documents, without an ongoing
+        royalty payable to the Assignor. This authorization is part of the assignment and does not extend to any
+        excluded material.
+      </p>
+
+      <h3 class="clause"><span class="n">5.</span> Excluded Material and Reserved Rights</h3>
+      <p class="operative">
+        The assignment does not include Unused Concepts, the Assignor’s pre-existing tools, processes, templates,
+        know-how, or Third-Party Materials. Applicable third-party licence terms continue to govern those materials. The
+        Assignor retains no ownership interest in the Work after the assignment becomes effective, except for any
+        portfolio-display permission separately stated in the service terms or agreed in writing.
+      </p>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Public sample · not a government certificate · no rights are transferred by this file</span>
+      <span>Page 2 of 4</span>
+    </footer>
+  </div>
+</section>
+
+<!-- ============================ PAGE 3 — §6–10 &amp; execution ============= -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <div class="watermark on-paper">SPECIMEN</div>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Representations, administration &amp; signatures</h2>
+
+      <h3 class="clause"><span class="n">6.</span> Assignor Representations</h3>
+      <p class="operative">
+        The Assignor represents that it has authority to enter into this Agreement and, to its knowledge, the
+        human-authored portions of the Work created by it are original and have not previously been assigned. This
+        Agreement does not guarantee copyright registrability, trademark registrability, non-conflict with every
+        third-party right, or acceptance by a government office.
+      </p>
+
+      <h3 class="clause"><span class="n">7.</span> Client-Supplied Material</h3>
+      <p class="operative">
+        The Assignee represents that it has permission to use every name, slogan, image, sketch, font, or other item it
+        supplied for the project. Rights in client-supplied material are not created or expanded by this Agreement, and
+        the Assignee remains responsible for claims arising from that material.
+      </p>
+
+      <h3 class="clause"><span class="n">8.</span> Moral Rights</h3>
+      <p class="operative">
+        To the maximum extent permitted by applicable law, the Assignor waives and agrees not to assert moral rights or
+        similar rights in the Work. Where a waiver is not legally effective, the Assignor consents to reasonable
+        modification and use of the Work by the Assignee consistent with this Agreement.
+      </p>
+
+      <h3 class="clause"><span class="n">9.</span> Further Assurances</h3>
+      <p class="operative">
+        Each party will sign reasonable additional documents needed to confirm the transfer described here. Any
+        government copyright registration, recordation, filing fee, or trademark filing is separate from this Agreement
+        unless expressly included in a written order.
+      </p>
+
+      <h3 class="clause"><span class="n">10.</span> Governing Terms</h3>
+      <p class="operative">
+        This Agreement, Exhibit A, the applicable LogoOrbit service terms, and any signed statement of work form the
+        complete agreement concerning ownership of the Work. If they conflict, the later document signed by both parties
+        controls. Amendments must be in writing and signed by both parties. Electronic signatures and counterparts are
+        permitted to the extent allowed by applicable law.
+      </p>
+
+      <div class="execution">
+        <span class="seal-mount">
+          <svg viewBox="0 0 120 120" width="96" height="96" aria-label="LogoOrbit legal desk seal">
+            <circle cx="60" cy="60" r="57" fill="#fbf8f1" opacity="0.55" />
+            <circle cx="60" cy="60" r="56" fill="none" stroke="url(#foil)" stroke-width="2.5" stroke-dasharray="1.5 5" />
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+            <circle cx="60" cy="60" r="35" fill="none" stroke="url(#foil)" stroke-width="1" opacity="0.8" />
+            <text font-size="8.2" letter-spacing="1.6" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">
+              <textPath href="#seal-arc" startOffset="50%" text-anchor="middle">LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·</textPath>
+            </text>
+            <g transform="translate(60 60)">
+              <ellipse rx="17" ry="7.5" transform="rotate(-30)" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+              <circle r="5.2" fill="url(#foil)" />
+              <circle cx="13" cy="-8" r="2.6" fill="url(#foil)" />
+            </g>
+            <text x="60" y="88" text-anchor="middle" font-size="6.6" letter-spacing="1.1" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">17 U.S.C. § 204(a)</text>
+          </svg>
+        </span>
+
+        <p class="operative" style="margin-top:0">
+          By signing below, each party confirms that it has read this Agreement and that the signer is authorized to
+          bind the named party.
+        </p>
+
+        <div class="sign-grid">
+          <div>
+            <p class="mono label" style="margin-top:14px">Assignor — LogoOrbit</p>
+            <p class="party-name">Nexus Forge Group / Phelps &amp; Associates</p>
+            <div class="sign-line"></div>
+            <p class="mono sign-caption">Authorized signature</p>
+            <div class="sign-fields">
+              <div class="f"><p class="mono k">Print name</p><p class="v">&nbsp;</p></div>
+              <div class="f"><p class="mono k">Title</p><p class="v">&nbsp;</p></div>
+              <div class="f"><p class="mono k">Date</p><p class="v">&nbsp;</p></div>
+            </div>
+          </div>
+          <div>
+            <p class="mono label" style="margin-top:14px">Assignee — client of record</p>
+            <p class="party-name"><span class="redact" style="width:86%"></span></p>
+            <div class="sign-line"></div>
+            <p class="mono sign-caption">Authorized signature</p>
+            <div class="sign-fields">
+              <div class="f"><p class="mono k">Print name</p><p class="v">&nbsp;</p></div>
+              <div class="f"><p class="mono k">Title</p><p class="v">&nbsp;</p></div>
+              <div class="f"><p class="mono k">Date</p><p class="v">&nbsp;</p></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="fine">
+          This sample is general information only and is not legal advice to the downloader. A completed transaction
+          document should be reviewed for the relevant jurisdiction and project facts.
+        </p>
+      </div>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Public sample · not a government certificate · no rights are transferred by this file</span>
+      <span>Page 3 of 4</span>
+    </footer>
+  </div>
+</section>
+
+<!-- ============================ PAGE 4 — Exhibit A ====================== -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
+  <div class="watermark on-paper">SPECIMEN</div>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Exhibit A — Description of the Work</h2>
+      <p class="lede">
+        Only the final work and deliverables listed in this exhibit are covered by the assignment. Add pages if needed
+        and have both parties initial each addition.
+      </p>
+
+      <table class="exhibit">
+        <thead>
+          <tr>
+            <th class="mono">Field</th>
+            <th class="mono">Project-specific description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">Final logo name</td><td><span class="redact"></span></td></tr>
+          <tr><td class="k">Project / order</td><td><span class="redact"></span></td></tr>
+          <tr><td class="k">Approved version</td><td><span class="redact"></span></td></tr>
+          <tr><td class="k">Included files</td><td><span class="redact"></span></td></tr>
+          <tr><td class="k">Colour specifications</td><td><span class="redact"></span></td></tr>
+          <tr><td class="k">Typography</td><td><span class="redact"></span></td></tr>
+          <tr><td class="k">Excluded material</td><td><span class="redact"></span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="artwork-well">
+        <svg viewBox="0 0 64 64" width="40" height="40"><use href="#crest" /></svg>
+        <p class="mono k">Final approved logo artwork</p>
+        <p class="v">No client artwork appears on the public specimen.</p>
+      </div>
+
+      <div class="initials">
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Assignor initials</p>
+        </div>
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Assignee initials</p>
+        </div>
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Exhibit date</p>
+        </div>
+      </div>
+
+      <p class="fine">
+        If it is not on this schedule it was not assigned. LogoOrbit walks the list with you before either party signs,
+        and the exhibit is initialled and dated alongside the Agreement it belongs to.
+      </p>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Public sample · not a government certificate · no rights are transferred by this file</span>
+      <span>Page 4 of 4</span>
+    </footer>
+  </div>
+</section>
+
+</body>
+</html>
