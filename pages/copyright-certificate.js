@@ -289,9 +289,9 @@ function InstrumentAnatomy() {
 
   return (
     <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10 lg:items-start">
-      <Reveal>
+      <Reveal className="min-w-0">
         <div
-          className="flex gap-2 overflow-x-auto pb-2 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0"
+          className="flex min-w-0 gap-2 overflow-x-auto pb-2 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0"
           role="tablist"
           aria-label="Clauses of the certificate"
           onKeyDown={onKeyDown}
