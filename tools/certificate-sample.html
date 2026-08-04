@@ -43,24 +43,6 @@ body {
 }
 .page:last-child { page-break-after: auto; }
 
-/* --- the vault, from .cert-vault + .cert-engrave --------------------------- */
-
-.vault {
-  background:
-    radial-gradient(44rem 38rem at 84% 8%, rgba(202, 160, 68, 0.20), transparent 62%),
-    radial-gradient(52rem 46rem at 6% 2%, rgba(30, 64, 155, 0.42), transparent 64%),
-    radial-gradient(38rem 32rem at 50% 108%, rgba(124, 58, 237, 0.22), transparent 60%),
-    linear-gradient(168deg, #050b1c 0%, #0a1330 54%, #111a3c 100%);
-  color: #ffffff;
-}
-
-.engrave {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(-38deg, rgba(255, 255, 255, 0.055) 0 1px, transparent 1px 10px);
-  opacity: 0.7;
-}
-
 /* --- the stock, from .cert-paper ------------------------------------------ */
 
 .paper {
@@ -118,7 +100,6 @@ body {
   white-space: nowrap;
 }
 .watermark.on-paper { color: rgba(27, 36, 64, 0.055); }
-.watermark.on-vault { color: rgba(255, 255, 255, 0.045); }
 
 /* --- shared type ---------------------------------------------------------- */
 
@@ -152,12 +133,15 @@ body {
   background-image: linear-gradient(100deg, rgba(27, 36, 64, 0.16), rgba(27, 36, 64, 0.07));
 }
 
-/* ========================= page 1 — the certificate face ================== */
+/* ========================= page 1 — the certificate face ==================
+   The same object CertificateInstrument draws on /copyright-certificate:
+   cream stock, foil border, crest over a guilloche rosette, navy document
+   serif for the title, gold mono for the record block. */
 
-.cover-inner {
+.face {
   position: relative;
   height: 100%;
-  padding: 0.95in 0.9in 0.72in;
+  padding: 0.82in 0.86in 0.66in;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -165,129 +149,149 @@ body {
 
 .crest-halo {
   position: relative;
-  width: 1.35in;
-  height: 1.35in;
+  width: 1.5in;
+  height: 1.5in;
   margin: 0 auto;
 }
-.crest-halo .guilloche {
+.crest-halo .rosette { position: absolute; inset: 0; }
+.crest-halo .mark {
   position: absolute;
-  inset: -0.14in;
-  border-radius: 999px;
-  opacity: 0.45;
-  background-image:
-    repeating-radial-gradient(circle at 50% 50%, rgba(202, 160, 68, 0.5) 0 0.5px, transparent 0.5px 4.5px),
-    repeating-conic-gradient(from 0deg at 50% 50%, rgba(202, 160, 68, 0.3) 0deg 1.5deg, transparent 1.5deg 5deg);
-  -webkit-mask-image: radial-gradient(circle, #000 40%, transparent 72%);
-  mask-image: radial-gradient(circle, #000 40%, transparent 72%);
+  left: 50%;
+  top: 50%;
+  width: 1.02in;
+  height: 1.02in;
+  transform: translate(-50%, -50%);
 }
 
-.cover-dept {
-  margin-top: 20px;
-  font-size: 9px;
+.face-dept {
+  margin-top: 14px;
+  font-size: 9.5px;
   font-weight: 700;
-  letter-spacing: 0.32em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: #e7c877;
+  color: #8a6a22;
 }
 
-/* Set as SVG text rather than CSS background-clip:text: Skia's PDF backend
-   drops the text clip and prints the foil ramp as a solid slab behind the
-   line. An SVG gradient fill exports the ink itself, and the words stay
-   selectable. */
-.cover-title { margin-top: 16px; }
-
-.cover-subtitle {
+.face-title {
   margin-top: 12px;
-  font-size: 13px;
-  font-style: italic;
-  color: rgba(255, 255, 255, 0.62);
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #121c36;
 }
 
-.cover-rule { margin: 20px auto 0; width: 74%; }
+.face-subtitle {
+  margin-top: 11px;
+  font-size: 13.5px;
+  font-style: italic;
+  color: #4a5372;
+}
+
+.face-rule { margin: 17px auto 0; width: 76%; }
 
 .record {
-  margin-top: 26px;
+  margin-top: 22px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px 26px;
+  gap: 14px 44px;
   text-align: left;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.045);
-  padding: 18px 22px;
 }
 .record .wide { grid-column: span 2; }
 .record dt {
-  font-size: 7.6px;
+  font-size: 8.4px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #c9a044;
+  color: #8a6a22;
 }
 .record dd {
   margin-top: 6px;
-  font-size: 11px;
+  font-size: 10.6px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1b2440;
 }
-.record .blank {
-  display: block;
-  height: 11px;
-  border-radius: 3px;
-  background-image: linear-gradient(100deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+
+.face-body { margin-top: 22px; text-align: left; }
+
+.face-section {
+  font-size: 8.6px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.face-operative {
+  margin-top: 7px;
+  font-size: 11.4px;
+  line-height: 1.75;
+  color: #26314f;
 }
 
 .assurances {
   margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 0;
+  border: 1px solid rgba(201, 160, 68, 0.45);
   border-radius: 10px;
   overflow: hidden;
 }
-.assurances div {
-  background: rgba(10, 19, 48, 0.86);
-  padding: 13px 8px;
-}
-.assurances .v { font-size: 13px; font-weight: 700; color: #e7c877; }
-.assurances .k { margin-top: 4px; font-size: 9px; color: rgba(255, 255, 255, 0.5); }
+.assurances div { padding: 12px 8px; }
+.assurances div + div { border-left: 1px solid rgba(201, 160, 68, 0.32); }
+.assurances .v { font-size: 13px; font-weight: 700; color: #121c36; }
+.assurances .k { margin-top: 4px; font-size: 9px; color: #4a5372; }
 
 .notice {
-  margin-top: 22px;
+  margin-top: 18px;
   text-align: left;
   border: 1px solid rgba(201, 160, 68, 0.4);
   background: rgba(201, 160, 68, 0.09);
   border-radius: 10px;
-  padding: 15px 18px;
+  padding: 14px 17px;
 }
 .notice .h {
-  font-size: 8px;
+  font-size: 8.4px;
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #e7c877;
+  color: #8a6a22;
 }
 .notice p {
   margin-top: 7px;
-  font-size: 10.5px;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: 10.6px;
+  line-height: 1.68;
+  color: #26314f;
 }
 
-.cover-seal { margin-top: auto; padding-top: 18px; }
-
-.cover-foot {
-  margin-top: 14px;
+/* The attestation foot. The instrument is executed on page 3, so this rule
+   carries the seal and the issuing desk rather than a second, duplicate pair
+   of signature lines. */
+.attest {
+  position: relative;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(27, 36, 64, 0.28);
   display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-  align-items: baseline;
-  font-size: 8.4px;
-  letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.42);
+  gap: 18px;
+  text-align: left;
 }
+.attest .who {
+  font-size: 10px;
+  font-weight: 700;
+  color: #1b2440;
+}
+.attest .where {
+  margin-top: 4px;
+  font-size: 9px;
+  color: #4a5372;
+}
+.attest .seal { margin-top: -46px; }
 
 /* ========================= pages 2–4 — the instrument ==================== */
 
@@ -585,37 +589,41 @@ p.operative {
 </svg>
 
 <!-- ============================ PAGE 1 — the face ======================= -->
-<section class="page vault">
-  <div class="engrave"></div>
+<section class="page paper">
   <div class="frame-outer"></div>
   <div class="frame-inner"></div>
   <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
   <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
   <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
   <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#c9a044" stroke-width="1.4" opacity="0.75"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#c9a044" stroke-width="0.7" opacity="0.45"/><circle cx="14" cy="14" r="2.2" fill="#c9a044" opacity="0.7"/></svg>
-  <div class="watermark on-vault">SPECIMEN</div>
+  <div class="watermark on-paper">SPECIMEN</div>
 
-  <div class="cover-inner">
+  <div class="face">
     <div class="crest-halo">
-      <div class="guilloche"></div>
-      <svg viewBox="0 0 64 64" width="100%" height="100%" style="position:relative"><use href="#crest" /></svg>
+      <!-- The guilloche rosette, drawn as struck rings rather than a masked
+           CSS gradient: a soft mask exports to PDF as a transparency group
+           that several viewers refuse to composite. -->
+      <svg class="rosette" viewBox="0 0 200 200" aria-hidden="true">
+        <g fill="none" stroke="#c9a044">
+          <circle cx="100" cy="100" r="96" stroke-width="0.7" opacity="0.2" />
+          <circle cx="100" cy="100" r="92" stroke-width="0.5" opacity="0.14" />
+          <circle cx="100" cy="100" r="84" stroke-width="14" stroke-dasharray="0.7 3.4" opacity="0.13" />
+          <circle cx="100" cy="100" r="76" stroke-width="0.6" opacity="0.22" />
+          <circle cx="100" cy="100" r="68" stroke-width="9" stroke-dasharray="0.6 2.4" opacity="0.11" />
+          <circle cx="100" cy="100" r="62" stroke-width="0.5" opacity="0.18" />
+          <circle cx="100" cy="100" r="56" stroke-width="0.4" opacity="0.12" />
+        </g>
+      </svg>
+      <svg class="mark" viewBox="0 0 64 64"><use href="#crest" /></svg>
     </div>
 
-    <p class="mono cover-dept">LogoOrbit · Legal Compliance Department</p>
+    <p class="mono face-dept">LogoOrbit · Legal Compliance Department</p>
 
-    <h1 class="cover-title">
-      <svg viewBox="0 0 643 88" width="100%" height="88" role="img"
-           aria-label="Copyright Assignment and Commercial Use Certificate">
-        <text x="321.5" y="34" text-anchor="middle" font-size="35" font-weight="700" fill="url(#foil)"
-              style="font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif; letter-spacing: -0.3px">Copyright Assignment &amp;</text>
-        <text x="321.5" y="76" text-anchor="middle" font-size="35" font-weight="700" fill="url(#foil)"
-              style="font-family: 'Liberation Serif', Georgia, 'Times New Roman', serif; letter-spacing: -0.3px">Commercial Use Certificate</text>
-      </svg>
-    </h1>
+    <h1 class="face-title">Copyright Assignment &amp;<br />Commercial Use Certificate</h1>
 
-    <p class="cover-subtitle">An instrument of transfer executed under 17 U.S.C. § 204(a)</p>
+    <p class="face-subtitle">An instrument of transfer executed under 17 U.S.C. § 204(a)</p>
 
-    <div class="foil-rule cover-rule"></div>
+    <div class="foil-rule face-rule"></div>
 
     <dl class="mono record">
       <div>
@@ -628,53 +636,65 @@ p.operative {
       </div>
       <div class="wide">
         <dt>Assignee</dt>
-        <dd><span class="blank"></span></dd>
+        <dd><span class="redact"></span></dd>
       </div>
       <div>
         <dt>Project / order</dt>
-        <dd><span class="blank"></span></dd>
+        <dd><span class="redact"></span></dd>
       </div>
       <div>
         <dt>Effective date</dt>
-        <dd><span class="blank"></span></dd>
+        <dd><span class="redact"></span></dd>
       </div>
     </dl>
 
-    <div class="assurances">
-      <div><p class="v">One-time</p><p class="k">No renewal, no royalty</p></div>
-      <div><p class="v">Worldwide</p><p class="k">Full term of copyright</p></div>
-      <div><p class="v">Signed</p><p class="k">By both parties, on paper</p></div>
-    </div>
-
-    <div class="notice">
-      <p class="mono h">Important — read before relying on this file</p>
-      <p>
-        This public specimen is incomplete, unsigned and visibly watermarked. Every client field is a placeholder and no
-        client artwork appears in it. It transfers and licenses nothing, is not proof of ownership, and is not a
-        certificate issued by the U.S. Copyright Office or any other government authority.
+    <div class="face-body">
+      <p class="mono face-section">Purpose of this instrument</p>
+      <p class="face-operative">
+        This certificate records the assignment of LogoOrbit’s copyright in one approved final logo to the assignee
+        named above, and authorises public commercial use of that mark from the effective date. The operative terms are
+        set out in Sections 1 to 10, the work itself is itemised in Exhibit A, and the transfer takes effect only on the
+        conditions stated in Section 2.
       </p>
+
+      <div class="assurances">
+        <div><p class="v">One-time</p><p class="k">No renewal, no royalty</p></div>
+        <div><p class="v">Worldwide</p><p class="k">Full term of copyright</p></div>
+        <div><p class="v">Signed</p><p class="k">By both parties, on paper</p></div>
+      </div>
+
+      <div class="notice">
+        <p class="mono h">Important — read before relying on this file</p>
+        <p>
+          This public specimen is incomplete, unsigned and visibly watermarked. Every client field is a placeholder and
+          no client artwork appears in it. It transfers and licenses nothing, is not proof of ownership, and is not a
+          certificate issued by the U.S. Copyright Office or any other government authority.
+        </p>
+      </div>
     </div>
 
-    <div class="cover-seal">
-      <svg viewBox="0 0 120 120" width="126" height="126" aria-label="LogoOrbit legal desk seal">
-        <circle cx="60" cy="60" r="56" fill="none" stroke="url(#foil)" stroke-width="2.5" stroke-dasharray="1.5 5" />
-        <circle cx="60" cy="60" r="50" fill="none" stroke="url(#foil)" stroke-width="1.6" />
-        <circle cx="60" cy="60" r="35" fill="none" stroke="url(#foil)" stroke-width="1" opacity="0.8" />
-        <text font-size="8.2" letter-spacing="1.6" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">
-          <textPath href="#seal-arc" startOffset="50%" text-anchor="middle">LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·</textPath>
-        </text>
-        <g transform="translate(60 60)">
-          <ellipse rx="17" ry="7.5" transform="rotate(-30)" fill="none" stroke="url(#foil)" stroke-width="1.6" />
-          <circle r="5.2" fill="url(#foil)" />
-          <circle cx="13" cy="-8" r="2.6" fill="url(#foil)" />
-        </g>
-        <text x="60" y="88" text-anchor="middle" font-size="6.6" letter-spacing="1.1" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">17 U.S.C. § 204(a)</text>
-      </svg>
-    </div>
-
-    <div class="mono cover-foot">
-      <span>Specimen issued by the LogoOrbit legal desk</span>
-      <span>logoorbit.net</span>
+    <div class="attest">
+      <div>
+        <p class="who">Issued by the LogoOrbit legal desk</p>
+        <p class="mono where">Executed by both parties on page 3 · Exhibit A on page 4</p>
+      </div>
+      <span class="seal">
+        <svg viewBox="0 0 120 120" width="104" height="104" aria-label="LogoOrbit legal desk seal">
+          <circle cx="60" cy="60" r="57" fill="#fbf8f1" opacity="0.55" />
+          <circle cx="60" cy="60" r="56" fill="none" stroke="url(#foil)" stroke-width="2.5" stroke-dasharray="1.5 5" />
+          <circle cx="60" cy="60" r="50" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+          <circle cx="60" cy="60" r="35" fill="none" stroke="url(#foil)" stroke-width="1" opacity="0.8" />
+          <text font-size="8.2" letter-spacing="1.6" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">
+            <textPath href="#seal-arc" startOffset="50%" text-anchor="middle">LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·</textPath>
+          </text>
+          <g transform="translate(60 60)">
+            <ellipse rx="17" ry="7.5" transform="rotate(-30)" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+            <circle r="5.2" fill="url(#foil)" />
+            <circle cx="13" cy="-8" r="2.6" fill="url(#foil)" />
+          </g>
+          <text x="60" y="88" text-anchor="middle" font-size="6.6" letter-spacing="1.1" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">17 U.S.C. § 204(a)</text>
+        </svg>
+      </span>
     </div>
   </div>
 </section>
