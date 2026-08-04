@@ -30,14 +30,21 @@ export default function CartIndicator({ light, compact = false }) {
             }`
       }`}
     >
-      <span className="relative">
-        <Icons.cart className={compact ? 'h-6 w-6' : 'h-4 w-4'} />
-        {filled && (
-          <span className="absolute -right-2 -top-2 grid h-4.5 min-w-[1.125rem] place-items-center rounded-full bg-action-500 px-1 text-[10px] font-bold leading-none text-white tabular-nums">
-            {count}
-          </span>
-        )}
-      </span>
+      <Icons.cart className={compact ? 'h-6 w-6' : 'h-4 w-4'} />
+      {filled && (
+        // The badge sits on the control's own corner, not the glyph's: hung
+        // off the icon it landed on top of the cart drawing, and a two-digit
+        // count covered it completely. The ring cuts it out of whatever it
+        // overlaps so the count stays legible against the icon and the
+        // button's border alike.
+        <span
+          className={`pointer-events-none absolute -right-1 -top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-action-500 px-1 text-[10px] font-bold leading-none text-white tabular-nums ring-2 ${
+            light ? 'ring-ink-900' : 'ring-white'
+          }`}
+        >
+          {count > 99 ? '99+' : count}
+        </span>
+      )}
       {/* Icon and badge only. The header row is already tight at laptop
           widths, and the running total would add another sixty pixels to it
           for information that is one click away on the cart page itself. */}
