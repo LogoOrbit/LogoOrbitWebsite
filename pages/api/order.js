@@ -9,8 +9,11 @@
  * the browser, so the figure in the email is one we computed. The client's
  * total is only used to flag a mismatch worth a human glance.
  *
- * Configure RESEND_API_KEY, ORDER_TO_EMAIL (or CONTACT_TO_EMAIL) and
- * CONTACT_FROM_EMAIL in the deployment environment.
+ * The email is sent as both plain text and an itemised HTML table, so it is
+ * readable in a phone notification and complete enough to quote from.
+ *
+ * Configure RESEND_API_KEY and CONTACT_FROM_EMAIL in the deployment
+ * environment. ORDER_TO_EMAIL overrides the recipient list.
  */
 
 import { salesTax } from '../../lib/pricing'
@@ -100,13 +103,15 @@ export default async function handler(req, res) {
     message: String(message || '').trim().slice(0, 3000),
   }
 
+  const units = lines.reduce((n, l) => n + l.qty, 0)
+
   const body = [
     `Name: ${order.name}`,
     `Email: ${order.email}`,
     `Phone: ${order.phone || 'Not provided'}`,
     `Business: ${order.company || 'Not provided'}`,
     '',
-    `Items (${lines.reduce((n, l) => n + l.qty, 0)}):`,
+    `Items (${units}):`,
     ...lines.map(
       (l, i) =>
         `${i + 1}. ${l.name} (${l.kind}) — ${l.qty} x ${l.from ? 'from ' : ''}${cash(l.price)}${
@@ -131,8 +136,99 @@ export default async function handler(req, res) {
     `Received: ${order.receivedAt}`,
   ].join('\n')
 
+  /* ------------------------------------------------------- the HTML copy */
+
+  const esc = (s) =>
+    String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
+
+  const td = 'padding:10px 12px;border-bottom:1px solid #e6eaf2;font-size:14px;color:#26324f'
+  const num = `${td};text-align:right;white-space:nowrap`
+  const totalRow = (label, value, strong) =>
+    `<tr><td colspan="3" style="${td};text-align:right;${strong ? 'font-weight:700;font-size:16px' : ''}">${esc(
+      label
+    )}</td><td style="${num};${strong ? 'font-weight:700;font-size:16px' : ''}">${esc(value)}</td></tr>`
+
+  const html = `<div style="font-family:Segoe UI,Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;color:#0b1733">
+  <h2 style="margin:0 0 4px;font-size:20px">New website order — ${esc(cash(total))}</h2>
+  <p style="margin:0 0 20px;font-size:13px;color:#5a6480">Placed ${esc(order.receivedAt)} · ${units} item${
+    units === 1 ? '' : 's'
+  } across ${lines.length} line${lines.length === 1 ? '' : 's'}</p>
+
+  <table style="width:100%;border-collapse:collapse;margin-bottom:22px">
+    <tbody>
+      <tr><td style="${td};width:150px;color:#5a6480">Name</td><td style="${td}"><strong>${esc(order.name)}</strong></td></tr>
+      <tr><td style="${td};color:#5a6480">Email</td><td style="${td}"><a href="mailto:${esc(order.email)}">${esc(order.email)}</a></td></tr>
+      <tr><td style="${td};color:#5a6480">Phone</td><td style="${td}">${esc(order.phone || 'Not provided')}</td></tr>
+      <tr><td style="${td};color:#5a6480">Business</td><td style="${td}">${esc(order.company || 'Not provided')}</td></tr>
+    </tbody>
+  </table>
+
+  <table style="width:100%;border-collapse:collapse">
+    <thead>
+      <tr style="background:#f4f6fb">
+        <th align="left" style="${td};font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5a6480">Item</th>
+        <th align="right" style="${num};font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5a6480">Qty</th>
+        <th align="right" style="${num};font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5a6480">Unit</th>
+        <th align="right" style="${num};font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5a6480">Line</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${lines
+        .map(
+          (l) =>
+            `<tr><td style="${td}"><strong>${esc(l.name)}</strong><br><span style="font-size:12px;color:#5a6480">${esc(
+              l.kind
+            )}${l.per ? ` · billed ${esc(l.per)}` : ''}</span></td><td style="${num}">${l.qty}</td><td style="${num}">${
+              l.from ? 'from ' : ''
+            }${esc(cash(l.price))}</td><td style="${num}">${esc(cash(round2(l.price * l.qty)))}${
+              l.per ? ` ${esc(l.per)}` : ''
+            }</td></tr>`
+        )
+        .join('')}
+      ${totalRow('Subtotal', cash(subtotal))}
+      ${totalRow(`${salesTax.label} (${salesTax.rate}%)`, cash(tax))}
+      ${totalRow('Total', cash(total), true)}
+      ${
+        recurring.length
+          ? totalRow(`Plus monthly, with tax`, `${cash(recurringTotal)} a month`)
+          : ''
+      }
+    </tbody>
+  </table>
+
+  ${
+    lines.some((l) => l.from)
+      ? '<p style="margin:18px 0 0;padding:12px;background:#fff7e6;border-radius:10px;font-size:13px">Contains <strong>from</strong> prices — the total above is an estimate and needs confirming with the customer.</p>'
+      : ''
+  }
+  ${
+    mismatch
+      ? `<p style="margin:12px 0 0;padding:12px;background:#fdecec;border-radius:10px;font-size:13px">The browser showed ${esc(
+          cash(clientTotal)
+        )} but the server totals it at ${esc(cash(total))}. Worth a look before quoting.</p>`
+      : ''
+  }
+
+  <h3 style="margin:24px 0 6px;font-size:14px">Notes from the customer</h3>
+  <p style="margin:0;padding:12px;background:#f4f6fb;border-radius:10px;font-size:14px;white-space:pre-wrap">${esc(
+    order.message || 'None provided.'
+  )}</p>
+</div>`
+
   const apiKey = process.env.RESEND_API_KEY
-  const to = process.env.ORDER_TO_EMAIL || process.env.CONTACT_TO_EMAIL || 'sales@logoorbit.net'
+  /**
+   * Orders go to the sales desk and to the legal desk, which keeps the record
+   * of what was agreed before any assignment or filing paperwork is drawn up.
+   * ORDER_TO_EMAIL overrides the list entirely and accepts a comma-separated
+   * set of addresses, so the recipients can be changed without a deploy.
+   */
+  const to = [
+    ...new Set(
+      process.env.ORDER_TO_EMAIL
+        ? process.env.ORDER_TO_EMAIL.split(',').map((a) => a.trim()).filter(Boolean)
+        : ['asadsyed711@gmail.com', 'legal@logoorbit.net', process.env.CONTACT_TO_EMAIL || 'sales@logoorbit.net']
+    ),
+  ]
   const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
 
   // Without a mail key the order cannot be delivered, and saying so plainly
@@ -151,8 +247,9 @@ export default async function handler(req, res) {
       from,
       to,
       reply_to: order.email,
-      subject: `Website order — ${order.name}, ${lines.length} item${lines.length === 1 ? '' : 's'}, ${cash(total)}`,
+      subject: `Website order — ${order.name}, ${units} item${units === 1 ? '' : 's'}, ${cash(total)}`,
       text: body,
+      html,
     }),
   })
 

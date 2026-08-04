@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Icons } from './Icons'
 import { useScrolled } from '../lib/hooks'
 import { site } from '../lib/site'
-import { useCart, cash } from '../lib/cart'
+import { useCart, cash, ORDER_FORM_ID } from '../lib/cart'
 
 /**
  * Phone-only sticky action bar. On mobile the floating buttons used to sit
@@ -17,7 +17,8 @@ export default function MobileCTABar() {
   // Once there is a cart, it is the more useful of the two actions: a reader
   // who has picked three things does not want to start a quote from scratch.
   // On the cart page itself the bar moves one step further along, to checkout.
-  const cartFilled = ready && totals.count > 0 && pathname !== '/checkout'
+  const onCheckout = pathname === '/checkout'
+  const cartFilled = ready && totals.count > 0 && !onCheckout
   const onCart = pathname === '/cart'
 
   return (
@@ -35,7 +36,14 @@ export default function MobileCTABar() {
           <Icons.phone className="w-5 h-5" />
           Call
         </a>
-        {cartFilled ? (
+        {/* On the checkout page the bar submits the order form itself, which
+            a button can do from anywhere in the document by naming it. */}
+        {onCheckout && ready && totals.count > 0 ? (
+          <button type="submit" form={ORDER_FORM_ID} className="btn-action flex-[1.4] gap-2 px-4 py-3">
+            <Icons.check className="w-5 h-5" />
+            Place order
+          </button>
+        ) : cartFilled ? (
           <Link href={onCart ? '/checkout' : '/cart'} className="btn-action flex-[1.4] gap-2 px-4 py-3">
             <Icons.cart className="w-5 h-5" />
             {onCart ? 'Checkout' : 'Cart'} · {cash(totals.total)}

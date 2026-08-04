@@ -4,7 +4,14 @@ import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
 import CartSummary from '../components/CartSummary'
 import { Icons } from '../components/Icons'
-import { useCart, cash, orderSummaryText, orderWhatsAppLink, orderMailtoLink } from '../lib/cart'
+import {
+  useCart,
+  cash,
+  orderSummaryText,
+  orderWhatsAppLink,
+  orderMailtoLink,
+  ORDER_FORM_ID,
+} from '../lib/cart'
 import { salesTax } from '../lib/pricing'
 import { site, whatsapp } from '../lib/site'
 import { breadcrumb } from '../lib/seo'
@@ -80,8 +87,6 @@ export default function CheckoutPage() {
   const waHref = useMemo(() => orderWhatsAppLink(items, totals, details), [items, totals, details])
   const mailHref = useMemo(() => orderMailtoLink(items, totals, details), [items, totals, details])
 
-  const callMessage = `Hi, I have ${totals.count} item${totals.count === 1 ? '' : 's'} in my cart on your website, totalling ${cash(totals.total)}.`
-
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(summary)
@@ -134,7 +139,10 @@ export default function CheckoutPage() {
   if (ready && items.length === 0 && status !== 'sent') {
     return (
       <Layout title="Checkout" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
-        <PageHero eyebrow="Checkout" breadcrumb="Checkout" title="There is nothing" highlight="to check out yet" />
+        <PageHero eyebrow="Checkout" breadcrumb="Checkout" title="There is nothing" highlight="to check out yet">
+          {/* The stock hero buttons repeat the one below, so they are cleared. */}
+          <></>
+        </PageHero>
         <section className="bg-slate-50 py-16">
           <div className="mx-auto max-w-xl px-5 text-center">
             <p className="text-[16px] leading-relaxed text-ink-500">
@@ -156,7 +164,9 @@ export default function CheckoutPage() {
   if (status === 'sent') {
     return (
       <Layout title="Order Received" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
-        <PageHero eyebrow="Order received" breadcrumb="Checkout" title="Got it —" highlight="we are on it" />
+        <PageHero eyebrow="Order received" breadcrumb="Checkout" title="Got it —" highlight="we are on it">
+          <></>
+        </PageHero>
         <section className="bg-slate-50 py-12 sm:py-16">
           <div className="mx-auto max-w-2xl px-5 sm:px-6">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 text-center sm:p-10">
@@ -273,7 +283,10 @@ export default function CheckoutPage() {
 
               {/* --------------------------------------------- 2. who you are */}
               <Step n="2" title="Who we are quoting for">
-                <form onSubmit={submit} noValidate>
+                {/* Named so the summary panel and the phone action bar can
+                    carry their own Place order buttons without duplicating
+                    the form or lifting its state out of this page. */}
+                <form id={ORDER_FORM_ID} onSubmit={submit} noValidate>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Your name" error={errors.name}>
                       <input
@@ -336,13 +349,15 @@ export default function CheckoutPage() {
                     </p>
                   )}
 
+                  {/* The one button the whole page is built around, so it is
+                      the largest thing on it and it says what it does. */}
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="btn-action mt-5 w-full px-6 py-4 text-[16px] disabled:opacity-60"
+                    className="btn-action mt-5 w-full px-6 py-5 text-[17px] disabled:opacity-60"
                   >
-                    {status === 'sending' ? 'Sending your order…' : 'Send my order to LogoOrbit'}
-                    <Icons.arrow className="h-4.5 w-4.5" />
+                    {status === 'sending' ? 'Placing your order…' : `Place my order · ${cash(totals.total)}`}
+                    <Icons.arrow className="h-5 w-5" />
                   </button>
                   <p className="mt-2.5 text-center text-[12.5px] text-ink-500">
                     This sends the list above and your details to our sales desk. It does not take payment and
@@ -414,6 +429,15 @@ export default function CheckoutPage() {
             </div>
 
             <CartSummary sticky>
+              <button
+                type="submit"
+                form={ORDER_FORM_ID}
+                disabled={status === 'sending'}
+                className="btn-action mt-5 w-full px-5 py-4 text-[16px] disabled:opacity-60"
+              >
+                {status === 'sending' ? 'Placing your order…' : 'Place my order'}
+                <Icons.arrow className="h-4.5 w-4.5" />
+              </button>
               <a
                 href={waHref}
                 target="_blank"
