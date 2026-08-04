@@ -4,6 +4,7 @@ import MoreOnPhone from './MoreOnPhone'
 import { Icons } from './Icons'
 import { money } from '../lib/pricing'
 import { packagePathFor } from '../lib/packages'
+import { whatsappLink } from '../lib/site'
 
 /**
  * Every card now has a page behind it: the full specification, how the tier
@@ -27,10 +28,17 @@ function DetailsLink({ item, featured, label = 'See the full package page' }) {
   )
 }
 
-function OrderButton({ featured, children = 'Order this package' }) {
+/** The message a WhatsApp order link opens with, naming the exact card clicked. */
+function orderMessage(item) {
+  return `Hi LogoOrbit, I'd like to order the ${item.name} ${(item.kind || 'package').toLowerCase()} at ${money(item.price)}.`
+}
+
+function OrderButton({ item, featured, children = 'Order this package' }) {
   return (
     <Link
-      href="/contact"
+      href={whatsappLink(orderMessage(item))}
+      target="_blank"
+      rel="noopener noreferrer"
       className={
         // Both variants keep the same type size and stay on one line: a
         // wrapped "Order this / package" next to a single-line one made the
@@ -307,7 +315,7 @@ export function PriceCard({ item, tier = 0 }) {
         )}
       </div>
 
-      <OrderButton featured={featured} />
+      <OrderButton item={item} featured={featured} />
       <DetailsLink item={item} featured={featured} />
       {featured && <Recommended />}
     </div>
@@ -398,7 +406,7 @@ export function BundleCard({ item, tier = 0 }) {
         </span>
       </div>
 
-      <OrderButton featured={featured} />
+      <OrderButton item={item} featured={featured} />
       <DetailsLink item={item} featured={featured} label="See what is in this bundle" />
       {featured && <Recommended />}
     </div>
@@ -447,7 +455,12 @@ export function BigPackage({ pkg, tone = 'dark' }) {
               {money(pkg.price)}
             </span>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
-              <Link href="/contact" className="btn-action w-full px-6 py-3.5 sm:w-auto">
+              <Link
+                href={whatsappLink(orderMessage(pkg))}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-action w-full px-6 py-3.5 sm:w-auto"
+              >
                 Order this package
                 <Icons.arrow className="w-4 h-4" />
               </Link>
