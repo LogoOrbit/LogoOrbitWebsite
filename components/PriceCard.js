@@ -137,18 +137,19 @@ function TierMedal({ tier = 0, featured, label = '' }) {
 }
 
 /**
- * The accent bar has to stop where the card's rounded corner starts. Rounding
- * the bar itself does not do that, a 6px strip with a 24px top radius keeps
- * square bottom corners that poke out past the curve, so the clipping is done
- * by a wrapper that shares the card's radius.
+ * The accent bar has to stop where the card's rounded corner starts. The
+ * clipping wrapper has to be at least as tall as that 24px radius: a 6px-tall
+ * wrapper with a 24px top radius is curved away along its whole length, which
+ * left the bar floating above the card as a detached rounded sliver. So the
+ * wrapper is the height of the radius and the bar sits inside it.
  */
 function TopBar({ tier = 0 }) {
   return (
     <span
-      className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1.5 overflow-hidden rounded-t-3xl"
+      className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 overflow-hidden rounded-t-3xl"
       aria-hidden="true"
     >
-      <span className={`block h-full w-full bg-gradient-to-r ${tierOf(tier).bar}`} />
+      <span className={`block h-1.5 w-full bg-gradient-to-r ${tierOf(tier).bar}`} />
     </span>
   )
 }
@@ -157,10 +158,10 @@ function TopBar({ tier = 0 }) {
 // and the ring, which reads as a slightly blurred card next to its sharp
 // neighbours. The extra top padding is the room the badge needs.
 const shell = (featured, tier = 0) =>
-  `relative flex h-full flex-col rounded-3xl px-6 pb-6 sm:px-7 sm:pb-7 transition-all duration-300 ${
+  `relative flex h-full flex-col rounded-3xl px-5 pb-5 sm:px-7 sm:pb-7 transition-all duration-300 ${
     featured
-      ? 'pt-9 sm:pt-10 bg-gradient-to-b from-ink-900 to-[#111d3b] text-white shadow-2xl shadow-action-900/20 ring-2 ring-action-500 lg:-translate-y-2'
-      : `pt-6 sm:pt-7 bg-white border border-slate-200 hover:-translate-y-1.5 hover:shadow-xl ${tierOf(tier).hover}`
+      ? 'pt-8 sm:pt-10 bg-gradient-to-b from-ink-900 to-[#111d3b] text-white shadow-2xl shadow-action-900/20 ring-2 ring-action-500 lg:-translate-y-2'
+      : `pt-5 sm:pt-7 bg-white border border-slate-200 hover:-translate-y-1.5 hover:shadow-xl ${tierOf(tier).hover}`
   }`
 
 /** Says out loud why the highlighted card is highlighted. */
@@ -184,7 +185,7 @@ function FullList({ features, featured }) {
   if (!features?.length) return null
 
   return (
-    <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+    <div className={`mt-4 hidden border-t pt-4 sm:block ${featured ? 'border-white/10' : 'border-slate-100'}`}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
@@ -222,16 +223,14 @@ export function PriceCard({ item, tier = 0 }) {
   // above it, and they stay on the card at every width. Everything after them
   // is spec-sheet detail, which a phone reader only wants once they have
   // narrowed it down to this card, so it folds away below `sm`.
-  // Only fold when folding actually buys a screen back. Hiding one or two
-  // bullets behind a tap costs a card a whole extra control and saves forty
-  // pixels, and on a tier that also carries a full spec list it left two
-  // disclosures stacked on top of each other.
+  // Anything past them folds away on a phone: stacked full-width cards mean
+  // every bullet left open is a bullet the reader scrolls past four times, so
+  // the fold pays for its own control even at one or two lines.
   //
-  // `FullList` and the "choose a type" grid are left out of the fold for the
-  // same reason: the first is a disclosure of its own, and the second is four
-  // words in two columns, so neither is worth a tap.
+  // The "choose a type" grid stays out of the fold: it is four words in two
+  // columns, so it is not worth a tap.
   const tail = points.slice(3)
-  const fold = tail.length >= 3
+  const fold = tail.length >= 1
   const lead = fold ? points.slice(0, 3) : points
   const rest = fold ? tail : []
 
@@ -280,7 +279,7 @@ export function PriceCard({ item, tier = 0 }) {
 
         {fold && (
           <MoreOnPhone
-            className="mt-4"
+            className="mt-4 sm:mt-2.5"
             tone={featured ? 'dark' : 'light'}
             label={`See full details (${rest.length} more)`}
           >
@@ -335,7 +334,7 @@ export function PriceCard({ item, tier = 0 }) {
         )}
       </div>
 
-      <AddToCart item={cartItemFor(item)} variant={featured ? 'featured' : 'solid'} className="mt-6" />
+      <AddToCart item={cartItemFor(item)} variant={featured ? 'featured' : 'solid'} className="mt-5 sm:mt-6" />
       <OrderButton item={item} featured={featured} className="mt-2.5">
         Order this now
       </OrderButton>
@@ -429,7 +428,7 @@ export function BundleCard({ item, tier = 0 }) {
         </span>
       </div>
 
-      <AddToCart item={cartItemFor(item, 'Bundle')} variant={featured ? 'featured' : 'solid'} className="mt-6" />
+      <AddToCart item={cartItemFor(item, 'Bundle')} variant={featured ? 'featured' : 'solid'} className="mt-5 sm:mt-6" />
       <OrderButton item={item} featured={featured} className="mt-2.5">
         Order this now
       </OrderButton>

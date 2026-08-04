@@ -27,7 +27,7 @@ export default function CardRow({ items, className = '' }) {
     <div className={className}>
       {/* The badge on the highlighted card hangs above its top edge, so the row
           carries the padding that keeps it clear of whatever sits above. */}
-      <div className="grid items-stretch gap-5 pt-6 sm:grid-cols-2 sm:gap-5 sm:gap-y-8 sm:pt-5 lg:grid-cols-4">
+      <div className="grid items-stretch gap-4 pt-6 sm:grid-cols-2 sm:gap-5 sm:gap-y-8 sm:pt-5 lg:grid-cols-4">
         {ordered.map(({ item, tier }, i) => (
           <Reveal key={item.name} delay={i * 70} className="h-full">
             {isBundle ? <BundleCard item={item} tier={tier} /> : <PriceCard item={item} tier={tier} />}
