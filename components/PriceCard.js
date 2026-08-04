@@ -476,8 +476,8 @@ export function BigPackage({ pkg, tone = 'dark' }) {
 
           {/* On a phone the price and the button are the two things worth the
               width, so they take a row each rather than wrapping awkwardly. */}
-          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-5">
-            <span className={`text-4xl sm:text-5xl font-bold tracking-tight ${dark ? 'text-white' : 'text-ink-900'}`}>
+          <div className="flex flex-col items-stretch gap-4 lg:items-end">
+            <span className={`text-4xl sm:text-5xl font-bold tracking-tight lg:text-right ${dark ? 'text-white' : 'text-ink-900'}`}>
               {money(pkg.price)}
             </span>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
