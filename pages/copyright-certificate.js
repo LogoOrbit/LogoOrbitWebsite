@@ -443,7 +443,7 @@ export default function CopyrightCertificatePage() {
                 download
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-[#c9a044]/45 bg-[#c9a044]/[0.08] px-7 py-4 font-semibold text-[#f0d89a] transition-colors hover:bg-[#c9a044]/20"
               >
-                Read the specimen PDF
+                Download sample
               </a>
             </div>
 
