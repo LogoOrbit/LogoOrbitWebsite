@@ -16,6 +16,7 @@ const exploreLinks = [
   { label: 'Our Team', href: '/team' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Every package', href: '/pricing/packages' },
+  { label: 'Your cart', href: '/cart' },
   { label: 'Contact Us', href: '/contact' },
   { label: 'Design Resources', href: '/resources' },
   { label: 'Design Glossary', href: '/glossary' },

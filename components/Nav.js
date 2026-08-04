@@ -5,6 +5,7 @@ import { Icons } from './Icons'
 import BrandMark from './BrandMark'
 import ThemeToggle from './ThemeToggle'
 import SearchOverlay from './SearchOverlay'
+import CartIndicator from './CartIndicator'
 import { nav, site } from '../lib/site'
 
 function Wordmark({ light }) {
@@ -227,6 +228,7 @@ export default function Nav() {
                 {shortcutLabel}
               </span>
             </button>
+            <CartIndicator light={light} />
             <ThemeToggle light={light} />
             <a
               href={site.phoneHref}
@@ -255,6 +257,7 @@ export default function Nav() {
             >
               <Icons.search className="w-6 h-6" />
             </button>
+            <CartIndicator light={light} compact />
             <ThemeToggle light={light} />
             <button
               ref={menuButtonRef}
@@ -378,6 +381,14 @@ export default function Nav() {
           </nav>
 
           <div className="px-6 pb-10 mt-2 space-y-3">
+            <Link
+              href="/cart"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center gap-2 rounded-full bg-ink-900 px-5 py-3.5 font-semibold text-white"
+            >
+              <Icons.cart className="w-5 h-5" />
+              View my cart
+            </Link>
             <Link
               href="/contact"
               onClick={() => setOpen(false)}

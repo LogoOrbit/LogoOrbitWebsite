@@ -1,10 +1,31 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import MoreOnPhone from './MoreOnPhone'
+import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { money } from '../lib/pricing'
 import { packagePathFor } from '../lib/packages'
 import { whatsappLink } from '../lib/site'
+
+/**
+ * The cart's view of a package card.
+ *
+ * The page slug is used as the identity rather than the name, because there is
+ * a "Pro" in four different ranges and a cart holding two of them has to be
+ * able to tell them apart.
+ */
+export function cartItemFor(item, kind) {
+  const href = packagePathFor(item)
+  return {
+    sku: href || item.name,
+    name: item.name,
+    kind: kind || item.kind || 'Package',
+    price: item.price,
+    per: item.per || null,
+    from: Boolean(item.from),
+    href,
+  }
+}
 
 /**
  * Every card now has a page behind it: the full specification, how the tier
@@ -33,7 +54,7 @@ function orderMessage(item) {
   return `Hi LogoOrbit, I'd like to order the ${item.name} ${(item.kind || 'package').toLowerCase()} at ${money(item.price)}.`
 }
 
-function OrderButton({ item, featured, children = 'Order this package' }) {
+function OrderButton({ item, featured, className = 'mt-6', children = 'Order this package' }) {
   return (
     <Link
       href={whatsappLink(orderMessage(item))}
@@ -44,8 +65,8 @@ function OrderButton({ item, featured, children = 'Order this package' }) {
         // wrapped "Order this / package" next to a single-line one made the
         // four cards look like different components.
         featured
-          ? 'btn-action mt-6 w-full whitespace-nowrap px-5 py-3.5 text-[15px]'
-          : 'mt-6 flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-ink-900 px-5 py-3.5 text-[15px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-action-600'
+          ? `btn-action ${className} w-full whitespace-nowrap px-5 py-3.5 text-[15px]`
+          : `${className} flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-ink-900 px-5 py-3.5 text-[15px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-action-600`
       }
     >
       {children}
@@ -315,7 +336,10 @@ export function PriceCard({ item, tier = 0 }) {
         )}
       </div>
 
-      <OrderButton item={item} featured={featured} />
+      <AddToCart item={cartItemFor(item)} variant={featured ? 'featured' : 'solid'} className="mt-6" />
+      <OrderButton item={item} featured={featured} className="mt-2.5">
+        Order this now
+      </OrderButton>
       <DetailsLink item={item} featured={featured} />
       {featured && <Recommended />}
     </div>
@@ -406,7 +430,10 @@ export function BundleCard({ item, tier = 0 }) {
         </span>
       </div>
 
-      <OrderButton item={item} featured={featured} />
+      <AddToCart item={cartItemFor(item, 'Bundle')} variant={featured ? 'featured' : 'solid'} className="mt-6" />
+      <OrderButton item={item} featured={featured} className="mt-2.5">
+        Order this now
+      </OrderButton>
       <DetailsLink item={item} featured={featured} label="See what is in this bundle" />
       {featured && <Recommended />}
     </div>
@@ -455,6 +482,12 @@ export function BigPackage({ pkg, tone = 'dark' }) {
               {money(pkg.price)}
             </span>
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+              <AddToCart
+                item={cartItemFor(pkg, pkg.kind || 'Package')}
+                variant={dark ? 'featured' : 'solid'}
+                full={false}
+                className="w-full sm:w-auto"
+              />
               <Link
                 href={whatsappLink(orderMessage(pkg))}
                 target="_blank"

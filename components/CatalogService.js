@@ -7,6 +7,7 @@ import Reveal from './Reveal'
 import ProcessSteps from './ProcessSteps'
 import FaqAccordion from './FaqAccordion'
 import LinkGrid from './LinkGrid'
+import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { site } from '../lib/site'
 import { serviceGroups, serviceBySlug } from '../lib/catalog'
@@ -62,6 +63,22 @@ export default function CatalogService({ service, related, guides = [] }) {
         intro={service.intro}
       >
         <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row justify-center gap-3">
+          {/* Catalogue prices are starting figures, so the line goes into the
+              cart flagged as a "from" price and the checkout says the total is
+              an estimate until the scope is read. */}
+          <AddToCart
+            item={{
+              sku: `/services/${service.slug}`,
+              name: service.name,
+              kind: group?.name || 'Service',
+              price: service.price,
+              from: true,
+              href: `/services/${service.slug}`,
+            }}
+            variant="featured"
+            full={false}
+            padding="px-7 py-4"
+          />
           <Link href="/contact" className="group btn-action px-7 py-4">
             Get a fixed quote
             <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />

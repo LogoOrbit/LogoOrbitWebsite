@@ -6,6 +6,7 @@ import ArticleBody from '../../components/ArticleBody'
 import FaqAccordion from '../../components/FaqAccordion'
 import LinkGrid from '../../components/LinkGrid'
 import CTA from '../../components/CTA'
+import AddToCart from '../../components/AddToCart'
 import { Icons } from '../../components/Icons'
 import { packages, packageBySlug } from '../../lib/packages'
 import { money, salesTax } from '../../lib/pricing'
@@ -72,6 +73,21 @@ export default function PackagePage({ pkg, siblings }) {
           <p className="text-[13px] text-white/50">{salesTax.short}</p>
 
           <div className="mt-2 flex flex-col sm:flex-row justify-center gap-3">
+            <AddToCart
+              item={{
+                sku: path,
+                name: pkg.name,
+                kind: pkg.sectionTitle,
+                price: pkg.price,
+                per: pkg.per || null,
+                from: /from/i.test(pkg.priceLabel || ''),
+                href: path,
+              }}
+              variant="featured"
+              full={false}
+              padding="px-7 py-4"
+              label="Add to cart"
+            />
             <Link href="/contact" className="group btn-action px-7 py-4">
               Order this package
               <Icons.arrow className="w-5 h-5 transition-transform group-hover:translate-x-1" />

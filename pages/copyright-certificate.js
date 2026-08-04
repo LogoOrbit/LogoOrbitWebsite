@@ -4,6 +4,7 @@ import Layout from '../components/Layout'
 import Reveal from '../components/Reveal'
 import FaqAccordion from '../components/FaqAccordion'
 import CertificateInstrument, { CertificateSeal } from '../components/CertificateInstrument'
+import AddToCart from '../components/AddToCart'
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
 import { salesTax } from '../lib/pricing'
@@ -434,6 +435,20 @@ export default function CopyrightCertificatePage() {
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <AddToCart
+                item={{
+                  sku: '/copyright-certificate',
+                  name: 'Copyright assignment certificate',
+                  kind: 'Ownership document',
+                  price: 499,
+                  href: '/copyright-certificate',
+                  note: 'issued once the project balance is paid',
+                }}
+                variant="featured"
+                full={false}
+                padding="px-7 py-4"
+                label="Add to cart · $499"
+              />
               <Link href="/contact?subject=Copyright%20Certificate" className="btn-action px-7 py-4">
                 Request the certificate - $499
                 <Icons.arrow className="h-5 w-5" />

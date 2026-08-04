@@ -4,6 +4,7 @@ import PageHero from '../../components/PageHero'
 import Reveal from '../../components/Reveal'
 import LinkGrid from '../../components/LinkGrid'
 import CTA from '../../components/CTA'
+import AddToCart from '../../components/AddToCart'
 import { Icons } from '../../components/Icons'
 import { packages, packageFamilies } from '../../lib/packages'
 import { money, salesTax } from '../../lib/pricing'
@@ -67,12 +68,15 @@ export default function PackageIndex({ families }) {
             <div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {family.packages.map((pkg, j) => (
                 <Reveal key={pkg.slug} delay={(j % 3) * 60} className="h-full">
-                  <Link
-                    href={`/pricing/${pkg.slug}`}
+                  {/* The card is a link and the Add to cart control is a
+                      button, so the button sits outside the anchor: nesting
+                      one inside the other is invalid and swallows the click. */}
+                  <div
                     className={`group flex h-full flex-col rounded-2xl border bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                       pkg.featured ? 'border-brand-300 shadow-lg shadow-brand-900/5' : 'border-slate-200 hover:border-brand-200'
                     }`}
                   >
+                  <Link href={`/pricing/${pkg.slug}`} className="flex flex-1 flex-col">
                     <span className="flex items-start justify-between gap-3">
                       <span className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-600">
                         {pkg.kind}
@@ -103,6 +107,21 @@ export default function PackageIndex({ families }) {
                       <Icons.arrow className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                     </span>
                   </Link>
+
+                  <AddToCart
+                    className="mt-4"
+                    padding="px-4 py-2.5"
+                    item={{
+                      sku: `/pricing/${pkg.slug}`,
+                      name: pkg.name,
+                      kind: pkg.sectionTitle,
+                      price: pkg.price,
+                      per: pkg.per || null,
+                      from: /from/i.test(pkg.priceLabel || ''),
+                      href: `/pricing/${pkg.slug}`,
+                    }}
+                  />
+                  </div>
                 </Reveal>
               ))}
             </div>

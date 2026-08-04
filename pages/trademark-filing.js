@@ -6,6 +6,7 @@ import FaqAccordion from '../components/FaqAccordion'
 import CertificateInstrument, { CertificateSeal } from '../components/CertificateInstrument'
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
+import { useCart } from '../lib/cart'
 import { brandProtection, salesTax } from '../lib/pricing'
 
 const SERVICE = brandProtection.price
@@ -262,6 +263,53 @@ const faqs = [
   },
 ]
 
+/**
+ * Two lines rather than one: the filing service, which is charged once, and
+ * the classification fee, which is charged per class. Putting them in the cart
+ * separately is how the invoice reads, and it means changing the class count
+ * later is a quantity edit rather than a new conversation.
+ */
+function AddToCartClasses({ count }) {
+  const { add } = useCart()
+  const [added, setAdded] = useState(false)
+
+  const put = () => {
+    add({ sku: 'trademark-filing', name: 'US trademark filing service', kind: 'Brand protection', price: SERVICE, href: '/trademark-filing' }, 1)
+    add(
+      {
+        sku: 'trademark-class',
+        name: 'Trademark class fee',
+        kind: 'Brand protection',
+        price: PER_CLASS,
+        href: '/trademark-filing',
+        note: 'per class, USPTO government fee paid separately',
+      },
+      count
+    )
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2200)
+  }
+
+  return (
+    <div className="mt-5">
+      <button
+        type="button"
+        onClick={put}
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-ink-900 transition-transform hover:-translate-y-0.5"
+      >
+        <Icons.cart className="h-4.5 w-4.5" />
+        {added ? 'Added to cart' : `Add to cart — filing + ${count} ${count === 1 ? 'class' : 'classes'}`}
+      </button>
+      {added && (
+        <Link href="/cart" className="mt-2 flex items-center justify-center gap-1.5 text-[13.5px] font-bold text-[#f0d89a]">
+          View cart and checkout
+          <Icons.arrow className="h-4 w-4" />
+        </Link>
+      )}
+    </div>
+  )
+}
+
 /** The interactive class finder: business type in, class count and price out. */
 function ClassFinder() {
   const [active, setActive] = useState(0)
@@ -389,7 +437,12 @@ function ClassFinder() {
               current amount for your class count in writing before anything is filed.
             </p>
 
-            <Link href="/contact?subject=Trademark%20Filing" className="btn-action mt-5 w-full px-6 py-3.5">
+            {/* The finder already knows the class count, so the cart takes it
+                as the quantity of the per-class line rather than making
+                somebody set the same number twice. */}
+            <AddToCartClasses count={count} />
+
+            <Link href="/contact?subject=Trademark%20Filing" className="btn-action mt-2.5 w-full px-6 py-3.5">
               Start with the clearance search
               <Icons.arrow className="h-4 w-4" />
             </Link>

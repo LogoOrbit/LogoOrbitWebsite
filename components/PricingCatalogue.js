@@ -4,6 +4,7 @@ import Reveal from './Reveal'
 import CardRow from './CardRow'
 import CompareTable from './CompareTable'
 import { BigPackage } from './PriceCard'
+import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { addOnArt, toneVars } from './Illustrations'
 import { addOns, brandProtection, categories, finder, money, salesTax } from '../lib/pricing'
@@ -62,7 +63,23 @@ function BrandProtection() {
                 <p className="mt-2 text-[13px] leading-snug text-ink-500">{brandProtection.note}</p>
                 <p className="mt-2 text-[12px] leading-snug text-ink-300">{salesTax.short}</p>
 
-                <Link href={brandProtection.href} className="btn-action mt-5 w-full px-6 py-3.5">
+                {/* The filing fee is what goes in the cart. The per-class fee
+                    depends on what the business actually sells, so it is added
+                    by hand once we know — quietly inventing a class count here
+                    would put a number in the total that nobody agreed to. */}
+                <AddToCart
+                  item={{
+                    sku: 'trademark-filing',
+                    name: 'US trademark filing',
+                    kind: 'Brand protection',
+                    price: brandProtection.price,
+                    href: brandProtection.href,
+                    note: `plus ${money(brandProtection.classPrice)} per class, confirmed with you`,
+                  }}
+                  className="mt-5"
+                />
+
+                <Link href={brandProtection.href} className="btn-action mt-2.5 w-full px-6 py-3.5">
                   How trademark filing works
                   <Icons.arrow className="w-4 h-4" />
                 </Link>
@@ -168,11 +185,22 @@ function AddOns() {
                   {/* Pushed to the bottom so the links line up across a row of
                       cards whose descriptions are different lengths. */}
                   <div className="relative mt-auto pt-5">
+                    <AddToCart
+                      item={{
+                        sku: `add-on-${item.name}`,
+                        name: item.name,
+                        kind: `Add-on · ${item.kind}`,
+                        price: item.price,
+                        per: item.per || null,
+                        from: item.from,
+                        href: '/pricing#add-ons',
+                      }}
+                    />
                     <Link
                       href="/brief"
-                      className="inline-flex items-center gap-1.5 text-[13.5px] font-bold accent-text transition-transform duration-200 group-hover:translate-x-1"
+                      className="mt-3 inline-flex items-center gap-1.5 text-[13.5px] font-bold accent-text transition-transform duration-200 group-hover:translate-x-1"
                     >
-                      Add this to my quote
+                      Or add it to my quote
                       <Icons.arrow className="h-4 w-4 shrink-0" />
                     </Link>
                   </div>

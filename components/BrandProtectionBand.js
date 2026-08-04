@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Reveal from './Reveal'
+import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { brandProtection, salesTax } from '../lib/pricing'
 
@@ -74,7 +75,21 @@ export default function BrandProtectionBand({ tone = 'muted', compact = false })
                 Clearance search, the classes your business actually needs, the USPTO application filed in your name,
                 and the examiner answered by our legal desk. Work out your class count on the page.
               </p>
-              <Link href={brandProtection.href} className="btn-action mt-5 px-6 py-3.5">
+              {/* The filing fee alone. The per-class fee depends on what the
+                  business sells, so it is added once we know rather than
+                  guessed into somebody's total here. */}
+              <AddToCart
+                className="mt-5"
+                item={{
+                  sku: 'trademark-filing',
+                  name: 'US trademark filing',
+                  kind: 'Brand protection',
+                  price: brandProtection.price,
+                  href: brandProtection.href,
+                  note: `plus $${brandProtection.classPrice} per class, confirmed with you`,
+                }}
+              />
+              <Link href={brandProtection.href} className="btn-action mt-2.5 px-6 py-3.5">
                 See trademark filing
                 <Icons.arrow className="h-4 w-4" />
               </Link>
