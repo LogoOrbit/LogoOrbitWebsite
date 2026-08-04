@@ -67,7 +67,7 @@ export default function PortfolioPage({ sectors, sampleWork }) {
       </PageHero>
 
       <TrustBar />
-      <Portfolio showHeading={false} initial={32} step={48} />
+      <Portfolio showHeading={false} initial={12} step={12} />
       <div className="bg-white pb-4 text-center">
         <Link
           href="/portfolio/logo-design"
