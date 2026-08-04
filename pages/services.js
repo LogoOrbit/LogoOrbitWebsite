@@ -9,6 +9,7 @@ import Process from '../components/Process'
 import Guarantees from '../components/Guarantees'
 import Reveal from '../components/Reveal'
 import LinkGrid from '../components/LinkGrid'
+import CatalogueGrid from '../components/CatalogueGrid'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
 import { capabilityArt, toneVars } from '../components/Illustrations'
@@ -86,6 +87,10 @@ const capabilities = [
  */
 const description =
   'Every design service under one roof: logos and brand identity, websites, UI/UX, packaging, print, social and ad creative, motion, illustration, presentations and ongoing design subscriptions.'
+
+// One tone per discipline group, so the catalogue reads as seven distinct
+// collections rather than one long undifferentiated list.
+const groupTones = ['blue', 'emerald', 'violet', 'amber', 'pink', 'cyan', 'orange']
 
 export default function ServicesPage({ groups, allItems }) {
   const jsonLd = {
@@ -199,15 +204,25 @@ export default function ServicesPage({ groups, allItems }) {
       <VideoServices />
 
       {/* The full catalogue, grouped by discipline. */}
-      <section className="pt-14 sm:pt-20 bg-white">
+      <section className="relative isolate overflow-hidden pt-14 sm:pt-20 bg-white">
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-brand-200/40 blur-3xl"
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -left-28 top-32 -z-10 h-72 w-72 rounded-full bg-orbit-200/40 blur-3xl"
+        />
         <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <Reveal className="max-w-2xl">
-            <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
-              The full catalogue
+            <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3.5 py-1.5 text-[12px] font-bold uppercase tracking-[0.18em] text-brand-600">
+              <Icons.spark className="h-4 w-4" />
+              The full catalogue, {catalogServices.length} services
             </span>
-            <h2 className="mt-3 text-2xl sm:text-4xl font-bold leading-tight text-ink-900">
+            <h2 className="mt-4 text-[2rem] sm:text-5xl font-bold leading-[1.1] tracking-tight text-ink-900">
               Every specific thing we design
             </h2>
+            <span className="mt-4 block h-1.5 w-20 rounded-full bg-gradient-to-r from-action-500 to-orbit-400" aria-hidden="true" />
             <p className="mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">
               The six above are how most projects start. This is everything underneath them, from a woven clothing
               label to a design system, each with its own page explaining what is included and what it costs.
@@ -217,13 +232,13 @@ export default function ServicesPage({ groups, allItems }) {
       </section>
 
       {groups.map((group, i) => (
-        <LinkGrid
+        <CatalogueGrid
           key={group.id}
           id={group.id}
           eyebrow={group.name}
           title={group.blurb}
           items={group.items}
-          tone={i % 2 === 0 ? 'light' : 'muted'}
+          tone={groupTones[i % groupTones.length]}
         />
       ))}
 
@@ -255,6 +270,7 @@ export function getStaticProps() {
           href: `/services/${s.slug}`,
           description: s.metaDescription,
           meta: s.priceLabel,
+          icon: s.icon,
         })),
     }))
     .filter((g) => g.items.length > 0)
