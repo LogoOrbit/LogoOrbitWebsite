@@ -8,11 +8,11 @@ import Reveal from '../components/Reveal'
 import ProcessSteps from '../components/ProcessSteps'
 import PricingCatalogue, { Finder } from '../components/PricingCatalogue'
 import MoreOnPhone from '../components/MoreOnPhone'
-import LinkGrid from '../components/LinkGrid'
+import CatalogueGrid from '../components/CatalogueGrid'
 import { Icons } from '../components/Icons'
 import { flagship, money } from '../lib/pricing'
 import { site, services } from '../lib/site'
-import { catalogServices } from '../lib/catalog'
+import { catalogServices, groupTone } from '../lib/catalog'
 import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
 const promises = [
@@ -425,12 +425,12 @@ export default function Pricing({ priced }) {
 
       {/* The catalogue prices, so a visitor searching for one specific job can
           find its page rather than hunting through the package tables. */}
-      <LinkGrid
+      <CatalogueGrid
         eyebrow="Priced individually"
         title="Everything else, with a starting price"
         body="Each of these has its own page explaining exactly what is included at that price."
         items={priced}
-        tone="muted"
+        surface="muted"
       />
     </Layout>
   )
@@ -442,7 +442,13 @@ export function getStaticProps() {
       priced: catalogServices
         .slice()
         .sort((a, b) => a.price - b.price)
-        .map((s) => ({ name: s.name, href: `/services/${s.slug}`, meta: s.priceLabel })),
+        .map((s) => ({
+          name: s.name,
+          href: `/services/${s.slug}`,
+          meta: s.priceLabel,
+          icon: s.icon,
+          tone: groupTone[s.group],
+        })),
     },
   }
 }

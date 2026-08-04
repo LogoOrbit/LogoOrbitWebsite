@@ -13,12 +13,26 @@ import { toneVars } from './Illustrations'
  * price reads as the second thing on the card rather than the last, and a
  * row of these looks like part of the same site as the pricing page instead
  * of a plain sitemap.
+ *
+ * `tone` sets the colour for the whole section; an individual item can carry
+ * its own `tone` to override it, which is how a single flat list spanning
+ * every discipline (rather than one grid per discipline) still comes out in
+ * mixed colour rather than one block colour.
+ *
+ * `surface` has to be an explicit class rather than inherited page
+ * background: `bg-slate-50` repaints for dark mode through a redefined
+ * CSS variable, but a section with no background class at all keeps the
+ * hard-coded white `body` colour even in dark mode, which put the near-white
+ * dark-mode heading straight onto a white surface.
  */
-export default function CatalogueGrid({ eyebrow, title, body, items, tone = 'blue', id }) {
+export default function CatalogueGrid({ eyebrow, title, body, items, tone = 'blue', surface = 'light', id }) {
   if (!items?.length) return null
 
   return (
-    <section id={id} className="scroll-mt-24 py-10 sm:py-14">
+    <section
+      id={id}
+      className={`scroll-mt-24 py-10 sm:py-14 ${surface === 'muted' ? 'bg-slate-50' : 'bg-white'}`}
+    >
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         {(eyebrow || title) && (
           <Reveal className="max-w-2xl">
@@ -42,7 +56,7 @@ export default function CatalogueGrid({ eyebrow, title, body, items, tone = 'blu
               <Reveal key={item.href} delay={(i % 6) * 50} className="h-full">
                 <Link
                   href={item.href}
-                  style={toneVars(tone)}
+                  style={toneVars(item.tone || tone)}
                   className="group card-lift relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300"
                 >
                   <span className="absolute inset-x-0 top-0 h-1 accent-rule" aria-hidden="true" />

@@ -14,7 +14,7 @@ import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
 import { capabilityArt, toneVars } from '../components/Illustrations'
 import { serviceNav, services } from '../lib/site'
-import { serviceGroups, catalogServices } from '../lib/catalog'
+import { serviceGroups, catalogServices, groupTone } from '../lib/catalog'
 import { industryPages } from '../lib/industries'
 import { breadcrumb, collectionPageSchema, itemListSchema } from '../lib/seo'
 
@@ -87,10 +87,6 @@ const capabilities = [
  */
 const description =
   'Every design service under one roof: logos and brand identity, websites, UI/UX, packaging, print, social and ad creative, motion, illustration, presentations and ongoing design subscriptions.'
-
-// One tone per discipline group, so the catalogue reads as seven distinct
-// collections rather than one long undifferentiated list.
-const groupTones = ['blue', 'emerald', 'violet', 'amber', 'pink', 'cyan', 'orange']
 
 export default function ServicesPage({ groups, allItems }) {
   const jsonLd = {
@@ -238,7 +234,8 @@ export default function ServicesPage({ groups, allItems }) {
           eyebrow={group.name}
           title={group.blurb}
           items={group.items}
-          tone={groupTones[i % groupTones.length]}
+          tone={groupTone[group.id]}
+          surface={i % 2 === 0 ? 'light' : 'muted'}
         />
       ))}
 
