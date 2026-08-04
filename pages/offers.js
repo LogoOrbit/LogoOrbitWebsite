@@ -5,6 +5,7 @@ import Guarantees from '../components/Guarantees'
 import FaqAccordion from '../components/FaqAccordion'
 import OfferCountdown from '../components/OfferCountdown'
 import OfferClaim from '../components/OfferClaim'
+import AddToCart from '../components/AddToCart'
 import { Icons, Star } from '../components/Icons'
 import { site, services, testimonials } from '../lib/site'
 import { money } from '../lib/pricing'
@@ -16,6 +17,7 @@ import {
   offerFaqs,
   informativeWebsite,
   informativeFeatures,
+  informativeCartItem,
 } from '../lib/offers'
 import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
@@ -203,20 +205,21 @@ function TheMaths() {
           <div className="mt-9 overflow-hidden rounded-3xl border border-slate-200 bg-white">
             {/* Column headings, desktop only: on a phone each row is a card and
                 the labels live inside it. */}
-            <div className="hidden grid-cols-[minmax(0,1fr)_7rem_7rem_7rem] gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-500 sm:grid">
+            <div className="hidden grid-cols-[minmax(0,1fr)_5rem_6rem_6rem_10.5rem] gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3.5 text-[11px] font-bold uppercase tracking-[0.14em] text-ink-500 lg:grid">
               <span>Service</span>
               <span className="text-right">Normal</span>
               <span className="text-right">Yours now</span>
               <span className="text-right">You save</span>
+              <span className="text-right">Order</span>
             </div>
 
             <ul className="divide-y divide-slate-200">
               {dealRows.map((row) => (
                 <li
                   key={row.name}
-                  className="grid gap-2 px-5 py-4 sm:grid-cols-[minmax(0,1fr)_7rem_7rem_7rem] sm:items-center sm:gap-4 sm:px-6 sm:py-4"
+                  className="grid gap-2 px-5 py-4 sm:grid-cols-2 sm:gap-x-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_5rem_6rem_6rem_10.5rem] lg:items-center"
                 >
-                  <div className="min-w-0">
+                  <div className="min-w-0 sm:col-span-2 lg:col-span-1">
                     <Link
                       href={row.href}
                       className="text-[15px] font-semibold text-ink-900 transition-colors hover:text-brand-600"
@@ -226,43 +229,57 @@ function TheMaths() {
                     <p className="mt-0.5 text-[13px] text-ink-500">{row.kind}</p>
                   </div>
 
-                  <div className="flex items-baseline gap-2 sm:block sm:text-right">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-500 sm:hidden">
+                  <div className="flex items-baseline gap-2 lg:block lg:text-right">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-500 lg:hidden">
                       Normal
                     </span>
                     <span className="text-[15px] text-ink-500 line-through tabular-nums">{money(row.was)}</span>
                   </div>
 
-                  <div className="flex items-baseline gap-2 sm:block sm:text-right">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-500 sm:hidden">
+                  <div className="flex items-baseline gap-2 lg:block lg:text-right">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-500 lg:hidden">
                       Yours now
                     </span>
-                    <span className="text-xl font-bold text-ink-900 tabular-nums sm:text-[17px]">
+                    <span className="text-xl font-bold text-ink-900 tabular-nums lg:text-[17px]">
                       {money(row.now)}
                     </span>
                   </div>
 
-                  <div className="flex items-baseline gap-2 sm:block sm:text-right">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-500 sm:hidden">
+                  <div className="flex items-baseline gap-2 lg:block lg:text-right">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-500 lg:hidden">
                       You save
                     </span>
                     <span className="inline-flex rounded-full bg-trust-50 px-2.5 py-1 text-[13px] font-bold text-trust-700 tabular-nums">
                       −{money(row.saving)}
                     </span>
                   </div>
+
+                  <div className="mt-1.5 sm:col-span-2 sm:mt-2 lg:col-span-1 lg:mt-0">
+                    <AddToCart
+                      item={row.cartItem}
+                      label="Add to cart"
+                      padding="px-4 py-2.5"
+                      className="text-[14px]"
+                    />
+                  </div>
                 </li>
               ))}
             </ul>
 
-            <div className="grid gap-2 border-t-2 border-ink-900/10 bg-slate-50 px-5 py-4 sm:grid-cols-[minmax(0,1fr)_7rem_7rem_7rem] sm:items-center sm:gap-4 sm:px-6">
-              <p className="text-[15px] font-bold text-ink-900">All five, ordered together</p>
-              <p className="text-[15px] text-ink-500 line-through tabular-nums sm:text-right">
+            <div className="grid gap-2 border-t-2 border-ink-900/10 bg-slate-50 px-5 py-4 sm:gap-x-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_5rem_6rem_6rem_10.5rem] lg:items-center">
+              <p className="text-[15px] font-bold text-ink-900">
+                All five, ordered together
+                <span className="ml-2 font-normal text-ink-500 lg:hidden">
+                  {money(nowTotal)} instead of {money(wasTotal)}
+                </span>
+              </p>
+              <p className="hidden text-[15px] text-ink-500 line-through tabular-nums lg:block lg:text-right">
                 {money(wasTotal)}
               </p>
-              <p className="text-xl font-bold text-ink-900 tabular-nums sm:text-right sm:text-[17px]">
+              <p className="hidden text-[17px] font-bold text-ink-900 tabular-nums lg:block lg:text-right">
                 {money(nowTotal)}
               </p>
-              <p className="sm:text-right">
+              <p className="lg:text-right">
                 <span className="inline-flex rounded-full bg-trust-500 px-2.5 py-1 text-[13px] font-bold text-white tabular-nums">
                   −{money(wasTotal - nowTotal)}
                 </span>
@@ -324,13 +341,20 @@ function FeaturedPackage() {
                   ))}
                 </div>
 
-                <Link
-                  href={informativeWebsite.href}
-                  className="btn-action mt-8 inline-flex px-7 py-4"
-                >
-                  See all {informativeFeatures.length} things included
-                  <Icons.arrow className="h-5 w-5" />
-                </Link>
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-start">
+                  <Link href={informativeWebsite.href} className="btn-action inline-flex px-7 py-4">
+                    See all {informativeFeatures.length} things included
+                    <Icons.arrow className="h-5 w-5" />
+                  </Link>
+                  <AddToCart
+                    item={informativeCartItem}
+                    variant="featured"
+                    full={false}
+                    padding="px-7 py-4"
+                    label={`Add to cart — ${money(informativeWebsite.price)}`}
+                    className="sm:w-64"
+                  />
+                </div>
               </div>
 
               <ul className="grid gap-x-6 gap-y-2.5 self-center rounded-2xl glass p-6 sm:grid-cols-2 lg:grid-cols-1">

@@ -4,10 +4,18 @@ import Reveal from '../../components/Reveal'
 import FaqAccordion from '../../components/FaqAccordion'
 import OfferCountdown from '../../components/OfferCountdown'
 import OfferClaim from '../../components/OfferClaim'
+import AddToCart from '../../components/AddToCart'
 import { Icons, Star } from '../../components/Icons'
 import { site, testimonials } from '../../lib/site'
 import { money } from '../../lib/pricing'
-import { offer, informativeWebsite, informativeFeatures, packageFaqs, claimSteps } from '../../lib/offers'
+import {
+  offer,
+  informativeWebsite,
+  informativeFeatures,
+  informativeCartItem,
+  packageFaqs,
+  claimSteps,
+} from '../../lib/offers'
 import { ORG_ID, absolute, breadcrumb, faqSchema } from '../../lib/seo'
 
 const { name, price, href, tagline, summary, groups } = informativeWebsite
@@ -133,6 +141,9 @@ function Hero() {
                   <Icons.arrow className="h-4 w-4" />
                 </Link>
 
+                {/* For anyone who would rather order than be called back. */}
+                <AddToCart item={informativeCartItem} variant="featured" className="mt-3" />
+
                 <ul className="mt-5 space-y-2 border-t border-white/10 pt-4 text-left">
                   {['NO monthly cost', 'NO yearly cost', '100% satisfaction guarantee'].map((t) => (
                     <li key={t} className="flex items-start gap-2 text-[13px] text-white/75">
@@ -224,12 +235,15 @@ function Included() {
                 available separately through our signed {money(499)} certificate.
               </span>
             </p>
-            <Link
-              href="#claim"
-              className="shrink-0 rounded-full bg-ink-900 px-6 py-3.5 font-semibold text-white transition-colors hover:bg-action-600"
-            >
-              Claim it for {money(price)}
-            </Link>
+            <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-start">
+              <AddToCart item={informativeCartItem} full={false} padding="px-6 py-3.5" />
+              <Link
+                href="#claim"
+                className="shrink-0 rounded-full bg-ink-900 px-6 py-3.5 text-center font-semibold text-white transition-colors hover:bg-action-600"
+              >
+                Claim it for {money(price)}
+              </Link>
+            </div>
           </div>
         </Reveal>
       </div>
@@ -327,6 +341,17 @@ function Close() {
               <div className="mt-8 flex justify-center">
                 <div className="text-left">
                   <OfferClaim message={waMessage} label="Say YES now" />
+
+                  <div className="mt-5 border-t border-white/10 pt-5">
+                    <p className="mb-2.5 text-[13px] text-white/60">
+                      Prefer to order it yourself? Put it straight in the cart.
+                    </p>
+                    <AddToCart
+                      item={informativeCartItem}
+                      variant="featured"
+                      label={`Add to cart — ${money(price)}`}
+                    />
+                  </div>
                 </div>
               </div>
 
