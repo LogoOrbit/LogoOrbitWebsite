@@ -440,10 +440,10 @@ export default function CopyrightCertificatePage() {
               </Link>
               <a
                 href={samplePdf}
-                download
+                download="LogoOrbit-Copyright-Sample-Certificate.pdf"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-[#c9a044]/45 bg-[#c9a044]/[0.08] px-7 py-4 font-semibold text-[#f0d89a] transition-colors hover:bg-[#c9a044]/20"
               >
-                Read the specimen PDF
+                Download copyright sample
               </a>
             </div>
 
@@ -738,8 +738,12 @@ export default function CopyrightCertificatePage() {
                   </div>
 
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <a href={samplePdf} download className="btn-action px-7 py-3.5">
-                      Download the specimen
+                    <a
+                      href={samplePdf}
+                      download="LogoOrbit-Copyright-Sample-Certificate.pdf"
+                      className="btn-action px-7 py-3.5"
+                    >
+                      Download copyright sample
                     </a>
                     <a
                       href={`mailto:${site.legalEmail}?subject=Certificate%20verification`}
