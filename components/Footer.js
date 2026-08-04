@@ -97,11 +97,13 @@ export default function Footer() {
               </a>
               <Link
                 href="/contact#sales"
-                className="flex items-center gap-2.5 text-[14px] hover:text-white transition-colors"
+                className="flex items-center gap-2.5 hover:text-white transition-colors"
               >
                 <Icons.team className="w-4.5 h-4.5 text-orbit-400" />
-                {salesTeam.map((p) => p.name.split(' ')[0]).join(' or ')}
-                <span className="text-white/40">sales</span>
+                {site.salesEmail}
+                <span className="text-white/40">
+                  ({salesTeam.map((p) => p.name.split(' ')[0]).join(' or ')})
+                </span>
               </Link>
               <Link
                 href="/legal"
