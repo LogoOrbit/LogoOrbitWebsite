@@ -14,13 +14,13 @@ export default function CartSummary({ sticky = false, checkoutLink = false, chil
 
   return (
     <aside
-      className={`rounded-3xl border border-slate-200 bg-white p-5 sm:p-6 ${
+      className={`rounded-2xl border border-slate-200 bg-white p-4 sm:rounded-3xl sm:p-6 ${
         sticky ? 'lg:sticky lg:top-24' : ''
       }`}
     >
       <h2 className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand-600">Order summary</h2>
 
-      <dl className="mt-4 space-y-2.5 text-[15px]">
+      <dl className="mt-3 space-y-2 text-[14px] sm:mt-4 sm:space-y-2.5 sm:text-[15px]">
         <div className="flex items-center justify-between">
           <dt className="text-ink-500">
             Subtotal <span className="text-ink-300">({totals.count} item{totals.count === 1 ? '' : 's'})</span>
@@ -35,20 +35,25 @@ export default function CartSummary({ sticky = false, checkoutLink = false, chil
         </div>
       </dl>
 
-      <div className="mt-4 flex items-baseline justify-between border-t border-slate-100 pt-4">
-        <span className="text-[15px] font-bold text-ink-900">Total due</span>
-        <span className="text-3xl font-bold tabular-nums tracking-tight text-ink-900">{cash(totals.total)}</span>
+      <div className="mt-3 flex items-baseline justify-between border-t border-slate-100 pt-3 sm:mt-4 sm:pt-4">
+        <span className="text-[15px] font-bold text-ink-900">Total</span>
+        <span className="text-2xl font-bold tabular-nums tracking-tight text-ink-900 sm:text-3xl">
+          {cash(totals.total)}
+        </span>
       </div>
 
+      {/* Plain English, because this is the one line on the page most likely to
+          worry someone: it has to say "the price can change, and we will tell
+          you before you pay" without a single word anyone has to look up. */}
       {totals.estimated && (
-        <p className="mt-4 rounded-2xl bg-flare-300/15 p-3.5 text-[12.5px] leading-snug text-ink-700">
-          Some lines are <strong>from</strong> prices, which move with scope. Treat this total as an estimate
-          until we have confirmed it with you — we will not invoice a number you have not seen.
+        <p className="mt-3 rounded-xl bg-flare-300/15 p-3 text-[12.5px] leading-snug text-ink-700 sm:mt-4">
+          Some items start <strong>from</strong> a price. The final price depends on how big the job is. We
+          will tell you the exact price first — you will never get a bill you have not agreed to.
         </p>
       )}
 
       {checkoutLink && totals.count > 0 && (
-        <Link href="/checkout" className="btn-action mt-5 w-full px-5 py-3.5">
+        <Link href="/checkout" className="btn-action mt-4 w-full px-5 py-3.5">
           Go to checkout
           <Icons.arrow className="h-4 w-4" />
         </Link>

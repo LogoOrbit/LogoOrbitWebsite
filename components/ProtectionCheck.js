@@ -31,13 +31,13 @@ const options = [
     price: copyrightCertificate.price,
     priceNote: 'one-off, per project',
     href: copyrightCertificate.href,
-    lead: 'Paying a designer buys the design work. It does not, on its own, move the copyright in the drawing to you — that transfers in signed writing or it does not transfer at all.',
+    lead: 'Paying for a logo pays for the work. It does not make the logo legally yours. This signed paper does.',
     matters: [
-      'It is what lets you register the mark as a trademark in your own name later',
-      'It is the document an investor or a buyer asks for when they check what the business owns',
-      'Without it you are using artwork somebody else still holds the rights to',
+      'You need it to register your logo as a trademark later',
+      'Banks, investors and buyers ask for it to check what your business owns',
+      'Without it, someone else still holds the rights to your logo',
     ],
-    skip: 'You already have a signed assignment for this exact artwork, or the package you are buying is not original artwork.',
+    skip: 'You already have this paper signed for this exact logo, or you are not buying artwork.',
     cart: {
       sku: '/copyright-certificate',
       name: 'Copyright assignment certificate',
@@ -54,13 +54,13 @@ const options = [
     price: brandProtection.price,
     priceNote: `plus ${money(brandProtection.classPrice)} per class`,
     href: brandProtection.href,
-    lead: 'Owning the artwork stops nobody from opening a business under your name next year. A registered trademark is what turns "please stop" into something a court will enforce.',
+    lead: 'Owning your logo does not stop someone else opening a business with your name. Registering it does.',
     matters: [
-      'A competitor cannot legally trade on a mark you have registered',
-      'Marketplaces, app stores and ad platforms act on a registration and usually ignore anything less',
-      'Filing early is cheap; rebranding after somebody else registers your name is not',
+      'A competitor cannot legally use a name you have registered',
+      'Amazon, app stores and ad platforms take action when you are registered, and usually not before',
+      'Registering now is cheap. Changing your whole brand later is not',
     ],
-    skip: 'The name is not settled yet, or you are not trading under it. Filing on a mark you are about to change is money spent twice — we would rather you waited.',
+    skip: 'Your name is not final yet, or you are not using it in business yet. Wait — registering a name you are about to change is money spent twice.',
     cart: {
       sku: 'trademark-filing',
       name: 'US trademark filing service',
@@ -72,49 +72,66 @@ const options = [
   },
 ]
 
+/**
+ * One protection, offered without a wall of text.
+ *
+ * The card leads with what it is, what it costs and the one sentence that
+ * explains why it exists. Everything else — the reasons it matters, the reason
+ * to skip it — is folded away, because on a phone this section sat between a
+ * visitor and the order button and made them scroll past two essays to reach
+ * it. Anyone who wants the detail is one tap away from all of it.
+ */
 function Option({ option, inCart }) {
   return (
-    <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-5">
+    <article className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
       <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-600">{option.eyebrow}</p>
-      <h3 className="mt-1.5 text-[18px] font-bold leading-snug text-ink-900">{option.title}</h3>
+      <h3 className="mt-1 text-[16px] font-bold leading-snug text-ink-900 sm:text-[18px]">{option.title}</h3>
 
-      <p className="mt-1 text-[14px] font-semibold text-ink-500">
+      <p className="mt-1 text-[13.5px] font-semibold text-ink-500">
         {money(option.price)} <span className="font-normal text-ink-300">· {option.priceNote}</span>
       </p>
 
-      <p className="mt-3 text-[14.5px] leading-relaxed text-ink-700">{option.lead}</p>
+      <p className="mt-2.5 text-[14px] leading-relaxed text-ink-700">{option.lead}</p>
 
-      <ul className="mt-4 space-y-2">
-        {option.matters.map((m) => (
-          <li key={m} className="flex items-start gap-2.5 text-[14px] leading-snug text-ink-700">
-            <Icons.check className="mt-0.5 h-4 w-4 shrink-0 text-trust-500" />
-            {m}
-          </li>
-        ))}
-      </ul>
+      <details className="group mt-2.5">
+        <summary className="cursor-pointer list-none text-[13px] font-bold text-brand-600 hover:text-brand-700">
+          <span className="group-open:hidden">Why this matters</span>
+          <span className="hidden group-open:inline">Show less</span>
+        </summary>
 
-      {/* The reason not to buy it, given the same weight as the reasons to.
-          A protection page that never says "not yet" is an advert. */}
-      <p className="mt-4 rounded-xl bg-slate-50 p-3.5 text-[13px] leading-relaxed text-ink-500">
-        <span className="font-bold text-ink-700">Skip this if:</span> {option.skip}
-      </p>
+        <ul className="mt-2.5 space-y-1.5">
+          {option.matters.map((m) => (
+            <li key={m} className="flex items-start gap-2 text-[13.5px] leading-snug text-ink-700">
+              <Icons.check className="mt-0.5 h-4 w-4 shrink-0 text-trust-500" />
+              {m}
+            </li>
+          ))}
+        </ul>
 
-      <div className="mt-auto pt-5">
+        {/* The reason not to buy it, given the same weight as the reasons to.
+            A protection page that never says "not yet" is an advert. */}
+        <p className="mt-3 rounded-xl bg-slate-50 p-3 text-[13px] leading-relaxed text-ink-500">
+          <span className="font-bold text-ink-700">Skip this if:</span> {option.skip}
+        </p>
+
+        <Link
+          href={option.href}
+          className="mt-2.5 flex items-center gap-1.5 text-[13px] font-bold text-brand-600 hover:text-brand-700"
+        >
+          Read the full explanation
+          <Icons.arrow className="h-4 w-4" />
+        </Link>
+      </details>
+
+      <div className="mt-auto pt-4">
         {inCart ? (
-          <p className="flex items-center justify-center gap-2 rounded-full bg-trust-50 px-4 py-3 text-[14px] font-bold text-trust-700">
+          <p className="flex items-center justify-center gap-2 rounded-full bg-trust-50 px-4 py-2.5 text-[14px] font-bold text-trust-700">
             <Icons.check className="h-4.5 w-4.5" />
             In your order
           </p>
         ) : (
-          <AddToCart item={option.cart} label="Add this protection" />
+          <AddToCart item={option.cart} label="Add this" />
         )}
-        <Link
-          href={option.href}
-          className="mt-2.5 flex items-center justify-center gap-1.5 text-[13.5px] font-bold text-brand-600 hover:text-brand-700"
-        >
-          Read how it works first
-          <Icons.arrow className="h-4 w-4" />
-        </Link>
       </div>
     </article>
   )
@@ -129,19 +146,18 @@ export default function ProtectionCheck() {
 
   if (covered) {
     return (
-      <p className="flex items-start gap-3 rounded-2xl bg-trust-50 p-4 text-[14.5px] leading-relaxed text-trust-700">
+      <p className="flex items-start gap-3 rounded-2xl bg-trust-50 p-3.5 text-[14px] leading-relaxed text-trust-700">
         <Icons.shield className="mt-0.5 h-5 w-5 shrink-0" />
-        Both protections are in your order: you will own the artwork outright and the mark will be registered
-        against anyone else trading on it.
+        Both are in your order. Your logo will be legally yours, and your name will be registered so nobody
+        else can use it.
       </p>
     )
   }
 
   if (dismissed) {
     return (
-      <p className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 p-4 text-[14px] text-ink-500">
-        Noted — nothing added. Either can be bought later, and the team will raise it once more before the
-        artwork is delivered.
+      <p className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-slate-50 p-3.5 text-[13.5px] text-ink-500">
+        Nothing added. You can add either one later, and we will ask you once more before we send your files.
         <button
           type="button"
           onClick={() => setDismissed(false)}
@@ -155,28 +171,26 @@ export default function ProtectionCheck() {
 
   return (
     <div>
-      <p className="text-[15px] leading-relaxed text-ink-700">
-        Two different things protect a brand, and they are constantly mistaken for each other. One decides
-        whether the artwork is yours. The other decides whether anybody else can trade under it. Neither is
-        included in a design package anywhere in this industry, including ours, so it is worth knowing where
-        you stand before you order rather than after.
+      <p className="text-[14px] leading-relaxed text-ink-700 sm:text-[15px]">
+        One makes the logo legally yours. The other stops anyone else using your name. No design company
+        includes these, ours included, so it is better to know now than later.
       </p>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 sm:gap-4">
         {options.map((option) => (
           <Option key={option.id} option={option} inCart={inCart(option)} />
         ))}
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-        <p className="text-[13.5px] leading-relaxed text-ink-500">
-          Not sure which applies to you? Ask on the phone before you order — it is a two-minute answer and we
-          will tell you if the honest one is “neither, yet”.
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
+        <p className="text-[13px] leading-relaxed text-ink-500">
+          Not sure if you need these? Call us before you order. It takes two minutes, and we will tell you if
+          the answer is “not yet”.
         </p>
         <button
           type="button"
           onClick={() => setDismissed(true)}
-          className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-[13.5px] font-semibold text-ink-700 transition-colors hover:border-ink-300"
+          className="shrink-0 rounded-full border border-slate-200 bg-white px-4 py-2 text-[13px] font-semibold text-ink-700 transition-colors hover:border-ink-300"
         >
           No thanks, not now
         </button>

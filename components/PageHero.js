@@ -8,8 +8,13 @@ import { Icons } from './Icons'
  * so /services/packaging-design shows Home / Services / Packaging Design
  * rather than pretending to be a child of the root. `breadcrumb` remains for
  * the single-level pages that were here first.
+ *
+ * `compact` shrinks the header on phones. Pages a visitor reads are happy to
+ * spend a screen on a title; pages a visitor works through — the cart, the
+ * checkout — are not, because every pixel here is one more swipe before the
+ * thing they came to do.
  */
-export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb, trail, children }) {
+export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb, trail, compact, children }) {
   const crumbs = trail?.length ? trail : [{ name: breadcrumb || eyebrow }]
 
   return (
@@ -25,7 +30,11 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 pt-8 pb-14 sm:pt-20 sm:pb-24 text-center">
+      <div
+        className={`relative mx-auto max-w-7xl px-5 sm:px-6 text-center sm:pt-20 sm:pb-24 ${
+          compact ? 'pt-5 pb-8' : 'pt-8 pb-14'
+        }`}
+      >
         <nav
           aria-label="Breadcrumb"
           className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[13px] sm:text-sm text-white/55"
@@ -44,19 +53,31 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
         </nav>
 
         {eyebrow && (
-          <span className="mt-4 sm:mt-6 inline-block rounded-full glass px-3.5 py-1 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em]">
+          <span
+            className={`inline-block rounded-full glass px-3.5 py-1 sm:mt-6 sm:px-4 sm:py-1.5 text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] ${
+              compact ? 'mt-3' : 'mt-4'
+            }`}
+          >
             {eyebrow}
           </span>
         )}
 
-        <h1 className="mt-4 sm:mt-5 mx-auto max-w-4xl text-[2rem] sm:text-5xl lg:text-[3.5rem] font-bold leading-[1.1] sm:leading-[1.08] tracking-tight text-white">
+        <h1
+          className={`mx-auto max-w-4xl font-bold tracking-tight text-white sm:mt-5 sm:text-5xl sm:leading-[1.08] lg:text-[3.5rem] ${
+            compact ? 'mt-3 text-[1.6rem] leading-[1.15]' : 'mt-4 text-[2rem] leading-[1.1]'
+          }`}
+        >
           {/* The dark-surface variant, the light-surface gradient is
               blue-on-blue against this mesh and barely readable. */}
           {title} {highlight && <span className="text-gradient-light">{highlight}</span>}
         </h1>
 
         {intro && (
-          <p className="mt-4 sm:mt-6 mx-auto max-w-2xl text-[15px] sm:text-lg leading-relaxed text-white/70">
+          <p
+            className={`mx-auto max-w-2xl leading-relaxed text-white/70 sm:mt-6 sm:text-lg ${
+              compact ? 'mt-2.5 text-[14px]' : 'mt-4 text-[15px]'
+            }`}
+          >
             {intro}
           </p>
         )}
@@ -80,7 +101,12 @@ export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb,
         )}
       </div>
 
-      <div className="relative h-14 sm:h-16 bg-white [clip-path:ellipse(75%_100%_at_50%_100%)]" aria-hidden="true" />
+      <div
+        className={`relative bg-white [clip-path:ellipse(75%_100%_at_50%_100%)] sm:h-16 ${
+          compact ? 'h-8' : 'h-14'
+        }`}
+        aria-hidden="true"
+      />
     </section>
   )
 }

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import Layout from '../components/Layout'
 import PageHero from '../components/PageHero'
@@ -18,7 +18,7 @@ import { site, whatsapp } from '../lib/site'
 import { breadcrumb } from '../lib/seo'
 
 const description =
-  'Send your LogoOrbit selection to our team: the whole cart, quantities and total go over on WhatsApp, by email, or straight to the phone.'
+  'Send your LogoOrbit order to our team. Your list and total go over in one message — on WhatsApp, by email, or straight to the phone. Nothing is charged here.'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -39,20 +39,26 @@ function Field({ label, hint, error, children }) {
 }
 
 const inputClass =
-  'mt-1.5 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-[15px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100'
+  'mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-[15px] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:rounded-2xl sm:px-4 sm:py-3'
 
 /* --------------------------------------------------------------- the steps */
 
-function Step({ n, title, children }) {
+/**
+ * One card in the checkout. Deliberately tight on a phone: this page is a form
+ * to be worked through, not an article to be read, and every extra pixel of
+ * padding is another swipe between a visitor and the button they came for.
+ */
+function Step({ n, title, sub, children }) {
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-7">
-      <div className="flex items-center gap-3">
-        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink-900 text-[14px] font-bold text-white">
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 sm:rounded-3xl sm:p-7">
+      <div className="flex items-center gap-2.5">
+        <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-ink-900 text-[13px] font-bold text-white sm:h-8 sm:w-8 sm:text-[14px]">
           {n}
         </span>
-        <h2 className="text-xl font-bold text-ink-900">{title}</h2>
+        <h2 className="text-[17px] font-bold leading-tight text-ink-900 sm:text-xl">{title}</h2>
       </div>
-      <div className="mt-5">{children}</div>
+      {sub && <p className="mt-2 text-[13.5px] leading-snug text-ink-500 sm:text-[14.5px]">{sub}</p>}
+      <div className="mt-4">{children}</div>
     </section>
   )
 }
@@ -66,21 +72,29 @@ export default function CheckoutPage() {
     phone: '',
     company: '',
     message: '',
+    website: '', // honeypot: hidden from people, filled by bots
   })
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle') // idle | sending | sent | error
   const [serverError, setServerError] = useState('')
   const [copied, setCopied] = useState(false)
+  const [numberCopied, setNumberCopied] = useState(false)
+
+  /**
+   * What was actually placed. Snapshotted at submit time because the cart is
+   * emptied straight afterwards, and the confirmation screen still has to be
+   * able to show the order and offer to send it on WhatsApp.
+   */
+  const [placed, setPlaced] = useState(null)
+
+  const formTop = useRef(null)
 
   const set = (key) => (e) => {
     setDetails((d) => ({ ...d, [key]: e.target.value }))
     setErrors((prev) => (prev[key] ? { ...prev, [key]: null } : prev))
   }
 
-  const summary = useMemo(
-    () => orderSummaryText(items, totals, details),
-    [items, totals, details]
-  )
+  const summary = useMemo(() => orderSummaryText(items, totals, details), [items, totals, details])
 
   // The WhatsApp link carries whatever has been typed so far. Filling the form
   // in first makes for a better message, but nobody is made to: the point of
@@ -88,13 +102,19 @@ export default function CheckoutPage() {
   const waHref = useMemo(() => orderWhatsAppLink(items, totals, details), [items, totals, details])
   const mailHref = useMemo(() => orderMailtoLink(items, totals, details), [items, totals, details])
 
-  const copy = async () => {
+  // A confirmation the visitor has to scroll up to find reads as a failure.
+  // The page jumps back to the top the moment the order lands.
+  useEffect(() => {
+    if (status === 'sent' && typeof window !== 'undefined') window.scrollTo(0, 0)
+  }, [status])
+
+  const copyText = async (text, mark) => {
     try {
-      await navigator.clipboard.writeText(summary)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2200)
+      await navigator.clipboard.writeText(text)
+      mark(true)
+      setTimeout(() => mark(false), 2200)
     } catch {
-      setCopied(false)
+      mark(false)
     }
   }
 
@@ -103,12 +123,13 @@ export default function CheckoutPage() {
     if (!details.name.trim() || details.name.trim().length < 2) next.name = 'Please enter your name.'
     if (!EMAIL_RE.test(details.email.trim())) next.email = 'Please enter a valid email address.'
     setErrors(next)
+    if (Object.keys(next).length) formTop.current?.scrollIntoView({ block: 'center' })
     return Object.keys(next).length === 0
   }
 
   const submit = async (e) => {
     e.preventDefault()
-    if (!validate() || items.length === 0) return
+    if (status === 'sending' || !validate() || items.length === 0) return
 
     setStatus('sending')
     setServerError('')
@@ -121,15 +142,29 @@ export default function CheckoutPage() {
       })
       const data = await res.json().catch(() => ({}))
 
-      if (!res.ok) {
+      if (!res.ok || !data.orderNumber) {
         setStatus('error')
-        setServerError(data.error || 'We could not send that. Please use WhatsApp or call us instead.')
+        setServerError(
+          data.error || 'We could not send that. Please send it on WhatsApp or call us instead.'
+        )
         return
       }
+
+      setPlaced({
+        orderNumber: data.orderNumber,
+        total: Number.isFinite(data.total) ? data.total : totals.total,
+        emailed: data.emailed !== false,
+        email: details.email.trim(),
+        firstName: details.name.trim().split(' ')[0],
+        count: totals.count,
+        waHref: orderWhatsAppLink(items, totals, details, data.orderNumber),
+        summary: orderSummaryText(items, totals, details, data.orderNumber),
+      })
       setStatus('sent')
+      clear()
     } catch {
       setStatus('error')
-      setServerError('Your connection dropped before it sent. WhatsApp and the phone both still work.')
+      setServerError('Your internet dropped before it sent. WhatsApp and the phone both still work.')
     }
   }
 
@@ -140,18 +175,18 @@ export default function CheckoutPage() {
   if (ready && items.length === 0 && status !== 'sent') {
     return (
       <Layout title="Checkout" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
-        <PageHero eyebrow="Checkout" breadcrumb="Checkout" title="There is nothing" highlight="to check out yet">
+        <PageHero compact eyebrow="Checkout" breadcrumb="Checkout" title="There is nothing" highlight="to order yet">
           {/* The stock hero buttons repeat the one below, so they are cleared. */}
           <></>
         </PageHero>
-        <section className="bg-slate-50 py-16">
+        <section className="bg-slate-50 py-12 sm:py-16">
           <div className="mx-auto max-w-xl px-5 text-center">
-            <p className="text-[16px] leading-relaxed text-ink-500">
-              Add a package, a bundle or a service to your cart and this page will carry the whole list to
-              our team in one message.
+            <p className="text-[15px] leading-relaxed text-ink-500 sm:text-[16px]">
+              Add a package or a service to your cart. Then this page sends the whole list to our team in
+              one go.
             </p>
             <Link href="/pricing" className="btn-action mt-6 px-6 py-3.5">
-              Browse pricing
+              See prices
               <Icons.arrow className="h-4 w-4" />
             </Link>
           </div>
@@ -160,53 +195,93 @@ export default function CheckoutPage() {
     )
   }
 
-  /* ------------------------------------------------------------------ sent */
+  /* --------------------------------------------------------- order placed */
 
-  if (status === 'sent') {
+  if (status === 'sent' && placed) {
     return (
-      <Layout title="Order Received" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
-        <PageHero eyebrow="Order received" breadcrumb="Checkout" title="Got it —" highlight="we are on it">
-          <></>
-        </PageHero>
-        <section className="bg-slate-50 py-12 sm:py-16">
-          <div className="mx-auto max-w-2xl px-5 sm:px-6">
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 text-center sm:p-10">
-              <span className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-trust-50 text-trust-600">
-                <Icons.check className="h-8 w-8" />
+      <Layout title="Order Placed" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
+        <section className="bg-slate-50 py-6 sm:py-14">
+          <div className="mx-auto max-w-xl px-4 sm:px-6">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 text-center sm:rounded-3xl sm:p-9">
+              <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-trust-50 text-trust-600 sm:h-16 sm:w-16">
+                <Icons.check className="h-7 w-7 sm:h-8 sm:w-8" />
               </span>
-              <h2 className="mt-5 text-2xl font-bold text-ink-900">Your order summary is with our team</h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
-                {details.name ? `Thanks, ${details.name.split(' ')[0]}. ` : ''}
-                A named person will come back to you within one working day, usually much sooner, to confirm
-                the scope and the final figure before anything is invoiced.
+
+              <h1 className="mt-4 text-[22px] font-bold text-ink-900 sm:text-3xl">Order placed</h1>
+              <p className="mt-2 text-[14.5px] leading-relaxed text-ink-500 sm:text-[15.5px]">
+                Thanks{placed.firstName ? `, ${placed.firstName}` : ''}. We have your order. Nothing has been
+                charged.
               </p>
 
-              <div className="mt-6 flex flex-col gap-3">
+              {/* The order number is the thing this screen exists to hand over,
+                  so it is the biggest element on it and it can be copied in
+                  one tap — most people are about to paste it into WhatsApp. */}
+              <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand-600">
+                  Your order number
+                </p>
+                <p className="mt-1.5 select-all break-all text-[26px] font-bold tracking-tight text-ink-900 sm:text-[32px]">
+                  {placed.orderNumber}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => copyText(placed.orderNumber, setNumberCopied)}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full border-2 border-ink-900 px-5 py-2.5 text-[14px] font-bold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
+                >
+                  {numberCopied && <Icons.check className="h-4 w-4" />}
+                  {numberCopied ? 'Copied' : 'Copy order number'}
+                </button>
+                <p className="mt-2.5 text-[13px] text-ink-500">
+                  {placed.count} item{placed.count === 1 ? '' : 's'} · {cash(placed.total)}
+                </p>
+              </div>
+
+              {placed.emailed ? (
+                <p className="mt-4 text-[14px] leading-relaxed text-ink-500">
+                  We have emailed all the details to <strong className="text-ink-900">{placed.email}</strong>.
+                  Someone will contact you within one working day to confirm the price before anything is
+                  billed.
+                </p>
+              ) : (
+                <p className="mt-4 rounded-2xl bg-flare-300/20 p-3.5 text-[13.5px] leading-relaxed text-ink-700">
+                  Your order is saved, but our email is not going out right now. Please send it on WhatsApp
+                  too, so we can start straight away.
+                </p>
+              )}
+
+              <div className="mt-5 flex flex-col gap-2.5">
                 <a
-                  href={waHref}
+                  href={placed.waHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-semibold text-white transition-transform hover:-translate-y-0.5"
                 >
                   <Icons.whatsapp className="h-5 w-5" />
-                  Send it on WhatsApp too — get an answer now
+                  Send it on WhatsApp too
                 </a>
                 <a
                   href={site.phoneHref}
-                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-ink-900 px-5 py-3.5 font-semibold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
+                  className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-ink-900 px-5 py-3 font-semibold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
                 >
                   <Icons.phone className="h-5 w-5" />
                   Call {site.phone}
                 </a>
               </div>
 
-              <button
-                type="button"
-                onClick={clear}
-                className="mt-6 text-[13.5px] font-semibold text-ink-500 underline underline-offset-4 hover:text-action-600"
-              >
-                Clear my cart
-              </button>
+              <div className="mt-5 border-t border-slate-100 pt-4">
+                <button
+                  type="button"
+                  onClick={() => copyText(placed.summary, setCopied)}
+                  className="text-[13.5px] font-bold text-brand-600 hover:text-brand-700"
+                >
+                  {copied ? 'Order copied' : 'Copy my full order'}
+                </button>
+                <p className="mt-3 text-[13px] text-ink-500">
+                  <Link href="/" className="font-semibold text-ink-700 hover:text-brand-600">
+                    Back to home
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -219,79 +294,91 @@ export default function CheckoutPage() {
   return (
     <Layout title="Checkout" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
       <PageHero
+        compact
         eyebrow="Checkout"
         trail={[{ name: 'Cart', href: '/cart' }, { name: 'Checkout', href: '/checkout' }]}
-        title="Send us your selection,"
-        highlight="talk to a person"
-        intro="No card, no payment step. Your list and its total go to our sales desk, and a named person confirms the scope and the final figure before an invoice exists."
+        title="Place your order"
+        intro="No card and no payment here. You send us your list, we check it, then we tell you the exact price before you pay anything."
       >
-        {/* The hero's stock buttons send a reader who has already chosen back
-            to browsing. Both of these carry the order they have built. */}
-        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-          <a
-            href={waHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-4 font-semibold text-white transition-transform hover:-translate-y-0.5"
-          >
-            <Icons.whatsapp className="h-5 w-5" />
-            Send this order on WhatsApp
-          </a>
-          <a
-            href={site.phoneHref}
-            className="inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white transition-colors hover:bg-white/20"
-          >
-            <Icons.phone className="h-5 w-5" />
-            {site.phone}
-          </a>
-        </div>
-        <p className="mt-4 text-[13.5px] text-white/60">
-          {totals.count} item{totals.count === 1 ? '' : 's'} · {cash(totals.total)} including {salesTax.label}
+        <p className="mt-4 text-[13.5px] text-white/70">
+          {totals.count} item{totals.count === 1 ? '' : 's'} · {cash(totals.total)} with {salesTax.label}
         </p>
       </PageHero>
 
-      <section className="bg-slate-50 py-10 sm:py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
-          <div className="grid gap-6 lg:grid-cols-[1fr_23rem] lg:items-start lg:gap-8">
-            <div className="space-y-6">
+      <section className="bg-slate-50 py-6 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1fr_23rem] lg:items-start lg:gap-8">
+            <div className="space-y-4 sm:space-y-6">
               {/* ---------------------------------------------- 1. the order */}
               <Step n="1" title="What you are ordering">
                 <ul className="divide-y divide-slate-100">
                   {items.map((item) => (
-                    <li key={item.id} className="flex items-start justify-between gap-4 py-3 first:pt-0">
+                    <li key={item.id} className="flex items-start justify-between gap-3 py-2.5 first:pt-0">
                       <div className="min-w-0">
-                        <p className="text-[15px] font-semibold leading-snug text-ink-900">{item.name}</p>
-                        <p className="text-[13px] text-ink-500">
+                        <p className="text-[14.5px] font-semibold leading-snug text-ink-900">{item.name}</p>
+                        <p className="text-[12.5px] text-ink-500">
                           {item.kind} · {item.qty} × {item.from ? 'from ' : ''}
                           {cash(item.price)}
                         </p>
                       </div>
-                      <p className="shrink-0 text-[15px] font-bold tabular-nums text-ink-900">
+                      <p className="shrink-0 text-[14.5px] font-bold tabular-nums text-ink-900">
                         {cash(item.price * item.qty)}
                       </p>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+
+                {/* On a phone the summary panel sits far below everything else,
+                    so the total is repeated here where the items are. */}
+                <dl className="mt-3 space-y-1.5 border-t border-slate-100 pt-3 text-[13.5px] lg:hidden">
+                  <div className="flex justify-between">
+                    <dt className="text-ink-500">Subtotal</dt>
+                    <dd className="font-semibold tabular-nums text-ink-900">{cash(totals.subtotal)}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-ink-500">
+                      {totals.taxLabel} ({totals.taxRate}%)
+                    </dt>
+                    <dd className="font-semibold tabular-nums text-ink-900">{cash(totals.tax)}</dd>
+                  </div>
+                  <div className="flex items-baseline justify-between pt-1">
+                    <dt className="text-[15px] font-bold text-ink-900">Total</dt>
+                    <dd className="text-[22px] font-bold tabular-nums tracking-tight text-ink-900">
+                      {cash(totals.total)}
+                    </dd>
+                  </div>
+                </dl>
+
+                {totals.estimated && (
+                  <p className="mt-3 rounded-xl bg-flare-300/15 p-3 text-[12.5px] leading-snug text-ink-700 lg:hidden">
+                    Some items start <strong>from</strong> a price. The final price depends on how big the job
+                    is. We will tell you the exact price first.
+                  </p>
+                )}
+
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
                   <Link href="/cart" className="text-[13.5px] font-bold text-brand-600 hover:text-brand-700">
-                    ← Change quantities or remove items
+                    ← Change or remove items
                   </Link>
-                  <p className="text-[13px] text-ink-500">{salesTax.short}</p>
                 </div>
               </Step>
 
               {/* ------------------------------------------- 2. protecting it */}
-              <Step n="2" title="Before you order: is this protected?">
+              <Step
+                n="2"
+                title="Do you want to protect your brand?"
+                sub="Two optional extras. Skip them if you are not sure — we will ask again later."
+              >
                 <ProtectionCheck />
               </Step>
 
               {/* --------------------------------------------- 3. who you are */}
-              <Step n="3" title="Who we are quoting for">
-                {/* Named so the summary panel and the phone action bar can
-                    carry their own Place order buttons without duplicating
-                    the form or lifting its state out of this page. */}
+              <Step n="3" title="Your details" sub="So we know who to send the price to.">
+                <div ref={formTop} />
+                {/* Named so other parts of the page could drive it, though the
+                    page now shows exactly one Place my order button on purpose. */}
                 <form id={ORDER_FORM_ID} onSubmit={submit} noValidate>
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
                     <Field label="Your name" error={errors.name}>
                       <input
                         className={inputClass}
@@ -311,7 +398,7 @@ export default function CheckoutPage() {
                         placeholder="jane@business.com"
                       />
                     </Field>
-                    <Field label="Phone or WhatsApp" hint="Optional, but it is the fastest way back to you.">
+                    <Field label="Phone or WhatsApp" hint="Optional. It is the fastest way to reach you.">
                       <input
                         className={inputClass}
                         type="tel"
@@ -332,20 +419,31 @@ export default function CheckoutPage() {
                     </Field>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-3 sm:mt-4">
                     <Field
                       label="Anything we should know"
-                      hint="Deadlines, a colour you hate, a competitor you like. Two lines is plenty."
+                      hint="A deadline, a colour you do not like, a brand you like. One or two lines is enough."
                     >
                       <textarea
-                        className={`${inputClass} min-h-[7rem] resize-y`}
+                        className={`${inputClass} min-h-[5.5rem] resize-y sm:min-h-[7rem]`}
                         value={details.message}
                         onChange={set('message')}
                         maxLength={2000}
-                        placeholder="We need this live before the trade show on the 14th."
+                        placeholder="We need this ready before the trade show on the 14th."
                       />
                     </Field>
                   </div>
+
+                  {/* Hidden from people, filled in by bots. */}
+                  <input
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                    value={details.website}
+                    onChange={set('website')}
+                  />
 
                   {serverError && (
                     <p className="mt-4 rounded-2xl bg-action-500/10 p-3.5 text-[13.5px] font-semibold text-action-700">
@@ -353,105 +451,108 @@ export default function CheckoutPage() {
                     </p>
                   )}
 
-                  {/* The one button the whole page is built around, so it is
-                      the largest thing on it and it says what it does. */}
+                  {/* The only Place my order button on the page. It is the one
+                      thing the whole checkout is built around, so nothing else
+                      is allowed to look like it or repeat it. */}
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="btn-action mt-5 w-full px-6 py-5 text-[17px] disabled:opacity-60"
+                    className="btn-action mt-4 w-full px-5 py-4 text-[16px] disabled:opacity-60 sm:py-5 sm:text-[17px]"
                   >
                     {status === 'sending' ? 'Placing your order…' : `Place my order · ${cash(totals.total)}`}
                     <Icons.arrow className="h-5 w-5" />
                   </button>
-                  <p className="mt-2.5 text-center text-[12.5px] text-ink-500">
-                    This sends the list above and your details to our sales desk. It does not take payment and
-                    it does not commit you to anything.
+                  <p className="mt-2.5 text-center text-[12.5px] leading-snug text-ink-500">
+                    This sends your list and your details to our team. It does not take payment, and you can
+                    still change your mind.
                   </p>
                 </form>
               </Step>
 
               {/* ------------------------------------------- 4. talk to a human */}
-              <Step n="4" title="Or talk to an agent right now">
-                <p className="text-[15px] leading-relaxed text-ink-500">
-                  Want it moving today? Both of these carry the same order — the WhatsApp button writes your
-                  full selection and total into the message box for you, so all you do is press send.
-                </p>
-
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <Step
+                n="4"
+                title="Or send it to us yourself"
+                sub="Same order, sent a different way. Pick whichever is easiest for you."
+              >
+                <div className="grid gap-2.5 sm:grid-cols-2 sm:gap-3">
                   <a
                     href={waHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex flex-col items-center gap-1 rounded-2xl bg-[#25D366] px-5 py-4 text-center font-semibold text-white transition-transform hover:-translate-y-0.5"
+                    className="flex flex-col items-center gap-0.5 rounded-2xl bg-[#25D366] px-4 py-3.5 text-center font-semibold text-white transition-transform hover:-translate-y-0.5"
                   >
-                    <span className="flex items-center gap-2 text-[16px]">
+                    <span className="flex items-center gap-2 text-[15.5px]">
                       <Icons.whatsapp className="h-5 w-5" />
-                      Send this order on WhatsApp
+                      Send on WhatsApp
                     </span>
-                    <span className="text-[12.5px] font-medium text-white/85">{whatsapp.display}</span>
+                    <span className="text-[12px] font-medium text-white/85">
+                      Your order is already typed in — just press send
+                    </span>
                   </a>
 
                   <a
                     href={site.phoneHref}
-                    className="flex flex-col items-center gap-1 rounded-2xl bg-ink-900 px-5 py-4 text-center font-semibold text-white transition-transform hover:-translate-y-0.5"
+                    className="flex flex-col items-center gap-0.5 rounded-2xl bg-ink-900 px-4 py-3.5 text-center font-semibold text-white transition-transform hover:-translate-y-0.5"
                   >
-                    <span className="flex items-center gap-2 text-[16px]">
+                    <span className="flex items-center gap-2 text-[15.5px]">
                       <Icons.phone className="h-5 w-5" />
-                      Call our agent
+                      Call us
                     </span>
-                    <span className="text-[12.5px] font-medium text-white/70">{site.phone}</span>
+                    <span className="text-[12px] font-medium text-white/70">{site.phone}</span>
                   </a>
                 </div>
 
-                <p className="mt-3 text-center text-[13px] text-ink-500">
-                  Talk to our agent to move forward with your selected deals or services. {site.hours}.
+                <p className="mt-2.5 text-center text-[12.5px] text-ink-500">
+                  We answer {site.hours}. WhatsApp: {whatsapp.display}
                 </p>
 
-                <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand-600">
-                      The message we will send
-                    </p>
-                    <div className="flex gap-3">
-                      <button
-                        type="button"
-                        onClick={copy}
-                        className="text-[13px] font-bold text-brand-600 hover:text-brand-700"
-                      >
-                        {copied ? 'Copied' : 'Copy text'}
-                      </button>
-                      <a href={mailHref} className="text-[13px] font-bold text-brand-600 hover:text-brand-700">
-                        Email it instead
-                      </a>
-                    </div>
+                {/* This block used to be a wall of grey text with no stated
+                    purpose. It now says, in one line, what it is and what to do
+                    with it, and the message itself is folded away until asked
+                    for so it costs nothing to scroll past. */}
+                <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50 p-3.5">
+                  <p className="text-[14px] font-bold text-ink-900">Your order, written as a message</p>
+                  <p className="mt-1 text-[13px] leading-snug text-ink-500">
+                    Copy this, then paste it into WhatsApp, an email, or a text and send it to us. It has
+                    everything we need.
+                  </p>
+
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => copyText(summary, setCopied)}
+                      className="rounded-full bg-ink-900 px-4 py-2 text-[13px] font-bold text-white transition-opacity hover:opacity-90"
+                    >
+                      {copied ? 'Copied' : 'Copy message'}
+                    </button>
+                    <a
+                      href={mailHref}
+                      className="rounded-full border border-slate-200 bg-white px-4 py-2 text-[13px] font-bold text-ink-700 transition-colors hover:border-ink-300"
+                    >
+                      Email it instead
+                    </a>
                   </div>
-                  <pre className="mt-3 max-h-64 overflow-auto whitespace-pre-wrap break-words text-[12.5px] leading-relaxed text-ink-700">
-                    {summary}
-                  </pre>
+
+                  <details className="group mt-3">
+                    <summary className="cursor-pointer list-none text-[13px] font-bold text-brand-600 hover:text-brand-700">
+                      <span className="group-open:hidden">Show the message</span>
+                      <span className="hidden group-open:inline">Hide the message</span>
+                    </summary>
+                    <pre className="mt-2 max-h-56 overflow-auto whitespace-pre-wrap break-words rounded-xl bg-white p-3 text-[12.5px] leading-relaxed text-ink-700">
+                      {summary}
+                    </pre>
+                  </details>
                 </div>
               </Step>
             </div>
 
-            <CartSummary sticky>
-              <button
-                type="submit"
-                form={ORDER_FORM_ID}
-                disabled={status === 'sending'}
-                className="btn-action mt-5 w-full px-5 py-4 text-[16px] disabled:opacity-60"
-              >
-                {status === 'sending' ? 'Placing your order…' : 'Place my order'}
-                <Icons.arrow className="h-4.5 w-4.5" />
-              </button>
-              <a
-                href={waHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 font-semibold text-white transition-transform hover:-translate-y-0.5"
-              >
-                <Icons.whatsapp className="h-5 w-5" />
-                Order on WhatsApp
-              </a>
-            </CartSummary>
+            {/* The money panel is desktop only. On a phone the same totals sit
+                inside step 1, where the items are, instead of at the very
+                bottom of a long page. */}
+            <div className="hidden lg:block">
+              <CartSummary sticky />
+            </div>
           </div>
         </div>
       </section>

@@ -15,27 +15,27 @@ const description =
 /** The row for one line in the cart. */
 function Line({ item, onQty, onRemove }) {
   return (
-    <li className="flex flex-col gap-4 border-b border-slate-100 py-5 last:border-0 sm:flex-row sm:items-center sm:justify-between">
+    <li className="flex flex-col gap-2.5 border-b border-slate-100 py-3.5 last:border-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-5">
       <div className="min-w-0 flex-1">
         <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-600">{item.kind}</p>
         {item.href ? (
-          <Link href={item.href} className="text-[17px] font-bold leading-snug text-ink-900 hover:text-brand-600">
+          <Link href={item.href} className="text-[15.5px] font-bold leading-snug text-ink-900 hover:text-brand-600 sm:text-[17px]">
             {item.name}
           </Link>
         ) : (
-          <p className="text-[17px] font-bold leading-snug text-ink-900">{item.name}</p>
+          <p className="text-[15.5px] font-bold leading-snug text-ink-900 sm:text-[17px]">{item.name}</p>
         )}
-        <p className="mt-1 text-[13.5px] text-ink-500">
+        <p className="mt-0.5 text-[13px] text-ink-500">
           {item.from && <span className="font-semibold">from </span>}
           {cash(item.price)} one-off
           {item.note && <span className="text-ink-300"> · {item.note}</span>}
         </p>
       </div>
 
-      <div className="flex items-center justify-between gap-4 sm:justify-end">
+      <div className="flex items-center justify-between gap-3 sm:justify-end sm:gap-4">
         <QtyStepper value={item.qty} onChange={(n) => onQty(item.id, n)} label={`Quantity of ${item.name}`} />
 
-        <p className="min-w-[6rem] text-right text-[18px] font-bold tabular-nums text-ink-900">
+        <p className="text-right text-[16px] font-bold tabular-nums text-ink-900 sm:min-w-[6rem] sm:text-[18px]">
           {cash(item.price * item.qty)}
         </p>
 
@@ -43,7 +43,7 @@ function Line({ item, onQty, onRemove }) {
           type="button"
           onClick={() => onRemove(item.id)}
           aria-label={`Remove ${item.name} from cart`}
-          className="grid h-10 w-10 shrink-0 place-items-center rounded-full text-ink-300 transition-colors hover:bg-slate-100 hover:text-action-600"
+          className="grid h-9 w-9 shrink-0 place-items-center rounded-full text-ink-300 transition-colors hover:bg-slate-100 hover:text-action-600 sm:h-10 sm:w-10"
         >
           <Icons.trash className="h-5 w-5" />
         </button>
@@ -60,8 +60,8 @@ function Empty() {
       </span>
       <h2 className="mt-5 text-2xl font-bold text-ink-900">Your cart is empty</h2>
       <p className="mt-2 text-[15px] leading-relaxed text-ink-500">
-        Add any package, bundle, add-on or service and it will collect here. Nothing is charged — the cart
-        is how you hand us a complete list instead of describing it from scratch.
+        Add any package, bundle, add-on or service and it will show up here. Nothing is charged. The cart
+        is just an easy way to give us your full list in one go.
       </p>
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <Link href="/pricing" className="btn-action px-6 py-3.5">
@@ -96,11 +96,12 @@ export default function CartPage() {
   return (
     <Layout title="Your Cart" description={description} path="/cart" jsonLd={jsonLd} noIndex>
       <PageHero
+        compact
         eyebrow="Your selection"
         breadcrumb="Cart"
         title="Everything you picked,"
-        highlight="totalled up"
-        intro="Change the quantities, drop anything you have thought better of, and take the whole list to checkout. Nothing is charged here — the next step is a person."
+        highlight="added up"
+        intro="Change the amounts, remove anything you do not want, then go to checkout. Nothing is charged here — the next step is talking to a person."
       >
         {/* The hero's default pair of buttons is "get a quote / view pricing",
             which is the wrong offer to a reader who has already chosen. */}
@@ -120,17 +121,17 @@ export default function CartPage() {
         </div>
       </PageHero>
 
-      <section className="bg-slate-50 py-10 sm:py-16">
-        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+      <section className="bg-slate-50 py-6 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
           {!ready ? (
             <p className="py-16 text-center text-ink-500">Loading your cart…</p>
           ) : items.length === 0 ? (
             <Empty />
           ) : (
-            <div className="grid gap-6 lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-8">
-              <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-7">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
-                  <h2 className="text-xl font-bold text-ink-900">
+            <div className="grid gap-4 sm:gap-6 lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-8">
+              <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:rounded-3xl sm:p-7">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3 sm:pb-4">
+                  <h2 className="text-[17px] font-bold text-ink-900 sm:text-xl">
                     {totals.lines} item{totals.lines === 1 ? '' : 's'}{' '}
                     <span className="font-normal text-ink-500">({totals.count} total)</span>
                   </h2>
@@ -149,13 +150,13 @@ export default function CartPage() {
                   ))}
                 </ul>
 
-                <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-[13.5px] leading-relaxed text-ink-500">
+                <p className="mt-3 rounded-xl bg-slate-50 p-3 text-[13px] leading-relaxed text-ink-500 sm:mt-4 sm:rounded-2xl sm:p-4 sm:text-[13.5px]">
                   {salesTax.long}
                 </p>
 
                 <Link
                   href="/pricing"
-                  className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-bold text-brand-600 hover:text-brand-700"
+                  className="mt-4 inline-flex items-center gap-1.5 text-[14px] font-bold text-brand-600 hover:text-brand-700"
                 >
                   <Icons.plus className="h-4 w-4" />
                   Add something else
