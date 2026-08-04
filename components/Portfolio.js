@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Reveal from './Reveal'
 import SectionHeading from './SectionHeading'
 import { Icons } from './Icons'
@@ -21,12 +21,32 @@ import { portfolioLogos, portfolioCategories } from '../lib/portfolio'
 export default function Portfolio({
   showHeading = true,
   initial = 16,
+  initialMobile = 6,
   step = 32,
   showAllLink = false,
   filterTo = null,
 }) {
   const [filter, setFilter] = useState(filterTo || 'All')
   const [shown, setShown] = useState(initial)
+
+  // The grid is two columns on a phone and four from `lg`, so a single count
+  // cannot mean "three rows" on both. The phone gets its own smaller opening
+  // slice, and once the visitor has asked for more we stop overriding them.
+  const [isPhone, setIsPhone] = useState(false)
+  const [touched, setTouched] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 639px)')
+    const sync = () => setIsPhone(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
+  useEffect(() => {
+    if (touched) return
+    setShown(isPhone ? initialMobile : initial)
+  }, [isPhone, touched, initial, initialMobile])
 
   const items = useMemo(
     () => (filter === 'All' ? portfolioLogos : portfolioLogos.filter((l) => l.category === filter)),
@@ -41,7 +61,8 @@ export default function Portfolio({
   const visible = items.slice(0, shown)
   const pick = (cat) => {
     setFilter(cat)
-    setShown(initial)
+    setTouched(false)
+    setShown(isPhone ? initialMobile : initial)
   }
 
   return (
@@ -88,9 +109,16 @@ export default function Portfolio({
           ))}
         </Reveal>
 
+        {/* Server-rendered markup carries the desktop slice, so the phone would
+            flash the extra tiles for a frame before hydration trimmed them.
+            Hiding them in CSS makes the first paint right. */}
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           {visible.map((item, i) => (
-            <Reveal key={item.slug} delay={(i % 4) * 70}>
+            <Reveal
+              key={item.slug}
+              delay={(i % 4) * 70}
+              className={!touched && i >= initialMobile ? 'max-sm:hidden' : ''}
+            >
               {/* Every tile is a link now: each mark has a page of its own
                   explaining what that sector needs and what was delivered. */}
               <Link
@@ -135,7 +163,10 @@ export default function Portfolio({
           {shown < items.length && (
             <button
               type="button"
-              onClick={() => setShown(shown + step)}
+              onClick={() => {
+                setTouched(true)
+                setShown(shown + step)
+              }}
               className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-7 py-3.5 font-semibold text-ink-700 transition-colors hover:bg-slate-200"
             >
               Show more work
