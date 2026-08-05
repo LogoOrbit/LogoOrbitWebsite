@@ -6,6 +6,7 @@ import BrandMark from './BrandMark'
 import ThemeToggle from './ThemeToggle'
 import SearchOverlay from './SearchOverlay'
 import CartIndicator from './CartIndicator'
+import { useScrollLock } from '../lib/hooks'
 import { nav, site } from '../lib/site'
 
 function Wordmark({ light }) {
@@ -46,6 +47,20 @@ function Dropdown({ item, light, active }) {
       className="relative"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
+      // Hover is a mouse affordance and was the only one. A keyboard reaching
+      // the section name could not open the panel underneath it at all, and
+      // Escape had nothing to close. Focus anywhere inside opens it, focus
+      // leaving the whole group closes it.
+      onFocus={() => setOpen(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false)
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape' && open) {
+          setOpen(false)
+          e.currentTarget.querySelector('a, button')?.focus()
+        }
+      }}
     >
       <Component
         {...(item.href ? { href: item.href } : { type: 'button' })}
@@ -69,7 +84,12 @@ function Dropdown({ item, light, active }) {
         </svg>
       </Component>
 
+      {/* `inert` matters as much as the opacity here. An element at opacity 0
+          is still in the tab order, so a keyboard user tabbing along the header
+          used to walk through every link of every closed panel — a dozen
+          invisible stops where the page appears not to respond at all. */}
       <div
+        inert={!open}
         className={`absolute left-1/2 -translate-x-1/2 top-full pt-3 transition-all duration-200 ${
           open ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 -translate-y-1'
         }`}
@@ -125,10 +145,9 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [open])
+  // Shared with the search palette and the offer popup, so opening one from
+  // inside another cannot leave the page scrolling behind a modal.
+  useScrollLock(open)
 
   useEffect(() => {
     if (!open) return

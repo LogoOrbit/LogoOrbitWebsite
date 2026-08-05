@@ -32,7 +32,7 @@ import { guides } from '../lib/guides'
 import { ORG_ID, SITE_ID, faqSchema, itemListSchema } from '../lib/seo'
 
 const description =
-  'Get custom logo concepts within 24 hours. LogoOrbit delivers original logo design, brand identity, websites, UI/UX, animation, mobile apps, packaging, print and marketing creative, with written rights terms for every project.'
+  'Custom logo concepts within 24 hours. Original logo design, brand identity, websites, UI/UX, animation, apps and print from LogoOrbit, with written rights terms.'
 
 export default function Home({ hubs, popular, sectors, cities, reads }) {
   // The Organization node lives in Layout so every page agrees on it. The home

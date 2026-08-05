@@ -43,7 +43,11 @@ export default function FaqPage({ item, siblings, otherGroups }) {
 
   return (
     <Layout
-      title={item.q}
+      // The question itself is the heading, and a few of them are long enough
+      // that " | LogoOrbit" pushes the whole title past what a search result
+      // prints. `metaTitle` is the shorter form for those; everything else
+      // keeps using the question, which is what people actually search.
+      title={item.metaTitle || item.q}
       description={item.a.length > 155 ? `${item.a.slice(0, 152)}...` : item.a}
       path={path}
       jsonLd={jsonLd}

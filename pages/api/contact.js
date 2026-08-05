@@ -6,23 +6,35 @@
  */
 
 import { deskRecipients } from '../../lib/notify'
+import { clientIp, isRateLimited } from '../../lib/ratelimit'
+import { services } from '../../lib/site'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const SERVICE_VALUES = new Set([
-  'Logo Design', 'Website Design', 'Video, Animation & YouTube', 'Mobile Applications',
-  'Book Publication', 'Amazon Marketing', 'Other', 'Brief: logo', 'Brief: website', 'Brief: video',
-])
-const requests = new Map()
 
-function isRateLimited(ip) {
-  const now = Date.now()
-  const recent = (requests.get(ip) || []).filter((time) => now - time < 10 * 60 * 1000)
-  recent.push(now)
-  requests.set(ip, recent)
-  return recent.length > 5
-}
+/**
+ * What the form is allowed to say it is about.
+ *
+ * Derived from the same list the select is built from rather than typed out
+ * again. The two copies had not drifted yet, but the failure mode if they ever
+ * did is silent and bad: adding a service to lib/site puts a new option in the
+ * dropdown that this endpoint then rejects as invalid, and the visitor is told
+ * to "select a service" by a form on which they already have.
+ */
+const SERVICE_VALUES = new Set([
+  ...services.map((s) => s.name),
+  'Other',
+  'Brief: logo',
+  'Brief: website',
+  'Brief: video',
+])
+
+// The Content-Length check below is advisory — it is a client-supplied header
+// and a chunked request has none — so the real ceiling is set here.
+export const config = { api: { bodyParser: { sizeLimit: '64kb' } } }
 
 export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store, max-age=0')
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ error: 'Method not allowed' })
@@ -31,8 +43,9 @@ export default async function handler(req, res) {
   const contentLength = Number(req.headers['content-length'] || 0)
   if (contentLength > 20_000) return res.status(413).json({ error: 'Request is too large.' })
 
-  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim()
-  if (isRateLimited(ip)) return res.status(429).json({ error: 'Too many requests. Please try again shortly.' })
+  if (isRateLimited(`contact:${clientIp(req)}`)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again shortly.' })
+  }
 
   const { name, email, phone, service, message, consent, website } = req.body || {}
 
@@ -66,23 +79,38 @@ export default async function handler(req, res) {
   const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
   if (!apiKey) return res.status(503).json({ error: 'Online enquiries are temporarily unavailable. Please call or email us.' })
 
-  const delivery = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from,
-      to,
-      reply_to: enquiry.email,
-      subject: `New ${enquiry.service} enquiry from ${enquiry.name}`,
-      text: [
-        `Name: ${enquiry.name}`, `Email: ${enquiry.email}`, `Phone: ${enquiry.phone || 'Not provided'}`,
-        `Service: ${enquiry.service}`, '', enquiry.message || 'No message provided.', '', `Received: ${enquiry.receivedAt}`,
-      ].join('\n'),
-    }),
-  })
+  // The enquiry is written out before the send is attempted, so an enquiry is
+  // recoverable from the deployment log on the day the mail provider is down
+  // rather than lost with the request.
+  console.log(`[contact] ${enquiry.service} from ${enquiry.name} <${enquiry.email}>`)
 
-  if (!delivery.ok) {
-    console.error('[contact] email delivery failed', delivery.status)
+  /* This call was previously unguarded. Resend being unreachable — DNS, a
+     dropped connection, the request timing out — throws rather than returning
+     a response, and the throw escaped the handler: the visitor got a bare 500
+     with an HTML body, and the form, which expects JSON, showed them a parser
+     error instead of anything they could act on. */
+  try {
+    const delivery = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from,
+        to,
+        reply_to: enquiry.email,
+        subject: `New ${enquiry.service} enquiry from ${enquiry.name}`,
+        text: [
+          `Name: ${enquiry.name}`, `Email: ${enquiry.email}`, `Phone: ${enquiry.phone || 'Not provided'}`,
+          `Service: ${enquiry.service}`, '', enquiry.message || 'No message provided.', '', `Received: ${enquiry.receivedAt}`,
+        ].join('\n'),
+      }),
+    })
+
+    if (!delivery.ok) {
+      console.error('[contact] email delivery failed', delivery.status)
+      return res.status(502).json({ error: 'We could not send your enquiry. Please call or email us instead.' })
+    }
+  } catch (error) {
+    console.error('[contact] email delivery threw', error)
     return res.status(502).json({ error: 'We could not send your enquiry. Please call or email us instead.' })
   }
 

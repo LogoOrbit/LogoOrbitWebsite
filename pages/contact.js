@@ -12,7 +12,7 @@ import { locationPages } from '../lib/locations'
 import { ORG_ID, SITE_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
 export default function ContactPage({ cities }) {
-  const description = `Talk to the LogoOrbit design team. Call ${site.phone}, message ${whatsapp.display} on WhatsApp, email ${site.email}, or write to Brock or Sam in sales for a fixed quote on a new project.`
+  const description = `Talk to the LogoOrbit design team. Call ${site.phone}, message ${whatsapp.display} on WhatsApp, or email ${site.email} for a fixed quote on a new project.`
 
   const jsonLd = {
     '@graph': [

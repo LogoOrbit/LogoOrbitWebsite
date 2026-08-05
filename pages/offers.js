@@ -22,7 +22,7 @@ import {
 import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 
 const description =
-  'Existing customer offer: 70% off every LogoOrbit service. The website we normally build for $1,000 is $299, and the same discount applies to logo design, brand identity, animation, apps and marketing. Limited time.'
+  'Existing customer offer: 70% off every LogoOrbit service. Our $1,000 website is $299, and the same discount applies to logos, branding, animation and apps.'
 
 const waMessage = 'Hi LogoOrbit, YES — I am an existing customer and I want to claim the 70% offer.'
 

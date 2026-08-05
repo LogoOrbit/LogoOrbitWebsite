@@ -21,19 +21,15 @@
 
 import { randomInt } from 'crypto'
 import { deskRecipients } from '../../lib/notify'
+import { clientIp, isRateLimited } from '../../lib/ratelimit'
 import { salesTax } from '../../lib/pricing'
 import { site, whatsapp } from '../../lib/site'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const requests = new Map()
 
-function isRateLimited(ip) {
-  const now = Date.now()
-  const recent = (requests.get(ip) || []).filter((time) => now - time < 10 * 60 * 1000)
-  recent.push(now)
-  requests.set(ip, recent)
-  return recent.length > 6
-}
+// As with the contact form, Content-Length is advisory and this is the ceiling
+// that actually holds. Forty lines of order plus notes fits comfortably.
+export const config = { api: { bodyParser: { sizeLimit: '128kb' } } }
 
 const round2 = (n) => Math.round(n * 100) / 100
 const cash = (n) => `$${n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
@@ -71,6 +67,8 @@ const esc = (s) =>
   String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c])
 
 export default async function handler(req, res) {
+  res.setHeader('Cache-Control', 'no-store, max-age=0')
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
     return res.status(405).json({ error: 'Method not allowed' })
@@ -79,8 +77,9 @@ export default async function handler(req, res) {
   const contentLength = Number(req.headers['content-length'] || 0)
   if (contentLength > 60_000) return res.status(413).json({ error: 'That order is too big to send. Please call us.' })
 
-  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim()
-  if (isRateLimited(ip)) return res.status(429).json({ error: 'Too many tries. Please wait a minute and try again.' })
+  if (isRateLimited(`order:${clientIp(req)}`, 6)) {
+    return res.status(429).json({ error: 'Too many tries. Please wait a minute and try again.' })
+  }
 
   const { name, email, phone, company, message, items, totals, website } = req.body || {}
 

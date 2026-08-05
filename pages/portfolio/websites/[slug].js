@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Layout from '../../../components/Layout'
 import PageHero from '../../../components/PageHero'
@@ -6,7 +7,7 @@ import ArticleBody from '../../../components/ArticleBody'
 import LinkGrid from '../../../components/LinkGrid'
 import CTA from '../../../components/CTA'
 import { Icons } from '../../../components/Icons'
-import { websiteCaseStudies, websiteBySlug } from '../../../lib/websites'
+import { websiteCaseStudies, websiteBySlug, relatedWebsites } from '../../../lib/websites'
 import { serviceBySlug } from '../../../lib/catalog'
 import { absolute, breadcrumb, ORG_ID } from '../../../lib/seo'
 
@@ -75,13 +76,38 @@ export default function WebsiteCaseStudy({ project, related, services }) {
               className="overflow-hidden rounded-3xl border border-slate-200 shadow-xl shadow-ink-900/5"
               style={{ background: `linear-gradient(135deg, ${project.accent}, ${project.accent2})` }}
             >
-              <div className="grid place-items-center px-6 py-16 sm:py-24 text-center">
-                <span className="grid place-items-center w-24 h-24 rounded-3xl bg-white/15 text-3xl font-bold text-white backdrop-blur">
-                  {project.monogram}
-                </span>
-                <p className="mt-6 text-xl sm:text-2xl font-bold text-white">{project.name}</p>
-                <p className="mt-2 text-[15px] text-white/80">{project.tagline}</p>
-              </div>
+              {/* Nearly every build has a real screenshot sitting in
+                  /public/portfolio/websites, and the page was showing a
+                  monogram square instead of it — a case study about a website
+                  that never shows the website. The painted panel stays as the
+                  fallback for the handful with no shot. */}
+              {project.shot ? (
+                <figure className="m-0">
+                  <div className="flex items-center gap-1.5 border-b border-black/5 bg-white/80 px-4 py-2.5 backdrop-blur">
+                    <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+                    <span className="ml-2 h-2.5 flex-1 rounded-full bg-slate-200/80" />
+                  </div>
+                  <Image
+                    src={project.shot}
+                    alt={`The ${project.name} website as built`}
+                    width={1200}
+                    height={820}
+                    sizes="(min-width: 1024px) 64rem, 100vw"
+                    priority
+                    className="w-full bg-white object-cover object-top"
+                  />
+                </figure>
+              ) : (
+                <div className="grid place-items-center px-6 py-16 sm:py-24 text-center">
+                  <span className="grid place-items-center w-24 h-24 rounded-3xl bg-white/15 text-3xl font-bold text-white backdrop-blur">
+                    {project.monogram}
+                  </span>
+                  <p className="mt-6 text-xl sm:text-2xl font-bold text-white">{project.name}</p>
+                  <p className="mt-2 text-[15px] text-white/80">{project.tagline}</p>
+                </div>
+              )}
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/15 bg-white px-5 py-4 sm:px-7">
                 <span className="text-[15px] font-bold text-ink-900">{project.category}</span>
                 <span className="flex flex-wrap gap-2">
@@ -159,9 +185,13 @@ export function getStaticProps({ params }) {
   return {
     props: {
       project,
-      related: websiteCaseStudies
-        .filter((w) => w.slug !== project.slug)
-        .map((w) => ({ name: w.name, href: `/portfolio/websites/${w.slug}`, description: w.tagline, meta: w.category })),
+      // Six, not every other build on the site. See relatedWebsites.
+      related: relatedWebsites(project.slug, 6).map((w) => ({
+        name: w.name,
+        href: `/portfolio/websites/${w.slug}`,
+        description: w.tagline,
+        meta: w.category,
+      })),
       services: relatedServiceSlugs
         .map((slug) => serviceBySlug[slug])
         .filter(Boolean)

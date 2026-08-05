@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { Icons } from './Icons'
+import { useScrollLock } from '../lib/hooks'
 import { loadSearchIndex, rankResults } from '../lib/search'
 
 /**
@@ -17,7 +18,10 @@ export default function SearchOverlay({ open, onClose }) {
   const [index, setIndex] = useState(null)
   const [active, setActive] = useState(0)
   const inputRef = useRef(null)
+  const panelRef = useRef(null)
   const itemRefs = useRef([])
+
+  useScrollLock(open)
 
   useEffect(() => {
     if (open) loadSearchIndex().then(setIndex)
@@ -29,19 +33,41 @@ export default function SearchOverlay({ open, onClose }) {
       setActive(0)
       return
     }
-    document.body.style.overflow = 'hidden'
     const id = window.setTimeout(() => inputRef.current?.focus(), 20)
-    return () => {
-      document.body.style.overflow = ''
-      window.clearTimeout(id)
-    }
+    return () => window.clearTimeout(id)
   }, [open])
 
   useEffect(() => {
     if (!open) return
+
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') return onClose()
+
+      /* This dialog says aria-modal, which is a promise that focus stays in
+         it. It did not: Tab walked straight out into the page underneath,
+         which is still rendered and still focusable, and a keyboard user ended
+         up interacting with a page they could not see behind the backdrop. */
+      if (e.key !== 'Tab') return
+      const focusable = panelRef.current?.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+      if (!focusable?.length) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      } else if (!panelRef.current.contains(document.activeElement)) {
+        e.preventDefault()
+        first.focus()
+      }
     }
+
     document.addEventListener('keydown', onKeyDown)
     return () => document.removeEventListener('keydown', onKeyDown)
   }, [open, onClose])
@@ -90,7 +116,7 @@ export default function SearchOverlay({ open, onClose }) {
     <div className="fixed inset-0 z-[70]" role="dialog" aria-modal="true" aria-label="Search the site">
       <div className="absolute inset-0 bg-ink-900/60 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative mx-auto mt-[10vh] w-[92%] max-w-xl px-0">
+      <div ref={panelRef} className="relative mx-auto mt-[10vh] w-[92%] max-w-xl px-0">
         <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl shadow-ink-900/20">
           <div className="flex items-center gap-3 border-b border-slate-100 px-4">
             <Icons.search className="w-5 h-5 shrink-0 text-ink-400" />

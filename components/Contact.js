@@ -34,6 +34,7 @@ export default function Contact({ showIntro = true }) {
 
   const submit = async (e) => {
     e.preventDefault()
+    if (status === 'sending') return
     setStatus('sending')
     setError('')
 
@@ -43,13 +44,29 @@ export default function Contact({ showIntro = true }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error || 'Something went wrong.')
+
+      /* Not every failure comes back as JSON. A proxy timeout, a platform
+         error page or a request rejected before it reaches the handler all
+         return HTML, and parsing that threw a SyntaxError which was then shown
+         to the visitor verbatim — "Unexpected token '<'" as the reply to
+         somebody asking about a logo. Anything unreadable becomes the same
+         sentence as any other server-side failure. */
+      const data = await res.json().catch(() => ({}))
+
+      if (!res.ok) {
+        setStatus('error')
+        setError(data.error || 'Something went wrong at our end. Please call or email us instead.')
+        return
+      }
+
       setStatus('sent')
       setForm(empty)
-    } catch (err) {
+    } catch {
+      // fetch itself rejecting means the request never arrived: offline, DNS,
+      // a dropped connection. That is worth saying plainly rather than
+      // repeating the browser's own wording for it.
       setStatus('error')
-      setError(err.message)
+      setError('We could not reach our server. Check your connection, or call us on ' + site.phone + '.')
     }
   }
 
@@ -193,7 +210,10 @@ export default function Contact({ showIntro = true }) {
         <Reveal delay={60}>
           <div className="rounded-3xl border border-slate-200 bg-slate-50/60 p-7 sm:p-9">
             {status === 'sent' ? (
-              <div className="grid place-items-center py-14 text-center">
+              // The form is replaced outright on success, so without a live
+              // region a screen reader hears the submit button disappear and
+              // nothing else. role="status" reads the confirmation out.
+              <div role="status" className="grid place-items-center py-14 text-center">
                 <span className="grid place-items-center w-16 h-16 rounded-full bg-trust-100 text-trust-600">
                   <Icons.check className="w-8 h-8" />
                 </span>

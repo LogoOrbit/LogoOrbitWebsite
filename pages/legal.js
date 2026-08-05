@@ -55,7 +55,7 @@ export default function LegalPage() {
   return (
     <Layout
       title="Legal & Compliance"
-      description={`${legalCounsel.name}, ${legalCounsel.role} at LogoOrbit, handles copyright, trademark filings, brand protection and privacy requests. Reach the legal desk by email at ${legalCounsel.email}.`}
+      description={`${legalCounsel.name}, ${legalCounsel.role} at LogoOrbit, handles copyright, trademark filings, brand protection and privacy requests. Email ${legalCounsel.email}.`}
       path="/legal"
       jsonLd={{
         '@type': 'ContactPage',

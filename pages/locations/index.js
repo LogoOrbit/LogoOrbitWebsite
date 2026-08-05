@@ -11,7 +11,7 @@ import { locationPages, locationsByCountry } from '../../lib/locations'
 import { breadcrumb, collectionPageSchema, itemListSchema } from '../../lib/seo'
 
 const description =
-  'LogoOrbit works with businesses across the United States, Canada, the UK, Ireland, Pakistan, the UAE, Saudi Arabia, Australia, New Zealand and Singapore. Registered offices in New York and Dover, Delaware.'
+  'LogoOrbit works with businesses across the US, Canada, the UK, Ireland, Pakistan, the UAE, Australia, New Zealand and Singapore. Offices in New York and Delaware.'
 
 export default function LocationsHub({ countries, items }) {
   const jsonLd = {

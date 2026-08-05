@@ -25,6 +25,14 @@ export default function Layout({
 }) {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Online Logo Maker & Custom Design Services`
   const canonical = `${site.url}${path === '/' ? '' : path}`
+  /* A page that forgets to pass a description used to ship
+     `<meta name="description">` with no content at all, which is worse for a
+     search result than a generic sentence — and it went unnoticed across three
+     hundred pages because nothing here objected to `undefined`. A backstop
+     costs one line and makes the failure visible in the markup instead. */
+  const metaDescription =
+    (typeof description === 'string' && description.trim()) ||
+    'Custom logo design, brand identity, websites, animation, mobile apps and marketing creative from one in-house team at LogoOrbit.'
   // Facebook, LinkedIn and X all decline to render an SVG card, so the share
   // image is a raster built from the same mark the header uses.
   const socialImage = image ? `${site.url}${image}` : `${site.url}/og-image.png`
@@ -102,7 +110,7 @@ export default function Layout({
     <>
       <Head>
         <title>{fullTitle}</title>
-        <meta name="description" content={description} />
+        <meta name="description" content={metaDescription} />
         <meta
           name="robots"
           content={
@@ -121,7 +129,7 @@ export default function Layout({
         <meta property="og:type" content={ogType} />
         <meta property="og:site_name" content={site.name} />
         <meta property="og:title" content={fullTitle} />
-        <meta property="og:description" content={description} />
+        <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonical} />
         <meta property="og:locale" content="en_US" />
         <meta property="og:image" content={socialImage} />
@@ -135,11 +143,28 @@ export default function Layout({
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={fullTitle} />
-        <meta name="twitter:description" content={description} />
+        <meta name="twitter:description" content={metaDescription} />
         <meta name="twitter:image" content={socialImage} />
         <meta name="twitter:image:alt" content={`${site.name} custom design services`} />
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+        {/* JSON.stringify does not escape `<`, and this goes into a script
+            element as raw text rather than as a value. One `</script>` inside
+            any description, guide title or client name in lib/ would therefore
+            close the block early: the rest of the graph would land in the page
+            as markup, and every structured-data node on the site would stop
+            parsing. None of the copy contains one today, which is exactly the
+            kind of thing that stays true until somebody writes a page about
+            HTML. Escaping the three characters that can start a tag or a
+            comment costs nothing and closes it for good. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData)
+              .replace(/</g, '\\u003c')
+              .replace(/>/g, '\\u003e')
+              .replace(/&/g, '\\u0026'),
+          }}
+        />
       </Head>
 
       <a href="#main-content" className="skip-link">Skip to main content</a>

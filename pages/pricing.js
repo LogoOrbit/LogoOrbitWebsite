@@ -256,8 +256,13 @@ function Flagship() {
 }
 
 export default function Pricing({ priced }) {
-  const description =
-    'Simple, fixed LogoOrbit pricing, logos from $49, branding kits from $59, websites from $699, mobile apps from $999, logo animation from $299, and The Complete Brand package at $1,299. No hidden extras.'
+  /* The flagship's price is read from the data rather than typed in. This
+     sentence said $1,299 while the package itself has been $1,899 — a wrong
+     price in the search result for the pricing page, which is the one number
+     on this site that has to be right everywhere it appears. */
+  const description = `Fixed LogoOrbit pricing: logos from $49, branding kits from $59, websites from $699, apps from $999, and The Complete Brand at ${money(
+    flagship.price
+  )}. No hidden extras.`
 
   const jsonLd = {
     '@graph': [

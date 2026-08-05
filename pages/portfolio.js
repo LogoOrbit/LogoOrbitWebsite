@@ -16,7 +16,7 @@ import { industryPages } from '../lib/industries'
 import { breadcrumb, collectionPageSchema, ORG_ID } from '../lib/seo'
 
 const description =
-  'Browse original logo marks designed by the LogoOrbit in-house team across technology, healthcare, real estate, construction, finance and fitness, plus live websites we designed and built and animated logo concepts.'
+  'Original logo marks drawn in-house by LogoOrbit across a dozen sectors, plus the live websites we designed and built and our animated logo work.'
 
 export default function PortfolioPage({ sectors, sampleWork }) {
   const jsonLd = {

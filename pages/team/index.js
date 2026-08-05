@@ -10,7 +10,7 @@ import { site } from '../../lib/site'
 import { breadcrumb, collectionPageSchema, itemListSchema, absolute, ORG_ID } from '../../lib/seo'
 
 const description =
-  'The named people at LogoOrbit: who quotes brand and print work, who quotes websites, apps and video, and who answers the legal questions. Each with a page of their own.'
+  'The named people at LogoOrbit: who quotes brand and print work, who quotes websites, apps and video, and who answers the legal questions.'
 
 export default function TeamHub() {
   const jsonLd = {

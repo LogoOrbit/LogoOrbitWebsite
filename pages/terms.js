@@ -10,7 +10,7 @@ export default function TermsPage() {
   return (
     <Layout
       title="Terms & Conditions"
-      description="The terms you are agreeing to when you order design work from LogoOrbit: revisions, delivery, copyright ownership, trademark filings and billing, written in plain English."
+      description="The terms you agree to when you order design work from LogoOrbit: revisions, delivery, copyright ownership, trademark filings and billing, in plain English."
       path="/terms"
       jsonLd={{
         '@type': 'WebPage',

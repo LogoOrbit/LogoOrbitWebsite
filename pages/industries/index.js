@@ -9,7 +9,7 @@ import { industryPages } from '../../lib/industries'
 import { breadcrumb, collectionPageSchema, itemListSchema } from '../../lib/seo'
 
 const description =
-  'Branding, web and design work by sector: technology, SaaS, healthcare, construction, real estate, hospitality, retail, education, gaming and twenty more, each with the constraints that shape the brief.'
+  'Branding, web and design work by sector: technology, healthcare, construction, real estate, retail and thirty more, with the constraints behind each brief.'
 
 export default function IndustriesHub({ items }) {
   const jsonLd = {

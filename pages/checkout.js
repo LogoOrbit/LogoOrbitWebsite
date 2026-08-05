@@ -30,7 +30,12 @@ function Field({ label, hint, error, children }) {
       <span className="text-[13px] font-semibold text-ink-700">{label}</span>
       {children}
       {error ? (
-        <span className="mt-1 block text-[12.5px] font-semibold text-action-600">{error}</span>
+        // role="alert" so a rejected field is spoken rather than only turning
+        // red. The whole point of this screen is that the order reaches us,
+        // and a validation message nobody perceives is an abandoned order.
+        <span role="alert" className="mt-1 block text-[12.5px] font-semibold text-action-600">
+          {error}
+        </span>
       ) : (
         hint && <span className="mt-1 block text-[12.5px] text-ink-500">{hint}</span>
       )}
@@ -79,6 +84,7 @@ export default function CheckoutPage() {
   const [serverError, setServerError] = useState('')
   const [copied, setCopied] = useState(false)
   const [numberCopied, setNumberCopied] = useState(false)
+  const [copyFailed, setCopyFailed] = useState(false)
 
   /**
    * What was actually placed. Snapshotted at submit time because the cart is
@@ -88,6 +94,7 @@ export default function CheckoutPage() {
   const [placed, setPlaced] = useState(null)
 
   const formTop = useRef(null)
+  const fieldRefs = useRef({})
 
   const set = (key) => (e) => {
     setDetails((d) => ({ ...d, [key]: e.target.value }))
@@ -108,13 +115,26 @@ export default function CheckoutPage() {
     if (status === 'sent' && typeof window !== 'undefined') window.scrollTo(0, 0)
   }, [status])
 
+  /**
+   * Copies, and falls back to a selection when it cannot.
+   *
+   * navigator.clipboard does not exist on an insecure origin and is refused
+   * outright by some in-app browsers — exactly the WhatsApp and Instagram
+   * webviews a good share of this traffic arrives in. The old version answered
+   * that by setting the flag back to false, so the button simply did nothing
+   * and gave no reason. Selecting the text at least leaves the visitor able to
+   * copy it themselves with the menu they already know.
+   */
   const copyText = async (text, mark) => {
     try {
+      if (!navigator.clipboard?.writeText) throw new Error('no clipboard')
       await navigator.clipboard.writeText(text)
       mark(true)
       setTimeout(() => mark(false), 2200)
+      setCopyFailed(false)
     } catch {
       mark(false)
+      setCopyFailed(true)
     }
   }
 
@@ -123,7 +143,16 @@ export default function CheckoutPage() {
     if (!details.name.trim() || details.name.trim().length < 2) next.name = 'Please enter your name.'
     if (!EMAIL_RE.test(details.email.trim())) next.email = 'Please enter a valid email address.'
     setErrors(next)
-    if (Object.keys(next).length) formTop.current?.scrollIntoView({ block: 'center' })
+
+    // Scrolling the block into view helps a sighted visitor and nobody else.
+    // Putting the caret in the first field that was rejected moves everyone to
+    // the same place, and is what makes the role="alert" above get read.
+    const firstBad = next.name ? 'name' : next.email ? 'email' : null
+    if (firstBad) {
+      formTop.current?.scrollIntoView({ block: 'center' })
+      fieldRefs.current[firstBad]?.focus({ preventScroll: true })
+    }
+
     return Object.keys(next).length === 0
   }
 
@@ -231,6 +260,12 @@ export default function CheckoutPage() {
                   {numberCopied && <Icons.check className="h-4 w-4" />}
                   {numberCopied ? 'Copied' : 'Copy order number'}
                 </button>
+                {copyFailed && (
+                  <p role="alert" className="mt-2 text-[12.5px] font-semibold text-action-700">
+                    Your browser would not let us copy it. The number above is already selected — copy it
+                    with your browser&apos;s own menu.
+                  </p>
+                )}
                 <p className="mt-2.5 text-[13px] text-ink-500">
                   {placed.count} item{placed.count === 1 ? '' : 's'} · {cash(placed.total)}
                 </p>
@@ -381,20 +416,24 @@ export default function CheckoutPage() {
                   <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
                     <Field label="Your name" error={errors.name}>
                       <input
+                        ref={(el) => (fieldRefs.current.name = el)}
                         className={inputClass}
                         value={details.name}
                         onChange={set('name')}
                         autoComplete="name"
+                        aria-invalid={Boolean(errors.name)}
                         placeholder="Jane Whitfield"
                       />
                     </Field>
                     <Field label="Email" error={errors.email}>
                       <input
+                        ref={(el) => (fieldRefs.current.email = el)}
                         className={inputClass}
                         type="email"
                         value={details.email}
                         onChange={set('email')}
                         autoComplete="email"
+                        aria-invalid={Boolean(errors.email)}
                         placeholder="jane@business.com"
                       />
                     </Field>
@@ -446,7 +485,10 @@ export default function CheckoutPage() {
                   />
 
                   {serverError && (
-                    <p className="mt-4 rounded-2xl bg-action-500/10 p-3.5 text-[13.5px] font-semibold text-action-700">
+                    <p
+                      role="alert"
+                      className="mt-4 rounded-2xl bg-action-500/10 p-3.5 text-[13.5px] font-semibold text-action-700"
+                    >
                       {serverError}
                     </p>
                   )}
@@ -534,7 +576,14 @@ export default function CheckoutPage() {
                     </a>
                   </div>
 
-                  <details className="group mt-3">
+                  {copyFailed && (
+                    <p role="alert" className="mt-2.5 text-[12.5px] font-semibold text-action-700">
+                      Your browser would not let us copy it. Open the message below and copy it by hand,
+                      or use one of the buttons above.
+                    </p>
+                  )}
+
+                  <details className="group mt-3" open={copyFailed}>
                     <summary className="cursor-pointer list-none text-[13px] font-bold text-brand-600 hover:text-brand-700">
                       <span className="group-open:hidden">Show the message</span>
                       <span className="hidden group-open:inline">Hide the message</span>

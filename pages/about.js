@@ -19,7 +19,7 @@ import { locationPages } from '../lib/locations'
 import { ORG_ID, SITE_ID, absolute, breadcrumb, howToSchema } from '../lib/seo'
 
 export default function AboutPage({ sectors, cities }) {
-  const description = `LogoOrbit has spent ${site.years}+ years building brand identities for startups, SMEs and multinational ventures, with an in-house design team, original work and project-specific written ownership documents.`
+  const description = `LogoOrbit has spent ${site.years}+ years building brand identities for startups, SMEs and multinationals, with an in-house team and written ownership on every project.`
 
   const jsonLd = {
     '@graph': [

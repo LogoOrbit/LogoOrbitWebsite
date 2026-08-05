@@ -21,7 +21,7 @@ import { ORG_ID, absolute, breadcrumb, faqSchema } from '../../lib/seo'
 const { name, price, href, tagline, summary, groups } = informativeWebsite
 
 const description =
-  'Informative Website, $499 in this discounted offer: unlimited logo concepts, 8 dedicated designers, an 8 to 10 page mobile responsive website, stationery, lead forms, sitemap, W3C certified HTML and 100% ownership rights. No monthly or yearly cost.'
+  'Informative Website, $499 in this offer: unlimited logo concepts, an 8 to 10 page responsive site, stationery, lead forms and full ownership. No monthly cost.'
 
 const waMessage = `Hi LogoOrbit, YES — I want the ${money(price)} Informative Website offer.`
 

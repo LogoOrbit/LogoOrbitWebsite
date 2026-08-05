@@ -11,6 +11,7 @@
  */
 
 import { deskRecipients } from '../../lib/notify'
+import { clientIp, isRateLimited } from '../../lib/ratelimit'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const TYPES = { logo: 'Logo', website: 'Website', app: 'Mobile App' }
@@ -19,16 +20,6 @@ const TYPES = { logo: 'Logo', website: 'Website', app: 'Mobile App' }
 // by a third, so this leaves room for a long brief and still refuses anything
 // that could only be an attempt to post something else through the form.
 const MAX_PDF_BYTES = 3 * 1024 * 1024
-
-const requests = new Map()
-
-function isRateLimited(ip) {
-  const now = Date.now()
-  const recent = (requests.get(ip) || []).filter((time) => now - time < 10 * 60 * 1000)
-  recent.push(now)
-  requests.set(ip, recent)
-  return recent.length > 5
-}
 
 const clean = (value, max) => String(value == null ? '' : value).trim().slice(0, max)
 
@@ -42,10 +33,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown')
-    .split(',')[0]
-    .trim()
-  if (isRateLimited(ip)) {
+  if (isRateLimited(`brief:${clientIp(req)}`)) {
     return res.status(429).json({ error: 'Too many submissions. Please try again shortly.' })
   }
 

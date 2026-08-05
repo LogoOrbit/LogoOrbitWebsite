@@ -370,7 +370,7 @@ export default function CopyrightCertificatePage() {
   return (
     <Layout
       title="Copyright Assignment Certificate - $499"
-      description="The signed instrument that moves LogoOrbit's copyright in your approved final logo to your business. Read all ten sections, compare it with government registration, and download the public specimen PDF."
+      description="The signed instrument that moves LogoOrbit's copyright in your final logo to your business. Read all ten sections and download the public specimen PDF."
       path="/copyright-certificate"
       jsonLd={{
         '@graph': [

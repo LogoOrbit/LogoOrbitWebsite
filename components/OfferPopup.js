@@ -2,11 +2,33 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Icons } from './Icons'
+import { useScrollLock } from '../lib/hooks'
 import OfferCountdown from './OfferCountdown'
 import { money } from '../lib/pricing'
 import { offer, headline, informativeWebsite } from '../lib/offers'
 
 const STORAGE_KEY = 'logoorbit-offer-dismissed'
+
+/* Safari in private mode, a locked-down enterprise profile and a browser with
+   cookies blocked all throw on sessionStorage rather than returning null. Both
+   calls were bare: the read threw inside an effect, and the write threw inside
+   the dismiss handler, which meant on those browsers the popup could not be
+   closed at all — the one failure mode that turns a promotion into a wall. */
+const remembered = () => {
+  try {
+    return Boolean(sessionStorage.getItem(STORAGE_KEY))
+  } catch {
+    return false
+  }
+}
+
+const remember = () => {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, '1')
+  } catch {
+    /* It just will not be remembered past this page. Closing still works. */
+  }
+}
 
 /**
  * The promotion popup.
@@ -30,13 +52,16 @@ export default function OfferPopup() {
 
   useEffect(() => {
     if (!offer.active || suppressed) return
-    if (sessionStorage.getItem(STORAGE_KEY)) return
+    if (remembered()) return
     const timer = setTimeout(() => setOpen(true), 1600)
     return () => clearTimeout(timer)
   }, [suppressed])
 
-  // Escape closes it, the page behind stops scrolling, and Tab is held inside
-  // the dialog while it is up.
+  // The page behind stops scrolling through the shared lock, so this and the
+  // nav drawer cannot undo each other.
+  useScrollLock(open)
+
+  // Escape closes it, and Tab is held inside the dialog while it is up.
   useEffect(() => {
     if (!open) return
 
@@ -57,18 +82,13 @@ export default function OfferPopup() {
     }
 
     document.addEventListener('keydown', onKey)
-    const previous = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
     closeRef.current?.focus()
 
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = previous
-    }
+    return () => document.removeEventListener('keydown', onKey)
   }, [open])
 
   function dismiss() {
-    sessionStorage.setItem(STORAGE_KEY, '1')
+    remember()
     setOpen(false)
   }
 

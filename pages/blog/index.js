@@ -9,7 +9,7 @@ import { posts, postsByDate, blogCategories } from '../../lib/blog'
 import { breadcrumb, collectionPageSchema, itemListSchema, absolute, ORG_ID } from '../../lib/seo'
 
 const description =
-  'Articles from the LogoOrbit studio: how we price, how we brief, where we use AI and where we will not, and what is actually changing in design, video and branding work.'
+  'Articles from the LogoOrbit studio: how we price, how we brief, where we use AI and where we will not, and what is changing in design and branding work.'
 
 function formatDate(value) {
   return new Date(value).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })

@@ -9,7 +9,7 @@ import { portfolioLogos } from '../../lib/portfolio'
 import { breadcrumb, collectionPageSchema, ORG_ID } from '../../lib/seo'
 
 const description =
-  'Browse original logo marks designed by the LogoOrbit in-house team across technology, healthcare, real estate, construction, finance and fitness. No templates, no stock marks, nothing resold.'
+  'Original logo marks drawn in-house by LogoOrbit across technology, healthcare, real estate, construction, finance and fitness. No templates, nothing resold.'
 
 export default function LogoPortfolioPage({ sampleWork }) {
   const jsonLd = {

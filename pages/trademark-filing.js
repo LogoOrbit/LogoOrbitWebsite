@@ -457,7 +457,7 @@ export default function TrademarkFilingPage() {
   return (
     <Layout
       title={`US Trademark Filing Service - $${SERVICE} + $${PER_CLASS} per class`}
-      description={`LogoOrbit files your US trademark with the USPTO: clearance search, classification, application, specimen check and examiner responses. $${SERVICE} for the filing service plus $${PER_CLASS} per class. Work out how many classes your business needs.`}
+      description={`LogoOrbit files your US trademark with the USPTO: clearance search, classification, application and examiner responses. $${SERVICE} plus $${PER_CLASS} per class.`}
       path="/trademark-filing"
       jsonLd={{
         '@graph': [
