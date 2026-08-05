@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LogoOrbit - Website Design Brief</title>
 <meta name="description" content="Plan your new website in about 5 minutes. Tap-to-answer brief for pages, features, style and SEO - LogoOrbit's design team takes it from there.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='30' fill='%234f46e5'/><ellipse cx='50' cy='50' rx='46' ry='18' fill='none' stroke='%237c3aed' stroke-width='7' transform='rotate(-24 50 50)'/></svg>">
+<link rel="icon" href="/logo-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
@@ -13,24 +13,26 @@
 <style>
 /* ─────────── THEME TOKENS ─────────── */
 :root{
-  --bg:#f5f6fa; --bg-grad:radial-gradient(1200px 500px at 50% -10%,#e8eaff 0%,transparent 60%);
-  --surface:#ffffff; --surface2:#f8f9fc; --border:#e5e7f0; --border-strong:#d4d7e5;
-  --text:#0f172a; --text2:#5b6478; --text3:#9aa1b5;
-  --accent:#4f46e5; --accent2:#7c3aed; --accent-soft:#eef0ff; --accent-border:#c7cbff;
+  --bg:#f8fafc; --bg-grad:radial-gradient(1200px 500px at 50% -10%,#e6efff 0%,transparent 60%);
+  --surface:#ffffff; --surface2:#f8fafc; --border:#e2e8f0; --border-strong:#cbd5e1;
+  --text:#0b1733; --text2:#5a6480; --text3:#9aa3ba;
+  --accent:#2563eb; --accent2:#7c3aed; --accent-soft:#eff6ff; --accent-border:#bfdbfe;
+  --action:#f97316; --action2:#ea580c;
   --ok:#059669; --ok-soft:#ecfdf5; --err:#e11d48;
-  --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
-  --shadow-lg:0 4px 12px rgba(15,23,42,.06),0 24px 60px rgba(79,70,229,.10);
-  --ring:0 0 0 3px rgba(79,70,229,.15);
+  --shadow:0 1px 2px rgba(11,23,51,.04),0 8px 24px rgba(11,23,51,.06);
+  --shadow-lg:0 4px 12px rgba(11,23,51,.06),0 24px 60px rgba(37,99,235,.10);
+  --ring:0 0 0 3px rgba(37,99,235,.15);
 }
 [data-theme=dark]{
-  --bg:#0a0d16; --bg-grad:radial-gradient(1200px 500px at 50% -10%,rgba(79,70,229,.16) 0%,transparent 60%);
-  --surface:#121826; --surface2:#0e1420; --border:#232b3d; --border-strong:#323c54;
-  --text:#f1f3fa; --text2:#98a2ba; --text3:#5c6580;
-  --accent:#818cf8; --accent2:#a78bfa; --accent-soft:rgba(99,102,241,.14); --accent-border:rgba(129,140,248,.45);
+  --bg:#070d1c; --bg-grad:radial-gradient(1200px 500px at 50% -10%,rgba(37,99,235,.18) 0%,transparent 60%);
+  --surface:#0f1a30; --surface2:#0a1120; --border:#26344f; --border-strong:#3a4b6d;
+  --text:#eef2fb; --text2:#97a5c2; --text3:#6f7e9f;
+  --accent:#8ab4ff; --accent2:#a78bfa; --accent-soft:rgba(37,99,235,.16); --accent-border:rgba(138,180,255,.45);
+  --action:#fb923c; --action2:#f97316;
   --ok:#34d399; --ok-soft:rgba(52,211,153,.12); --err:#fb7185;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
-  --shadow-lg:0 4px 12px rgba(0,0,0,.4),0 24px 60px rgba(99,102,241,.15);
-  --ring:0 0 0 3px rgba(129,140,248,.22);
+  --shadow-lg:0 4px 12px rgba(0,0,0,.4),0 24px 60px rgba(37,99,235,.18);
+  --ring:0 0 0 3px rgba(138,180,255,.22);
 }
 /* ─────────── BASE ─────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -41,12 +43,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);background-
 /* ─────────── TOP BAR ─────────── */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 0;margin-bottom:1.6rem}
 .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
-.orbit-logo{width:40px;height:40px;position:relative;flex-shrink:0}
-.orbit-logo .core{position:absolute;inset:9px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2))}
-.orbit-logo .ring{position:absolute;inset:0;border:2px solid var(--accent-border);border-radius:50%;transform:rotate(-24deg) scaleY(.48)}
-.orbit-logo .moon{position:absolute;top:1px;left:26px;width:7px;height:7px;border-radius:50%;background:var(--accent2)}
+/* The company mark, the same /logo.png the site header serves, rather than a
+   drawn stand-in that drifts every time the real one is redrawn. */
+.orbit-logo{width:40px;height:40px;object-fit:contain;flex-shrink:0;display:block}
 .brand-name{font-family:'Sora',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:-.5px;color:var(--text)}
-.brand-name em{font-style:normal;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.brand-name em{font-style:normal;color:var(--accent2)}
 .tbtns{display:flex;gap:8px;align-items:center}
 .pagelink{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:9px 15px;font-size:12.5px;font-weight:700;color:var(--text2);text-decoration:none;box-shadow:var(--shadow);transition:all .18s;white-space:nowrap}
 .pagelink:hover{border-color:var(--accent-border);color:var(--accent)}
@@ -102,7 +103,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);background-
 .chip.no:hover{border-color:var(--err);color:var(--err)}
 .chip.no.on{background:var(--err);border-color:var(--err);color:#fff}
 .promo{animation:promoGlow 2.6s ease-in-out infinite}
-@keyframes promoGlow{0%,100%{box-shadow:0 0 0 0 rgba(79,70,229,.22)}50%{box-shadow:0 0 20px 4px rgba(79,70,229,.20)}}
+@keyframes promoGlow{0%,100%{box-shadow:0 0 0 0 rgba(37,99,235,.22)}50%{box-shadow:0 0 20px 4px rgba(37,99,235,.20)}}
 .promo.gold{animation:goldGlow 2.6s ease-in-out infinite}
 @keyframes goldGlow{0%,100%{box-shadow:0 0 0 0 rgba(217,119,6,.25)}50%{box-shadow:0 0 20px 4px rgba(217,119,6,.22)}}
 .pbadge{animation:badgeBounce 2s ease-in-out infinite}
@@ -164,13 +165,18 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 /* nav */
 .nav{display:flex;gap:10px;margin-top:1.7rem}
-.bbk{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:13px;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:600;padding:13px;cursor:pointer;transition:all .18s}
+.bbk{flex:1;background:var(--surface2);border:1.5px solid var(--border);border-radius:100px;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:600;padding:13px;cursor:pointer;transition:all .18s}
 .bbk:hover{border-color:var(--border-strong);color:var(--text)}
-.bnx{flex:2;background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;border-radius:13px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:700;padding:13px;cursor:pointer;transition:all .18s;box-shadow:0 6px 18px rgba(79,70,229,.35)}
-.bnx:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(79,70,229,.4)}
+.bnx{flex:2;background-image:linear-gradient(100deg,#f97316,#ea580c);border:none;border-radius:100px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14.5px;font-weight:700;padding:13px;cursor:pointer;transition:all .18s;box-shadow:0 12px 26px -8px rgba(234,88,12,.6)}
+.bnx:hover{transform:translateY(-2px);filter:saturate(1.08);box-shadow:0 16px 34px -8px rgba(234,88,12,.72)}
 .bnx:active{transform:translateY(0)}
 .bnx:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .bsolo{flex:1}
+/* Hiding the form cannot go through element.style: a <form> exposes its own
+   controls as named properties, and this form holds an input named "style",
+   so form.style is that input, not the CSSStyleDeclaration. A class does the
+   job and cannot be shadowed. */
+.gone{display:none}
 .stepwarn{display:none;color:var(--err);font-size:13px;font-weight:600;text-align:center;margin-top:12px}
 .stepwarn.show{display:block}
 
@@ -217,7 +223,7 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
 
 <div class="topbar">
   <a class="brand" href="index.html">
-    <div class="orbit-logo"><div class="ring"></div><div class="core"></div><div class="moon"></div></div>
+    <img class="orbit-logo" src="/logo.png" alt="" width="40" height="40">
     <span class="brand-name">Logo<em>Orbit</em></span>
   </a>
   <div class="tbtns">
@@ -502,8 +508,8 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
     </div>
     <div class="crow">
       <label>Custom color:</label>
-      <input type="color" id="cpk" value="#4f46e5">
-      <input type="text" class="chex" id="chx" placeholder="#4f46e5" maxlength="7">
+      <input type="color" id="cpk" value="#2563eb">
+      <input type="text" class="chex" id="chx" placeholder="#2563eb" maxlength="7">
       <button type="button" class="addbtn" onclick="addColor()">+ Add</button>
     </div>
     <div class="seltags" id="stags"></div>
@@ -868,21 +874,42 @@ function buildPara(data){
   return para;
 }
 
+/* ── the company mark, for the PDF header ── */
+let LOGO_IMG=null;
+(function(){
+  const img=new Image();
+  img.onload=()=>{
+    try{
+      // 160px covers the 20mm it is drawn at (about 200dpi). The full 512px
+      // source lands in the PDF uncompressed and adds a megabyte to every
+      // brief we email.
+      const c=document.createElement('canvas');
+      c.width=c.height=160;
+      c.getContext('2d').drawImage(img,0,0,160,160);
+      LOGO_IMG=c.toDataURL('image/png');
+    }catch(e){}
+  };
+  img.src='/logo.png';
+})();
+
 /* ── PDF ── */
 function buildPdf(data){
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({unit:'mm',format:'a4'});
   const W=210,M=14;let y=0;
   const v=k=>(data[k]||'').trim();
-  const AC=[79,70,229],AC2=[124,58,237],INK=[26,26,46],GRAY=[91,100,120],LG=[154,161,181];
+  const AC=[37,99,235],AC2=[124,58,237],INK=[11,23,51],GRAY=[90,100,128],LG=[154,163,186];
   const cols=data._cols||[];
   const need=h=>{if(y+h>278){doc.addPage();y=20;}};
   const hx=h=>{try{h=h.replace('#','');return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}catch(e){return INK;}};
   const band=(y0,hh)=>{for(let i=0;i<70;i++){const t=i/69;doc.setFillColor(Math.round(AC[0]+t*(AC2[0]-AC[0])),Math.round(AC[1]+t*(AC2[1]-AC[1])),Math.round(AC[2]+t*(AC2[2]-AC[2])));doc.rect(i*W/70,y0,W/70+.6,hh,'F');}};
   band(0,40);
-  doc.setDrawColor(255,255,255);doc.setLineWidth(.8);doc.ellipse(M+7,20,10,3.6,'S');
+  // The real mark when it loaded, the drawn one when it did not, so a blocked
+  // image costs the PDF its logo rather than the whole document.
+  if(LOGO_IMG){doc.addImage(LOGO_IMG,'PNG',M-2,10,20,20);}
+  else{doc.setDrawColor(255,255,255);doc.setLineWidth(.8);doc.ellipse(M+7,20,10,3.6,'S');
   doc.setFillColor(255,255,255);doc.circle(M+7,20,5.6,'F');
-  doc.setFillColor(124,58,237);doc.circle(M+7,20,3.4,'F');
+  doc.setFillColor(124,58,237);doc.circle(M+7,20,3.4,'F');}
   doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);
   doc.text('LogoOrbit',M+21,18.5);
   doc.setFontSize(10.5);doc.setFont('helvetica','normal');doc.setTextColor(232,230,255);
@@ -947,8 +974,8 @@ function downloadPdf(){
     const data=JSON.parse(decodeURIComponent(escape(atob(p.replace(/-/g,'+').replace(/_/g,'/')))));
     selCols=data._cols||[];
     lastData=data;
-    document.getElementById('brief').style.display='none';
-    document.getElementById('rail').style.display='none';
+    document.getElementById('brief').classList.add('gone');
+    document.getElementById('rail').classList.add('gone');
     document.querySelector('.hero h1').innerHTML='Client brief <em>PDF ready</em>';
     document.querySelector('.hero p').textContent='Generating PDF for '+(data.company||data.name)+'…';
     window.addEventListener('load',()=>setTimeout(downloadPdf,400));
@@ -997,10 +1024,11 @@ document.getElementById('brief').addEventListener('submit',async function(e){
     });
     if(!res||!res.ok) throw new Error('send failed');
     btn.textContent='Sent ✓';
-    document.getElementById('brief').style.display='none';
-    document.getElementById('rail').style.display='none';
+    document.getElementById('brief').classList.add('gone');
+    document.getElementById('rail').classList.add('gone');
+    // Deliberately no scroll: the confirmation takes the form's place, and
+    // yanking the page to the top on submit loses where the client was.
     document.getElementById('ty').style.display='block';
-    window.scrollTo(0,0);
   } catch(err){
     btn.disabled=false; btn.textContent='Try again';
     alert('Could not send your brief. Please check your internet connection and tap Try again.');

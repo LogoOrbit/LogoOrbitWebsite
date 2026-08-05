@@ -77,8 +77,12 @@ export default async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY
-  const to = deskRecipients(process.env.BRIEF_TO_EMAIL || process.env.CONTACT_TO_EMAIL, [
-    'support@logoorbit.net',
+  // The same desks that get an order get a brief: the legal desk keeps the
+  // record of what was agreed, and the owner's inbox is added on top by
+  // deskRecipients whatever the environment names.
+  const to = deskRecipients(process.env.BRIEF_TO_EMAIL, [
+    'legal@logoorbit.net',
+    process.env.CONTACT_TO_EMAIL || 'support@logoorbit.net',
   ])
   const from = process.env.CONTACT_FROM_EMAIL || 'LogoOrbit Website <website@logoorbit.net>'
   if (!apiKey) {
