@@ -19,8 +19,13 @@ export default function BrandMark({ className = 'w-10 h-10' }) {
       // Fixed dimensions rather than `sizes`: the mark is never wider than
       // 40px on screen, and a fixed pair asks the optimiser for 1x and 2x of
       // that instead of a full responsive ladder up to 3840px.
-      width={80}
-      height={80}
+      //
+      // These are the CSS pixels the mark actually occupies, not a doubled
+      // figure. Next already doubles them for the 2x entry in the srcset, so
+      // passing 80 asked for a 256px render of a mark that is drawn at 40 —
+      // roughly four times the pixels needed, downloaded before first paint.
+      width={40}
+      height={40}
       className={`${className} shrink-0 object-contain`}
       // The header is the first thing painted and the mark sits in it, so it
       // must not wait behind anything below the fold.

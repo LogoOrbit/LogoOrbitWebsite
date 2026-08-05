@@ -5,7 +5,7 @@ import CartSummary from '../components/CartSummary'
 import { QtyStepper } from '../components/AddToCart'
 import { Icons } from '../components/Icons'
 import { useCart, cash } from '../lib/cart'
-import { salesTax } from '../lib/pricing'
+import { salesTax } from '../lib/money'
 import { site } from '../lib/site'
 import { breadcrumb } from '../lib/seo'
 

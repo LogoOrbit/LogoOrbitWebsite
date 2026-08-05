@@ -2,7 +2,8 @@ import Link from 'next/link'
 import Reveal from './Reveal'
 import { Icons } from './Icons'
 import { videoArt, toneVars } from './Illustrations'
-import { videoPackages, money } from '../lib/pricing'
+import { videoPackages } from '../lib/pricing'
+import { money } from '../lib/money'
 
 /**
  * Eight jobs, eight pictures.

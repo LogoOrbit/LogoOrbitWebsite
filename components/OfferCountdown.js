@@ -27,22 +27,39 @@ function remaining(end) {
  * business has not committed to. Once the date passes the component renders
  * nothing at all.
  *
- * The first paint is deliberately empty: the server has no idea what time it
- * is in the reader's browser, and rendering a guess produces a hydration
- * mismatch and a visible flicker on the number that matters most.
+ * The first paint carries no digits: the server has no idea what time it is in
+ * the reader's browser, and rendering a guess produces a hydration mismatch and
+ * a visible flicker on the number that matters most.
+ *
+ * It does, however, carry the boxes. Returning null until the first tick and
+ * the full clock immediately after made the component grow by its own height a
+ * frame into the page — inside the offer popup that was the whole of the site's
+ * layout shift, because the panel it sits in is sized by its content. Blank
+ * slots of the final size cost nothing and mean the only thing that changes is
+ * the digits.
  */
+const PLACEHOLDER = UNITS.map(([label]) => ({ label, value: null }))
+
 export default function OfferCountdown({ tone = 'dark', className = '' }) {
   const end = new Date(offer.endsOn).getTime()
   const [parts, setParts] = useState(null)
+  const [ended, setEnded] = useState(false)
 
   useEffect(() => {
-    setParts(remaining(end))
-    const id = setInterval(() => setParts(remaining(end)), 1000)
+    const tick = () => {
+      const next = remaining(end)
+      if (next) setParts(next)
+      else setEnded(true)
+    }
+    tick()
+    const id = setInterval(tick, 1000)
     return () => clearInterval(id)
   }, [end])
 
-  if (!parts) return null
+  // Once the date has genuinely passed there is nothing to count down to.
+  if (ended) return null
 
+  const slots = parts || PLACEHOLDER
   const dark = tone === 'dark'
 
   return (
@@ -55,7 +72,7 @@ export default function OfferCountdown({ tone = 'dark', className = '' }) {
         Offer ends in
       </p>
       <div className="mt-2 flex gap-2 sm:gap-2.5" role="timer" aria-live="off">
-        {parts.map((p) => (
+        {slots.map((p) => (
           <div
             key={p.label}
             className={`min-w-[3.75rem] flex-1 rounded-2xl px-2 py-2.5 text-center sm:min-w-[4.25rem] ${
@@ -67,7 +84,7 @@ export default function OfferCountdown({ tone = 'dark', className = '' }) {
                 dark ? 'text-white' : 'text-ink-900'
               }`}
             >
-              {String(p.value).padStart(2, '0')}
+              {p.value === null ? '\u2013\u2013' : String(p.value).padStart(2, '0')}
             </span>
             <span
               className={`mt-1 block text-[10px] font-semibold uppercase tracking-[0.14em] ${

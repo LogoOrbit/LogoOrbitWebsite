@@ -8,7 +8,7 @@ import OfferClaim from '../components/OfferClaim'
 import AddToCart from '../components/AddToCart'
 import { Icons, Star } from '../components/Icons'
 import { site, services, testimonials } from '../lib/site'
-import { money } from '../lib/pricing'
+import { money } from '../lib/money'
 import {
   offer,
   headline,

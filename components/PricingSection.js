@@ -1,5 +1,5 @@
 import Reveal from './Reveal'
-import { salesTax } from '../lib/pricing'
+import { salesTax } from '../lib/money'
 import CardRow from './CardRow'
 import CompareTable from './CompareTable'
 

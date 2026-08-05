@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Reveal from './Reveal'
 import OfferCountdown from './OfferCountdown'
 import { Icons } from './Icons'
-import { money } from '../lib/pricing'
+import { money } from '../lib/money'
 import { offer, headline, informativeWebsite, informativeFeatures } from '../lib/offers'
 
 /**

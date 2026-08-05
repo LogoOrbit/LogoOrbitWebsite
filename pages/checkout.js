@@ -13,7 +13,7 @@ import {
   orderMailtoLink,
   ORDER_FORM_ID,
 } from '../lib/cart'
-import { salesTax } from '../lib/pricing'
+import { salesTax } from '../lib/money'
 import { site, whatsapp } from '../lib/site'
 import { breadcrumb } from '../lib/seo'
 

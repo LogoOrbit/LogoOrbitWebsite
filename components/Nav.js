@@ -1,13 +1,35 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import { Icons } from './Icons'
 import BrandMark from './BrandMark'
 import ThemeToggle from './ThemeToggle'
-import SearchOverlay from './SearchOverlay'
 import CartIndicator from './CartIndicator'
 import { useScrollLock } from '../lib/hooks'
 import { nav, site } from '../lib/site'
+
+/**
+ * Every link in the header passes `prefetch={false}`.
+ *
+ * The menu covers six top-level sections and about forty shortcuts beneath
+ * them, and it is in the viewport from the moment any page opens, so Next's
+ * default viewport prefetch started downloading the route bundle for all of
+ * them while the page the visitor asked for was still painting — a third of a
+ * megabyte of speculative JavaScript on a phone. Prefetch on hover and on
+ * touch-start still applies, and that is the signal that actually predicts a
+ * click, so the navigation itself is no slower.
+ */
+
+/**
+ * The search palette is a modal: nobody sees it until they press the button or
+ * Ctrl/Cmd+K, and it fetches its own index over the network when it opens. Kept
+ * as a static import it still had to be downloaded, parsed and hydrated as part
+ * of the header on every page. `searchReady` latches on the first open, so the
+ * chunk is fetched once, at the moment it is wanted, and stays mounted after
+ * that — closing the palette must not throw away the index it just fetched.
+ */
+const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false })
 
 function Wordmark({ light }) {
   return (
@@ -63,7 +85,7 @@ function Dropdown({ item, light, active }) {
       }}
     >
       <Component
-        {...(item.href ? { href: item.href } : { type: 'button' })}
+        {...(item.href ? { href: item.href, prefetch: false } : { type: 'button' })}
         onClick={() => (item.href ? setOpen(false) : setOpen((o) => !o))}
         aria-expanded={open}
         aria-haspopup="true"
@@ -99,6 +121,7 @@ function Dropdown({ item, light, active }) {
             <Link
               key={child.label}
               href={child.href}
+              prefetch={false}
               onClick={() => setOpen(false)}
               className="flex items-center justify-between gap-2 rounded-xl px-3.5 py-2.5 text-[15px] font-medium text-ink-700 hover:bg-brand-50 hover:text-brand-600 transition-colors"
             >
@@ -118,8 +141,14 @@ export default function Nav() {
   const [solid, setSolid] = useState(false)
   const [openGroup, setOpenGroup] = useState(null)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [searchReady, setSearchReady] = useState(false)
   const [shortcutLabel, setShortcutLabel] = useState('Ctrl K')
   const menuButtonRef = useRef(null)
+
+  const openSearch = () => {
+    setSearchReady(true)
+    setSearchOpen(true)
+  }
 
   useEffect(() => {
     if (/Mac|iPhone|iPad|iPod/.test(window.navigator.platform || window.navigator.userAgent)) {
@@ -131,7 +160,7 @@ export default function Nav() {
     const onKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault()
-        setSearchOpen(true)
+        openSearch()
       }
     }
     document.addEventListener('keydown', onKeyDown)
@@ -179,11 +208,11 @@ export default function Nav() {
           <p className="flex items-center gap-2 text-center md:text-left">
             <Icons.shield className="hidden h-4 w-4 shrink-0 text-flare-400 sm:block" />
             <span className="hidden sm:inline">Own the logo, then register the name.</span>
-            <Link href="/copyright-certificate" className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
+            <Link href="/copyright-certificate" prefetch={false} className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
               $499 copyright certificate
             </Link>
             <span aria-hidden="true" className="hidden text-white/40 sm:inline">·</span>
-            <Link href="/trademark-filing" className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
+            <Link href="/trademark-filing" prefetch={false} className="shrink-0 font-semibold text-white underline underline-offset-4 hover:text-flare-300">
               Trademark filing
             </Link>
           </p>
@@ -218,6 +247,7 @@ export default function Nav() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch={false}
                   className={`shrink-0 whitespace-nowrap px-2.5 py-2 rounded-lg text-[15px] font-medium transition-colors ${
                     light
                       ? `${isActive(item.href) ? 'text-white bg-white/10' : 'text-white/85'} hover:text-white hover:bg-white/10`
@@ -236,7 +266,7 @@ export default function Nav() {
                 its own and the shortcut moves into the tooltip. */}
             <button
               type="button"
-              onClick={() => setSearchOpen(true)}
+              onClick={() => openSearch()}
               aria-label="Search the site"
               title={`Search the site (${shortcutLabel})`}
               className={`flex items-center gap-2 rounded-full border p-2.5 transition-colors ${
@@ -273,7 +303,7 @@ export default function Nav() {
           <div className="flex items-center gap-2 xl:hidden">
             <button
               type="button"
-              onClick={() => setSearchOpen(true)}
+              onClick={() => openSearch()}
               aria-label="Search the site"
               className={`p-2 rounded-lg ${light ? 'text-white' : 'text-ink-900'}`}
             >
@@ -320,7 +350,7 @@ export default function Nav() {
               type="button"
               onClick={() => {
                 setOpen(false)
-                setSearchOpen(true)
+                openSearch()
               }}
               className="flex w-full items-center gap-3 rounded-xl border border-slate-200 px-4 py-3.5 text-left text-[15px] text-ink-500 hover:border-brand-300 hover:text-brand-600"
             >
@@ -340,6 +370,7 @@ export default function Nav() {
                   <div className="flex items-center">
                     <Link
                       href={item.href || item.children[0].href}
+                      prefetch={false}
                       onClick={() => setOpen(false)}
                       className={`flex-1 px-3 py-3.5 rounded-xl text-lg font-medium transition-colors ${
                         isActive(item.href) ? 'bg-brand-50 text-brand-600' : 'text-ink-700'
@@ -372,6 +403,7 @@ export default function Nav() {
                           <Link
                             key={child.label}
                             href={child.href}
+                            prefetch={false}
                             onClick={() => setOpen(false)}
                             className={`block px-3 py-2.5 rounded-lg text-[15px] transition-colors ${
                               isActive(child.href)
@@ -390,6 +422,7 @@ export default function Nav() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch={false}
                   onClick={() => setOpen(false)}
                   className={`flex items-center justify-between px-3 py-3.5 rounded-xl text-lg font-medium transition-colors ${
                     isActive(item.href) ? 'bg-brand-50 text-brand-600' : 'text-ink-700 hover:bg-brand-50'
@@ -429,7 +462,7 @@ export default function Nav() {
         </div>
       </div>
 
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      {searchReady && <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />}
     </>
   )
 }

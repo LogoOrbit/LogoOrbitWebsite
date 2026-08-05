@@ -3,7 +3,8 @@ import Link from 'next/link'
 import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { useCart, lineId } from '../lib/cart'
-import { brandProtection, copyrightCertificate, money } from '../lib/pricing'
+import { brandProtection, copyrightCertificate } from '../lib/pricing'
+import { money } from '../lib/money'
 
 /**
  * The question asked before an order is placed: do you own what you are

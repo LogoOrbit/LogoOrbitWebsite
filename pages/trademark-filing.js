@@ -7,7 +7,8 @@ import CertificateInstrument, { CertificateSeal } from '../components/Certificat
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
 import { useCart } from '../lib/cart'
-import { brandProtection, salesTax } from '../lib/pricing'
+import { brandProtection } from '../lib/pricing'
+import { salesTax } from '../lib/money'
 
 const SERVICE = brandProtection.price
 const PER_CLASS = brandProtection.classPrice

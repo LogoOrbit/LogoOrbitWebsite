@@ -7,7 +7,8 @@ import { BigPackage } from './PriceCard'
 import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { addOnArt, toneVars } from './Illustrations'
-import { addOns, brandProtection, categories, finder, money, salesTax } from '../lib/pricing'
+import { addOns, brandProtection, categories, finder } from '../lib/pricing'
+import { money, salesTax } from '../lib/money'
 import CopyrightOwnershipNotice from './CopyrightOwnershipNotice'
 
 const tabIcon = {

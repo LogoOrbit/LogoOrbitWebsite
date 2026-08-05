@@ -22,7 +22,7 @@
 import { randomInt } from 'crypto'
 import { deskRecipients } from '../../lib/notify'
 import { clientIp, isRateLimited } from '../../lib/ratelimit'
-import { salesTax } from '../../lib/pricing'
+import { salesTax } from '../../lib/money'
 import { site, whatsapp } from '../../lib/site'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/

@@ -57,6 +57,14 @@ const popularServices = [
   { label: 'Amazon listings', href: '/services/amazon-listing-design' },
 ]
 
+/**
+ * The footer's link columns all pass `prefetch={false}`.
+ *
+ * There are about fifty links down here and they sit on every page, so with
+ * the default viewport prefetch a visitor who scrolled to the bottom of any
+ * page pulled down the route bundle for fifty pages they had not asked for.
+ * Hover and touch-start prefetch still apply, so nothing feels slower.
+ */
 export default function Footer() {
   return (
     <footer className="bg-ink-900 text-white/70">
@@ -126,7 +134,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-2.5 text-[15px]">
               {services.map((s) => (
                 <li key={s.id}>
-                  <Link href={s.href} className="inline-block py-1 hover:text-white transition-colors">{s.name}</Link>
+                  <Link href={s.href} prefetch={false} className="inline-block py-1 hover:text-white transition-colors">{s.name}</Link>
                 </li>
               ))}
             </ul>
@@ -138,7 +146,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-2.5 text-[15px]">
               {exploreLinks.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="inline-block py-1 hover:text-white transition-colors">{item.label}</Link>
+                  <Link href={item.href} prefetch={false} className="inline-block py-1 hover:text-white transition-colors">{item.label}</Link>
                 </li>
               ))}
             </ul>
@@ -164,13 +172,13 @@ export default function Footer() {
           <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[14px]">
             {popularServices.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="inline-block py-1 hover:text-white transition-colors">
+                <Link href={item.href} prefetch={false} className="inline-block py-1 hover:text-white transition-colors">
                   {item.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/services" className="inline-block py-1 font-semibold text-orbit-400 hover:text-white transition-colors">
+              <Link href="/services" prefetch={false} className="inline-block py-1 font-semibold text-orbit-400 hover:text-white transition-colors">
                 See all services
               </Link>
             </li>
@@ -182,7 +190,7 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
             {legalLinks.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className="inline-block py-1 hover:text-white transition-colors">
+                <Link href={link.href} prefetch={false} className="inline-block py-1 hover:text-white transition-colors">
                   {link.label}
                 </Link>
               </li>

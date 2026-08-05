@@ -1,12 +1,12 @@
 import '../styles/globals.css'
 import { CartProvider } from '../lib/cart'
-import OfferPopup from '../components/OfferPopup'
+import OfferPopupGate from '../components/OfferPopupGate'
 
 function MyApp({ Component, pageProps }) {
   return (
     <CartProvider>
       <Component {...pageProps} />
-      <OfferPopup />
+      <OfferPopupGate />
     </CartProvider>
   )
 }

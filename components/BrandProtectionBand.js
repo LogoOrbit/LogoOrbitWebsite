@@ -2,7 +2,8 @@ import Link from 'next/link'
 import Reveal from './Reveal'
 import AddToCart from './AddToCart'
 import { Icons } from './Icons'
-import { brandProtection, salesTax } from '../lib/pricing'
+import { brandProtection } from '../lib/pricing'
+import { salesTax } from '../lib/money'
 
 /**
  * The two legal steps that sit either side of the design work: owning the

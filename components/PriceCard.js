@@ -3,7 +3,7 @@ import Link from 'next/link'
 import MoreOnPhone from './MoreOnPhone'
 import AddToCart from './AddToCart'
 import { Icons } from './Icons'
-import { money } from '../lib/pricing'
+import { money } from '../lib/money'
 import { packagePathFor } from '../lib/packages'
 import { whatsappLink } from '../lib/site'
 

@@ -7,7 +7,8 @@ import CertificateInstrument, { CertificateSeal } from '../components/Certificat
 import AddToCart from '../components/AddToCart'
 import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
-import { copyrightCertificate, salesTax } from '../lib/pricing'
+import { copyrightCertificate } from '../lib/pricing'
+import { salesTax } from '../lib/money'
 
 const samplePdf = '/documents/logoorbit-sample-copyright-assignment-certificate.pdf'
 

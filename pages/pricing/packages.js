@@ -7,7 +7,7 @@ import CTA from '../../components/CTA'
 import AddToCart from '../../components/AddToCart'
 import { Icons } from '../../components/Icons'
 import { packages, packageFamilies } from '../../lib/packages'
-import { money, salesTax } from '../../lib/pricing'
+import { money, salesTax } from '../../lib/money'
 import { breadcrumb, collectionPageSchema, itemListSchema } from '../../lib/seo'
 
 const description =

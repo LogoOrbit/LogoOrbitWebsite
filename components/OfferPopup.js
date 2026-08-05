@@ -1,27 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { Icons } from './Icons'
 import { useScrollLock } from '../lib/hooks'
 import OfferCountdown from './OfferCountdown'
-import { money } from '../lib/pricing'
+import { money } from '../lib/money'
 import { offer, headline, informativeWebsite } from '../lib/offers'
+import { OFFER_DISMISSED_KEY } from './OfferPopupGate'
 
-const STORAGE_KEY = 'logoorbit-offer-dismissed'
+const STORAGE_KEY = OFFER_DISMISSED_KEY
 
 /* Safari in private mode, a locked-down enterprise profile and a browser with
-   cookies blocked all throw on sessionStorage rather than returning null. Both
-   calls were bare: the read threw inside an effect, and the write threw inside
-   the dismiss handler, which meant on those browsers the popup could not be
-   closed at all — the one failure mode that turns a promotion into a wall. */
-const remembered = () => {
-  try {
-    return Boolean(sessionStorage.getItem(STORAGE_KEY))
-  } catch {
-    return false
-  }
-}
-
+   cookies blocked all throw on sessionStorage rather than returning null. The
+   read side of this (OfferPopupGate's own `remembered`) is guarded the same
+   way; a bare write here would leave the dismiss handler throwing on those
+   browsers, the one failure mode that turns a promotion into a wall. */
 const remember = () => {
   try {
     sessionStorage.setItem(STORAGE_KEY, '1')
@@ -41,21 +33,17 @@ const remember = () => {
  *
  * It stands down on the offer pages themselves and on the checkout, where a
  * modal in front of a payment form is only ever a lost order.
+ *
+ * The decisions about *whether* to show it — the suppressed routes, the
+ * sessionStorage check, the beat of delay — all live in OfferPopupGate, which
+ * loads this file only once the answer is yes. Everything below (the markup,
+ * the countdown, the price book the countdown formats from) is therefore off
+ * the critical path of every page on the site rather than on it.
  */
 export default function OfferPopup() {
-  const [open, setOpen] = useState(false)
-  const router = useRouter()
+  const [open, setOpen] = useState(offer.active)
   const panelRef = useRef(null)
   const closeRef = useRef(null)
-  const { pathname } = router
-  const suppressed = pathname.startsWith('/offers') || pathname === '/checkout' || pathname === '/cart'
-
-  useEffect(() => {
-    if (!offer.active || suppressed) return
-    if (remembered()) return
-    const timer = setTimeout(() => setOpen(true), 1600)
-    return () => clearTimeout(timer)
-  }, [suppressed])
 
   // The page behind stops scrolling through the shared lock, so this and the
   // nav drawer cannot undo each other.

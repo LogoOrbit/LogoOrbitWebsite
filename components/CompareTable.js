@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Icons } from './Icons'
-import { money } from '../lib/pricing'
+import { money } from '../lib/money'
 
 /**
  * Side-by-side comparison of the tiers in one category.

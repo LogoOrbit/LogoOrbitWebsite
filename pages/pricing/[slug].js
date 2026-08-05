@@ -9,7 +9,7 @@ import CTA from '../../components/CTA'
 import AddToCart from '../../components/AddToCart'
 import { Icons } from '../../components/Icons'
 import { packages, packageBySlug } from '../../lib/packages'
-import { money, salesTax } from '../../lib/pricing'
+import { money, salesTax } from '../../lib/money'
 import { site, whatsappLink } from '../../lib/site'
 import { absolute, breadcrumb, faqSchema, ORG_ID } from '../../lib/seo'
 

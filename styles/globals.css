@@ -186,13 +186,36 @@
   transform: translateY(24px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
               transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
 }
+
+/* No blanket `will-change` here. A long page carries sixty or more of these —
+   the link grids alone give one to every card — and `will-change` is a
+   standing instruction, not a hint for the duration of the transition. Every
+   one of them held its own compositor layer for the whole life of the page,
+   which cost memory and put every one of them back into the style and layout
+   pass on each frame. The transition composites perfectly well without it. */
 
 .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
+
+/* The link-grid cards. Each card used to carry its own Reveal, purely to get
+   the column-by-column stagger; the grid now reveals as one element and the
+   stagger is done here instead. Three buckets, matching the widest grid, and
+   each animation is one-shot, so nothing is still running once the row has
+   arrived. */
+@keyframes card-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.reveal.is-visible .link-card {
+  animation: card-rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.reveal.is-visible .link-card:nth-child(3n + 2) { animation-delay: 0.06s; }
+.reveal.is-visible .link-card:nth-child(3n + 3) { animation-delay: 0.12s; }
 
 /* ---------- Animations ---------- */
 @keyframes float-slow {
@@ -218,12 +241,6 @@
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
-}
-
-@keyframes shimmer {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }
 
 @keyframes pulse-ring {
@@ -489,53 +506,80 @@
 .a-rise { transform-origin: bottom; }
 .a-fill { transform-origin: left center; }
 
-.a-float     { animation: art-float 3.6s ease-in-out infinite; }
-.a-float-far { animation: art-float-far 5s ease-in-out infinite; }
-.a-pulse     { animation: art-pulse 2.6s ease-in-out infinite; }
-.a-beat      { animation: art-beat 2.2s ease-in-out infinite; }
-.a-twinkle   { animation: art-twinkle 2.8s ease-in-out infinite; }
-.a-rock      { animation: art-rock 5.5s ease-in-out infinite; }
-.a-spin      { animation: art-spin 18s linear infinite; }
-.a-rise      { animation: art-rise 3.2s ease-in-out infinite; }
-.a-fill      { animation: art-fill 5s ease-in-out infinite alternate; }
-.a-scrub     { animation: art-scrub 5s ease-in-out infinite alternate; }
-.a-ripple    { animation: art-ripple 2.6s ease-out infinite; }
-.a-sheen     { animation: art-sheen 3s ease-in-out infinite; }
-
 /* The clapper hinges on its corner, not its middle, so it takes the viewBox. */
 .a-clap {
   transform-box: view-box;
   transform-origin: 9px 14px;
-  animation: art-clap 3.4s ease-in-out infinite;
 }
 
-/* Stagger, so a row of bars or swatches moves as a wave rather than in step. */
-.ad-1 { animation-delay: 0.18s; }
-.ad-2 { animation-delay: 0.36s; }
-.ad-3 { animation-delay: 0.54s; }
-.ad-4 { animation-delay: 0.72s; }
-.ad-5 { animation-delay: 0.9s; }
+/* The loops themselves wait for their card to be scrolled to, the same way the
+   one-shot builds further down this file do.
+ *
+ * These are SVG transforms, which Chromium cannot hand to the compositor: each
+ * frame of each shape is a style, layout and paint pass on the main thread. A
+ * card carries five or six of them, and a page of cards carries a hundred — the
+ * services index has 119 — so before this every one of those hundred shapes was
+ * animating from the moment the document parsed, most of them several screens
+ * below the fold, while the page was still trying to reach first paint. On the
+ * home page that alone was about 900ms of style and layout during load.
+ *
+ * `Reveal` sets `is-visible` once, when the card reaches the viewport, and
+ * never takes it away, so a card that has been seen keeps its motion for the
+ * rest of the visit exactly as before. The only thing that changed is that a
+ * card nobody has scrolled to yet holds still. */
+.reveal.is-visible .a-float     { animation: art-float 3.6s ease-in-out infinite; }
+.reveal.is-visible .a-float-far { animation: art-float-far 5s ease-in-out infinite; }
+.reveal.is-visible .a-pulse     { animation: art-pulse 2.6s ease-in-out infinite; }
+.reveal.is-visible .a-beat      { animation: art-beat 2.2s ease-in-out infinite; }
+.reveal.is-visible .a-twinkle   { animation: art-twinkle 2.8s ease-in-out infinite; }
+.reveal.is-visible .a-rock      { animation: art-rock 5.5s ease-in-out infinite; }
+.reveal.is-visible .a-spin      { animation: art-spin 18s linear infinite; }
+.reveal.is-visible .a-rise      { animation: art-rise 3.2s ease-in-out infinite; }
+.reveal.is-visible .a-fill      { animation: art-fill 5s ease-in-out infinite alternate; }
+.reveal.is-visible .a-scrub     { animation: art-scrub 5s ease-in-out infinite alternate; }
+.reveal.is-visible .a-ripple    { animation: art-ripple 2.6s ease-out infinite; }
+.reveal.is-visible .a-sheen     { animation: art-sheen 3s ease-in-out infinite; }
+.reveal.is-visible .a-clap      { animation: art-clap 3.4s ease-in-out infinite; }
 
-/* ---------- Brand utilities ---------- */
+/* Stagger, so a row of bars or swatches moves as a wave rather than in step.
+   Scoped to match the rules above: the `animation` shorthand there resets
+   animation-delay, so an unscoped .ad-* would now lose to it. */
+.reveal.is-visible .ad-1 { animation-delay: 0.18s; }
+.reveal.is-visible .ad-2 { animation-delay: 0.36s; }
+.reveal.is-visible .ad-3 { animation-delay: 0.54s; }
+.reveal.is-visible .ad-4 { animation-delay: 0.72s; }
+.reveal.is-visible .ad-5 { animation-delay: 0.9s; }
+
+/* ---------- Brand utilities ----------
+   The gradient headlines do not shimmer.
+
+   They used to: `background-size: 200%` with the position drifting on an
+   eight-second loop. The gradient is painted through `background-clip: text`,
+   which means moving it repaints every glyph, on the main thread, on every
+   frame, for as long as the page is open — and it is applied to the largest
+   text on the site, including the h1 the hero is measured on. Chrome will not
+   settle a largest-contentful-paint on an element it is still repainting, so
+   the effect was costing about two seconds of LCP on a mid-range phone, and a
+   share of every frame after that, to move a gradient a few pixels.
+
+   The gradient itself is the design; the drift was decoration on decoration.
+   The gradient stays. */
+
 /* On light surfaces. */
 .text-gradient {
   background: linear-gradient(100deg, #2563eb 0%, #6d28d9 52%, #8b5cf6 100%);
-  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shimmer 8s ease-in-out infinite;
 }
 
-/* On the dark mesh. The light variant keeps the headline legible  
+/* On the dark mesh. The light variant keeps the headline legible
    the light-surface gradient is blue-on-blue against this background. */
 .text-gradient-light {
   background: linear-gradient(100deg, #bfdbfe 0%, #ddd6fe 45%, #fdba74 100%);
-  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shimmer 8s ease-in-out infinite;
 }
 
 /* Deep navy → blue → violet. Reads as established and capable, with a
@@ -704,11 +748,16 @@
 .reveal.is-visible .la-slide    { animation: la-slide 0.55s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .reveal.is-visible .la-wipe     { animation: la-wipe 0.9s cubic-bezier(0.65, 0, 0.35, 1) both; }
 
-/* The ambient loops run on their own, they are what keeps a finished mark
-   from looking like a still. */
-.la-orbit { animation: la-spin 7s linear infinite; }
-.la-ring  { animation: la-ring 3.2s ease-out infinite; opacity: 0; }
-.la-trace { animation: la-trace 4.5s ease-in-out infinite; }
+/* The ambient loops are what keeps a finished mark from looking like a still.
+   They wait for the tile the same way the builds above them do — these are SVG
+   transforms and stroke offsets, none of which the compositor can take, so a
+   reel of tiles animating below the fold is main-thread work spent on shapes
+   nobody is looking at yet. */
+.la-ring  { opacity: 0; }
+
+.reveal.is-visible .la-orbit { animation: la-spin 7s linear infinite; }
+.reveal.is-visible .la-ring  { animation: la-ring 3.2s ease-out infinite; }
+.reveal.is-visible .la-trace { animation: la-trace 4.5s ease-in-out infinite; }
 
 /* ---------- The copyright certificate ----------
    Every other page here sells design, so every other page is painted in the
@@ -744,14 +793,14 @@
     repeating-conic-gradient(from 0deg at 50% 50%, rgba(202, 160, 68, 0.3) 0deg 1.5deg, transparent 1.5deg 5deg);
 }
 
-/* Foil. One gradient, used as ink, as a rule and as a border. */
+/* Foil. One gradient, used as ink, as a rule and as a border. Static, for the
+   same reason the headline gradients above are: a moving `background-clip:
+   text` gradient repaints its glyphs on every frame of the page's life. */
 .cert-foil {
   background: linear-gradient(100deg, #7d5a15 0%, #caa044 20%, #f7e8b4 46%, #c79a3c 68%, #8a641a 100%);
-  background-size: 220% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: shimmer 9s ease-in-out infinite;
 }
 
 .cert-foil-rule {
