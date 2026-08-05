@@ -17,6 +17,7 @@ import About from '../components/About'
 import PricingSection from '../components/PricingSection'
 import Reveal from '../components/Reveal'
 import Guarantees from '../components/Guarantees'
+import VideoReviews from '../components/VideoReviews'
 import Testimonials from '../components/Testimonials'
 import CTA from '../components/CTA'
 import FAQ from '../components/FAQ'
@@ -29,6 +30,7 @@ import { catalogServices } from '../lib/catalog'
 import { industryPages } from '../lib/industries'
 import { locationPages } from '../lib/locations'
 import { guides } from '../lib/guides'
+import { videoReviewSchema } from '../lib/videoReviews'
 import { ORG_ID, SITE_ID, faqSchema, itemListSchema } from '../lib/seo'
 
 const description =
@@ -61,6 +63,7 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
           itemOffered: { '@type': 'Service', name: s.name, url: `${site.url}${s.href}` },
         })),
       },
+      ...videoReviewSchema(site.url),
       itemListSchema({ path: '/', name: 'Design services', items: popular }),
       faqSchema(faqs, '/'),
     ],
@@ -109,6 +112,7 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
         </div>
       </section>
 
+      <VideoReviews />
       <Testimonials />
 
       {/* The home page is the strongest page on the site, so the three hubs
