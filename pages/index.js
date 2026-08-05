@@ -78,6 +78,7 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
       <Marquee />
       <Stats />
       <Services />
+      <VideoReviews />
       <BriefCTA />
 
       <VideoServices />
@@ -112,7 +113,6 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
         </div>
       </section>
 
-      <VideoReviews />
       <Testimonials />
 
       {/* The home page is the strongest page on the site, so the three hubs
