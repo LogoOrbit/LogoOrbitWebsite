@@ -82,7 +82,7 @@ export default function Layout({
           email: site.email,
           contactType: 'customer service',
           availableLanguage: ['English', 'Urdu'],
-          areaServed: ['US', 'CA', 'GB', 'AU', 'AE', 'PK', 'SA', 'IE', 'NZ', 'SG'],
+          areaServed: ['US', 'CA', 'GB', 'AU', 'AE', 'SA', 'IE', 'NZ', 'SG'],
         },
         {
           '@type': 'ContactPoint',
