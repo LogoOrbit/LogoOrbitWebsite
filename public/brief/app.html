@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-<script>try{document.documentElement.dataset.theme=localStorage.getItem('lo-theme')||'light'}catch(e){}</script>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('lo-theme')||'dark'}catch(e){}</script>
 <style>
 /* ─────────── THEME TOKENS ─────────── */
 :root{
@@ -233,8 +233,8 @@ input[type=color]{width:40px;height:36px;border-radius:10px;border:1.5px solid v
   <div class="tbtns">
     <a class="pagelink" href="website.html">Website brief ↗</a>
     <div class="tswitch" id="tsw" title="Toggle theme">
-      <span id="t-light" class="on">☀️</span>
-      <span id="t-dark">🌙</span>
+      <span id="t-light">☀️</span>
+      <span id="t-dark" class="on">🌙</span>
     </div>
   </div>
 </div>
@@ -807,7 +807,7 @@ function setTheme(t){
   document.getElementById('t-light').classList.toggle('on',t==='light');
   document.getElementById('t-dark').classList.toggle('on',t==='dark');
 }
-setTheme((()=>{try{return localStorage.getItem('lo-theme')}catch(e){return null}})()||'light');
+setTheme((()=>{try{return localStorage.getItem('lo-theme')}catch(e){return null}})()||'dark');
 document.getElementById('tsw').addEventListener('click',()=>setTheme(html.dataset.theme==='light'?'dark':'light'));
 /* keyboard access for tap targets, including the plain-English "?" helpers */
 document.querySelectorAll('.chip,.ic-btn,.pal,.cp,.ao,.tswitch,.ibtn').forEach(el=>{
