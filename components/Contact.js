@@ -5,6 +5,8 @@ import { Icons } from './Icons'
 import SalesAvatar from './SalesAvatar'
 import Link from 'next/link'
 import { site, services, salesTeam, legalCounsel, whatsapp, whatsappLink } from '../lib/site'
+import { crispWebsiteId } from '../lib/livechat'
+import { openLiveChat } from './LiveChat'
 
 const empty = { name: '', email: '', phone: '', service: '', message: '', consent: false, website: '' }
 
@@ -123,6 +125,26 @@ export default function Contact({ showIntro = true }) {
                 </span>
               </span>
             </a>
+
+            {/* Only rendered when live chat is switched on, so this list never
+                offers a channel that is not actually being watched. */}
+            {crispWebsiteId() && (
+              <button
+                type="button"
+                onClick={() => openLiveChat()}
+                className="group flex w-full items-center gap-4 rounded-2xl border border-brand-200 bg-brand-50/60 p-4 text-left transition-all hover:border-brand-500 hover:shadow-lg"
+              >
+                <span className="grid place-items-center w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 text-white">
+                  <Icons.chat className="w-5.5 h-5.5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm text-ink-500">Live chat, no phone number needed</span>
+                  <span className="block font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
+                    Message the team right here
+                  </span>
+                </span>
+              </button>
+            )}
 
             <a
               href={`mailto:${site.email}`}

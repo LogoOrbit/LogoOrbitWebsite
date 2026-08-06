@@ -66,6 +66,38 @@ CONTACT_FROM_EMAIL=LogoOrbit Website <website@logoorbit.net>
 The sending domain must be verified in Resend. Without `RESEND_API_KEY`, the endpoint
 returns a clear service-unavailable response instead of silently losing a lead.
 
+## Live chat
+
+`components/LiveChat.js` is the floating chat launcher, stacked above the WhatsApp
+button. It runs on [Crisp](https://crisp.chat) (free plan) and lands in one shared
+inbox that whoever is free on the sales or support desk answers.
+
+```
+NEXT_PUBLIC_CRISP_WEBSITE_ID=00000000-0000-0000-0000-000000000000
+```
+
+Find the ID in Crisp under **Settings → Website Settings → Setup instructions**; it is
+the UUID in the snippet they give you. It is public by design — it names the inbox and
+grants nothing — which is why it carries the `NEXT_PUBLIC_` prefix.
+
+With the variable unset, no launcher renders and no vendor script loads, so the site is
+unchanged until an inbox actually exists to answer.
+
+Two things worth keeping in mind when editing it:
+
+- The Crisp client is **not** loaded on page load. It weighs a few hundred KB and would
+  land on every page to serve the few visits that open a chat, so it is fetched on the
+  click instead. The exception is a visitor with an existing conversation, detected via
+  the `lo-chat-started` flag in `localStorage`: for them it loads quietly once the page
+  is idle, so an agent's reply can raise the unread badge on its own.
+- Crisp's own launcher stays hidden throughout (`chat:hide`). The corner belongs to the
+  WhatsApp button, and Crisp's launcher cannot be moved out of it, so the chatbox is
+  driven by API and the visible control is ours. `openLiveChat()` is exported for any
+  other "chat to us instead" entry point — the contact page uses it.
+
+Free-plan limits worth knowing: **two agent seats**, one inbox, no chat history export.
+Adding a third person who answers chats means paying, or rotating the two seats.
+
 ## Accessibility & performance notes
 
 - Respects `prefers-reduced-motion`, all animation is disabled for those users.

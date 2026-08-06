@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Icons } from './Icons'
 import { whatsapp, whatsappLink } from '../lib/site'
+import { crispWebsiteId } from '../lib/livechat'
 
 /**
  * The quick-question button, bottom right on every page.
@@ -27,6 +28,16 @@ export default function WhatsAppButton() {
       return
     }
     if (typeof window !== 'undefined' && window.sessionStorage.getItem('wa-prompt') === 'seen') {
+      setDismissed(true)
+      return
+    }
+    /* With live chat on, this card stays shut. It grows upward out of the
+       button and is tall enough to reach the live chat launcher stacked above
+       it, so the two draw on top of each other — and even if they did not, one
+       corner popping two invitations at a reader within seconds of each other
+       reads as nagging. The button, its ring and the hover label all stay; only
+       the card that opens on its own stands down. */
+    if (crispWebsiteId()) {
       setDismissed(true)
       return
     }
