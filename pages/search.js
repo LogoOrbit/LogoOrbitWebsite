@@ -8,6 +8,29 @@ import { Icons } from '../components/Icons'
 import { loadSearchIndex, rankResults } from '../lib/search'
 import { breadcrumb } from '../lib/seo'
 
+// How many hits land on a single page of results, Google-style, so a broad
+// query doesn't dump hundreds of rows into one endless scroll.
+const PAGE_SIZE = 10
+
+/**
+ * Windowed page list with ellipses, the way Google's own results footer
+ * does it: first page, last page, and a run around the current one, so the
+ * bar stays a fixed width instead of growing with the result count.
+ */
+function pageNumbers(current, total) {
+  const set = new Set([1, total, current, current - 1, current + 1])
+  const nums = [...set].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b)
+
+  const out = []
+  let prev = 0
+  for (const n of nums) {
+    if (prev && n - prev > 1) out.push('…')
+    out.push(n)
+    prev = n
+  }
+  return out
+}
+
 /**
  * Search as a real page, not only as the palette in the header.
  *
@@ -21,6 +44,7 @@ export default function SearchPage() {
   const router = useRouter()
   const [query, setQuery] = useState('')
   const [index, setIndex] = useState(null)
+  const [page, setPage] = useState(1)
   const inputRef = useRef(null)
   const syncedFromUrl = useRef(false)
 
@@ -35,16 +59,19 @@ export default function SearchPage() {
     syncedFromUrl.current = true
     const initial = typeof router.query.q === 'string' ? router.query.q : ''
     setQuery(initial)
+    const initialPage = Math.max(1, parseInt(router.query.page, 10) || 1)
+    setPage(initialPage)
     if (!initial) inputRef.current?.focus()
-  }, [router.isReady, router.query.q])
+  }, [router.isReady, router.query.q, router.query.page])
 
   // Keep the URL in step with the box, shallowly and replacing rather than
   // pushing, so the back button leaves the page instead of walking back
-  // through every keystroke.
+  // through every keystroke. Every fresh query starts back at page 1.
   useEffect(() => {
     if (!syncedFromUrl.current) return
     const current = typeof router.query.q === 'string' ? router.query.q : ''
     if (current === query) return
+    setPage(1)
     const id = window.setTimeout(() => {
       router.replace(query ? { pathname: '/search', query: { q: query } } : { pathname: '/search' }, undefined, {
         shallow: true,
@@ -53,21 +80,48 @@ export default function SearchPage() {
     return () => window.clearTimeout(id)
   }, [query, router])
 
+  // Page changes are deliberate clicks, not keystrokes, so they land in the
+  // URL immediately rather than waiting out the typing debounce above.
+  useEffect(() => {
+    if (!syncedFromUrl.current) return
+    const currentPage = Math.max(1, parseInt(router.query.page, 10) || 1)
+    if (currentPage === page) return
+    router.replace(
+      { pathname: '/search', query: { ...(query ? { q: query } : {}), ...(page > 1 ? { page } : {}) } },
+      undefined,
+      { shallow: true }
+    )
+  }, [page]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const results = useMemo(() => {
     if (!index || !query.trim()) return []
-    return rankResults(index, query, 60)
+    return rankResults(index, query)
   }, [index, query])
+
+  const trimmed = query.trim()
+
+  const totalPages = Math.max(1, Math.ceil(results.length / PAGE_SIZE))
+  const safePage = Math.min(page, totalPages)
+  const pageResults = useMemo(
+    () => results.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [results, safePage]
+  )
 
   const grouped = useMemo(() => {
     const map = new Map()
-    for (const r of results) {
+    for (const r of pageResults) {
       if (!map.has(r.category)) map.set(r.category, [])
       map.get(r.category).push(r)
     }
     return [...map.entries()]
-  }, [results])
+  }, [pageResults])
 
-  const trimmed = query.trim()
+  const goToPage = (n) => {
+    const clamped = Math.min(Math.max(1, n), totalPages)
+    if (clamped === page) return
+    setPage(clamped)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return (
     <Layout
@@ -106,6 +160,7 @@ export default function SearchPage() {
               type="button"
               onClick={() => {
                 setQuery('')
+                setPage(1)
                 inputRef.current?.focus()
               }}
               aria-label="Clear search"
@@ -124,7 +179,9 @@ export default function SearchPage() {
             {trimmed && index === null && 'Loading…'}
             {trimmed && index !== null && (
               results.length
-                ? `${results.length}${results.length === 60 ? '+' : ''} result${results.length === 1 ? '' : 's'} for “${trimmed}”.`
+                ? `${results.length} result${results.length === 1 ? '' : 's'} for “${trimmed}”${
+                    totalPages > 1 ? ` — page ${safePage} of ${totalPages}` : ''
+                  }.`
                 : `No results for “${trimmed}”.`
             )}
           </p>
@@ -151,7 +208,7 @@ export default function SearchPage() {
             {grouped.map(([category, items]) => (
               <section key={category}>
                 <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-500">
-                  {category} <span className="text-ink-300">({items.length})</span>
+                  {category}
                 </h2>
                 <div className="mt-3 divide-y divide-slate-100 rounded-2xl border border-slate-100">
                   {items.map((r) => (
@@ -173,6 +230,50 @@ export default function SearchPage() {
               </section>
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <nav aria-label="Search results pages" className="mt-10 flex items-center justify-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => goToPage(safePage - 1)}
+                disabled={safePage === 1}
+                className="rounded-full px-3 py-2 text-sm font-medium text-ink-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
+              >
+                Previous
+              </button>
+
+              {pageNumbers(safePage, totalPages).map((n, i) =>
+                n === '…' ? (
+                  <span key={`ellipsis-${i}`} className="px-2 text-sm text-ink-400">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => goToPage(n)}
+                    aria-current={n === safePage ? 'page' : undefined}
+                    className={`h-9 w-9 shrink-0 rounded-full text-sm font-medium transition-colors ${
+                      n === safePage
+                        ? 'bg-brand-600 text-white'
+                        : 'text-ink-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    {n}
+                  </button>
+                )
+              )}
+
+              <button
+                type="button"
+                onClick={() => goToPage(safePage + 1)}
+                disabled={safePage === totalPages}
+                className="rounded-full px-3 py-2 text-sm font-medium text-ink-600 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
+              >
+                Next
+              </button>
+            </nav>
+          )}
         </div>
       </section>
 
