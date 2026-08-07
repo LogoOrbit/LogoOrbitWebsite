@@ -31,7 +31,7 @@ import { industryPages } from '../lib/industries'
 import { locationPages } from '../lib/locations'
 import { guides } from '../lib/guides'
 import { videoReviewSchema } from '../lib/videoReviews'
-import { ORG_ID, SITE_ID, faqSchema, itemListSchema } from '../lib/seo'
+import { ORG_ID, SITE_ID, faqSchema, itemListSchema, imageObject } from '../lib/seo'
 
 const description =
   'Custom logo concepts within 24 hours. Original logo design, brand identity, websites, UI/UX, animation, apps and print from LogoOrbit, with written rights terms.'
@@ -50,7 +50,7 @@ export default function Home({ hubs, popular, sectors, cities, reads }) {
         description,
         isPartOf: { '@id': SITE_ID },
         about: { '@id': ORG_ID },
-        primaryImageOfPage: { '@type': 'ImageObject', url: `${site.url}/og-image.png` },
+        primaryImageOfPage: { '@id': `${site.url}/#primaryimage` },
       },
       {
         '@type': 'OfferCatalog',

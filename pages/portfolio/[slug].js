@@ -11,7 +11,7 @@ import { caseStudies, caseStudyBySlug, relatedMarks } from '../../lib/casestudie
 import { industryBySlug } from '../../lib/industries'
 import { serviceBySlug } from '../../lib/catalog'
 import { site } from '../../lib/site'
-import { absolute, breadcrumb, ORG_ID } from '../../lib/seo'
+import { absolute, breadcrumb, imageObject, ORG_ID } from '../../lib/seo'
 
 /** Portfolio categories mapped onto the industry pages that cover them. */
 const industryForCategory = {
@@ -58,17 +58,13 @@ export default function CaseStudyPage({ study, related, services, industry, neig
         creator: { '@id': ORG_ID },
         genre: `${study.category} logo design`,
         inLanguage: 'en',
-        image: {
-          '@type': 'ImageObject',
-          contentUrl: imageUrl,
+        image: imageObject({
           url: imageUrl,
+          name: `${study.title} logo design`,
           caption: `${study.title} logo designed by ${site.name}`,
-          creditText: site.name,
-          creator: { '@id': ORG_ID },
           width: 520,
           height: 520,
-          encodingFormat: 'image/webp',
-        },
+        }),
         isPartOf: { '@id': `${site.url}/portfolio#gallery` },
       },
       breadcrumb([

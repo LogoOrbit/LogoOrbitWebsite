@@ -5,7 +5,7 @@ import FloatingCall from './FloatingCall'
 import WhatsAppButton from './WhatsAppButton'
 import MobileCTABar from './MobileCTABar'
 import { site, parentEntity, billingEntity } from '../lib/site'
-import { ORG_ID, SITE_ID, aggregateRating, worldAreaServed } from '../lib/seo'
+import { ORG_ID, SITE_ID, aggregateRating, worldAreaServed, imageObject } from '../lib/seo'
 
 /**
  * Every page passes through here, so this is where the shared head lives:
@@ -44,8 +44,22 @@ export default function Layout({
       name: site.name,
       alternateName: 'Logo Orbit',
       url: site.url,
-      logo: { '@type': 'ImageObject', url: `${site.url}/logo.png`, width: 512, height: 512 },
-      image: `${site.url}/og-image.png`,
+      logo: imageObject({
+        id: `${site.url}/#logo`,
+        url: `${site.url}/logo.png`,
+        name: `${site.name} logo`,
+        width: 512,
+        height: 512,
+        encodingFormat: 'image/png',
+      }),
+      image: imageObject({
+        id: `${site.url}/#primaryimage`,
+        url: `${site.url}/og-image.png`,
+        name: `${site.name} custom design services`,
+        width: 1200,
+        height: 630,
+        encodingFormat: 'image/png',
+      }),
       description:
         'LogoOrbit is a custom design studio providing logo design, brand identity, website design, UI/UX, animation, mobile apps, packaging, print and marketing creative worldwide.',
       email: site.email,

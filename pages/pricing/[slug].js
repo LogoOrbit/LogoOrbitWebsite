@@ -11,31 +11,23 @@ import { Icons } from '../../components/Icons'
 import { packages, packageBySlug } from '../../lib/packages'
 import { money, salesTax } from '../../lib/money'
 import { site, whatsappLink } from '../../lib/site'
-import { absolute, breadcrumb, faqSchema, ORG_ID } from '../../lib/seo'
+import { breadcrumb, faqSchema, productSchema, printedShipping } from '../../lib/seo'
 
 export default function PackagePage({ pkg, siblings }) {
   const path = `/pricing/${pkg.slug}`
 
   const jsonLd = {
     '@graph': [
-      {
-        '@type': 'Product',
-        '@id': `${absolute(path)}#product`,
+      productSchema({
+        path,
         name: `${pkg.name} ${pkg.sectionTitle}`,
         description: pkg.metaDescription,
-        url: absolute(path),
-        brand: { '@id': ORG_ID },
+        price: pkg.price,
         category: pkg.familyLabel,
-        offers: {
-          '@type': 'Offer',
-          price: String(pkg.price),
-          priceCurrency: 'USD',
-          availability: 'https://schema.org/InStock',
-          url: absolute(path),
-          priceValidUntil: `${new Date().getFullYear() + 1}-12-31`,
-          seller: { '@id': ORG_ID },
-        },
-      },
+        // The tiers that include printed cards go through a printer and a
+        // courier, so they cannot claim the same-day delivery a file can.
+        shipping: pkg.shipsPrint ? printedShipping : undefined,
+      }),
       breadcrumb([
         { name: 'Pricing', href: '/pricing' },
         { name: `${pkg.name} ${pkg.sectionTitle}`, href: path },

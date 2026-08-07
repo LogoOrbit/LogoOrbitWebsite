@@ -7,7 +7,7 @@ import CTA from '../../components/CTA'
 import { Icons } from '../../components/Icons'
 import { faqItems, faqBySlug } from '../../lib/faqs'
 import { site, whatsappLink } from '../../lib/site'
-import { absolute, breadcrumb, ORG_ID } from '../../lib/seo'
+import { breadcrumb, qaSchema } from '../../lib/seo'
 
 export default function FaqPage({ item, siblings, otherGroups }) {
   const path = `/faqs/${item.slug}`
@@ -15,24 +15,7 @@ export default function FaqPage({ item, siblings, otherGroups }) {
 
   const jsonLd = {
     '@graph': [
-      {
-        '@type': 'QAPage',
-        '@id': `${absolute(path)}#qa`,
-        url: absolute(path),
-        mainEntity: {
-          '@type': 'Question',
-          '@id': `${absolute(path)}#question`,
-          name: item.q,
-          text: item.q,
-          answerCount: 1,
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: [item.a, ...item.more].join(' '),
-            url: absolute(path),
-            author: { '@id': ORG_ID },
-          },
-        },
-      },
+      qaSchema({ path, question: item.q, answer: [item.a, ...item.more].join(' ') }),
       breadcrumb([
         { name: 'FAQs', href: '/faqs' },
         { name: item.group.title, href: `/faqs#${item.group.id}` },

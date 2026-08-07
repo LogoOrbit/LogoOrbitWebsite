@@ -16,7 +16,7 @@ import {
   packageFaqs,
   claimSteps,
 } from '../../lib/offers'
-import { ORG_ID, absolute, breadcrumb, faqSchema } from '../../lib/seo'
+import { breadcrumb, faqSchema, productSchema } from '../../lib/seo'
 
 const { name, price, href, tagline, summary, groups } = informativeWebsite
 
@@ -379,22 +379,14 @@ export default function InformativeWebsiteOffer() {
         { name: 'Offers', href: offer.href },
         { name, href },
       ]),
-      {
-        '@type': 'Product',
-        '@id': `${absolute(href)}#product`,
+      productSchema({
+        path: href,
         name: `${name} package`,
         description,
-        brand: { '@id': ORG_ID },
-        offers: {
-          '@type': 'Offer',
-          price,
-          priceCurrency: 'USD',
-          priceValidUntil: offer.endsOn.slice(0, 10),
-          availability: 'https://schema.org/LimitedAvailability',
-          url: absolute(href),
-          seller: { '@id': ORG_ID },
-        },
-      },
+        price,
+        availability: 'https://schema.org/LimitedAvailability',
+        priceValidUntil: offer.endsOn.slice(0, 10),
+      }),
       faqSchema(packageFaqs, href),
     ],
   }

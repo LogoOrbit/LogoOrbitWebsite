@@ -9,6 +9,7 @@ import { Icons } from '../components/Icons'
 import { site } from '../lib/site'
 import { copyrightCertificate } from '../lib/pricing'
 import { salesTax } from '../lib/money'
+import { productSchema } from '../lib/seo'
 
 const samplePdf = '/documents/logoorbit-sample-copyright-assignment-certificate.pdf'
 
@@ -375,21 +376,16 @@ export default function CopyrightCertificatePage() {
       path="/copyright-certificate"
       jsonLd={{
         '@graph': [
-          {
-            '@type': 'Product',
+          productSchema({
+            path: '/copyright-certificate',
             name: 'LogoOrbit Copyright Assignment & Commercial Use Certificate',
             description:
               'A project-specific written copyright assignment transferring LogoOrbit’s copyright in an approved final logo to the client, with authorisation for public commercial use.',
-            brand: { '@type': 'Brand', name: 'LogoOrbit' },
+            /* Read from the data rather than typed in, so the price in the
+               rich result cannot drift from the price on the page. */
+            price: copyrightCertificate.price,
             category: 'Legal document preparation',
-            offers: {
-              '@type': 'Offer',
-              price: '499',
-              priceCurrency: 'USD',
-              availability: 'https://schema.org/InStock',
-              url: `${site.url}/copyright-certificate`,
-            },
-          },
+          }),
           {
             '@type': 'FAQPage',
             mainEntity: faqs.map((item) => ({

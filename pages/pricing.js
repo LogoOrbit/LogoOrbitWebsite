@@ -14,7 +14,7 @@ import { flagship } from '../lib/pricing'
 import { money } from '../lib/money'
 import { site, services } from '../lib/site'
 import { catalogServices, groupTone } from '../lib/catalog'
-import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
+import { ORG_ID, absolute, breadcrumb, faqSchema, offerNode } from '../lib/seo'
 
 const promises = [
   { icon: Icons.check, label: 'One fixed price', sub: 'quoted up front' },
@@ -274,15 +274,12 @@ export default function Pricing({ priced }) {
         url: absolute('/pricing'),
         provider: { '@id': ORG_ID },
         itemListElement: [
-          {
-            '@type': 'Offer',
+          offerNode({
             name: flagship.name,
-            price: String(flagship.price),
-            priceCurrency: 'USD',
-            availability: 'https://schema.org/InStock',
+            price: flagship.price,
             url: `${absolute('/pricing')}#complete-brand`,
             description: flagship.tagline,
-          },
+          }),
           ...services.map((s) => ({
             '@type': 'Offer',
             itemOffered: { '@type': 'Service', name: s.name, url: absolute(s.href) },

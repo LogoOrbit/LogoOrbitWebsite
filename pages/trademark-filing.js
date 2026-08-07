@@ -9,6 +9,7 @@ import { site } from '../lib/site'
 import { useCart } from '../lib/cart'
 import { brandProtection } from '../lib/pricing'
 import { salesTax } from '../lib/money'
+import { offerNode } from '../lib/seo'
 
 const SERVICE = brandProtection.price
 const PER_CLASS = brandProtection.classPrice
@@ -471,20 +472,16 @@ export default function TrademarkFilingPage() {
             provider: { '@type': 'Organization', name: 'LogoOrbit' },
             areaServed: { '@type': 'Country', name: 'United States' },
             offers: [
-              {
-                '@type': 'Offer',
+              offerNode({
                 name: 'Trademark filing service',
-                price: String(SERVICE),
-                priceCurrency: 'USD',
+                price: SERVICE,
                 url: `${site.url}/trademark-filing`,
-              },
-              {
-                '@type': 'Offer',
+              }),
+              offerNode({
                 name: 'Classification, per class',
-                price: String(PER_CLASS),
-                priceCurrency: 'USD',
+                price: PER_CLASS,
                 url: `${site.url}/trademark-filing`,
-              },
+              }),
             ],
           },
           {

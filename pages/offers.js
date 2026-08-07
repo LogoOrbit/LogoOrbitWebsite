@@ -19,7 +19,7 @@ import {
   informativeFeatures,
   informativeCartItem,
 } from '../lib/offers'
-import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
+import { ORG_ID, absolute, breadcrumb, faqSchema, offerNode } from '../lib/seo'
 
 const description =
   'Existing customer offer: 70% off every LogoOrbit service. Our $1,000 website is $299, and the same discount applies to logos, branding, animation and apps.'
@@ -552,15 +552,15 @@ export default function Offers() {
     '@graph': [
       breadcrumb([{ name: 'Offers', href: '/offers' }]),
       {
-        '@type': 'Offer',
+        ...offerNode({
+          name: `${offer.discount}% off all services for existing customers`,
+          description,
+          price: headline.now,
+          url: absolute('/offers'),
+          priceValidUntil: offer.endsOn.slice(0, 10),
+          availability: 'https://schema.org/LimitedAvailability',
+        }),
         '@id': absolute('/offers') + '#offer',
-        name: `${offer.discount}% off all services for existing customers`,
-        description,
-        url: absolute('/offers'),
-        price: headline.now,
-        priceCurrency: 'USD',
-        priceValidUntil: offer.endsOn.slice(0, 10),
-        availability: 'https://schema.org/LimitedAvailability',
         eligibleCustomerType: 'https://schema.org/ReturningCustomer',
         offeredBy: { '@id': ORG_ID },
       },

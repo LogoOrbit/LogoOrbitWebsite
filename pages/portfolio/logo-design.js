@@ -6,7 +6,7 @@ import Testimonials from '../../components/Testimonials'
 import CTA from '../../components/CTA'
 import { site } from '../../lib/site'
 import { portfolioLogos } from '../../lib/portfolio'
-import { breadcrumb, collectionPageSchema, ORG_ID } from '../../lib/seo'
+import { breadcrumb, collectionPageSchema, imageObject, ORG_ID } from '../../lib/seo'
 
 const description =
   'Original logo marks drawn in-house by LogoOrbit across technology, healthcare, real estate, construction, finance and fitness. No templates, nothing resold.'
@@ -22,17 +22,15 @@ export default function LogoPortfolioPage({ sampleWork }) {
         description: `${portfolioLogos.length} original logo marks designed for real businesses.`,
         url: `${site.url}/portfolio/logo-design`,
         author: { '@id': ORG_ID },
-        associatedMedia: sampleWork.map((item) => ({
-          '@type': 'ImageObject',
-          contentUrl: `${site.url}/portfolio/${item.slug}.webp`,
-          name: item.name || `${item.category} logo concept`,
-          caption: item.name ? `${item.name} logo design` : `${item.category} logo concept`,
-          creditText: site.name,
-          creator: { '@id': ORG_ID },
-          width: 520,
-          height: 520,
-          encodingFormat: 'image/webp',
-        })),
+        associatedMedia: sampleWork.map((item) =>
+          imageObject({
+            url: `${site.url}/portfolio/${item.slug}.webp`,
+            name: item.name || `${item.category} logo concept`,
+            caption: item.name ? `${item.name} logo design` : `${item.category} logo concept`,
+            width: 520,
+            height: 520,
+          })
+        ),
       },
       breadcrumb([
         { name: 'Portfolio', href: '/portfolio' },
