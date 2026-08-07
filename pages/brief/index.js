@@ -56,8 +56,8 @@ const briefs = [
     href: '/brief/trademark',
     icon: Icons.scales,
     title: 'USPTO trademark brief',
-    body: 'The mark, what you sell under it and who legally owns it. Enough for the legal desk to run the search and price the filing.',
-    meta: 'One page, about 3 minutes',
+    body: 'The mark, what you sell under it, who legally owns it and your dates of first use. What counsel needs before a filing can be prepared.',
+    meta: 'One page, about 5 minutes',
     external: false,
   },
 ]

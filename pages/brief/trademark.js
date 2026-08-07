@@ -10,31 +10,62 @@ import { site } from '../../lib/site'
 /**
  * The USPTO trademark brief.
  *
- * A trademark application asks for a great deal, and an intake form that asks
- * for all of it is an intake form nobody finishes. So this asks only for the
- * things the legal desk cannot start without: what the mark is, what it covers,
- * who legally owns it, and whether it is already in use. Everything else the
- * office wants - colour claims, specimens, prior registrations, the declaration
- * and its signatory - is settled in the reply, by which point there is a real
- * conversation to settle it in.
+ * The line this form walks is between two failures. Ask everything the
+ * application asks and nobody finishes it. Ask only the obvious things and the
+ * legal desk cannot begin: it writes back with the same eight questions, and
+ * the client has to do the work anyway, a week later and one round trip worse
+ * off. So the test for a question here is whether counsel can prepare the
+ * filing without the answer.
  *
- * Two of these are worth the extra sentence of help underneath them. The owner
- * name is one: an application filed in the wrong owner's name is void and has
- * to be filed again, fee and all, so the note asks people to check it against
- * their own documents rather than type the trading name from memory. The
- * domicile address is the other: it must be a street address and it goes on the
- * public record, which is a surprise worth avoiding.
+ * That test keeps some questions that look like detail and are not:
+ *
+ * - The drawing and the colour claim. A design mark is filed as an image, and
+ *   whether colour is claimed is decided at filing and cannot be amended
+ *   afterwards. Black and white is usually the broader registration, so the
+ *   question is asked rather than assumed.
+ * - Where the name came from. It is how counsel judges whether the office will
+ *   call the mark descriptive, and it carries the translation of any foreign
+ *   wording, which is a mandatory statement on the application.
+ * - A person's name or likeness in the mark. Section 2(c) refuses those without
+ *   written consent, including the applicant's own, and signature and portrait
+ *   logos are common enough to be worth one radio button.
+ * - Two dates of first use, not one. First use anywhere and first use in
+ *   commerce are separate statements on the application and are frequently
+ *   months apart; the federal filing turns on the second.
+ * - The specimen. A use-based application is refused without one, so it is
+ *   better to learn on day one that the only place the mark appears is an
+ *   Instagram bio.
+ *
+ * And it drops things that look essential and are not, because they are
+ * decisions counsel makes rather than facts only the client holds: which
+ * classes to file in, what to disclaim, which basis to claim where more than
+ * one is available, and the declaration with its signatory, which is signed at
+ * filing time and not before.
+ *
+ * Two questions are worth their extra sentence of warning. An application filed
+ * in the wrong owner's name is void ab initio and has to be filed again, fee
+ * and all, so the legal name asks people to read their own documents rather
+ * than type the trading name from memory. And the domicile must be a street
+ * address and appears on the public record, which is a surprise worth avoiding.
  *
  * Nothing here asks for a social security or tax ID number. The USPTO does not
  * need either to register a mark, and an intake form that arrives by email is
  * the wrong place to hold them.
  *
  * The questions live in the array below rather than in the markup, so the same
- * list drives the form and the email the legal desk receives.
+ * list drives the form and the email the legal desk receives. Anything that
+ * only applies to some applicants carries a `when`, so a word mark filed on
+ * intent to use never shows the drawing, colour, date or specimen questions.
  */
+
+/** The owner kinds that answer for a person rather than for a filed entity. */
+const ownerIsPerson = (a) => /individual|sole proprietorship/i.test(a.ownerType || '')
+const ownerIsCompany = (a) => /LLC|corporation|partnership/i.test(a.ownerType || '')
+const hasDesign = (a) => /logo|design|together/i.test(a.markType || '')
+const isInUse = (a) => /^Yes/.test(a.basis || '')
 const questions = [
   {
-    group: 'The mark and what it covers',
+    group: 'The mark',
     fields: [
       {
         name: 'markText',
@@ -49,22 +80,74 @@ const questions = [
         label: 'What kind of mark is it?',
         type: 'radio',
         required: true,
-        options: ['Words only', 'A logo or design', 'Words and a logo together'],
-        help: 'Words only is the broader protection: it covers the name however it is written.',
+        options: ['Words only', 'A logo or design with no words', 'Words and a logo together'],
+        help: 'Words only is the broader protection: it covers the name however it is written. A design registration protects that drawing.',
       },
+      {
+        name: 'logoFile',
+        label: 'Where can we get the logo file, and who made it?',
+        type: 'textarea',
+        rows: 2,
+        required: true,
+        when: hasDesign,
+        placeholder: 'LogoOrbit designed it in March. / Drive link, our old designer made it in 2021.',
+        help: 'The application is filed with one clear image of the mark. If we designed it we will pull the file. If someone else did, we need to know the artwork is yours.',
+      },
+      {
+        name: 'colourClaim',
+        label: 'Should the colours be part of what is registered?',
+        type: 'radio',
+        required: true,
+        when: hasDesign,
+        options: [
+          'No, register it in black and white so it works in any colour',
+          'Yes, the colours are part of the brand',
+          'Not sure, advise me',
+        ],
+        help: 'This is decided at filing and cannot be changed afterwards. Black and white is usually the stronger choice, because claiming colour ties the registration to those colours.',
+      },
+      {
+        name: 'markMeaning',
+        label: 'Where does the name come from, and does it mean anything?',
+        type: 'textarea',
+        rows: 2,
+        placeholder: 'Northgate is the street our first workshop was on. It means nothing in the kitchen trade.',
+        help: 'Include any non-English wording, which has to be translated on the application. This is also how we judge whether the office will call the mark descriptive.',
+      },
+      {
+        name: 'livingPerson',
+        label: 'Does the mark contain a person’s name, signature or likeness?',
+        type: 'radio',
+        options: ['No', 'Yes', 'Not sure'],
+        help: 'Including your own. A living person’s name or portrait needs their written consent filed with the application.',
+      },
+    ],
+  },
+  {
+    group: 'What it covers',
+    fields: [
       {
         name: 'goods',
         label: 'What do you sell or offer under it?',
         type: 'textarea',
         rows: 3,
         required: true,
-        placeholder: 'Fitted kitchen installation and custom cabinet making.',
-        help: 'Be specific. This is what decides your classes, and the government fee is charged per class.',
+        placeholder: 'Fitted kitchen installation and custom cabinet making. We also sell branded worktop oil online.',
+        help: 'Be specific, and only list what you actually sell. This decides your classes, and the government fee is charged per class.',
+      },
+      {
+        name: 'channels',
+        label: 'Where do you sell it, and do you cross a state or national border?',
+        type: 'textarea',
+        rows: 2,
+        required: true,
+        placeholder: 'Our website nationwide, two showrooms in Texas, some trade customers in Oklahoma.',
+        help: 'A federal registration rests on use in commerce, which in practice means selling across a state line or abroad. If you are not trading yet, say where you plan to.',
       },
     ],
   },
   {
-    group: 'The owner and the filing',
+    group: 'Who owns it',
     fields: [
       {
         name: 'ownerType',
@@ -79,7 +162,7 @@ const questions = [
           'A sole proprietorship',
           'Something else / not sure',
         ],
-        help: 'If the business is a company, the company owns it rather than you personally.',
+        help: 'If the business is a company, the company owns the mark rather than you personally.',
       },
       {
         name: 'ownerLegalName',
@@ -90,38 +173,101 @@ const questions = [
         help: 'Word for word as it appears on the incorporation papers or your ID, not the trading name. An application filed in the wrong name cannot be corrected later, it has to be filed again.',
       },
       {
+        name: 'ownerState',
+        label: 'Which state or country is the company registered in?',
+        type: 'text',
+        required: true,
+        when: ownerIsCompany,
+        placeholder: 'Texas, United States',
+        help: 'Where it was incorporated or organised, which is not always where it trades. It goes on the record.',
+      },
+      {
+        name: 'ownerCitizenship',
+        label: 'Country of citizenship',
+        type: 'text',
+        required: true,
+        when: ownerIsPerson,
+        placeholder: 'United States',
+        help: 'The application names the citizenship of an individual owner, or of the person behind a sole proprietorship.',
+      },
+      {
         name: 'domicile',
         label: 'The owner’s address',
         type: 'textarea',
         rows: 2,
         required: true,
         placeholder: '1420 Burnet Road, Austin, TX 78756, United States',
-        help: 'A street address, not a PO box: the home of an individual or the main place of business of a company. The USPTO puts it on the public record.',
+        help: 'A street address, not a PO box: the home of an individual or the main place of business of a company. The USPTO puts it on the public record, and an owner living outside the US must be represented by a US attorney.',
       },
+    ],
+  },
+  {
+    group: 'Are you using it yet?',
+    fields: [
       {
         name: 'basis',
-        label: 'Are you using the mark yet?',
+        label: 'Are you selling under the mark already?',
         type: 'radio',
         required: true,
         options: ['Yes, we are already selling under it', 'Not yet, but we intend to'],
-        help: 'Both routes end in the same registration. Filing before you launch simply holds your place.',
+        help: 'Both routes end in the same registration. Filing before you launch simply holds your place from the day it is filed.',
       },
       {
-        name: 'firstUse',
-        label: 'Roughly when did you first sell under it?',
+        name: 'firstUseAnywhere',
+        label: 'When did you first use it publicly?',
         type: 'text',
         required: true,
-        when: (a) => /^Yes/.test(a.basis || ''),
+        when: isInUse,
         placeholder: 'March 2019',
-        help: 'A month and year is enough for now.',
+        help: 'The first time you offered the goods or services to anyone under this name. A month and year is enough for now.',
+      },
+      {
+        name: 'firstUseCommerce',
+        label: 'When did you first sell across a state or national border?',
+        type: 'text',
+        required: true,
+        when: isInUse,
+        placeholder: 'June 2019, first out-of-state order.',
+        help: 'Usually later than the date above, and it is the one the federal application turns on. If you have never sold outside your state, say so.',
+      },
+      {
+        name: 'specimen',
+        label: 'How does the mark appear to customers today?',
+        type: 'textarea',
+        rows: 2,
+        required: true,
+        when: isInUse,
+        placeholder: 'On the label of every bottle, and on our shop page at northgatekitchens.com/shop.',
+        help: 'A use-based application is refused without a specimen: packaging or labels for products, a website, advert or brochure for services. A link is fine. The logo on its own is not enough.',
+      },
+    ],
+  },
+  {
+    group: 'Anything already out there',
+    fields: [
+      {
+        name: 'priorMarks',
+        label: 'Trademarks you already own, or have tried to register',
+        type: 'textarea',
+        rows: 2,
+        placeholder: 'None. / Reg. 5,432,109 for the old logo. We filed this one in 2023 and got a refusal.',
+        help: 'US or foreign, registered, pending, refused or abandoned. A refusal last time tells us what to do differently.',
+      },
+      {
+        name: 'conflicts',
+        label: 'Anyone else using a similar name, or any letters or disputes?',
+        type: 'textarea',
+        rows: 2,
+        placeholder: 'There is a Northgate Cabinets in Ohio, different owner. No letters.',
+        help: 'Cease-and-desist letters, oppositions, a competitor with a close name. A similar existing mark is the most common reason an application is refused, so this is what the clearance search hunts for.',
       },
       {
         name: 'notes',
         label: 'Anything else we should know?',
         type: 'textarea',
         rows: 2,
-        placeholder: 'Someone else may be using a similar name. / We had a letter from a law firm last year.',
-        help: 'Optional. Existing registrations, disputes or a deadline are the useful ones.',
+        placeholder: 'We are launching in September and would like it filed before then.',
+        help: 'Optional. A deadline, a launch date, or countries you may want to protect it in later.',
       },
     ],
   },
@@ -280,14 +426,14 @@ export default function TrademarkBrief() {
   return (
     <Layout
       title="USPTO Trademark Brief"
-      description="A short trademark brief: the mark, what you sell under it, who legally owns it and whether you are using it yet. The legal desk replies within one working day with the clearance search and the total."
+      description="The trademark brief: the mark and its drawing, what you sell under it, who legally owns it, your dates of first use and anything already on the register. The legal desk replies within one working day with the clearance search and the total."
       path="/brief/trademark"
     >
       <PageHero
         eyebrow="Trademark filing"
         title="Tell us the essentials."
         highlight="We do the rest."
-        intro="One page, about three minutes. Enough for the legal desk to run the clearance search, work out your classes and give you the total. Everything else the USPTO wants, we settle with you in the reply."
+        intro="One page, about five minutes. These are the questions counsel cannot prepare a filing without. The classes, the wording and the strategy are ours to work out, and you get them back with the search result and the total."
         trail={[{ name: 'Briefs', href: '/brief' }, { name: 'Trademark' }]}
       >
         <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
