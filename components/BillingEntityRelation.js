@@ -171,6 +171,20 @@ export default function BillingEntityRelation({ tone = 'light' }) {
                   </span>
                 </div>
                 <div className="flex gap-3">
+                  <Icons.mail className="mt-0.5 w-4.5 h-4.5 shrink-0 text-brand-600" />
+                  <span>
+                    <dt className="font-semibold text-ink-900">Email</dt>
+                    <dd>
+                      <a
+                        href={`mailto:${billingEntity.officerEmail}`}
+                        className="text-brand-600 underline underline-offset-2"
+                      >
+                        {billingEntity.officerEmail}
+                      </a>
+                    </dd>
+                  </span>
+                </div>
+                <div className="flex gap-3">
                   <Icons.website className="mt-0.5 w-4.5 h-4.5 shrink-0 text-brand-600" />
                   <span>
                     <dt className="font-semibold text-ink-900">Website</dt>
@@ -191,10 +205,10 @@ export default function BillingEntityRelation({ tone = 'light' }) {
               <p className="mt-5 text-[14px] leading-relaxed text-ink-500">
                 If a charge looks unfamiliar, write to{' '}
                 <a
-                  href="mailto:legal@logoorbit.net"
+                  href={`mailto:${billingEntity.officerEmail}`}
                   className="font-semibold text-brand-600 underline underline-offset-2"
                 >
-                  legal@logoorbit.net
+                  {billingEntity.officerEmail}
                 </a>{' '}
                 before opening a bank dispute. It will be identified for you in writing, usually the same day.
               </p>

@@ -41,7 +41,8 @@ const principles = [
 
 const setup = [
   { icon: 'team', title: 'In-house, in the USA', body: 'Our designers are our own staff. Your brief is never quietly passed to a freelancer you will never speak to.' },
-  { icon: 'shield', title: 'Backed by RevoluSys Inc', body: 'LogoOrbit is a design brand of RevoluSys Inc, registered in Delaware with a client office in New York.' },
+  { icon: 'shield', title: 'Backed by NexusForgeGroup', body: 'LogoOrbit is a design brand of NexusForgeGroup, registered in Delaware with a client office in New York.' },
+  { icon: 'receipt', title: 'Billed by Phelps & Associates, LLC', body: 'Invoices are issued by Phelps & Associates, LLC in Lindale, Texas, directed by our Director and Chief Financial Officer, Professor James Phelps.' },
   { icon: 'layers', title: 'Six disciplines, one invoice', body: 'Logos, websites, animation and video, mobile apps, publishing and Amazon, coordinated by one point of contact.' },
   { icon: 'clock', title: 'Built for speed', body: 'Concepts inside 24 hours is the standard, not the exception, and it comes from process rather than from cutting corners.' },
 ]
@@ -100,7 +101,7 @@ export default function MissionVision() {
         <Reveal delay={120} className="mt-10">
           <div className="rounded-3xl border border-slate-200 bg-white p-7 sm:p-9">
             <h3 className="text-sm font-bold uppercase tracking-[0.16em] text-ink-500">How we are set up</h3>
-            <div className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
               {setup.map((s) => {
                 const Icon = Icons[s.icon]
                 return (

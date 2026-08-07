@@ -4,7 +4,7 @@ import Footer from './Footer'
 import FloatingCall from './FloatingCall'
 import WhatsAppButton from './WhatsAppButton'
 import MobileCTABar from './MobileCTABar'
-import { site } from '../lib/site'
+import { site, parentEntity, billingEntity } from '../lib/site'
 import { ORG_ID, SITE_ID, aggregateRating, worldAreaServed } from '../lib/seo'
 
 /**
@@ -90,6 +90,29 @@ export default function Layout({
           contactType: 'legal',
         },
       ],
+      /* The two other companies on a LogoOrbit transaction, declared rather
+         than left for a crawler to guess at from body copy: the company that
+         operates the brand, and the entity that issues the invoice. */
+      parentOrganization: {
+        '@type': 'Organization',
+        name: parentEntity.name,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: parentEntity.address,
+        },
+      },
+      subOrganization: {
+        '@type': 'Organization',
+        '@id': `${site.url}/#billing-entity`,
+        name: billingEntity.name,
+        url: billingEntity.site,
+        telephone: billingEntity.phone,
+        description: billingEntity.blurb,
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: billingEntity.address,
+        },
+      },
     },
     {
       '@type': 'WebSite',

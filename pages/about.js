@@ -11,6 +11,7 @@ import Process from '../components/Process'
 import Testimonials from '../components/Testimonials'
 import Reveal from '../components/Reveal'
 import LinkGrid from '../components/LinkGrid'
+import BillingEntityRelation from '../components/BillingEntityRelation'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
 import { site, process as processSteps } from '../lib/site'
@@ -105,6 +106,8 @@ export default function AboutPage({ sectors, cities }) {
           })}
         </div>
       </section>
+
+      <BillingEntityRelation tone="muted" />
 
       <LinkGrid
         eyebrow="Who we work with"
