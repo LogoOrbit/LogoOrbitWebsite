@@ -106,7 +106,6 @@ export default function Layout({
         '@id': `${site.url}/#billing-entity`,
         name: billingEntity.name,
         url: billingEntity.site,
-        telephone: billingEntity.phone,
         description: billingEntity.blurb,
         address: {
           '@type': 'PostalAddress',

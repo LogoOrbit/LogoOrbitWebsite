@@ -157,20 +157,6 @@ export default function BillingEntityRelation({ tone = 'light' }) {
                   </span>
                 </div>
                 <div className="flex gap-3">
-                  <Icons.phone className="mt-0.5 w-4.5 h-4.5 shrink-0 text-brand-600" />
-                  <span>
-                    <dt className="font-semibold text-ink-900">Phone</dt>
-                    <dd>
-                      <a
-                        href={`tel:${billingEntity.phone.replace(/[^+\d]/g, '')}`}
-                        className="text-brand-600 underline underline-offset-2"
-                      >
-                        {billingEntity.phone}
-                      </a>
-                    </dd>
-                  </span>
-                </div>
-                <div className="flex gap-3">
                   <Icons.mail className="mt-0.5 w-4.5 h-4.5 shrink-0 text-brand-600" />
                   <span>
                     <dt className="font-semibold text-ink-900">Email</dt>
