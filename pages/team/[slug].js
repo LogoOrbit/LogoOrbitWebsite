@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Layout from '../../components/Layout'
 import PageHero from '../../components/PageHero'
@@ -8,12 +9,16 @@ import LinkGrid from '../../components/LinkGrid'
 import CTA from '../../components/CTA'
 import { Icons } from '../../components/Icons'
 import { team, teamBySlug } from '../../lib/team'
-import { site } from '../../lib/site'
+import { site, billingEntity } from '../../lib/site'
 import { breadcrumb, faqSchema, absolute, ORG_ID } from '../../lib/seo'
 
 export default function TeamMemberPage({ person, colleagues }) {
   const path = `/team/${person.slug}`
   const Icon = Icons[person.icon] || Icons.team
+  /* "Write to Brock" reads correctly off the first word of a name; "Write to
+     Professor" does not. Anyone carrying a title supplies their own short
+     form rather than having one guessed from a space. */
+  const shortName = person.shortName || person.name.split(' ')[0]
 
   const jsonLd = {
     '@graph': [
@@ -27,7 +32,19 @@ export default function TeamMemberPage({ person, colleagues }) {
         url: absolute(path),
         worksFor: { '@id': ORG_ID },
         knowsAbout: person.responsibilities,
+        ...(person.photo ? { image: absolute(person.photo) } : {}),
+        ...(person.credentials ? { honorificSuffix: person.credentials } : {}),
         ...(person.bar ? { memberOf: { '@type': 'Organization', name: person.bar } } : {}),
+        ...(person.slug === billingEntity.officerSlug
+          ? {
+              affiliation: {
+                '@type': 'Organization',
+                name: billingEntity.name,
+                url: billingEntity.site,
+                address: billingEntity.address,
+              },
+            }
+          : {}),
       },
       {
         '@type': 'ProfilePage',
@@ -77,12 +94,27 @@ export default function TeamMemberPage({ person, colleagues }) {
             <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg shadow-ink-900/5">
               <div className="grid sm:grid-cols-[auto_minmax(0,1fr)] gap-6 p-6 sm:p-8">
                 <div className="flex sm:flex-col items-center gap-4">
-                  <span
-                    className="grid place-items-center w-20 h-20 rounded-3xl text-white text-2xl font-bold shadow-xl"
-                    style={{ backgroundColor: person.accent }}
-                  >
-                    {person.initials}
-                  </span>
+                  {person.photo ? (
+                    /* A real photograph gets the room a portrait needs. The
+                       initials tile is square by necessity; a head-shot cropped
+                       into the same square loses the person, so this one keeps
+                       a 4:5 frame and the tile stays for everybody else. */
+                    <Image
+                      src={person.photo}
+                      alt={person.photoAlt || person.name}
+                      width={144}
+                      height={180}
+                      priority
+                      className="w-28 h-36 sm:w-36 sm:h-44 shrink-0 rounded-3xl object-cover object-top shadow-xl ring-1 ring-slate-200"
+                    />
+                  ) : (
+                    <span
+                      className="grid place-items-center w-20 h-20 rounded-3xl text-white text-2xl font-bold shadow-xl"
+                      style={{ backgroundColor: person.accent }}
+                    >
+                      {person.initials}
+                    </span>
+                  )}
                   <span className="grid place-items-center w-12 h-12 rounded-2xl bg-brand-50 text-brand-600">
                     <Icon className="w-6 h-6" />
                   </span>
@@ -136,8 +168,52 @@ export default function TeamMemberPage({ person, colleagues }) {
         <div className="mx-auto max-w-3xl px-5 sm:px-6">
           <ArticleBody sections={person.sections} contents={person.sections.map((s) => s.h).filter(Boolean)} />
 
+          {/* The merchant entity, published rather than discovered. Anyone who
+              got here from an unfamiliar line on a card statement should be
+              able to confirm it in one screen and not open a chargeback. */}
+          {person.slug === billingEntity.officerSlug && (
+            <Reveal className="mt-12 rounded-3xl border border-brand-200 bg-brand-50/60 p-6 sm:p-8">
+              <span className="inline-flex items-center gap-2 rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold text-brand-700">
+                <Icons.receipt className="w-4 h-4" />
+                Billing entity
+              </span>
+              <h2 className="mt-4 text-xl font-bold text-ink-900">{billingEntity.name}</h2>
+              <p className="mt-3 text-[15px] leading-relaxed text-ink-700">{billingEntity.blurb}</p>
+
+              <dl className="mt-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl bg-white p-4">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">On your statement</dt>
+                  <dd className="mt-1.5 text-[15px] font-bold text-ink-900">{billingEntity.descriptor}</dd>
+                </div>
+                <div className="rounded-2xl bg-white p-4">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Billing address</dt>
+                  <dd className="mt-1.5 text-[15px] font-semibold text-ink-900">{billingEntity.address}</dd>
+                </div>
+              </dl>
+
+              <div className="mt-6 flex flex-col sm:flex-row gap-3.5">
+                <a
+                  href={billingEntity.site}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
+                >
+                  Visit phelps-llc.com
+                  <Icons.arrow className="w-4.5 h-4.5" />
+                </a>
+                <a
+                  href={`tel:${billingEntity.phone.replace(/[^+\d]/g, '')}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
+                >
+                  <Icons.phone className="w-4.5 h-4.5" />
+                  {billingEntity.phone}
+                </a>
+              </div>
+            </Reveal>
+          )}
+
           <Reveal className="mt-12 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-            <h2 className="text-xl font-bold text-ink-900">Write to {person.name.split(' ')[0]}</h2>
+            <h2 className="text-xl font-bold text-ink-900">Write to {shortName}</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
               Two or three lines about the business is enough to start. {person.respondsIn}.
             </p>
@@ -158,7 +234,7 @@ export default function TeamMemberPage({ person, colleagues }) {
         </div>
       </article>
 
-      <FaqAccordion items={person.faqs} heading={`Questions about ${person.name.split(' ')[0]}’s desk`} tone="muted" />
+      <FaqAccordion items={person.faqs} heading={`Questions about ${shortName}’s desk`} tone="muted" />
 
       <LinkGrid eyebrow="Related" title="What this desk covers" items={person.related} tone="light" columns={4} compact />
 

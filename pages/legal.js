@@ -7,7 +7,7 @@ import Reveal from '../components/Reveal'
 import SectionHeading from '../components/SectionHeading'
 import CTA from '../components/CTA'
 import { Icons } from '../components/Icons'
-import { site, legalCounsel } from '../lib/site'
+import { site, legalCounsel, billingEntity } from '../lib/site'
 
 /** Where legal questions go, and what happens after they arrive. */
 const route = [
@@ -157,6 +157,86 @@ export default function LegalPage() {
               None of this is legal advice for your own business, and our legal desk acts for LogoOrbit. What it
               will always do is tell you plainly where you stand with us, and say so when you need your own lawyer
               rather than ours.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Who bills you, said out loud. A statement line nobody recognises is
+          the single most common reason a legitimate charge turns into a
+          chargeback, and the cure is publishing the descriptor in advance. */}
+      <section className="py-16 sm:py-20 bg-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
+          <SectionHeading
+            eyebrow="Billing entity"
+            title="Who issues the invoice,"
+            highlight="and what your statement will say"
+            body={billingEntity.blurb}
+          />
+
+          <Reveal delay={90} className="mt-12">
+            <div className="grid gap-5 lg:grid-cols-3">
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+                <span className="grid place-items-center w-12 h-12 rounded-2xl bg-white text-brand-600">
+                  <Icons.receipt className="w-6 h-6" />
+                </span>
+                <h3 className="mt-5 text-lg font-bold text-ink-900">On your card statement</h3>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-ink-500">
+                  The descriptor references{' '}
+                  <span className="font-semibold text-ink-900">{billingEntity.descriptor}</span> rather than the
+                  LogoOrbit trading name. That is expected. Write to{' '}
+                  <a
+                    href="mailto:finance@logoorbit.net"
+                    className="font-semibold text-brand-600 underline underline-offset-2"
+                  >
+                    finance@logoorbit.net
+                  </a>{' '}
+                  before opening a bank dispute and the charge will be identified in writing.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+                <span className="grid place-items-center w-12 h-12 rounded-2xl bg-white text-brand-600">
+                  <Icons.pin className="w-6 h-6" />
+                </span>
+                <h3 className="mt-5 text-lg font-bold text-ink-900">{billingEntity.name}</h3>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-ink-500">
+                  {billingEntity.address}. Reachable on {billingEntity.phone}, and online at{' '}
+                  <a
+                    href={billingEntity.site}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-brand-600 underline underline-offset-2"
+                  >
+                    phelps-llc.com
+                  </a>
+                  .
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-7">
+                <span className="grid place-items-center w-12 h-12 rounded-2xl bg-white text-brand-600">
+                  <Icons.badge className="w-6 h-6" />
+                </span>
+                <h3 className="mt-5 text-lg font-bold text-ink-900">{billingEntity.officer}</h3>
+                <p className="mt-2.5 text-[15px] leading-relaxed text-ink-500">
+                  Directs {billingEntity.name} and serves as our {billingEntity.officerRole}.{' '}
+                  <Link
+                    href={`/team/${billingEntity.officerSlug}`}
+                    className="font-semibold text-brand-600 underline underline-offset-2"
+                  >
+                    Read his profile
+                  </Link>
+                  .
+                </p>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={140} className="mt-10">
+            <p className="mx-auto max-w-3xl text-center text-[15px] leading-relaxed text-ink-500">
+              You still contract with LogoOrbit under our terms and conditions, and the design and its ownership
+              still come from us. The billing entity handles the invoice and the payment, nothing else.
             </p>
           </Reveal>
         </div>

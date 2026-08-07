@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import Layout from '../../components/Layout'
 import PageHero from '../../components/PageHero'
@@ -10,7 +11,7 @@ import { site } from '../../lib/site'
 import { breadcrumb, collectionPageSchema, itemListSchema, absolute, ORG_ID } from '../../lib/seo'
 
 const description =
-  'The named people at LogoOrbit: who quotes brand and print work, who quotes websites, apps and video, and who answers the legal questions.'
+  'The named people at LogoOrbit: our Director and Chief Financial Officer, who quotes brand and print work, who quotes websites, apps and video, and who answers the legal questions.'
 
 export default function TeamHub() {
   const jsonLd = {
@@ -41,7 +42,7 @@ export default function TeamHub() {
         breadcrumb="Team"
         title="People with names,"
         highlight="not a ticket queue"
-        intro="Three people here are published by name because you are put through to them directly. Everyone else works as a desk, and we would rather say that plainly than invent an org chart."
+        intro="Four people here are published by name because you are put through to them directly. Everyone else works as a desk, and we would rather say that plainly than invent an org chart."
       />
 
       <section className="py-14 sm:py-20 bg-white">
@@ -49,7 +50,7 @@ export default function TeamHub() {
           <Reveal className="max-w-2xl">
             <span className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">Named contacts</span>
             <h2 className="mt-3 text-2xl sm:text-3xl font-bold leading-tight text-ink-900">
-              The three people you can write to directly
+              The four people you can write to directly
             </h2>
             <p className="mt-3 text-[15px] sm:text-base leading-relaxed text-ink-500">
               Each has a page setting out what they decide, what they will ask you, and how long they take to come
@@ -57,7 +58,7 @@ export default function TeamHub() {
             </p>
           </Reveal>
 
-          <div className="mt-9 grid gap-5 lg:grid-cols-3">
+          <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {team.map((person, i) => {
               const Icon = Icons[person.icon] || Icons.team
               return (
@@ -67,12 +68,22 @@ export default function TeamHub() {
                     className="group flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-300 hover:shadow-xl"
                   >
                     <span className="flex items-center gap-3.5">
-                      <span
-                        className="grid place-items-center w-14 h-14 rounded-2xl text-white font-bold text-lg shadow-lg"
-                        style={{ backgroundColor: person.accent }}
-                      >
-                        {person.initials}
-                      </span>
+                      {person.photo ? (
+                        <Image
+                          src={person.photo}
+                          alt={person.photoAlt || person.name}
+                          width={56}
+                          height={56}
+                          className="w-14 h-14 shrink-0 rounded-2xl object-cover object-top shadow-lg ring-1 ring-slate-200"
+                        />
+                      ) : (
+                        <span
+                          className="grid place-items-center w-14 h-14 rounded-2xl text-white font-bold text-lg shadow-lg"
+                          style={{ backgroundColor: person.accent }}
+                        >
+                          {person.initials}
+                        </span>
+                      )}
                       <span className="grid place-items-center w-10 h-10 rounded-xl bg-brand-50 text-brand-600">
                         <Icon className="w-5 h-5" />
                       </span>

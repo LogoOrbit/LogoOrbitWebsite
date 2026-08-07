@@ -14,7 +14,7 @@ import {
   ORDER_FORM_ID,
 } from '../lib/cart'
 import { salesTax } from '../lib/money'
-import { site, whatsapp } from '../lib/site'
+import { site, whatsapp, billingEntity } from '../lib/site'
 import { breadcrumb } from '../lib/seo'
 
 const description =
@@ -507,6 +507,15 @@ export default function CheckoutPage() {
                   <p className="mt-2.5 text-center text-[12.5px] leading-snug text-ink-500">
                     This sends your list and your details to our team. It does not take payment, and you can
                     still change your mind.
+                  </p>
+                  {/* Said before the invoice arrives, not after the statement
+                      line confuses somebody into calling their bank. */}
+                  <p className="mt-2 text-center text-[12.5px] leading-snug text-ink-500">
+                    When the invoice does come, it is issued by{' '}
+                    <Link href="/legal" className="font-semibold text-ink-700 underline underline-offset-2">
+                      {billingEntity.name}
+                    </Link>
+                    , our billing entity, so your statement will show {billingEntity.descriptor}.
                   </p>
                 </form>
               </Step>

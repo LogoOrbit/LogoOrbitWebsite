@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Icons } from './Icons'
 import BrandMark from './BrandMark'
-import { site, services, salesTeam, legalLinks, whatsapp, whatsappLink } from '../lib/site'
+import { site, services, salesTeam, legalLinks, whatsapp, whatsappLink, billingEntity } from '../lib/site'
 
 const exploreLinks = [
   { label: 'Home', href: '/' },
@@ -196,6 +196,29 @@ export default function Footer() {
               </li>
             ))}
           </ul>
+
+          {/* The merchant of record, on every page. Cheaper here than in a
+              chargeback conversation about a statement line nobody knew. */}
+          <p className="mt-6 max-w-4xl text-sm leading-relaxed text-white/50">
+            Payments are billed by{' '}
+            <a
+              href={billingEntity.site}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-white/70 hover:text-white transition-colors"
+            >
+              {billingEntity.name}
+            </a>
+            , the billing entity associated with the invoice, directed by{' '}
+            <Link
+              href={`/team/${billingEntity.officerSlug}`}
+              prefetch={false}
+              className="font-semibold text-white/70 hover:text-white transition-colors"
+            >
+              {billingEntity.officer}
+            </Link>
+            , our {billingEntity.officerRole}. Your statement will show {billingEntity.descriptor}.
+          </p>
 
           <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-white/50">
             <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
