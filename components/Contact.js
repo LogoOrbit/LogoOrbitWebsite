@@ -50,7 +50,7 @@ export default function Contact({ showIntro = true }) {
       /* Not every failure comes back as JSON. A proxy timeout, a platform
          error page or a request rejected before it reaches the handler all
          return HTML, and parsing that threw a SyntaxError which was then shown
-         to the visitor verbatim — "Unexpected token '<'" as the reply to
+         to the visitor verbatim - "Unexpected token '<'" as the reply to
          somebody asking about a logo. Anything unreadable becomes the same
          sentence as any other server-side failure. */
       const data = await res.json().catch(() => ({}))

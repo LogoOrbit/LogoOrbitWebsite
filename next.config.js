@@ -13,7 +13,7 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           /* SAMEORIGIN rather than DENY, and 'self' rather than 'none' below.
              Chrome draws a PDF inside a child frame of the page that served
-             it, so DENY does not just stop other sites embedding us — it stops
+             it, so DENY does not just stop other sites embedding us - it stops
              our own specimen PDF from rendering, and /documents/*.pdf opens as
              a blank grey page. Clickjacking is a cross-origin attack, and both
              of these still refuse every foreign ancestor. */

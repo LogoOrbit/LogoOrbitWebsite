@@ -9,7 +9,7 @@ import { loadSearchIndex, rankResults } from '../lib/search'
  * Site-wide search, opened from Nav via a button or Ctrl/Cmd+K.
  *
  * The whole index is fetched once as JSON and filtered entirely in the
- * browser (lib/search.js) — there is no per-keystroke request, so results
+ * browser (lib/search.js) - there is no per-keystroke request, so results
  * update as fast as the input does.
  */
 export default function SearchOverlay({ open, onClose }) {

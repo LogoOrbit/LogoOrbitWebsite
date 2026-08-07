@@ -24,7 +24,7 @@ export default function GlossaryPage() {
           hasDefinedTerm: glossary.map(([name, description]) => ({ '@type': 'DefinedTerm', name, description, inDefinedTermSet: `${site.url}/glossary#terms` })),
         }, breadcrumb([{ name: 'Design glossary', href: '/glossary' }])] }}
     >
-      <PageHero eyebrow="Design glossary" trail={[{ name: 'Design glossary', href: '/glossary' }]} title="Design language," highlight="translated into plain English" intro="The terms you will hear in a branding, website, packaging or print project—defined without expecting you to be a designer." />
+      <PageHero eyebrow="Design glossary" trail={[{ name: 'Design glossary', href: '/glossary' }]} title="Design language," highlight="translated into plain English" intro="The terms you will hear in a branding, website, packaging or print project-defined without expecting you to be a designer." />
 
       <section className="py-14 sm:py-20 bg-white">
         <div className="mx-auto max-w-6xl px-5 sm:px-6">

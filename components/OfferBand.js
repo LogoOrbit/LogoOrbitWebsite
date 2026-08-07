@@ -37,7 +37,7 @@ export default function OfferBand() {
                 </h2>
 
                 <p className="mt-3.5 max-w-xl text-[15px] leading-relaxed text-white/75 sm:text-lg">
-                  That is {offer.discount}% off — and every other service is {offer.discount}% off too,
+                  That is {offer.discount}% off - and every other service is {offer.discount}% off too,
                   exclusively for existing customers. Same designers, same files, same ownership terms.
                 </p>
 
@@ -61,7 +61,7 @@ export default function OfferBand() {
                     href={informativeWebsite.href}
                     className="inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white transition-colors hover:bg-white/20"
                   >
-                    {informativeWebsite.name} — {money(informativeWebsite.price)}
+                    {informativeWebsite.name} - {money(informativeWebsite.price)}
                   </Link>
                 </div>
               </div>

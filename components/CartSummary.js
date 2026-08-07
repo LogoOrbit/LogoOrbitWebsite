@@ -48,7 +48,7 @@ export default function CartSummary({ sticky = false, checkoutLink = false, chil
       {totals.estimated && (
         <p className="mt-3 rounded-xl bg-flare-300/15 p-3 text-[12.5px] leading-snug text-ink-700 sm:mt-4">
           Some items start <strong>from</strong> a price. The final price depends on how big the job is. We
-          will tell you the exact price first — you will never get a bill you have not agreed to.
+          will tell you the exact price first - you will never get a bill you have not agreed to.
         </p>
       )}
 

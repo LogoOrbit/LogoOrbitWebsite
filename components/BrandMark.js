@@ -22,7 +22,7 @@ export default function BrandMark({ className = 'w-10 h-10' }) {
       //
       // These are the CSS pixels the mark actually occupies, not a doubled
       // figure. Next already doubles them for the 2x entry in the srcset, so
-      // passing 80 asked for a 256px render of a mark that is drawn at 40 —
+      // passing 80 asked for a 256px render of a mark that is drawn at 40 -
       // roughly four times the pixels needed, downloaded before first paint.
       width={40}
       height={40}

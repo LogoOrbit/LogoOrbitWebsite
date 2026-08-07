@@ -57,7 +57,7 @@ export default function LocationPage({ location, sectors, popular, siblings, sam
       {
         '@type': location.office ? 'LocalBusiness' : 'Service',
         '@id': `${absolute(path)}#business`,
-        name: `${site.name} — ${location.city}`,
+        name: `${site.name} - ${location.city}`,
         description,
         url: absolute(path),
         image: `${site.url}/og-image.png`,
@@ -137,7 +137,7 @@ export default function LocationPage({ location, sectors, popular, siblings, sam
               <p className="mt-4 text-[15px] sm:text-lg leading-relaxed text-ink-500">
                 {location.office
                   ? `We are registered at ${location.address}, and the work itself is produced and delivered digitally by the same in-house team that handles every other project.`
-                  : `We do not have a studio in ${location.city}. Everything is worked remotely and delivered digitally, which is how design has been produced for a long time now — you get the same team, the same turnaround and the same files as a client down the road from our registered address.`}
+                  : `We do not have a studio in ${location.city}. Everything is worked remotely and delivered digitally, which is how design has been produced for a long time now - you get the same team, the same turnaround and the same files as a client down the road from our registered address.`}
               </p>
 
               <div className="mt-7 flex flex-col sm:flex-row gap-3.5">

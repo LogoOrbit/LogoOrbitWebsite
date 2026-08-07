@@ -33,7 +33,7 @@ function remaining(end) {
  *
  * It does, however, carry the boxes. Returning null until the first tick and
  * the full clock immediately after made the component grow by its own height a
- * frame into the page — inside the offer popup that was the whole of the site's
+ * frame into the page - inside the offer popup that was the whole of the site's
  * layout shift, because the panel it sits in is sized by its content. Blank
  * slots of the final size cost nothing and mean the only thing that changes is
  * the digits.

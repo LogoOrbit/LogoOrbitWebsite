@@ -10,8 +10,8 @@ import { Icons } from './Icons'
  * the single-level pages that were here first.
  *
  * `compact` shrinks the header on phones. Pages a visitor reads are happy to
- * spend a screen on a title; pages a visitor works through — the cart, the
- * checkout — are not, because every pixel here is one more swipe before the
+ * spend a screen on a title; pages a visitor works through - the cart, the
+ * checkout - are not, because every pixel here is one more swipe before the
  * thing they came to do.
  */
 export default function PageHero({ eyebrow, title, highlight, intro, breadcrumb, trail, compact, children }) {

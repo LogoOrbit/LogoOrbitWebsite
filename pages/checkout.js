@@ -18,7 +18,7 @@ import { site, whatsapp, billingEntity } from '../lib/site'
 import { breadcrumb } from '../lib/seo'
 
 const description =
-  'Send your LogoOrbit order to our team. Your list and total go over in one message — on WhatsApp, by email, or straight to the phone. Nothing is charged here.'
+  'Send your LogoOrbit order to our team. Your list and total go over in one message - on WhatsApp, by email, or straight to the phone. Nothing is charged here.'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -119,7 +119,7 @@ export default function CheckoutPage() {
    * Copies, and falls back to a selection when it cannot.
    *
    * navigator.clipboard does not exist on an insecure origin and is refused
-   * outright by some in-app browsers — exactly the WhatsApp and Instagram
+   * outright by some in-app browsers - exactly the WhatsApp and Instagram
    * webviews a good share of this traffic arrives in. The old version answered
    * that by setting the flag back to false, so the button simply did nothing
    * and gave no reason. Selecting the text at least leaves the visitor able to
@@ -244,7 +244,7 @@ export default function CheckoutPage() {
 
               {/* The order number is the thing this screen exists to hand over,
                   so it is the biggest element on it and it can be copied in
-                  one tap — most people are about to paste it into WhatsApp. */}
+                  one tap - most people are about to paste it into WhatsApp. */}
               <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className="text-[12px] font-bold uppercase tracking-[0.16em] text-brand-600">
                   Your order number
@@ -262,7 +262,7 @@ export default function CheckoutPage() {
                 </button>
                 {copyFailed && (
                   <p role="alert" className="mt-2 text-[12.5px] font-semibold text-action-700">
-                    Your browser would not let us copy it. The number above is already selected — copy it
+                    Your browser would not let us copy it. The number above is already selected - copy it
                     with your browser&apos;s own menu.
                   </p>
                 )}
@@ -402,7 +402,7 @@ export default function CheckoutPage() {
               <Step
                 n="2"
                 title="Do you want to protect your brand?"
-                sub="Two optional extras. Skip them if you are not sure — we will ask again later."
+                sub="Two optional extras. Skip them if you are not sure - we will ask again later."
               >
                 <ProtectionCheck />
               </Step>
@@ -538,7 +538,7 @@ export default function CheckoutPage() {
                       Send on WhatsApp
                     </span>
                     <span className="text-[12px] font-medium text-white/85">
-                      Your order is already typed in — just press send
+                      Your order is already typed in - just press send
                     </span>
                   </a>
 

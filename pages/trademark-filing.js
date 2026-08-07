@@ -28,7 +28,7 @@ const applicationRecord = [
  * the picker below asks what the business does and answers in them.
  *
  * These are the classes a business of each kind usually files in. They are a
- * starting point for the conversation, not a determination — the classes on
+ * starting point for the conversation, not a determination - the classes on
  * your application are settled with the legal desk against what you actually
  * sell.
  */
@@ -67,7 +67,7 @@ const businesses = [
       { n: 35, name: 'Retail and online store services', why: 'The shop itself, whatever it sells.' },
       { n: 25, name: 'Goods you make yourself', why: 'One class per family of own-brand product, if you have them.' },
     ],
-    note: 'If you resell other people’s products, class 35 alone is usually right. If you make your own, you need the class that covers the product too — that is the class that stops a copycat manufacturer.',
+    note: 'If you resell other people’s products, class 35 alone is usually right. If you make your own, you need the class that covers the product too - that is the class that stops a copycat manufacturer.',
   },
   {
     id: 'construction',
@@ -76,7 +76,7 @@ const businesses = [
       { n: 37, name: 'Building, installation, repair', why: 'The work itself, from roofing to plumbing.' },
       { n: 42, name: 'Design and surveying', why: 'Only if you also draw plans or survey.' },
     ],
-    note: 'Trades are usually a clean single-class filing, which makes them among the cheapest marks to register — and among the most worth registering, because the brand is the reputation.',
+    note: 'Trades are usually a clean single-class filing, which makes them among the cheapest marks to register - and among the most worth registering, because the brand is the reputation.',
   },
   {
     id: 'consulting',
@@ -172,7 +172,7 @@ const stakes = [
   {
     icon: 'badge',
     title: 'It works everywhere in the country, from day one',
-    body: 'Trading under a name gives you rights only where people actually know you. A registration gives you a claim across all fifty states from the filing date — including in the cities you have not opened in yet.',
+    body: 'Trading under a name gives you rights only where people actually know you. A registration gives you a claim across all fifty states from the filing date - including in the cities you have not opened in yet.',
   },
   {
     icon: 'shop',
@@ -182,7 +182,7 @@ const stakes = [
   {
     icon: 'scales',
     title: 'It is the cheapest hour of the whole dispute',
-    body: 'Registering early costs a few hundred dollars. Discovering at year three that somebody else registered your name first costs you the name — the signage, the domain, the packaging, the search rankings, and every customer who cannot find you afterwards.',
+    body: 'Registering early costs a few hundred dollars. Discovering at year three that somebody else registered your name first costs you the name - the signage, the domain, the packaging, the search rankings, and every customer who cannot find you afterwards.',
   },
   {
     icon: 'spark',
@@ -203,9 +203,9 @@ const timeline = [
     body: 'We search the federal register for marks close enough to yours to matter, and tell you plainly whether to file, to adjust the mark, or to keep the money. This conversation is the most valuable part of the service.',
   },
   {
-    step: 'Week 1–2',
+    step: 'Week 1-2',
     title: 'Classes and specimen',
-    body: 'We settle which classes your goods and services fall in, and check that your evidence of use is the kind an examiner accepts — a mocked-up logo on a blank background is the most common rejection we see.',
+    body: 'We settle which classes your goods and services fall in, and check that your evidence of use is the kind an examiner accepts - a mocked-up logo on a blank background is the most common rejection we see.',
   },
   {
     step: 'Filing day',
@@ -213,17 +213,17 @@ const timeline = [
     body: 'We file with the USPTO in your name, pay the government fee on your instruction, and send you the serial number. Your priority date is set from this moment.',
   },
   {
-    step: 'Month 3–8',
+    step: 'Month 3-8',
     title: 'Examination',
     body: 'An examining attorney reviews the application and may raise an office action. We draft and file the response for you. This is where most self-filed applications quietly die.',
   },
   {
-    step: 'Month 6–10',
+    step: 'Month 6-10',
     title: 'Publication',
     body: 'A clean application is published for opposition and anyone who believes it harms them has thirty days to object. Most marks pass this window without a word.',
   },
   {
-    step: 'Month 8–18',
+    step: 'Month 8-18',
     title: 'Registration',
     body: 'The certificate issues, the ® symbol becomes yours to use, and we hand over the file. Then we tell you the maintenance dates, because a registration you forget to renew is a registration you lose.',
   },
@@ -232,11 +232,11 @@ const timeline = [
 const faqs = [
   {
     q: 'What is a class, and why does the price depend on how many I need?',
-    a: `A trademark is never registered for a name in the abstract — it is registered for a name applied to particular goods or services. The system sorts those into 45 classes: 1 to 34 for physical goods, 35 to 45 for services. Registering "class 25 clothing" does not protect you if a rival launches a restaurant under the same name. So the number of classes is set by what your business actually sells, and each one is examined and charged separately by the USPTO, which is why our classification work is $${PER_CLASS} per class rather than a flat fee.`,
+    a: `A trademark is never registered for a name in the abstract - it is registered for a name applied to particular goods or services. The system sorts those into 45 classes: 1 to 34 for physical goods, 35 to 45 for services. Registering "class 25 clothing" does not protect you if a rival launches a restaurant under the same name. So the number of classes is set by what your business actually sells, and each one is examined and charged separately by the USPTO, which is why our classification work is $${PER_CLASS} per class rather than a flat fee.`,
   },
   {
     q: 'How many classes will I need?',
-    a: 'Most first filings need one or two. A single-site service business is usually one. A brand that both makes a product and sells it is usually two. A food range across chilled, packaged and drinks can be three. Use the class finder on this page for a starting number, then send us your product and service list and we will tell you which classes are genuinely necessary — including when a class you asked for is not.',
+    a: 'Most first filings need one or two. A single-site service business is usually one. A brand that both makes a product and sells it is usually two. A food range across chilled, packaged and drinks can be three. Use the class finder on this page for a starting number, then send us your product and service list and we will tell you which classes are genuinely necessary - including when a class you asked for is not.',
   },
   {
     q: 'What does the $599 actually pay for?',
@@ -248,11 +248,11 @@ const faqs = [
   },
   {
     q: 'Can you guarantee my trademark will be registered?',
-    a: 'No. Nobody honest can. The examining attorney at the USPTO decides, and marks are refused for reasons outside anyone’s control — a similar mark already on the register, a name that merely describes the product, a specimen that does not show real use. What we can do is tell you before you spend money when the odds look bad, and we would rather lose the filing fee than take it knowing that.',
+    a: 'No. Nobody honest can. The examining attorney at the USPTO decides, and marks are refused for reasons outside anyone’s control - a similar mark already on the register, a name that merely describes the product, a specimen that does not show real use. What we can do is tell you before you spend money when the odds look bad, and we would rather lose the filing fee than take it knowing that.',
   },
   {
     q: 'Do I need to own the copyright in my logo first?',
-    a: 'They are two separate rights and neither requires the other, but they work best together. Copyright is about the artwork — who drew it and who owns it. A trademark is about the name and mark in commerce — who is allowed to trade under it. If we designed your logo, the $499 copyright assignment certificate puts the artwork in your name; this service puts the mark on the federal register. Owners who take one usually want both.',
+    a: 'They are two separate rights and neither requires the other, but they work best together. Copyright is about the artwork - who drew it and who owns it. A trademark is about the name and mark in commerce - who is allowed to trade under it. If we designed your logo, the $499 copyright assignment certificate puts the artwork in your name; this service puts the mark on the federal register. Owners who take one usually want both.',
   },
   {
     q: 'Can I file it myself?',
@@ -260,7 +260,7 @@ const faqs = [
   },
   {
     q: 'What if a similar mark already exists?',
-    a: 'We will find it in the clearance search and tell you at that point, before an application is filed. Sometimes the answer is that the other mark is in a different class and yours is fine. Sometimes it is a small change to your mark. And sometimes the honest answer is that the name is taken and a rebrand now costs far less than a dispute in two years — we will say so.',
+    a: 'We will find it in the clearance search and tell you at that point, before an application is filed. Sometimes the answer is that the other mark is in a different class and yours is fine. Sometimes it is a small change to your mark. And sometimes the honest answer is that the name is taken and a rebrand now costs far less than a dispute in two years - we will say so.',
   },
 ]
 
@@ -299,7 +299,7 @@ function AddToCartClasses({ count }) {
         className="flex w-full items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-ink-900 transition-transform hover:-translate-y-0.5"
       >
         <Icons.cart className="h-4.5 w-4.5" />
-        {added ? 'Added to cart' : `Add to cart — filing + ${count} ${count === 1 ? 'class' : 'classes'}`}
+        {added ? 'Added to cart' : `Add to cart - filing + ${count} ${count === 1 ? 'class' : 'classes'}`}
       </button>
       {added && (
         <Link href="/cart" className="mt-2 flex items-center justify-center gap-1.5 text-[13.5px] font-bold text-[#f0d89a]">
@@ -332,7 +332,7 @@ function ClassFinder() {
     <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:items-start">
       <Reveal>
         <span className="doc-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#e7c877]">
-          1 — What does the business do?
+          1 - What does the business do?
         </span>
         <div className="mt-4 flex flex-wrap gap-2">
           {businesses.map((item, index) => {
@@ -366,7 +366,7 @@ function ClassFinder() {
       <Reveal delay={90}>
         <div className="rounded-3xl border border-white/12 bg-white/[0.04] p-5 sm:p-7">
           <span className="doc-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#e7c877]">
-            2 — The classes it usually needs
+            2 - The classes it usually needs
           </span>
 
           <ul className="mt-4 space-y-3">
@@ -405,7 +405,7 @@ function ClassFinder() {
 
           <div className="mt-6 rounded-2xl border border-[#c9a044]/35 bg-[#0a1330]/70 p-5">
             <span className="doc-mono text-[11px] font-bold uppercase tracking-[0.2em] text-[#e7c877]">
-              3 — What that comes to
+              3 - What that comes to
             </span>
 
             <dl className="mt-4 space-y-2.5 text-[14.5px]">
@@ -571,7 +571,7 @@ export default function TrademarkFilingPage() {
                   </>
                 }
                 subtitle="Filed with the United States Patent and Trademark Office"
-                parties={['Applicant of record', 'Correspondent — LogoOrbit legal desk']}
+                parties={['Applicant of record', 'Correspondent - LogoOrbit legal desk']}
                 seal={{ arc: 'LOGOORBIT · TRADEMARK & BRAND PROTECTION ·', foot: 'FEDERAL REGISTER' }}
               >
                 <p className="doc-mono text-[10px] uppercase tracking-[0.22em] text-[#8a6a22]">
@@ -771,13 +771,13 @@ export default function TrademarkFilingPage() {
           <div className="mt-10 grid gap-5 lg:grid-cols-2">
             <Reveal>
               <div className="h-full rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-                <h3 className="text-xl font-bold text-ink-900">Copyright assignment — $499</h3>
+                <h3 className="text-xl font-bold text-ink-900">Copyright assignment - $499</h3>
                 <p className="mt-1.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-ink-300">
                   A private, signed document
                 </p>
                 <dl className="mt-5 space-y-4 border-t border-slate-200 pt-5">
                   {[
-                    ['Protects', 'The drawing itself — the shape, the artwork, the files'],
+                    ['Protects', 'The drawing itself - the shape, the artwork, the files'],
                     ['Stops', 'Somebody reproducing your actual logo'],
                     ['Comes from', 'A signed transfer between us and you, not a government office'],
                     ['Exists', 'From the moment the work is created; the document moves who owns it'],
@@ -804,7 +804,7 @@ export default function TrademarkFilingPage() {
                   What this page sells
                 </span>
                 <h3 className="mt-3 text-xl font-bold text-ink-900">
-                  Trademark filing — ${SERVICE} + ${PER_CLASS} per class
+                  Trademark filing - ${SERVICE} + ${PER_CLASS} per class
                 </h3>
                 <p className="mt-1.5 text-[13px] font-semibold uppercase tracking-[0.08em] text-ink-300">
                   A federal government registration
@@ -813,7 +813,7 @@ export default function TrademarkFilingPage() {
                   {[
                     ['Protects', 'The name and mark you trade under, in the classes you registered'],
                     ['Stops', 'A competitor using a confusingly similar name, even a different-looking one'],
-                    ['Comes from', 'The USPTO, after examination — we prepare and prosecute the application'],
+                    ['Comes from', 'The USPTO, after examination - we prepare and prosecute the application'],
                     ['Exists', 'Once granted, and it has to be maintained and renewed to survive'],
                   ].map(([label, value]) => (
                     <div key={label}>
@@ -893,7 +893,7 @@ export default function TrademarkFilingPage() {
             <h2 className="text-3xl font-bold text-ink-900 sm:text-4xl">Get the name on the register.</h2>
             <p className="mx-auto mt-4 max-w-2xl text-[17px] leading-relaxed text-ink-500">
               Send the mark, the legal name behind the business, and a list of what you sell. We come back with the
-              search result, the classes we recommend, and the total — tax and USPTO fee included in the figure —
+              search result, the classes we recommend, and the total - tax and USPTO fee included in the figure -
               before anything is filed.
             </p>
             <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">

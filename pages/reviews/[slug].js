@@ -35,7 +35,7 @@ export default function ReviewPage({ review, theme, others }) {
 
   return (
     <Layout
-      title={`${review.name} — ${review.company} review`}
+      title={`${review.name} - ${review.company} review`}
       description={description}
       path={path}
       jsonLd={jsonLd}
@@ -113,8 +113,8 @@ export default function ReviewPage({ review, theme, others }) {
             <p className="text-[14px] leading-relaxed text-ink-500">
               <strong className="text-ink-700">Where this came from.</strong> Every review we publish was left by
               somebody who paid for work and received it. We do not pay for feedback and we do not edit it. The
-              quote above is reproduced exactly as it was written, and we do not attach project details — budgets,
-              timelines or results — that the client did not state themselves. Our overall rating is {site.rating}{' '}
+              quote above is reproduced exactly as it was written, and we do not attach project details - budgets,
+              timelines or results - that the client did not state themselves. Our overall rating is {site.rating}{' '}
               from {site.reviewCount.toLocaleString()} customers.
             </p>
           </Reveal>

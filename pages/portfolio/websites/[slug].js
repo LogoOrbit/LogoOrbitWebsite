@@ -78,7 +78,7 @@ export default function WebsiteCaseStudy({ project, related, services }) {
             >
               {/* Nearly every build has a real screenshot sitting in
                   /public/portfolio/websites, and the page was showing a
-                  monogram square instead of it — a case study about a website
+                  monogram square instead of it - a case study about a website
                   that never shows the website. The painted panel stays as the
                   fallback for the handful with no shot. */}
               {project.shot ? (
@@ -147,7 +147,7 @@ export default function WebsiteCaseStudy({ project, related, services }) {
           <Reveal className="mt-12 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
             <h2 className="text-xl font-bold text-ink-900">Want a site that works this hard?</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
-              Tell us what a visitor should do when they land — call, book, buy or read — and you get a page
+              Tell us what a visitor should do when they land - call, book, buy or read - and you get a page
               structure, a timeline and one fixed price back.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3.5">

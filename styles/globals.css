@@ -188,8 +188,8 @@
               transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* No blanket `will-change` here. A long page carries sixty or more of these —
-   the link grids alone give one to every card — and `will-change` is a
+/* No blanket `will-change` here. A long page carries sixty or more of these -
+   the link grids alone give one to every card - and `will-change` is a
    standing instruction, not a hint for the duration of the transition. Every
    one of them held its own compositor layer for the whole life of the page,
    which cost memory and put every one of them back into the style and layout
@@ -517,8 +517,8 @@
  *
  * These are SVG transforms, which Chromium cannot hand to the compositor: each
  * frame of each shape is a style, layout and paint pass on the main thread. A
- * card carries five or six of them, and a page of cards carries a hundred — the
- * services index has 119 — so before this every one of those hundred shapes was
+ * card carries five or six of them, and a page of cards carries a hundred - the
+ * services index has 119 - so before this every one of those hundred shapes was
  * animating from the moment the document parsed, most of them several screens
  * below the fold, while the page was still trying to reach first paint. On the
  * home page that alone was about 900ms of style and layout during load.
@@ -556,7 +556,7 @@
    They used to: `background-size: 200%` with the position drifting on an
    eight-second loop. The gradient is painted through `background-clip: text`,
    which means moving it repaints every glyph, on the main thread, on every
-   frame, for as long as the page is open — and it is applied to the largest
+   frame, for as long as the page is open - and it is applied to the largest
    text on the site, including the h1 the hero is measured on. Chrome will not
    settle a largest-contentful-paint on an element it is still repainting, so
    the effect was costing about two seconds of LCP on a mid-range phone, and a
@@ -749,7 +749,7 @@
 .reveal.is-visible .la-wipe     { animation: la-wipe 0.9s cubic-bezier(0.65, 0, 0.35, 1) both; }
 
 /* The ambient loops are what keeps a finished mark from looking like a still.
-   They wait for the tile the same way the builds above them do — these are SVG
+   They wait for the tile the same way the builds above them do - these are SVG
    transforms and stroke offsets, none of which the compositor can take, so a
    reel of tiles animating below the fold is main-thread work spent on shapes
    nobody is looking at yet. */

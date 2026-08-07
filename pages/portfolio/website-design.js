@@ -48,7 +48,7 @@ export default function WebsitePortfolioPage({ allBuilds }) {
       <WebsitePortfolio showHeading={false} />
 
       {/* The card wall pages itself in with a button, so only the first
-          twenty-four builds exist in the served HTML — the other three hundred
+          twenty-four builds exist in the served HTML - the other three hundred
           were reachable by clicking and by nothing else. This is the plain
           index of all of them: cheap to render, and it means every case study
           has a route in that does not depend on JavaScript running. */}

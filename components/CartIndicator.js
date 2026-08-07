@@ -5,8 +5,8 @@ import { useCart } from '../lib/cart'
 /**
  * The header's cart control.
  *
- * It is deliberately quiet while the cart is empty — an empty cart badge on
- * every page of a design studio's site is noise — and gains a count and a
+ * It is deliberately quiet while the cart is empty - an empty cart badge on
+ * every page of a design studio's site is noise - and gains a count and a
  * colour the moment something is in it.
  */
 export default function CartIndicator({ light, compact = false }) {

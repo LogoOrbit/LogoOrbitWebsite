@@ -16,7 +16,7 @@ import { money } from '../lib/money'
  * dispute has started is the expensive way to learn. So each card leads with
  * what the protection actually does, says plainly when it is not needed yet,
  * and links to the page that explains it in full. Declining is a first-class
- * option sitting in the same row as the buttons — a step that can only be
+ * option sitting in the same row as the buttons - a step that can only be
  * agreed with is a sales gate, not a question.
  *
  * Nothing here is added to the cart by default. A charge somebody did not ask
@@ -61,7 +61,7 @@ const options = [
       'Amazon, app stores and ad platforms take action when you are registered, and usually not before',
       'Registering now is cheap. Changing your whole brand later is not',
     ],
-    skip: 'Your name is not final yet, or you are not using it in business yet. Wait — registering a name you are about to change is money spent twice.',
+    skip: 'Your name is not final yet, or you are not using it in business yet. Wait - registering a name you are about to change is money spent twice.',
     cart: {
       sku: 'trademark-filing',
       name: 'US trademark filing service',
@@ -77,8 +77,8 @@ const options = [
  * One protection, offered without a wall of text.
  *
  * The card leads with what it is, what it costs and the one sentence that
- * explains why it exists. Everything else — the reasons it matters, the reason
- * to skip it — is folded away, because on a phone this section sat between a
+ * explains why it exists. Everything else - the reasons it matters, the reason
+ * to skip it - is folded away, because on a phone this section sat between a
  * visitor and the order button and made them scroll past two essays to reach
  * it. Anyone who wants the detail is one tap away from all of it.
  */

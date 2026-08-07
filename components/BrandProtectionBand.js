@@ -8,7 +8,7 @@ import { salesTax } from '../lib/money'
 /**
  * The two legal steps that sit either side of the design work: owning the
  * artwork, and registering the name. They are constantly confused for each
- * other, so they are shown as a pair wherever a visitor is close to buying —
+ * other, so they are shown as a pair wherever a visitor is close to buying -
  * the home page, the pricing catalogue, every service page and the legal desk.
  *
  * `tone` picks the surface the band sits on so it can follow whichever section
@@ -49,7 +49,7 @@ export default function BrandProtectionBand({ tone = 'muted', compact = false })
               <h3 className="mt-4 text-xl font-bold text-ink-900">Copyright assignment certificate</h3>
               <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-ink-500">
                 The signed instrument that moves our copyright in your approved final logo to your business, and
-                authorises public commercial use. Read all ten sections before you buy — the specimen is published.
+                authorises public commercial use. Read all ten sections before you buy - the specimen is published.
               </p>
               <Link
                 href="/copyright-certificate"

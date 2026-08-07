@@ -13,7 +13,7 @@
    /copyright-certificate page draws on screen. Changing one without the other
    is what makes a downloaded sample look like somebody else's document.
 
-   Rendered with headless Chromium — see tools/build-certificate-pdf.sh.
+   Rendered with headless Chromium - see tools/build-certificate-pdf.sh.
 --------------------------------------------------------------------------- */
 
 @page { size: 8.5in 11in; margin: 0; }
@@ -52,12 +52,12 @@ body {
    repeating-linear-gradients at 1px/5px) they were the single most expensive
    thing in the specimen: each repeating gradient became a tiling pattern whose
    cell strokes hairlines across the full 2550x3300 page box, and the radial
-   became a page-sized image behind a soft mask — four times over, once per
+   became a page-sized image behind a soft mask - four times over, once per
    page. On its own that was ~1.4s of the file's ~1.9s render cost.
 
    Both are now one 565-byte opaque PNG: a 5px-wide, one-page-tall strip with
    the wash and the hairlines already composited onto the cream, repeated
-   across the sheet. One image object, shared by all four pages, no soft mask —
+   across the sheet. One image object, shared by all four pages, no soft mask -
    an alpha tile costs as much as the gradients did, because a soft-masked
    pattern is the same compositing work under another name. Same paper, ~0ms.
 
@@ -150,7 +150,7 @@ body {
   background-color: #dedcda;
 }
 
-/* ========================= page 1 — the certificate face ==================
+/* ========================= page 1 - the certificate face ==================
    The same object CertificateInstrument draws on /copyright-certificate:
    cream stock, foil border, crest over a guilloche rosette, navy document
    serif for the title, gold mono for the record block. */
@@ -310,7 +310,7 @@ body {
 }
 .attest .seal { margin-top: -46px; }
 
-/* ========================= pages 2–4 — the instrument ==================== */
+/* ========================= pages 2-4 - the instrument ==================== */
 
 .sheet {
   position: relative;
@@ -626,7 +626,7 @@ p.operative {
   </defs>
 </svg>
 
-<!-- ============================ PAGE 1 — the face ======================= -->
+<!-- ============================ PAGE 1 - the face ======================= -->
 <section class="page paper">
   <div class="frame-outer"></div>
   <div class="frame-inner"></div>
@@ -702,7 +702,7 @@ p.operative {
       </div>
 
       <div class="notice">
-        <p class="mono h">Important — read before relying on this file</p>
+        <p class="mono h">Important - read before relying on this file</p>
         <p>
           This public specimen is incomplete, unsigned and visibly watermarked. Every client field is a placeholder and
           no client artwork appears in it. It transfers and licenses nothing, is not proof of ownership, and is not a
@@ -737,7 +737,7 @@ p.operative {
   </div>
 </section>
 
-<!-- ============================ PAGE 2 — parties &amp; §1–5 ================ -->
+<!-- ============================ PAGE 2 - parties &amp; §1-5 ================ -->
 <section class="page paper">
   <div class="frame-outer"></div>
   <div class="frame-inner"></div>
@@ -852,7 +852,7 @@ p.operative {
   </div>
 </section>
 
-<!-- ============================ PAGE 3 — §6–10 &amp; execution ============= -->
+<!-- ============================ PAGE 3 - §6-10 &amp; execution ============= -->
 <section class="page paper">
   <div class="frame-outer"></div>
   <div class="frame-inner"></div>
@@ -950,7 +950,7 @@ p.operative {
 
         <div class="sign-grid">
           <div>
-            <p class="mono label" style="margin-top:14px">Assignor — LogoOrbit</p>
+            <p class="mono label" style="margin-top:14px">Assignor - LogoOrbit</p>
             <p class="party-name">Nexus Forge Group / Phelps &amp; Associates</p>
             <div class="sign-line"></div>
             <p class="mono sign-caption">Authorized signature</p>
@@ -961,7 +961,7 @@ p.operative {
             </div>
           </div>
           <div>
-            <p class="mono label" style="margin-top:14px">Assignee — client of record</p>
+            <p class="mono label" style="margin-top:14px">Assignee - client of record</p>
             <p class="party-name"><span class="redact" style="width:64%"></span></p>
             <div class="sign-line"></div>
             <p class="mono sign-caption">Authorized signature</p>
@@ -987,7 +987,7 @@ p.operative {
   </div>
 </section>
 
-<!-- ============================ PAGE 4 — Exhibit A ====================== -->
+<!-- ============================ PAGE 4 - Exhibit A ====================== -->
 <section class="page paper">
   <div class="frame-outer"></div>
   <div class="frame-inner"></div>
@@ -1005,7 +1005,7 @@ p.operative {
     <div class="foil-rule"></div>
 
     <div class="sheet-body">
-      <h2 class="part">Exhibit A — Description of the Work</h2>
+      <h2 class="part">Exhibit A - Description of the Work</h2>
       <p class="lede">
         Only the final work and deliverables listed in this exhibit are covered by the assignment. Add pages if needed
         and have both parties initial each addition.

@@ -12,7 +12,7 @@ import { Icons } from './Icons'
  * Every link here carries `prefetch={false}`. A grid like this routinely holds
  * thirty or more entries, and the home page carries five of them, so the
  * default viewport prefetch was pulling down the route bundle for a hundred
- * pages nobody had asked for — several hundred kilobytes of JavaScript
+ * pages nobody had asked for - several hundred kilobytes of JavaScript
  * competing with the bytes the current page still needs to finish painting.
  * Next still prefetches on hover and on touch-start, so a link someone is
  * actually about to follow is still warm before the tap lands.
@@ -63,7 +63,7 @@ export default function LinkGrid({
         ) : (
           /* One Reveal around the grid rather than one per card. A grid of
              forty entries meant forty IntersectionObservers, and the home page
-             carries five grids — ninety-nine observers on one page, all of them
+             carries five grids - ninety-nine observers on one page, all of them
              re-measuring on scroll. The per-card stagger survives as CSS: the
              cards animate off the grid's own `is-visible`, three columns deep,
              which costs one observer instead of forty. */

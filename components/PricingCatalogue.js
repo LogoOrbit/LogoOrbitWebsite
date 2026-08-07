@@ -66,7 +66,7 @@ function BrandProtection() {
 
                 {/* The filing fee is what goes in the cart. The per-class fee
                     depends on what the business actually sells, so it is added
-                    by hand once we know — quietly inventing a class count here
+                    by hand once we know - quietly inventing a class count here
                     would put a number in the total that nobody agreed to. */}
                 <AddToCart
                   item={{

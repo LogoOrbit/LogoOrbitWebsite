@@ -164,7 +164,7 @@ export default function CertificateInstrument({
     </>
   ),
   subtitle = 'An instrument of transfer executed under 17 U.S.C. § 204(a)',
-  parties = ['Assignor — LogoOrbit', 'Assignee — client of record'],
+  parties = ['Assignor - LogoOrbit', 'Assignee - client of record'],
   seal,
 }) {
   return (

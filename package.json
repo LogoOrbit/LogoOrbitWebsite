@@ -2,7 +2,7 @@
   "name": "logoorbit-website",
   "version": "1.0.0",
   "private": true,
-  "description": "LogoOrbit — custom logo design, websites, animation, apps and marketing.",
+  "description": "LogoOrbit - custom logo design, websites, animation, apps and marketing.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

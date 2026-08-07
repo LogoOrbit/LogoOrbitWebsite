@@ -41,7 +41,7 @@ const clauses = [
     operative:
       '“Work” means only the approved final logo artwork specifically identified in Exhibit A, together with the listed deliverables. “Unused Concepts” means drafts, rejected directions, sketches and alternatives not listed in Exhibit A. “Third-Party Materials” means fonts, stock assets, software, templates or other material owned or licensed by someone other than the Assignor.',
     plain:
-      'Three defined terms carry the whole document. Everything that follows either grants you the Work, or explains why Unused Concepts and Third-Party Materials are not part of it. If you read one clause slowly, read this one — it is the clause that decides what the other nine are talking about.',
+      'Three defined terms carry the whole document. Everything that follows either grants you the Work, or explains why Unused Concepts and Third-Party Materials are not part of it. If you read one clause slowly, read this one - it is the clause that decides what the other nine are talking about.',
   },
   {
     id: 'conditions',
@@ -51,7 +51,7 @@ const clauses = [
     operative:
       'The assignment in Section 3 takes effect only after: (a) the Assignee has paid the separate copyright certificate fee of US $499; (b) all invoices for the underlying logo project have been paid in full; (c) the final Work has been approved; and (d) this Agreement has been completed and signed by authorised representatives of both parties. Before all conditions are satisfied, any concepts or previews are provided solely for private evaluation.',
     plain:
-      'Four conditions, all of which have to be true. This is the clause behind the ownership notice on our pricing pages: until every one of them is met, previews are for your private evaluation and nothing has moved. It is also the clause that makes the order of the work obvious — approve, settle, sign, launch.',
+      'Four conditions, all of which have to be true. This is the clause behind the ownership notice on our pricing pages: until every one of them is met, previews are for your private evaluation and nothing has moved. It is also the clause that makes the order of the work obvious - approve, settle, sign, launch.',
   },
   {
     id: 'assignment',
@@ -61,7 +61,7 @@ const clauses = [
     operative:
       'Subject to Section 2, the Assignor irrevocably assigns to the Assignee all of the Assignor’s right, title and interest in the Work, including the exclusive rights to reproduce, adapt, distribute, display and otherwise exploit the Work throughout the world for the full term of copyright and any renewals or extensions. The assignment includes the right to apply for copyright registration in the Assignee’s name.',
     plain:
-      'This is the sentence you are buying, and it is a transfer rather than a licence: worldwide, full term, irrevocable, nothing held back. Note the last line — once it is effective, registering the copyright in your own name is a filing you are entitled to make, without coming back to us for permission.',
+      'This is the sentence you are buying, and it is a transfer rather than a licence: worldwide, full term, irrevocable, nothing held back. Note the last line - once it is effective, registering the copyright in your own name is a filing you are entitled to make, without coming back to us for permission.',
   },
   {
     id: 'commercial',
@@ -81,7 +81,7 @@ const clauses = [
     operative:
       'The assignment does not include Unused Concepts, the Assignor’s pre-existing tools, processes, templates, know-how, or Third-Party Materials, which remain governed by their own licence terms. The Assignor retains no ownership interest in the Work after the assignment becomes effective, except for any portfolio-display permission separately stated in the service terms or agreed in writing.',
     plain:
-      'What stays behind, written down rather than left to be discovered. Rejected routes stay with us. A commercial typeface stays with its foundry — nobody can assign what they never owned. And we say plainly that the only thing we keep in the finished mark is permission to show it in our portfolio.',
+      'What stays behind, written down rather than left to be discovered. Rejected routes stay with us. A commercial typeface stays with its foundry - nobody can assign what they never owned. And we say plainly that the only thing we keep in the finished mark is permission to show it in our portfolio.',
   },
   {
     id: 'representations',
@@ -91,7 +91,7 @@ const clauses = [
     operative:
       'The Assignor represents that it has authority to enter into this Agreement and that, to its knowledge, the human-authored portions of the Work created by it are original and have not previously been assigned. This Agreement does not guarantee copyright registrability, trademark registrability, non-conflict with every third-party right, or acceptance by a government office.',
     plain:
-      'We stand behind what we can actually stand behind: the work is human-made, ours, and unassigned elsewhere. What we will not pretend is that no one anywhere holds a similar mark. That question is answered by a trademark clearance search, which is separate work — and any studio promising otherwise is writing a clause it cannot honour.',
+      'We stand behind what we can actually stand behind: the work is human-made, ours, and unassigned elsewhere. What we will not pretend is that no one anywhere holds a similar mark. That question is answered by a trademark clearance search, which is separate work - and any studio promising otherwise is writing a clause it cannot honour.',
   },
   {
     id: 'client-material',
@@ -101,7 +101,7 @@ const clauses = [
     operative:
       'The Assignee represents that it has permission to use every name, slogan, image, sketch, font or other item it supplied for the project. Rights in client-supplied material are not created or expanded by this Agreement, and the Assignee remains responsible for claims arising from that material.',
     plain:
-      'The obligation that runs the other way. If you sent us a sketch, a photograph, a slogan or a font to work from, this instrument does not launder it — whatever rights you had in it before, you have after. Worth a moment’s thought if any part of the brief came from somewhere other than you.',
+      'The obligation that runs the other way. If you sent us a sketch, a photograph, a slogan or a font to work from, this instrument does not launder it - whatever rights you had in it before, you have after. Worth a moment’s thought if any part of the brief came from somewhere other than you.',
   },
   {
     id: 'moral-rights',
@@ -111,7 +111,7 @@ const clauses = [
     operative:
       'To the maximum extent permitted by applicable law, the Assignor waives and agrees not to assert moral rights or similar rights in the Work. Where a waiver is not legally effective, the Assignor consents to reasonable modification and use of the Work by the Assignee consistent with this Agreement.',
     plain:
-      'The clause most ownership paperwork forgets. In several countries an author keeps personal rights over their work even after selling the copyright — enough to object to how it is altered. Here the designer waives them, so redrawing, recolouring or cropping your own logo is never somebody else’s decision.',
+      'The clause most ownership paperwork forgets. In several countries an author keeps personal rights over their work even after selling the copyright - enough to object to how it is altered. Here the designer waives them, so redrawing, recolouring or cropping your own logo is never somebody else’s decision.',
   },
   {
     id: 'assurances',
@@ -121,7 +121,7 @@ const clauses = [
     operative:
       'Each party will sign reasonable additional documents needed to confirm the transfer described here. Any government copyright registration, recordation, filing fee or trademark filing is separate from this Agreement unless expressly included in a written order.',
     plain:
-      'Years later a registrar, an investor or a buyer’s lawyer may want one more signature to complete a chain of title. This clause commits us to giving it. It also states, again, that a government filing is a separate job — we would rather repeat ourselves than let that be assumed.',
+      'Years later a registrar, an investor or a buyer’s lawyer may want one more signature to complete a chain of title. This clause commits us to giving it. It also states, again, that a government filing is a separate job - we would rather repeat ourselves than let that be assumed.',
   },
   {
     id: 'governing',
@@ -137,11 +137,11 @@ const clauses = [
     id: 'exhibit',
     tab: 'Exhibit A',
     number: 'A',
-    heading: 'Exhibit A — description of the Work',
+    heading: 'Exhibit A - description of the Work',
     operative:
-      'Only the final work and deliverables listed in this exhibit are covered by the assignment. The exhibit records the final logo name, the project or order number, the approved version, the included files, the colour specifications, the typography and its licence notes, and any excluded material — initialled and dated by both parties.',
+      'Only the final work and deliverables listed in this exhibit are covered by the assignment. The exhibit records the final logo name, the project or order number, the approved version, the included files, the colour specifications, the typography and its licence notes, and any excluded material - initialled and dated by both parties.',
     plain:
-      'A transfer of “the logo” is an argument waiting to happen. Exhibit A turns it into an inventory: this mark, this approved version, these files, these colours, this typeface. If it is not on the schedule it was not assigned — which cuts both ways, and is why we walk the list with you before anyone signs.',
+      'A transfer of “the logo” is an argument waiting to happen. Exhibit A turns it into an inventory: this mark, this approved version, these files, these colours, this typeface. If it is not on the schedule it was not assigned - which cuts both ways, and is why we walk the list with you before anyone signs.',
   },
 ]
 
@@ -186,7 +186,7 @@ const chain = [
   {
     step: 'Step 04',
     title: 'The rights are yours',
-    body: 'From the effective date the mark is yours to use publicly and commercially, worldwide, for the full term — with no renewal and no royalty back to us.',
+    body: 'From the effective date the mark is yours to use publicly and commercially, worldwide, for the full term - with no renewal and no royalty back to us.',
   },
 ]
 
@@ -213,9 +213,9 @@ const registers = [
     price: 'Government fee · optional, later',
     rows: [
       ['What it is', 'A public record of a copyright claim, held by the U.S. Copyright Office'],
-      ['Who issues it', 'The U.S. Copyright Office — a government body, not a design studio'],
+      ['Who issues it', 'The U.S. Copyright Office - a government body, not a design studio'],
       ['What it gives you', 'A public record, plus remedies that can matter if you ever have to sue'],
-      ['What it is not', 'It does not, by itself, move ownership from us to you — a signed transfer does that'],
+      ['What it is not', 'It does not, by itself, move ownership from us to you - a signed transfer does that'],
       ['How long it takes', 'Months, and it is filed by whoever owns the work at the time of filing'],
     ],
   },
@@ -226,7 +226,7 @@ const registers = [
       ['What it is', 'Registration of a brand name or mark for use in commerce in specific classes'],
       ['Who issues it', 'The United States Patent and Trademark Office'],
       ['What it gives you', 'Rights against others trading under a confusingly similar mark'],
-      ['What it is not', 'It is a different right entirely — it says nothing about who drew the artwork'],
+      ['What it is not', 'It is a different right entirely - it says nothing about who drew the artwork'],
       ['How long it takes', 'Typically eight to eighteen months, and it starts with a clearance search'],
     ],
   },
@@ -243,11 +243,11 @@ const faqs = [
   },
   {
     q: 'Is this the same as registering my copyright with the government?',
-    a: 'No, and we will not let that be unclear. This is a private transfer document between two parties, which is how ownership of a copyright actually moves under U.S. law — a transfer generally has to be in a writing signed by the owner. Registration with the U.S. Copyright Office is a separate, optional public filing you can make afterwards, as the owner, once this instrument has made you the owner.',
+    a: 'No, and we will not let that be unclear. This is a private transfer document between two parties, which is how ownership of a copyright actually moves under U.S. law - a transfer generally has to be in a writing signed by the owner. Registration with the U.S. Copyright Office is a separate, optional public filing you can make afterwards, as the owner, once this instrument has made you the owner.',
   },
   {
     q: 'Whose name should be on it?',
-    a: 'The legal entity that will trade under the mark. If your company already exists, use its registered name exactly as it appears on the incorporation paperwork. If it does not exist yet, either wait or put it in your own name and plan a second assignment into the company later. Tell the legal desk which you want before the certificate is drawn up — changing the assignee after signature means issuing a fresh instrument.',
+    a: 'The legal entity that will trade under the mark. If your company already exists, use its registered name exactly as it appears on the incorporation paperwork. If it does not exist yet, either wait or put it in your own name and plan a second assignment into the company later. Tell the legal desk which you want before the certificate is drawn up - changing the assignee after signature means issuing a fresh instrument.',
   },
   {
     q: 'Does anything expire, renew, or come back to you?',
@@ -255,11 +255,11 @@ const faqs = [
   },
   {
     q: 'What if my logo contains a licensed font?',
-    a: 'It is disclosed in the certificate rather than glossed over. A typeface used inside a logotype is usually converted to outlines, and the resulting artwork is assigned to you — but the font software itself stays under its foundry licence, and we say so on the face of the document. If you would rather avoid the question entirely, ask for a hand-drawn wordmark at the design stage.',
+    a: 'It is disclosed in the certificate rather than glossed over. A typeface used inside a logotype is usually converted to outlines, and the resulting artwork is assigned to you - but the font software itself stays under its foundry licence, and we say so on the face of the document. If you would rather avoid the question entirely, ask for a hand-drawn wordmark at the design stage.',
   },
   {
     q: 'Can we have our own lawyer review it first?',
-    a: 'Please do. That is exactly why the specimen PDF is published on this page with no gate in front of it — download it, send it to your counsel, and come back with questions. If your lawyer wants a change to the wording for your project, write to the legal desk and we will tell you plainly whether we can accommodate it.',
+    a: 'Please do. That is exactly why the specimen PDF is published on this page with no gate in front of it - download it, send it to your counsel, and come back with questions. If your lawyer wants a change to the wording for your project, write to the legal desk and we will tell you plainly whether we can accommodate it.',
   },
 ]
 
@@ -482,7 +482,7 @@ export default function CopyrightCertificatePage() {
             <div className="cert-tilt mx-auto max-w-md lg:max-w-none">
               <CertificateInstrument record={heroRecord}>
                 <p className="doc-mono text-[10px] uppercase tracking-[0.22em] text-[#8a6a22]">
-                  Section 3 — Assignment of copyright
+                  Section 3 - Assignment of copyright
                 </p>
                 <p className="mt-2 text-[13.5px] leading-[1.8] text-[#26314f] sm:text-[14.5px]">
                   Subject to Section 2, the Assignor irrevocably assigns to the Assignee all of the Assignor’s right,
@@ -518,7 +518,7 @@ export default function CopyrightCertificatePage() {
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-ink-500">
               Under U.S. law a copyright generally moves only by a writing signed by the owner. Until that writing
-              exists, the studio that drew the mark still holds the copyright in it — however much the design itself
+              exists, the studio that drew the mark still holds the copyright in it - however much the design itself
               cost. Here is the line between the two, written out.
             </p>
           </Reveal>
@@ -601,7 +601,7 @@ export default function CopyrightCertificatePage() {
               <span className="cert-foil">contact form.</span>
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-white/65">
-              Most studios describe their ownership paperwork. Read ours instead — section by section, in the
+              Most studios describe their ownership paperwork. Read ours instead - section by section, in the
               certificate’s own words, with what each one actually means for you underneath it.
             </p>
           </Reveal>
@@ -639,7 +639,7 @@ export default function CopyrightCertificatePage() {
           <Reveal delay={120}>
             <p className="mx-auto mt-12 max-w-3xl rounded-2xl border border-slate-200 bg-slate-50 p-5 text-center text-[15px] leading-relaxed text-ink-600 sm:p-6">
               Step three is the one that carries legal weight. A transfer of copyright ownership generally has to be in
-              writing and signed by the owner of the rights being transferred — see{' '}
+              writing and signed by the owner of the rights being transferred - see{' '}
               <a
                 className="font-semibold text-brand-600 underline underline-offset-4"
                 href="https://www.copyright.gov/title17/92chap2.html#204"
@@ -719,7 +719,7 @@ export default function CopyrightCertificatePage() {
               <Link href="/legal" className="font-semibold text-brand-600 underline underline-offset-4">
                 Our trademark filing service
               </Link>{' '}
-              handles the clearance search and the USPTO application separately — and we will tell you when it is not
+              handles the clearance search and the USPTO application separately - and we will tell you when it is not
               worth filing yet.
             </p>
           </Reveal>

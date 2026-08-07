@@ -101,7 +101,7 @@ export default function CartPage() {
         breadcrumb="Cart"
         title="Everything you picked,"
         highlight="added up"
-        intro="Change the amounts, remove anything you do not want, then go to checkout. Nothing is charged here — the next step is talking to a person."
+        intro="Change the amounts, remove anything you do not want, then go to checkout. Nothing is charged here - the next step is talking to a person."
       >
         {/* The hero's default pair of buttons is "get a quote / view pricing",
             which is the wrong offer to a reader who has already chosen. */}

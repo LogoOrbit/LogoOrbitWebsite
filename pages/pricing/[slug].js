@@ -126,7 +126,7 @@ export default function PackagePage({ pkg, siblings }) {
           <Reveal className="mt-12 rounded-3xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
             <h2 className="text-xl font-bold text-ink-900">Not sure this is the right tier?</h2>
             <p className="mt-3 text-[15px] leading-relaxed text-ink-500">
-              Describe the business in two lines and we will tell you which package covers it — including when that is
+              Describe the business in two lines and we will tell you which package covers it - including when that is
               a cheaper one than the page you are on.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3.5">

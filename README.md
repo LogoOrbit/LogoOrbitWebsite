@@ -77,8 +77,8 @@ NEXT_PUBLIC_CRISP_WEBSITE_ID=00000000-0000-0000-0000-000000000000
 ```
 
 Find the ID in Crisp under **Settings → Website Settings → Setup instructions**; it is
-the UUID in the snippet they give you. It is public by design — it names the inbox and
-grants nothing — which is why it carries the `NEXT_PUBLIC_` prefix.
+the UUID in the snippet they give you. It is public by design - it names the inbox and
+grants nothing - which is why it carries the `NEXT_PUBLIC_` prefix.
 
 With the variable unset, no launcher renders and no vendor script loads, so the site is
 unchanged until an inbox actually exists to answer.
@@ -93,7 +93,7 @@ Two things worth keeping in mind when editing it:
 - Crisp's own launcher stays hidden throughout (`chat:hide`). The corner belongs to the
   WhatsApp button, and Crisp's launcher cannot be moved out of it, so the chatbox is
   driven by API and the visible control is ours. `openLiveChat()` is exported for any
-  other "chat to us instead" entry point — the contact page uses it.
+  other "chat to us instead" entry point - the contact page uses it.
 
 Free-plan limits worth knowing: **two agent seats**, one inbox, no chat history export.
 Adding a third person who answers chats means paying, or rotating the two seats.

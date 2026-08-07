@@ -36,7 +36,7 @@ function pageNumbers(current, total) {
  *
  * The palette is faster for someone who knows what they want, but it cannot
  * be linked to, bookmarked or shared, and it disappears the moment you look
- * away from it. This page gives the same index a URL — /search?q=logo — so a
+ * away from it. This page gives the same index a URL - /search?q=logo - so a
  * result set can be sent to a colleague, and gives the 404 page and footer
  * somewhere to point people who are lost rather than browsing.
  */
@@ -180,7 +180,7 @@ export default function SearchPage() {
             {trimmed && index !== null && (
               results.length
                 ? `${results.length} result${results.length === 1 ? '' : 's'} for “${trimmed}”${
-                    totalPages > 1 ? ` — page ${safePage} of ${totalPages}` : ''
+                    totalPages > 1 ? ` - page ${safePage} of ${totalPages}` : ''
                   }.`
                 : `No results for “${trimmed}”.`
             )}
@@ -189,7 +189,7 @@ export default function SearchPage() {
           {trimmed && index !== null && results.length === 0 && (
             <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center">
               <p className="text-ink-700">
-                Nothing matched that. Try a shorter or more general word — or tell us what you are after and
+                Nothing matched that. Try a shorter or more general word - or tell us what you are after and
                 we will point you at it.
               </p>
               <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">

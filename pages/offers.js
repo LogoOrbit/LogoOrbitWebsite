@@ -24,7 +24,7 @@ import { ORG_ID, absolute, breadcrumb, faqSchema } from '../lib/seo'
 const description =
   'Existing customer offer: 70% off every LogoOrbit service. Our $1,000 website is $299, and the same discount applies to logos, branding, animation and apps.'
 
-const waMessage = 'Hi LogoOrbit, YES — I am an existing customer and I want to claim the 70% offer.'
+const waMessage = 'Hi LogoOrbit, YES - I am an existing customer and I want to claim the 70% offer.'
 
 /** The service tiles carry the icon their own page uses, so the grid is scannable. */
 const serviceIcons = {
@@ -64,7 +64,7 @@ function Hero() {
         {/* On a phone these three blocks stack in the order a returning buyer
             needs them: what this is, what it costs, then why to say yes. The
             price panel is second in the DOM on a narrow screen for that
-            reason — sitting last, it landed two screens below the headline. */}
+            reason - sitting last, it landed two screens below the headline. */}
         <div className="mt-6 flex flex-col gap-8 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-start lg:gap-12">
           {/* The pitch */}
           <Reveal className="order-1 lg:col-start-1 lg:row-start-1">
@@ -80,7 +80,7 @@ function Hero() {
 
             <p className="mt-5 max-w-xl text-[16px] leading-relaxed text-white/75 sm:text-lg">
               You have worked with us before, so this one is yours: the website we normally build for{' '}
-              {money(headline.was)} is {money(headline.now)}. And it is not only websites — every service in
+              {money(headline.was)} is {money(headline.now)}. And it is not only websites - every service in
               our catalogue is {offer.discount}% off while this runs.
             </p>
           </Reveal>
@@ -322,7 +322,7 @@ function FeaturedPackage() {
                 </span>
 
                 <h2 className="mt-4 text-[1.7rem] font-bold leading-tight text-white sm:text-4xl">
-                  {informativeWebsite.name} —{' '}
+                  {informativeWebsite.name} -{' '}
                   <span className="text-gradient-light">{money(informativeWebsite.price)} only</span>
                 </h2>
 
@@ -331,7 +331,7 @@ function FeaturedPackage() {
                 </p>
 
                 <div className="mt-7 flex flex-wrap gap-2.5">
-                  {['Unlimited logo concepts', '8 – 10 pages', '8 designers', '100% ownership'].map((chip) => (
+                  {['Unlimited logo concepts', '8 - 10 pages', '8 designers', '100% ownership'].map((chip) => (
                     <span
                       key={chip}
                       className="rounded-full glass px-3.5 py-1.5 text-[13px] font-semibold text-white/90"
@@ -351,7 +351,7 @@ function FeaturedPackage() {
                     variant="featured"
                     full={false}
                     padding="px-7 py-4"
-                    label={`Add to cart — ${money(informativeWebsite.price)}`}
+                    label={`Add to cart - ${money(informativeWebsite.price)}`}
                     className="sm:w-64"
                   />
                 </div>
@@ -570,7 +570,7 @@ export default function Offers() {
 
   return (
     <Layout
-      title={`${offer.discount}% Off Everything — Existing Customer Offer`}
+      title={`${offer.discount}% Off Everything - Existing Customer Offer`}
       description={description}
       path="/offers"
       jsonLd={jsonLd}

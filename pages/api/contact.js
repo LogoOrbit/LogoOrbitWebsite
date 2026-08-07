@@ -28,8 +28,8 @@ const SERVICE_VALUES = new Set([
   'Brief: video',
 ])
 
-// The Content-Length check below is advisory — it is a client-supplied header
-// and a chunked request has none — so the real ceiling is set here.
+// The Content-Length check below is advisory - it is a client-supplied header
+// and a chunked request has none - so the real ceiling is set here.
 export const config = { api: { bodyParser: { sizeLimit: '64kb' } } }
 
 export default async function handler(req, res) {
@@ -84,8 +84,8 @@ export default async function handler(req, res) {
   // rather than lost with the request.
   console.log(`[contact] ${enquiry.service} from ${enquiry.name} <${enquiry.email}>`)
 
-  /* This call was previously unguarded. Resend being unreachable — DNS, a
-     dropped connection, the request timing out — throws rather than returning
+  /* This call was previously unguarded. Resend being unreachable - DNS, a
+     dropped connection, the request timing out - throws rather than returning
      a response, and the throw escaped the handler: the visitor got a bare 500
      with an HTML body, and the form, which expects JSON, showed them a parser
      error instead of anything they could act on. */

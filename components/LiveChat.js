@@ -17,7 +17,7 @@ import { crispWebsiteId } from '../lib/livechat'
  *
  * 1. Crisp is not loaded on page load. Their client is a few hundred KB and
  *    it would land on all three hundred pages of this site to serve the small
- *    fraction of visits that open a chat — the same weight the last round of
+ *    fraction of visits that open a chat - the same weight the last round of
  *    performance work went out of its way to remove. The button below is ours,
  *    it is plain markup, and the vendor script is fetched on the click.
  *
@@ -29,7 +29,7 @@ import { crispWebsiteId } from '../lib/livechat'
  *
  * 3. Crisp's own launcher stays hidden the whole time. It cannot be moved out
  *    of the corner the WhatsApp button owns, and it does not look like the
- *    rest of the site. So we drive the chatbox by API — show, open, hide —
+ *    rest of the site. So we drive the chatbox by API - show, open, hide -
  *    and render our own control, stacked above WhatsApp.
  */
 
@@ -92,7 +92,7 @@ function loadCrisp() {
 }
 
 /**
- * Opens the chatbox from anywhere — a "chat to us instead" link in a contact
+ * Opens the chatbox from anywhere - a "chat to us instead" link in a contact
  * panel, a button on a service page. Returns false when live chat is switched
  * off, so a caller can fall back to the phone or to WhatsApp.
  */
@@ -142,7 +142,7 @@ export default function LiveChat() {
     }
 
     /* One nudge, once per session, and only for people who have not chatted
-       before — an unread badge is the better prompt for everyone else. */
+       before - an unread badge is the better prompt for everyone else. */
     let show
     let hide
     try {

@@ -124,7 +124,7 @@ export default async function handler(req, res) {
   const units = lines.reduce((n, l) => n + l.qty, 0)
   const itemLines = lines.map(
     (l, i) =>
-      `${i + 1}. ${l.name} (${l.kind}) — ${l.qty} x ${l.from ? 'from ' : ''}${cash(l.price)} = ${cash(
+      `${i + 1}. ${l.name} (${l.kind}) - ${l.qty} x ${l.from ? 'from ' : ''}${cash(l.price)} = ${cash(
         round2(l.price * l.qty)
       )}`
   )
@@ -144,7 +144,7 @@ export default async function handler(req, res) {
     `${salesTax.label} (${salesTax.rate}%): ${cash(tax)}`,
     `Total: ${cash(total)}`,
     ...(lines.some((l) => l.from)
-      ? ['', 'Contains "from" prices — the total above is an estimate and needs confirming.']
+      ? ['', 'Contains "from" prices - the total above is an estimate and needs confirming.']
       : []),
     ...(mismatch ? ['', `NOTE: the browser showed ${cash(clientTotal)}. Server total is ${cash(total)}.`] : []),
     '',
@@ -199,7 +199,7 @@ export default async function handler(req, res) {
   </p>`
 
   const html = `<div style="font-family:Segoe UI,Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;color:#0b1733">
-  <h2 style="margin:0 0 4px;font-size:20px">New website order — ${esc(cash(total))}</h2>
+  <h2 style="margin:0 0 4px;font-size:20px">New website order - ${esc(cash(total))}</h2>
   <p style="margin:0 0 16px;font-size:13px;color:#5a6480">Placed ${esc(order.receivedAt)} · ${units} item${
     units === 1 ? '' : 's'
   } across ${lines.length} line${lines.length === 1 ? '' : 's'}</p>
@@ -219,7 +219,7 @@ export default async function handler(req, res) {
 
   ${
     lines.some((l) => l.from)
-      ? '<p style="margin:18px 0 0;padding:12px;background:#fff7e6;border-radius:10px;font-size:13px">Contains <strong>from</strong> prices — the total above is an estimate and needs confirming with the customer.</p>'
+      ? '<p style="margin:18px 0 0;padding:12px;background:#fff7e6;border-radius:10px;font-size:13px">Contains <strong>from</strong> prices - the total above is an estimate and needs confirming with the customer.</p>'
       : ''
   }
   ${
@@ -263,7 +263,7 @@ export default async function handler(req, res) {
   ].join('\n')
 
   const customerHtml = `<div style="font-family:Segoe UI,Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;color:#0b1733">
-  <h2 style="margin:0 0 6px;font-size:20px">Thanks, ${esc(order.name.split(' ')[0])} — we have your order</h2>
+  <h2 style="margin:0 0 6px;font-size:20px">Thanks, ${esc(order.name.split(' ')[0])} - we have your order</h2>
   <p style="margin:0 0 16px;font-size:14px;color:#5a6480">Nothing has been charged. A person from our team will contact you within one working day to confirm everything.</p>
 
   ${numberBadge}
@@ -320,7 +320,7 @@ export default async function handler(req, res) {
       await send({
         to,
         reply_to: order.email,
-        subject: `Order ${orderNumber} — ${order.name}, ${units} item${units === 1 ? '' : 's'}, ${cash(total)}`,
+        subject: `Order ${orderNumber} - ${order.name}, ${units} item${units === 1 ? '' : 's'}, ${cash(total)}`,
         text: body,
         html,
       })
@@ -335,7 +335,7 @@ export default async function handler(req, res) {
       await send({
         to: [order.email],
         reply_to: site.salesEmail,
-        subject: `Your LogoOrbit order ${orderNumber} — ${cash(total)}`,
+        subject: `Your LogoOrbit order ${orderNumber} - ${cash(total)}`,
         text: customerText,
         html: customerHtml,
       })

@@ -27,7 +27,7 @@ export default function Layout({
   const canonical = `${site.url}${path === '/' ? '' : path}`
   /* A page that forgets to pass a description used to ship
      `<meta name="description">` with no content at all, which is worse for a
-     search result than a generic sentence — and it went unnoticed across three
+     search result than a generic sentence - and it went unnoticed across three
      hundred pages because nothing here objected to `undefined`. A backstop
      costs one line and makes the failure visible in the markup instead. */
   const metaDescription =

@@ -34,8 +34,8 @@ const remember = () => {
  * It stands down on the offer pages themselves and on the checkout, where a
  * modal in front of a payment form is only ever a lost order.
  *
- * The decisions about *whether* to show it — the suppressed routes, the
- * sessionStorage check, the beat of delay — all live in OfferPopupGate, which
+ * The decisions about *whether* to show it - the suppressed routes, the
+ * sessionStorage check, the beat of delay - all live in OfferPopupGate, which
  * loads this file only once the answer is yes. Everything below (the markup,
  * the countdown, the price book the countdown formats from) is therefore off
  * the critical path of every page on the site rather than on it.
@@ -136,7 +136,7 @@ export default function OfferPopup() {
           </div>
 
           <p className="mt-3.5 text-[15px] leading-relaxed text-white/75">
-            Our {money(headline.was)} websites are now {money(headline.now)} — and every other service is{' '}
+            Our {money(headline.was)} websites are now {money(headline.now)} - and every other service is{' '}
             {offer.discount}% off too, exclusively for existing customers like you.
           </p>
 
@@ -152,7 +152,7 @@ export default function OfferPopup() {
               onClick={dismiss}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full glass px-6 py-3.5 font-semibold text-white transition-colors hover:bg-white/20"
             >
-              {informativeWebsite.name} — {money(informativeWebsite.price)} only
+              {informativeWebsite.name} - {money(informativeWebsite.price)} only
             </Link>
           </div>
 

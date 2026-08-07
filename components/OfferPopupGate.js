@@ -22,7 +22,7 @@ const remembered = () => {
  * The popup is mounted from _app, so it is on every page on the site. Imported
  * directly it put its own markup, the countdown, the icon set and the offer
  * copy into the shared bundle that has to be parsed before any page can
- * hydrate — for a panel that appears a second and a half later, and never at
+ * hydrate - for a panel that appears a second and a half later, and never at
  * all for the visitor who already dismissed it or who landed on the checkout.
  *
  * So this file holds the cheap half: three conditions, a timer, and no imports

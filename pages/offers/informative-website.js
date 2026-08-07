@@ -23,7 +23,7 @@ const { name, price, href, tagline, summary, groups } = informativeWebsite
 const description =
   'Informative Website, $499 in this offer: unlimited logo concepts, an 8 to 10 page responsive site, stationery, lead forms and full ownership. No monthly cost.'
 
-const waMessage = `Hi LogoOrbit, YES — I want the ${money(price)} Informative Website offer.`
+const waMessage = `Hi LogoOrbit, YES - I want the ${money(price)} Informative Website offer.`
 
 const groupIcons = {
   logo: Icons.logo,
@@ -36,7 +36,7 @@ const groupIcons = {
 const highlights = [
   { icon: Icons.spark, label: 'Unlimited logo concepts', sub: 'we draw until one is right' },
   { icon: Icons.team, label: '8 dedicated designers', sub: 'one team, one brief' },
-  { icon: Icons.website, label: '8 – 10 page website', sub: 'mobile responsive, built to load fast' },
+  { icon: Icons.website, label: '8 - 10 page website', sub: 'mobile responsive, built to load fast' },
   { icon: Icons.shield, label: '100% ownership rights', sub: 'no monthly cost, no yearly cost' },
 ]
 
@@ -175,8 +175,8 @@ function Hero() {
  * The offer sheet, grouped.
  *
  * Twenty-five ticks in one column is a list nobody finishes. Split into the
- * four questions a buyer is actually asking — what my brand looks like, what
- * the site is, how people find it, what I own afterwards — the same 25 items
+ * four questions a buyer is actually asking - what my brand looks like, what
+ * the site is, how people find it, what I own afterwards - the same 25 items
  * become four things to agree with.
  */
 function Included() {
@@ -332,7 +332,7 @@ function Close() {
               </h2>
               <p className="mt-4 text-[16px] leading-relaxed text-white/75 sm:text-lg">
                 Send one word and a dedicated account manager picks it up the same day. Part of our{' '}
-                {offer.discount}% existing-customer promotion — nothing is charged until the price is agreed
+                {offer.discount}% existing-customer promotion - nothing is charged until the price is agreed
                 in writing.
               </p>
 
@@ -349,7 +349,7 @@ function Close() {
                     <AddToCart
                       item={informativeCartItem}
                       variant="featured"
-                      label={`Add to cart — ${money(price)}`}
+                      label={`Add to cart - ${money(price)}`}
                     />
                   </div>
                 </div>
@@ -401,7 +401,7 @@ export default function InformativeWebsiteOffer() {
 
   return (
     <Layout
-      title={`${name} — ${money(price)} Only (Discounted Offer)`}
+      title={`${name} - ${money(price)} Only (Discounted Offer)`}
       description={description}
       path={href}
       jsonLd={jsonLd}

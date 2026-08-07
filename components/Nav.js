@@ -15,7 +15,7 @@ import { nav, site } from '../lib/site'
  * The menu covers six top-level sections and about forty shortcuts beneath
  * them, and it is in the viewport from the moment any page opens, so Next's
  * default viewport prefetch started downloading the route bundle for all of
- * them while the page the visitor asked for was still painting — a third of a
+ * them while the page the visitor asked for was still painting - a third of a
  * megabyte of speculative JavaScript on a phone. Prefetch on hover and on
  * touch-start still applies, and that is the signal that actually predicts a
  * click, so the navigation itself is no slower.
@@ -27,7 +27,7 @@ import { nav, site } from '../lib/site'
  * as a static import it still had to be downloaded, parsed and hydrated as part
  * of the header on every page. `searchReady` latches on the first open, so the
  * chunk is fetched once, at the moment it is wanted, and stays mounted after
- * that — closing the palette must not throw away the index it just fetched.
+ * that - closing the palette must not throw away the index it just fetched.
  */
 const SearchOverlay = dynamic(() => import('./SearchOverlay'), { ssr: false })
 
@@ -108,7 +108,7 @@ function Dropdown({ item, light, active }) {
 
       {/* `inert` matters as much as the opacity here. An element at opacity 0
           is still in the tab order, so a keyboard user tabbing along the header
-          used to walk through every link of every closed panel — a dozen
+          used to walk through every link of every closed panel - a dozen
           invisible stops where the page appears not to respond at all. */}
       <div
         inert={!open}
