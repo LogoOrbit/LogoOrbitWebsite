@@ -31,14 +31,14 @@ export function cartItemFor(item, kind) {
  * compares to the ones either side, and what happens after you order. The
  * card stays a comparison object, the page carries the detail.
  */
-function DetailsLink({ item, featured, label = 'See the full package page' }) {
+function DetailsLink({ item, featured, className = 'mt-3', label = 'See the full package page' }) {
   const href = packagePathFor(item)
   if (!href) return null
 
   return (
     <Link
       href={href}
-      className={`mt-3 inline-flex w-full items-center justify-center gap-1.5 text-[14px] font-semibold transition-colors ${
+      className={`${className} inline-flex w-full items-center justify-center gap-1.5 text-[13.5px] font-semibold transition-colors ${
         featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-brand-700'
       }`}
     >
@@ -53,20 +53,22 @@ function orderMessage(item) {
   return `Hi LogoOrbit, I'd like to order the ${item.name} ${(item.kind || 'package').toLowerCase()} at ${money(item.price)}.`
 }
 
-function OrderButton({ item, featured, className = 'mt-6', children = 'Order this package' }) {
+/**
+ * The order button is the quieter of the two: "add to cart" is the decision
+ * this page is built around, so it takes the solid pill and this one sits
+ * under it as an outline.
+ */
+function OrderButton({ item, featured, className = 'mt-2.5', children = 'Order this package' }) {
   return (
     <Link
       href={whatsappLink(orderMessage(item))}
       target="_blank"
       rel="noopener noreferrer"
-      className={
-        // Both variants keep the same type size and stay on one line: a
-        // wrapped "Order this / package" next to a single-line one made the
-        // four cards look like different components.
+      className={`${className} flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border px-5 py-3 text-[14.5px] font-semibold transition-colors ${
         featured
-          ? `btn-action ${className} w-full whitespace-nowrap px-5 py-3.5 text-[15px]`
-          : `${className} flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-ink-900 px-5 py-3.5 text-[15px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-action-600`
-      }
+          ? 'border-white/25 text-white hover:border-white/50 hover:bg-white/10'
+          : 'border-slate-200 text-ink-900 hover:border-ink-900 hover:bg-slate-50'
+      }`}
     >
       {children}
       <Icons.arrow className="w-4 h-4" />
@@ -74,23 +76,26 @@ function OrderButton({ item, featured, className = 'mt-6', children = 'Order thi
   )
 }
 
-/** The one-line "who is this for" note that sits under every price. */
-function BestFor({ text, featured }) {
+/**
+ * The one-line "who is this for" note that sits under the name.
+ *
+ * It used to be a tinted panel labelled "Best for". As plain type directly
+ * under the title it reads as the card's subtitle, which is what it always
+ * was, and the card loses a box it did not need.
+ */
+function BestFor({ text, featured, className = 'mt-2' }) {
   if (!text) return null
 
   return (
-    <div className={`mt-5 rounded-2xl px-4 py-3 ${featured ? 'bg-white/10' : 'bg-brand-50/70'}`}>
-      <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
-        Best for
-      </p>
-      <p className={`mt-1 text-[14px] leading-snug ${featured ? 'text-white/85' : 'text-ink-700'}`}>{text}</p>
-    </div>
+    <p className={`${className} text-[13.5px] leading-relaxed ${featured ? 'text-white/70' : 'text-ink-500'}`}>
+      {text}
+    </p>
   )
 }
 
 function Badge({ children }) {
   return (
-    <span className="pointer-events-none absolute -top-3.5 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-action-400 to-action-600 px-4 py-1.5 text-[12px] font-bold uppercase tracking-wider text-white shadow-lg shadow-action-600/50">
+    <span className="pointer-events-none absolute -top-3.5 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-flare-400 to-flare-500 px-4 py-1.5 text-[11.5px] font-bold uppercase tracking-[0.12em] text-ink-900 shadow-lg shadow-flare-500/40">
       <span className="flex items-center gap-1.5">
         <Icons.spark className="w-3.5 h-3.5" />
         {children}
@@ -100,271 +105,253 @@ function Badge({ children }) {
 }
 
 /**
- * Each tier gets its own colour, medal and top bar. Four identical white cards
- * in a row give a reader nothing to hold on to; a Bronze card should be
- * recognisably a different thing from a Platinum one at a glance.
+ * The card shell.
  *
- * The accents are decorative only: every piece of text keeps the readable
- * ink/white colours, so nothing here depends on colour to be understood.
+ * Plain white with a hairline border, one dark card for the tier we
+ * recommend. The tiers used to be told apart by a bronze/silver/gold/platinum
+ * medal and a matching top bar, which put four colour schemes in a row that is
+ * really one product; the name and the price already say which tier you are
+ * looking at. The featured card is raised rather than scaled: scaling
+ * resamples the text, which reads as a slightly blurred card next to its
+ * sharp neighbours. The extra top padding is the room the badge needs.
  */
-const tierStyles = [
-  { bar: 'from-amber-700 via-amber-500 to-amber-600', medal: 'from-amber-600 to-amber-400', hover: 'hover:border-amber-300' },
-  { bar: 'from-slate-400 via-slate-300 to-slate-400', medal: 'from-slate-400 to-slate-300', hover: 'hover:border-slate-400' },
-  { bar: 'from-yellow-500 via-amber-300 to-yellow-500', medal: 'from-yellow-500 to-amber-300', hover: 'hover:border-yellow-400' },
-  { bar: 'from-violet-500 via-orbit-300 to-violet-500', medal: 'from-violet-500 to-orbit-300', hover: 'hover:border-violet-400' },
-]
-
-const tierOf = (tier = 0) => tierStyles[tier % tierStyles.length]
-
-/**
- * The medal carries the tier's colour and the package's initial. It used to
- * carry the tier number, but the highlighted card is moved up the row, so the
- * numbers read 1, 4, 2, 3 on screen, which looks like a bug rather than a rank.
- */
-function TierMedal({ tier = 0, featured, label = '' }) {
-  const style = tierOf(tier)
-
-  return (
-    <span
-      className={`grid place-items-center w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br ${style.medal} text-[15px] font-bold text-white shadow-sm ${
-        featured ? 'ring-2 ring-white/25' : ''
-      }`}
-      aria-hidden="true"
-    >
-      {label.trim().charAt(0).toUpperCase()}
-    </span>
-  )
-}
-
-/**
- * The accent bar has to stop where the card's rounded corner starts. The
- * clipping wrapper has to be at least as tall as that 24px radius: a 6px-tall
- * wrapper with a 24px top radius is curved away along its whole length, which
- * left the bar floating above the card as a detached rounded sliver. So the
- * wrapper is the height of the radius and the bar sits inside it.
- */
-function TopBar({ tier = 0 }) {
-  return (
-    <span
-      className="pointer-events-none absolute inset-x-0 top-0 z-10 h-6 overflow-hidden rounded-t-3xl"
-      aria-hidden="true"
-    >
-      <span className={`block h-1.5 w-full bg-gradient-to-r ${tierOf(tier).bar}`} />
-    </span>
-  )
-}
-
-// The featured card is raised rather than scaled: scaling resamples the text
-// and the ring, which reads as a slightly blurred card next to its sharp
-// neighbours. The extra top padding is the room the badge needs.
-const shell = (featured, tier = 0) =>
-  `relative flex h-full flex-col rounded-3xl px-5 pb-5 sm:px-7 sm:pb-7 transition-all duration-300 ${
+const shell = (featured) =>
+  `relative flex h-full flex-col rounded-[1.75rem] px-6 pb-7 sm:px-7 transition-all duration-300 ${
     featured
-      ? 'pt-8 sm:pt-10 bg-gradient-to-b from-ink-900 to-[#111d3b] text-white shadow-2xl shadow-action-900/20 ring-2 ring-action-500 lg:-translate-y-2'
-      : `pt-5 sm:pt-7 bg-white border border-slate-200 hover:-translate-y-1.5 hover:shadow-xl ${tierOf(tier).hover}`
+      ? 'pt-9 sm:pt-10 bg-ink-900 text-white shadow-2xl shadow-ink-900/25 lg:-translate-y-2'
+      : 'pt-7 bg-white border border-slate-200 shadow-sm hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg'
   }`
+
+/** The card's title block: name, what kind of thing it is, who it suits. */
+function CardHead({ item, featured, kind, children }) {
+  return (
+    <div>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className={`text-xl font-bold leading-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
+            {item.name}
+          </h3>
+          {kind && (
+            <p className={`mt-1 text-[11px] font-bold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
+              {kind}
+            </p>
+          )}
+        </div>
+        {children}
+      </div>
+      {/* Three lines of room, so the price and the buttons below it start at
+          the same height on all four cards however long the sentence is. */}
+      <BestFor text={item.bestFor} featured={featured} className="mt-2.5 sm:min-h-[4.1rem]" />
+    </div>
+  )
+}
 
 /** Says out loud why the highlighted card is highlighted. */
 function Recommended() {
   return (
-    <p className="mt-4 flex items-center justify-center gap-2 rounded-full bg-action-500/15 px-3 py-2 text-[12px] font-semibold text-action-300">
-      <Icons.check className="w-4 h-4 shrink-0" />
+    <p className="mt-3 flex items-center justify-center gap-2 text-[12px] font-semibold text-white/70">
+      <Icons.check className="w-4 h-4 shrink-0 text-orbit-300" />
       What our designers put most clients on
     </p>
   )
 }
 
+/** A ticked line in the feature list. */
+function Tick({ children, featured }) {
+  return (
+    <li className="flex items-start gap-2.5 text-[14px]">
+      <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-orbit-300' : 'text-trust-500'}`} />
+      <span className={featured ? 'text-white/85' : 'text-ink-700'}>{children}</span>
+    </li>
+  )
+}
+
 /**
- * The full spec list, hidden until asked for. The three or four points that
- * actually separate the tiers are always visible; the long list underneath is
- * only useful to someone who is already comparing closely.
+ * The rest of the card, behind one button.
+ *
+ * A card carrying nine ticks, a spec sheet and a portal-type grid is a card
+ * nobody reads to the bottom, and four of them side by side is a wall. The
+ * points that actually separate this tier stay on the card; everything else,
+ * the remaining highlights, the full spec list and the "choose a type" grid,
+ * sits behind "Show more" and none of it is lost.
+ *
+ * The grid-rows animation is used rather than max-height so the panel opens to
+ * its own height, whatever that turns out to be.
  */
-function FullList({ features, featured }) {
+const LEAD_POINTS = 4
+
+function MoreDetails({ item, featured }) {
   const [open, setOpen] = useState(false)
 
-  if (!features?.length) return null
+  const points = item.highlights?.length ? item.highlights : item.features || []
+  const lead = points.slice(0, LEAD_POINTS)
+  const rest = points.slice(LEAD_POINTS)
+  // `features` is the full spec list and only exists alongside `highlights`;
+  // without highlights it is already the visible list above.
+  const spec = item.highlights?.length ? item.features || [] : []
+  const hiddenCount = rest.length + spec.length
+  const hasMore = hiddenCount > 0 || Boolean(item.choose)
 
   return (
-    <div className={`mt-4 hidden border-t pt-4 sm:block ${featured ? 'border-white/10' : 'border-slate-100'}`}>
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        aria-expanded={open}
-        className={`flex w-full items-center justify-between gap-2 text-[13px] font-semibold ${
-          featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-brand-700'
-        }`}
-      >
-        {open ? 'Hide the full list' : `See the full list (${features.length} items)`}
-        <Icons.plus className={`w-4 h-4 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`} />
-      </button>
+    <div className="mt-6 flex-1">
+      <ul className="space-y-2.5">
+        {lead.map((f) => (
+          <Tick key={f} featured={featured}>{f}</Tick>
+        ))}
+      </ul>
 
-      <div className="grid transition-all duration-300 ease-out" style={{ gridTemplateRows: open ? '1fr' : '0fr' }}>
-        <div className="overflow-hidden">
-          <ul className="mt-3 space-y-1.5">
-            {features.map((f) => (
-              <li key={f} className={`flex items-start gap-2 text-[13px] ${featured ? 'text-white/70' : 'text-ink-500'}`}>
-                <span className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${featured ? 'bg-white/40' : 'bg-ink-300'}`} />
-                {f}
-              </li>
+      {hasMore && (
+        <>
+          <div
+            className="grid transition-[grid-template-rows] duration-300 ease-out"
+            style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+          >
+            <div className="overflow-hidden">
+              {rest.length > 0 && (
+                <ul className="mt-2.5 space-y-2.5">
+                  {rest.map((f) => (
+                    <Tick key={f} featured={featured}>{f}</Tick>
+                  ))}
+                </ul>
+              )}
+
+              {spec.length > 0 && (
+                <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+                  <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-white/60' : 'text-ink-500'}`}>
+                    Everything included
+                  </p>
+                  <ul className="mt-2.5 space-y-1.5">
+                    {spec.map((f) => (
+                      <li
+                        key={f}
+                        className={`flex items-start gap-2 text-[13px] ${featured ? 'text-white/70' : 'text-ink-500'}`}
+                      >
+                        <span className={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${featured ? 'bg-white/40' : 'bg-ink-300'}`} />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {item.choose && (
+                <div className={`mt-4 rounded-2xl p-4 ${featured ? 'bg-white/5' : 'bg-slate-50'}`}>
+                  <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-white/60' : 'text-ink-500'}`}>
+                    {item.choose.label}
+                  </p>
+                  <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
+                    {item.choose.options.map((o) => (
+                      <li key={o} className={`text-[13px] ${featured ? 'text-white/75' : 'text-ink-700'}`}>{o}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            aria-expanded={open}
+            className={`mt-3.5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold transition-colors ${
+              featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-brand-700'
+            }`}
+          >
+            {open ? 'Show less' : hiddenCount > 0 ? `Show more (${hiddenCount})` : 'Show more'}
+            <Icons.plus className={`w-4 h-4 shrink-0 transition-transform duration-300 ${open ? 'rotate-45' : ''}`} />
+          </button>
+        </>
+      )}
+
+      {item.samples && (
+        <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
+          <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-white/60' : 'text-ink-500'}`}>
+            Watch a real example
+          </p>
+          <div className="mt-2 flex flex-col gap-1.5">
+            {item.samples.map((s) => (
+              <a
+                key={s.url}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-1.5 text-[13px] font-medium underline underline-offset-2 ${
+                  featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-orbit-600'
+                }`}
+              >
+                <Icons.play className="w-3.5 h-3.5" />
+                {s.label}
+              </a>
             ))}
-          </ul>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
 
-/** Standard package card: name, price, who it suits, what makes it different. */
-export function PriceCard({ item, tier = 0 }) {
-  const featured = item.featured
-  const points = item.highlights?.length ? item.highlights : item.features
-
-  // The first three points are what actually separate this tier from the one
-  // above it, and they stay on the card at every width. Everything after them
-  // is spec-sheet detail, which a phone reader only wants once they have
-  // narrowed it down to this card, so it folds away below `sm`.
-  // Anything past them folds away on a phone: stacked full-width cards mean
-  // every bullet left open is a bullet the reader scrolls past four times, so
-  // the fold pays for its own control even at one or two lines.
-  //
-  // The "choose a type" grid stays out of the fold: it is four words in two
-  // columns, so it is not worth a tap.
-  const tail = points.slice(3)
-  const fold = tail.length >= 1
-  const lead = fold ? points.slice(0, 3) : points
-  const rest = fold ? tail : []
-
+/** The price line: an optional "from", the number, and the terms. */
+function Price({ item, featured, children }) {
   return (
-    <div className={shell(featured, tier)}>
-      <TopBar tier={tier} />
-      {featured && item.badge && <Badge>{item.badge}</Badge>}
+    <div className="mt-5 flex flex-wrap items-baseline gap-x-2">
+      {item.from && (
+        <span className={`text-[13px] font-medium ${featured ? 'text-white/60' : 'text-ink-500'}`}>from</span>
+      )}
+      <span className={`text-[2.35rem] font-bold leading-none tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
+        {money(item.price)}
+      </span>
+      {children}
+    </div>
+  )
+}
 
-      <div className="flex items-center gap-3">
-        <TierMedal tier={tier} featured={featured} label={item.name} />
-        <div className="min-w-0">
-          <p className={`text-lg sm:text-xl font-bold leading-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
-            {item.name}
-          </p>
-          {item.kind && (
-            <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
-              {item.kind}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <p className="mt-4 flex flex-wrap items-baseline gap-x-1.5">
-        {item.from && (
-          <span className={`text-xs font-medium ${featured ? 'text-white/70' : 'text-ink-500'}`}>from</span>
-        )}
-        <span className={`text-[2.1rem] sm:text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
-          {money(item.price)}
-        </span>
-        <span className={`text-[13px] ${featured ? 'text-white/70' : 'text-ink-500'}`}>
-          one-off
-        </span>
-      </p>
-
-      <BestFor text={item.bestFor} featured={featured} />
-
-      <div className="mt-5 flex-1">
-        <ul className="space-y-2.5">
-          {lead.map((f) => (
-            <li key={f} className="flex items-start gap-2.5 text-sm">
-              <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
-              <span className={featured ? 'text-white/85' : 'text-ink-700'}>{f}</span>
-            </li>
-          ))}
-        </ul>
-
-        {fold && (
-          <MoreOnPhone
-            className="mt-4 sm:mt-2.5"
-            tone={featured ? 'dark' : 'light'}
-            label={`See full details (${rest.length} more)`}
-          >
-            <ul className="space-y-2.5 pt-4 sm:pt-0">
-              {rest.map((f) => (
-                <li key={f} className="flex items-start gap-2.5 text-sm">
-                  <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
-                  <span className={featured ? 'text-white/85' : 'text-ink-700'}>{f}</span>
-                </li>
-              ))}
-            </ul>
-          </MoreOnPhone>
-        )}
-
-        {item.choose && (
-          <div className={`mt-5 rounded-2xl p-4 ${featured ? 'bg-white/5' : 'bg-slate-50'}`}>
-            <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
-              {item.choose.label}
-            </p>
-            <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1">
-              {item.choose.options.map((o) => (
-                <li key={o} className={`text-[13px] ${featured ? 'text-white/75' : 'text-ink-700'}`}>{o}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {item.highlights && <FullList features={item.features} featured={featured} />}
-
-        {item.samples && (
-          <div className={`mt-4 border-t pt-4 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
-            <p className={`text-xs font-semibold uppercase tracking-wider ${featured ? 'text-white/60' : 'text-ink-500'}`}>
-              Watch a real example
-            </p>
-            <div className="mt-2 flex flex-col gap-1.5">
-              {item.samples.map((s) => (
-                <a
-                  key={s.url}
-                  href={s.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 text-[13px] font-medium underline underline-offset-2 ${
-                    featured ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-orbit-600'
-                  }`}
-                >
-                  <Icons.play className="w-3.5 h-3.5" />
-                  {s.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      <AddToCart item={cartItemFor(item)} variant={featured ? 'featured' : 'solid'} className="mt-5 sm:mt-6" />
-      <OrderButton item={item} featured={featured} className="mt-2.5">
+/**
+ * The two buttons and the link to the full page, in the same order on every
+ * card so a row of them lines up.
+ */
+function CardActions({ item, featured, kind, detailsLabel }) {
+  return (
+    <div className="mt-5">
+      <AddToCart item={cartItemFor(item, kind)} variant={featured ? 'gradient' : 'ink'} />
+      <OrderButton item={item} featured={featured}>
         Order this now
       </OrderButton>
-      <DetailsLink item={item} featured={featured} />
+      <DetailsLink item={item} featured={featured} label={detailsLabel} className="mt-2.5" />
       {featured && <Recommended />}
     </div>
   )
 }
 
-/** Bundle card: what is inside, what each part costs, and the saving. */
-export function BundleCard({ item, tier = 0 }) {
+/** Standard package card: name, price, who it suits, what makes it different. */
+export function PriceCard({ item }) {
   const featured = item.featured
 
   return (
-    <div className={shell(featured, tier)}>
-      <TopBar tier={tier} />
+    <div className={shell(featured)}>
+      {featured && item.badge && <Badge>{item.badge}</Badge>}
+
+      <CardHead item={item} featured={featured} kind={item.kind} />
+
+      <Price item={item} featured={featured}>
+        <span className={`text-[13px] ${featured ? 'text-white/60' : 'text-ink-500'}`}>one-off</span>
+      </Price>
+
+      <CardActions item={item} featured={featured} />
+
+      <MoreDetails item={item} featured={featured} />
+    </div>
+  )
+}
+
+/** Bundle card: what is inside, what each part costs, and the saving. */
+export function BundleCard({ item }) {
+  const featured = item.featured
+
+  return (
+    <div className={shell(featured)}>
       {featured && <Badge>{item.badge || 'Most popular'}</Badge>}
 
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-3">
-          <TierMedal tier={tier} featured={featured} label={item.name} />
-          <div className="min-w-0">
-            <p className={`text-lg sm:text-xl font-bold leading-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
-              {item.name}
-            </p>
-            <p className={`text-[12px] font-semibold uppercase tracking-[0.18em] ${featured ? 'text-orbit-300' : 'text-brand-600'}`}>
-              Bundle
-            </p>
-          </div>
-        </div>
+      <CardHead item={item} featured={featured} kind="Bundle">
         <span
           className={`shrink-0 rounded-full px-2.5 py-1 text-[12px] font-bold ${
             featured ? 'bg-trust-500/20 text-trust-300' : 'bg-trust-50 text-trust-700'
@@ -372,68 +359,57 @@ export function BundleCard({ item, tier = 0 }) {
         >
           Save {item.savingPct}%
         </span>
-      </div>
+      </CardHead>
 
-      <div className="mt-4 flex flex-wrap items-baseline gap-x-2.5">
-        <span className={`text-[2.1rem] sm:text-4xl font-bold tracking-tight ${featured ? 'text-white' : 'text-ink-900'}`}>
-          {money(item.price)}
-        </span>
-        <span className={`text-lg line-through ${featured ? 'text-white/60' : 'text-ink-500'}`}>
+      <Price item={item} featured={featured}>
+        <span className={`text-lg line-through ${featured ? 'text-white/50' : 'text-ink-500'}`}>
           {money(item.was)}
         </span>
-      </div>
+      </Price>
 
-      <p className={`mt-1.5 text-sm font-semibold ${featured ? 'text-trust-300' : 'text-trust-600'}`}>
+      <p className={`mt-2 text-[13.5px] font-semibold ${featured ? 'text-trust-300' : 'text-trust-600'}`}>
         You save {money(item.saving)}
+        {item.bestSaving && !featured && (
+          <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-trust-50 px-2 py-0.5 text-[11.5px] font-bold text-trust-700">
+            <Icons.spark className="w-3 h-3" />
+            Biggest discount
+          </span>
+        )}
       </p>
 
-      {item.bestSaving && !featured && (
-        <span className="mt-2.5 inline-flex items-center gap-1.5 self-start rounded-full bg-trust-50 px-2.5 py-1 text-[12px] font-bold text-trust-700">
-          <Icons.spark className="w-3.5 h-3.5" />
-          Biggest discount
-        </span>
-      )}
+      <CardActions item={item} featured={featured} kind="Bundle" detailsLabel="See what is in this bundle" />
 
-      <BestFor text={item.bestFor} featured={featured} />
-
-      <div className={`mt-5 flex-1 border-t pt-5 ${featured ? 'border-white/10' : 'border-slate-100'}`}>
-        <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-white/70' : 'text-ink-500'}`}>
+      <div className="mt-6 flex-1">
+        <p className={`text-[11px] font-bold uppercase tracking-[0.16em] ${featured ? 'text-white/60' : 'text-ink-500'}`}>
           What is in it
         </p>
-        <ul className="mt-3 space-y-3">
+        <ul className="mt-3 space-y-2.5">
           {item.includes.map((inc) => (
-            <li key={inc.label} className="flex items-start justify-between gap-3 text-sm">
+            <li key={inc.label} className="flex items-start justify-between gap-3 text-[14px]">
               <span className="flex items-start gap-2.5">
-                <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-trust-300' : 'text-trust-500'}`} />
+                <Icons.check className={`mt-0.5 w-4 h-4 shrink-0 ${featured ? 'text-orbit-300' : 'text-trust-500'}`} />
                 <span className={featured ? 'text-white/85' : 'text-ink-700'}>{inc.label}</span>
               </span>
-              <span className={`shrink-0 text-[13px] font-semibold tabular-nums ${featured ? 'text-white/70' : 'text-ink-500'}`}>
+              <span className={`shrink-0 text-[13px] font-semibold tabular-nums ${featured ? 'text-white/60' : 'text-ink-500'}`}>
                 {money(inc.price)}
               </span>
             </li>
           ))}
         </ul>
-      </div>
 
-      {/* The same number is already struck through beside the price and named
-          again in "you save", so on a phone this third telling is dropped. */}
-      <div
-        className={`mt-4 hidden items-center justify-between rounded-2xl px-4 py-2.5 text-sm sm:flex ${
-          featured ? 'bg-white/5' : 'bg-slate-50'
-        }`}
-      >
-        <span className={featured ? 'text-white/70' : 'text-ink-500'}>Bought separately</span>
-        <span className={`font-semibold line-through ${featured ? 'text-white/70' : 'text-ink-500'}`}>
-          {money(item.was)}
-        </span>
+        {/* The same number is already struck through beside the price and named
+            again in "you save", so on a phone this third telling is dropped. */}
+        <div
+          className={`mt-4 hidden items-center justify-between rounded-2xl px-4 py-2.5 text-[13.5px] sm:flex ${
+            featured ? 'bg-white/5' : 'bg-slate-50'
+          }`}
+        >
+          <span className={featured ? 'text-white/70' : 'text-ink-500'}>Bought separately</span>
+          <span className={`font-semibold line-through ${featured ? 'text-white/70' : 'text-ink-500'}`}>
+            {money(item.was)}
+          </span>
+        </div>
       </div>
-
-      <AddToCart item={cartItemFor(item, 'Bundle')} variant={featured ? 'featured' : 'solid'} className="mt-5 sm:mt-6" />
-      <OrderButton item={item} featured={featured} className="mt-2.5">
-        Order this now
-      </OrderButton>
-      <DetailsLink item={item} featured={featured} label="See what is in this bundle" />
-      {featured && <Recommended />}
     </div>
   )
 }

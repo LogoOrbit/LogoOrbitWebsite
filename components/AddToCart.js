@@ -65,10 +65,25 @@ export function QtyStepper({ value, onChange, tone = 'light', size = 'md', label
 }
 
 /**
+ * The paint of the "add to cart" pill, one entry per variant. Written out in
+ * full rather than composed, because Tailwind only ships the class names it
+ * can see as literal strings at build time.
+ */
+const VARIANTS = {
+  solid: 'bg-brand-600 text-white hover:bg-brand-700',
+  ink: 'bg-ink-900 text-white shadow-md shadow-ink-900/15 hover:bg-brand-700',
+  gradient:
+    'bg-gradient-to-r from-brand-500 to-orbit-500 text-white shadow-lg shadow-orbit-500/30 hover:from-brand-600 hover:to-orbit-600',
+  featured: 'bg-white text-ink-900 hover:bg-orbit-100',
+  ghost: 'border-2 border-ink-900 bg-transparent text-ink-900 hover:bg-ink-900 hover:text-white',
+}
+
+/**
  * @param item     anything with a name and a price. `kind`, `from`, `href`,
  *                 `sku` and `note` are all used when present.
- * @param variant  'solid' (default), 'featured' for dark cards, 'ghost' for a
- *                 quieter row inside a page body.
+ * @param variant  'solid' (default), 'ink' for the near-black pill the pricing
+ *                 cards use, 'gradient' and 'featured' for dark cards, 'ghost'
+ *                 for a quieter row inside a page body.
  */
 export default function AddToCart({
   item,
@@ -95,19 +110,16 @@ export default function AddToCart({
     timer.current = setTimeout(() => setFlash(false), 1800)
   }
 
-  const dark = variant === 'featured'
+  // Both dark-card variants sit on the near-black card, so the stepper they
+  // turn into has to be the dark one either way.
+  const dark = variant === 'featured' || variant === 'gradient'
   const width = full ? 'w-full' : ''
 
   // Until localStorage has been read the count is unknown, so the button
   // renders in its "add" state on both server and client and only swaps once
   // the real cart is in hand.
   if (!ready || qty === 0) {
-    const base =
-      variant === 'featured'
-        ? 'bg-white text-ink-900 hover:bg-orbit-100'
-        : variant === 'ghost'
-          ? 'border-2 border-ink-900 bg-transparent text-ink-900 hover:bg-ink-900 hover:text-white'
-          : 'bg-brand-600 text-white hover:bg-brand-700'
+    const base = VARIANTS[variant] || VARIANTS.solid
 
     return (
       <button

@@ -15,22 +15,23 @@ import { PriceCard, BundleCard } from './PriceCard'
 export default function CardRow({ items, className = '' }) {
   const isBundle = Boolean(items[0]?.includes)
 
-  // Keep the tier number with the item, then move the highlighted package to
-  // second place. Sitting last it was the card people scrolled past; second is
-  // where the eye lands after the cheapest one, and it stays next to a price
-  // it can be compared against.
-  const ordered = items.map((item, tier) => ({ item, tier }))
-  const star = ordered.findIndex((o) => o.item.featured)
+  // Move the highlighted package to second place. Sitting last it was the card
+  // people scrolled past; second is where the eye lands after the cheapest one,
+  // and it stays next to a price it can be compared against.
+  const ordered = [...items]
+  const star = ordered.findIndex((item) => item.featured)
   if (star > 1) ordered.splice(1, 0, ordered.splice(star, 1)[0])
 
   return (
     <div className={className}>
       {/* The badge on the highlighted card hangs above its top edge, so the row
-          carries the padding that keeps it clear of whatever sits above. */}
+          carries the padding that keeps it clear of whatever sits above.
+          `items-stretch` is what keeps every card the same height, including
+          after one of them has been opened up with "show more". */}
       <div className="grid items-stretch gap-4 pt-6 sm:grid-cols-2 sm:gap-5 sm:gap-y-8 sm:pt-5 lg:grid-cols-4">
-        {ordered.map(({ item, tier }, i) => (
+        {ordered.map((item, i) => (
           <Reveal key={item.name} delay={i * 70} className="h-full">
-            {isBundle ? <BundleCard item={item} tier={tier} /> : <PriceCard item={item} tier={tier} />}
+            {isBundle ? <BundleCard item={item} /> : <PriceCard item={item} />}
           </Reveal>
         ))}
       </div>
