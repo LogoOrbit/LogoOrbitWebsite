@@ -907,6 +907,13 @@ export default function TrademarkFilingPage() {
                 I need the copyright certificate too
               </Link>
             </div>
+            <p className="mt-5 text-[15px] text-ink-500">
+              Know what you want registered already?{' '}
+              <Link href="/brief/trademark" className="font-semibold text-brand-600 hover:underline">
+                Fill in the trademark brief
+              </Link>{' '}
+              and the legal desk has everything it needs to run the search.
+            </p>
           </Reveal>
         </div>
       </section>

@@ -51,13 +51,22 @@ const briefs = [
     meta: 'One page, about 3 minutes',
     external: false,
   },
+  {
+    id: 'trademark',
+    href: '/brief/trademark',
+    icon: Icons.scales,
+    title: 'USPTO trademark brief',
+    body: 'The mark, the legal owner, what you sell under it and whether you are using it yet. The things a filing cannot be corrected on later.',
+    meta: '7 steps, about 8 minutes',
+    external: false,
+  },
 ]
 
 export default function BriefChooser() {
   return (
     <Layout
       title="Start Your Brief"
-      description="Start a LogoOrbit project brief. Answer a few plain questions about your logo, website or video, download a PDF copy, and our design team takes it from there."
+      description="Start a LogoOrbit project brief. Answer a few plain questions about your logo, website, video or USPTO trademark filing, download a PDF copy, and our team takes it from there."
       path="/brief"
     >
       <PageHero
@@ -71,7 +80,7 @@ export default function BriefChooser() {
 
       <section className="py-14 sm:py-20 bg-white">
         <div className="mx-auto max-w-6xl px-5 sm:px-6">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {briefs.map((brief, i) => {
               const Icon = brief.icon
               const inner = (
