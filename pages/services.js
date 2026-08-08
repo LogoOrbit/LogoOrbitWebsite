@@ -268,6 +268,11 @@ export function getStaticProps() {
           description: s.metaDescription,
           meta: s.priceLabel,
           icon: s.icon,
+          // Same line the service's own page adds, so the two never split into
+          // two rows of the same thing in the cart.
+          sku: `/services/${s.slug}`,
+          price: s.price,
+          kind: g.name,
         })),
     }))
     .filter((g) => g.items.length > 0)

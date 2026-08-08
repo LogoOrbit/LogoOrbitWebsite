@@ -13,7 +13,7 @@ import { Icons } from '../components/Icons'
 import { flagship } from '../lib/pricing'
 import { money } from '../lib/money'
 import { site, services } from '../lib/site'
-import { catalogServices, groupTone } from '../lib/catalog'
+import { catalogServices, groupName, groupTone } from '../lib/catalog'
 import { ORG_ID, absolute, breadcrumb, faqSchema, offerNode } from '../lib/seo'
 
 const promises = [
@@ -341,6 +341,18 @@ export default function Pricing({ priced }) {
       {/* Prices first. Everything that helps you choose sits underneath them. */}
       <PricingCatalogue />
 
+      {/* Straight after the add-ons, because it is read the same way: a list of
+          single priced things you can drop in the basket. Down at the foot of
+          the page it was a sitemap nobody reached; here it is the last row of
+          the price list, and every card can be bought from where it sits. */}
+      <CatalogueGrid
+        eyebrow="Priced individually"
+        title="Everything else, with a starting price"
+        body="Each of these has its own page explaining exactly what is included at that price. Add any of them to your cart and we will confirm the final price before you pay."
+        items={priced}
+        surface="muted"
+      />
+
       <Finder />
 
       {/* One team for the whole lot, said plainly, once the prices are read. */}
@@ -425,16 +437,6 @@ export default function Pricing({ priced }) {
           </Reveal>
         </div>
       </section>
-
-      {/* The catalogue prices, so a visitor searching for one specific job can
-          find its page rather than hunting through the package tables. */}
-      <CatalogueGrid
-        eyebrow="Priced individually"
-        title="Everything else, with a starting price"
-        body="Each of these has its own page explaining exactly what is included at that price."
-        items={priced}
-        surface="muted"
-      />
     </Layout>
   )
 }
@@ -451,6 +453,11 @@ export function getStaticProps() {
           meta: s.priceLabel,
           icon: s.icon,
           tone: groupTone[s.group],
+          // What the card's add-to-cart button puts in the basket. The sku is
+          // the service's own path, the same one its page uses.
+          sku: `/services/${s.slug}`,
+          price: s.price,
+          kind: groupName[s.group] || 'Service',
         })),
     },
   }
