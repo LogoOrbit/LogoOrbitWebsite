@@ -33,13 +33,24 @@ import { toneVars } from './Illustrations'
  * now a stretched overlay rather than a wrapping anchor, because a button
  * nested inside an anchor is neither valid markup nor clickable.
  */
-export default function CatalogueGrid({ eyebrow, title, body, items, tone = 'blue', surface = 'light', id }) {
+export default function CatalogueGrid({
+  eyebrow,
+  title,
+  body,
+  items,
+  tone = 'blue',
+  surface = 'light',
+  id,
+  // Where a jump to this section lands. The default clears the nav; a page
+  // with a sticky strip under the nav passes a bigger one.
+  scrollMt = 'scroll-mt-24',
+}) {
   if (!items?.length) return null
 
   return (
     <section
       id={id}
-      className={`scroll-mt-24 py-10 sm:py-14 ${surface === 'muted' ? 'bg-slate-50' : 'bg-white'}`}
+      className={`${scrollMt} py-10 sm:py-14 ${surface === 'muted' ? 'bg-slate-50' : 'bg-white'}`}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         {(eyebrow || title) && (

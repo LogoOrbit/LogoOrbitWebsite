@@ -13,6 +13,7 @@ import CopyrightOwnershipNotice from './CopyrightOwnershipNotice'
 
 const tabIcon = {
   layers: Icons.layers,
+  shop: Icons.shop,
   logo: Icons.logo,
   website: Icons.website,
   animation: Icons.animation,
@@ -241,16 +242,32 @@ function AddOns() {
 }
 
 /**
- * The strip and the scroll-spy have to be built from the same list. Trademark
- * and Add-ons are sections of this page like any other, but they live outside
- * `categories`, and when only the categories were observed the two chips could
- * be tapped and never lit up, so the strip claimed you were still reading the
- * category above them.
+ * The individually-priced catalogue is drawn by the pricing page rather than by
+ * this component, but it is a section of the same page and belongs in the strip
+ * like any other. Both sides read the id from here, because a chip pointing at
+ * an id nothing on the page carries is a tap that does nothing.
+ */
+export const individualServices = {
+  id: 'individual-services',
+  tab: 'Everything else',
+  tabNote: 'Priced individually',
+  icon: 'shop',
+  /** Clears the nav and this strip together, as the sections above it do. */
+  scrollMt: 'scroll-mt-16 sm:scroll-mt-60 lg:scroll-mt-44',
+}
+
+/**
+ * The strip and the scroll-spy have to be built from the same list. Trademark,
+ * Add-ons and the individual services are sections of this page like any other,
+ * but they live outside `categories`, and when only the categories were
+ * observed those chips could be tapped and never lit up, so the strip claimed
+ * you were still reading the category above them.
  */
 const tabs = [
   ...categories,
   { id: brandProtection.id, tab: 'Trademark', tabNote: 'Protect your logo', icon: 'shield' },
   { id: addOns.id, tab: 'Add-ons', tabNote: 'Printing, hosting, care', icon: 'spark' },
+  individualServices,
 ]
 
 const jumpTo = (id) => {

@@ -6,7 +6,7 @@ import TrustBar from '../components/TrustBar'
 import Guarantees from '../components/Guarantees'
 import Reveal from '../components/Reveal'
 import ProcessSteps from '../components/ProcessSteps'
-import PricingCatalogue, { Finder } from '../components/PricingCatalogue'
+import PricingCatalogue, { Finder, individualServices } from '../components/PricingCatalogue'
 import MoreOnPhone from '../components/MoreOnPhone'
 import CatalogueGrid from '../components/CatalogueGrid'
 import { Icons } from '../components/Icons'
@@ -346,6 +346,8 @@ export default function Pricing({ priced }) {
           the page it was a sitemap nobody reached; here it is the last row of
           the price list, and every card can be bought from where it sits. */}
       <CatalogueGrid
+        id={individualServices.id}
+        scrollMt={individualServices.scrollMt}
         eyebrow="Priced individually"
         title="Everything else, with a starting price"
         body="Each of these has its own page explaining exactly what is included at that price. Add any of them to your cart and we will confirm the final price before you pay."
