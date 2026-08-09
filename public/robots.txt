@@ -1,12 +1,15 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /brief/logo.html
-Disallow: /brief/website.html
-Disallow: /brief/app.html
-Disallow: /cart
-Disallow: /checkout
-Disallow: /search
+
+# /cart, /checkout, /search and /brief/*.html are deliberately kept out of the
+# index, but they are NOT disallowed here, and that is on purpose. A crawler
+# that is refused the URL never fetches the page, so it never reads the
+# `noindex` on it - the directive and the block cancel each other out, and the
+# URL can still surface from a link somewhere else with nothing to suppress it.
+# Letting the crawl through is what lets the noindex do its job:
+#   /cart, /checkout, /search   <meta name="robots" content="noindex,nofollow">
+#   /brief/*.html               X-Robots-Tag: noindex, nofollow  (next.config.js)
 
 # Crawl the whole site; nothing here needs a delay.
 User-agent: Googlebot

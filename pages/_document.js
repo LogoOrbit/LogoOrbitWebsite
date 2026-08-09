@@ -15,6 +15,12 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="utf-8" />
+        {/* Crawlers and browsers request /favicon.ico by root convention whether
+            or not a page declares one, so the file has to exist: without it every
+            crawl of the site logs a 404 that Search Console then reports as a
+            not-found page. Declared first, and `sizes="any"` keeps a modern
+            browser on the PNGs below rather than the ICO. */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
         <link rel="icon" href="/logo-192.png" type="image/png" sizes="192x192" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />

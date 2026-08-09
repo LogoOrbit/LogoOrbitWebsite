@@ -14,6 +14,11 @@ import { portfolioLogos, portfolioCategories } from '../lib/portfolio'
  * a slice and grows on demand, and the home page asks for a smaller slice than
  * the portfolio page does.
  *
+ * `crawlable` decides how that slice is made. Off, the tiles past it are left
+ * out of the markup. On, they are all rendered and the ones past the slice are
+ * hidden in CSS - the page looks identical, but every mark's link is in the
+ * HTML. See the note on `visible` below for why that distinction matters.
+ *
  * Tiles keep a white face in both themes. The logos were drawn for white
  * backgrounds and many have white knocked out of the mark itself, so flipping
  * the tile dark would show holes in other people's brands.
@@ -25,6 +30,7 @@ export default function Portfolio({
   step = 32,
   showAllLink = false,
   filterTo = null,
+  crawlable = false,
 }) {
   const [filter, setFilter] = useState(filterTo || 'All')
   const [shown, setShown] = useState(initial)
@@ -58,7 +64,18 @@ export default function Portfolio({
   // from the reason they landed here.
   const locked = Boolean(filterTo)
 
-  const visible = items.slice(0, shown)
+  /* Slicing the array was quietly costing the case studies their only way in.
+     Each mark has a page of its own, and the grid is the one place above those
+     pages that links to them - but a crawler does not press "Show more work",
+     so all it ever saw was the opening six. The remaining 145 were left
+     reachable only from each other, which is how Search Console came to file
+     most of the portfolio as discovered and never indexed.
+
+     Rendering the lot and hiding the overflow in CSS costs a visitor nothing:
+     the tiles past the slice are `display:none`, and a lazy image inside one
+     is never fetched, so the bytes on the wire are the same. What changes is
+     that every mark now has a real link on the page that lists it. */
+  const visible = crawlable ? items : items.slice(0, shown)
   const pick = (cat) => {
     setFilter(cat)
     setTouched(false)
@@ -117,7 +134,9 @@ export default function Portfolio({
             <Reveal
               key={item.slug}
               delay={(i % 4) * 70}
-              className={!touched && i >= initialMobile ? 'max-sm:hidden' : ''}
+              className={
+                i >= shown ? 'hidden' : !touched && i >= initialMobile ? 'max-sm:hidden' : ''
+              }
             >
               {/* Every tile is a link now: each mark has a page of its own
                   explaining what that sector needs and what was delivered. */}

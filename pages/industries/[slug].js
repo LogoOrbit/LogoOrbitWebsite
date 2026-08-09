@@ -110,7 +110,13 @@ export default function IndustryPage({ industry, services, relatedGuides, siblin
       />
 
       {industry.portfolioCategory && (
-        <Portfolio showHeading={false} initial={8} step={16} filterTo={industry.portfolioCategory} />
+        <Portfolio
+          showHeading={false}
+          initial={8}
+          step={16}
+          filterTo={industry.portfolioCategory}
+          crawlable
+        />
       )}
 
       <Guarantees />

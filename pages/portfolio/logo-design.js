@@ -58,7 +58,9 @@ export default function LogoPortfolioPage({ sampleWork }) {
       />
 
       <TrustBar />
-      <Portfolio showHeading={false} initial={6} step={12} />
+      {/* The full logo index, so this is the page that carries a link to every
+          case study rather than to the six the grid happens to open on. */}
+      <Portfolio showHeading={false} initial={6} step={12} crawlable />
       <Testimonials />
       <CTA />
     </Layout>

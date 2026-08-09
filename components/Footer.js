@@ -16,6 +16,12 @@ const exploreLinks = [
   { label: 'Our Team', href: '/team' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Every package', href: '/pricing/packages' },
+  /* Both offer pages were reachable from the home page and from each other and
+     nowhere else, which left them with two inbound links apiece on a site of
+     nearly eight hundred pages. Google crawled them and declined to index them,
+     which is what that looks like from the outside. */
+  { label: 'Current offers', href: '/offers' },
+  { label: 'Website offer', href: '/offers/informative-website' },
   { label: 'Your cart', href: '/cart' },
   { label: 'Contact Us', href: '/contact' },
   { label: 'Design Resources', href: '/resources' },
