@@ -1,0 +1,1338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Copyright Assignment and Commercial Use Certificate - Revelation Ministries - Rodney Wilson</title>
+<style>
+/* ---------------------------------------------------------------------------
+   Print source for an ISSUED certificate: Revelation Ministries / Rodney Wilson.
+
+   This is the public specimen's stylesheet, unchanged down to the last
+   declaration, with the issued-copy additions appended at the bottom. An
+   issued certificate that does not look like the sample the client
+   downloaded before buying is the one thing this document cannot be.
+
+   Original header follows.
+
+   The design tokens here are lifted from styles/globals.css and
+   components/CertificateInstrument.js on purpose: the vault gradients, the
+   foil ramp, the cream stock, the crest and the seal are the same objects the
+   /copyright-certificate page draws on screen. Changing one without the other
+   is what makes a downloaded sample look like somebody else's document.
+
+   Rendered with headless Chromium - see tools/build-certificate-pdf.sh.
+--------------------------------------------------------------------------- */
+
+@page { size: 8.5in 11in; margin: 0; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: "Liberation Serif", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  color: #1b2440;
+}
+
+.mono {
+  font-family: "Liberation Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.page {
+  position: relative;
+  width: 8.5in;
+  height: 11in;
+  overflow: hidden;
+  page-break-after: always;
+}
+.page:last-child { page-break-after: auto; }
+
+/* --- the stock, from .cert-paper ------------------------------------------ */
+
+/* Same cross-hatch and gold wash the screen version lays over the stock, drawn
+   the way Chromium can actually export.
+
+   Written as CSS gradients (a radial with a transparent stop, plus two
+   repeating-linear-gradients at 1px/5px) they were the single most expensive
+   thing in the specimen: each repeating gradient became a tiling pattern whose
+   cell strokes hairlines across the full 2550x3300 page box, and the radial
+   became a page-sized image behind a soft mask - four times over, once per
+   page. On its own that was ~1.4s of the file's ~1.9s render cost.
+
+   Both are now one 565-byte opaque PNG: a 5px-wide, one-page-tall strip with
+   the wash and the hairlines already composited onto the cream, repeated
+   across the sheet. One image object, shared by all four pages, no soft mask -
+   an alpha tile costs as much as the gradients did, because a soft-masked
+   pattern is the same compositing work under another name. Same paper, ~0ms.
+
+   Keep this strip opaque. If it ever gains an alpha channel, the render cost
+   comes straight back. */
+.paper {
+  background-color: #fbf8f1;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAQgCAIAAAChIwEkAAAB/ElEQVR42u3MyXKjMBSFYd7/ATvpGGzARgwaQBKzN83qLKKF+lbiqsS+Vf/m1JW+RFZ/nDyhZOg+luGCyPvneadlyNHhvTmZouBO3b/Ok6fF5oi8pXhzKkUP8NLFFoi8pXh3KkMv51mZrrZA5K3Eu1cZ+o//2WpLFGwl/np1RtH37BE9la2uRNGt6g+vL+i4n1d3ReTN3qO9y+puKLpVffI6R+T/7H3Vy1dXocNLvS5QcLc6X32Fols1qTcFIv9n77NXrF4g8lZN5k2Jou+dLjYvULB1k42mRNH3r+eVm69RsHVzHs0VRd9/u2fKbaxRsHV7Hvsrir7//d5l7G/ouF+3sUHkzd6jvds2tii6dZuPfYXI/3+819+2qUWJ7vJxqFBwp+6ve9U2dejwinEQKLhT97N7vq/2qUOJ6YppECi4U3foiX2SiLxNV05DjdiL7UHss0SJkeVkaxTcw13vs0LBNvI62QZF37P3aO822RYd92afNSJv9h7ttftsUHQbVU2uQ4m37b4YRN7sUb1uX3p0eGJyEgV36v7sjba7Lz0i716J2Un0gp68LwMi717Vs1Po+z0n7+uAyLvX9ewVegJP3VeLgt3rZvYaRd+zxx577LHHHnvssccee+yxxx577LHHHnvssccee+yxxx577LHHHnvssccee0/r/QNydY8HdUsd7gAAAABJRU5ErkJggg==');
+  background-size: 5px 100%;
+  background-repeat: repeat-x;
+  color: #1b2440;
+}
+
+/* --- foil ----------------------------------------------------------------- */
+
+.foil-rule {
+  height: 1px;
+  background: linear-gradient(90deg, #fbf8f1, #b98f33 12%, #f7e8b4 50%, #b98f33 88%, #fbf8f1);
+}
+
+/* --- the document border, from CertificateInstrument ---------------------- */
+
+.frame-outer,
+.frame-inner {
+  position: absolute;
+  pointer-events: none;
+}
+.frame-outer {
+  inset: 0.34in;
+  border: 1px solid #e0c892;
+  border-radius: 10px;
+}
+.frame-inner {
+  inset: 0.44in;
+  border: 1px solid #ecdebd;
+  border-radius: 7px;
+}
+
+.corner { position: absolute; width: 0.46in; height: 0.46in; }
+.corner.tl { left: 0.34in; top: 0.34in; }
+.corner.tr { right: 0.34in; top: 0.34in; transform: rotate(90deg); }
+.corner.br { right: 0.34in; bottom: 0.34in; transform: rotate(180deg); }
+.corner.bl { left: 0.34in; bottom: 0.34in; transform: rotate(270deg); }
+
+/* --- SPECIMEN watermark --------------------------------------------------- */
+
+/* Retained but unused. An issued certificate carries no watermark - the rule
+   stays so this stylesheet still diffs cleanly against certificate-sample.html,
+   which is how the two are kept from drifting. Do not add .watermark markup to
+   an issued copy. */
+.watermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 86px;
+  letter-spacing: 0.3em;
+  transform: rotate(-24deg);
+  white-space: nowrap;
+}
+.watermark.on-paper { color: #efece7; }
+
+/* --- shared type ---------------------------------------------------------- */
+
+.eyebrow {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.label {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.field-value {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #1b2440;
+  letter-spacing: 0.01em;
+}
+
+.redact {
+  display: block;
+  height: 11px;
+  border-radius: 3px;
+  background-color: #dedcda;
+}
+
+/* ========================= page 1 - the certificate face ==================
+   The same object CertificateInstrument draws on /copyright-certificate:
+   cream stock, foil border, crest over a guilloche rosette, navy document
+   serif for the title, gold mono for the record block. */
+
+.face {
+  position: relative;
+  height: 100%;
+  padding: 0.82in 0.86in 0.66in;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.crest-halo {
+  position: relative;
+  width: 1.5in;
+  height: 1.5in;
+  margin: 0 auto;
+}
+.crest-halo .rosette { position: absolute; inset: 0; }
+.crest-halo .mark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.02in;
+  height: 1.02in;
+  transform: translate(-50%, -50%);
+}
+
+.face-dept {
+  margin-top: 14px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.face-title {
+  margin-top: 12px;
+  font-size: 31px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #121c36;
+}
+
+.face-subtitle {
+  margin-top: 11px;
+  font-size: 13.5px;
+  font-style: italic;
+  color: #4a5372;
+}
+
+.face-rule { margin: 17px auto 0; width: 76%; }
+
+.record {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 44px;
+  text-align: left;
+}
+.record .wide { grid-column: span 2; }
+.record dt {
+  font-size: 8.4px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.record dd {
+  margin-top: 6px;
+  font-size: 10.6px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1b2440;
+}
+
+.face-body { margin-top: 22px; text-align: left; }
+
+.face-section {
+  font-size: 8.6px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+
+.face-operative {
+  margin-top: 7px;
+  font-size: 11.4px;
+  line-height: 1.75;
+  color: #26314f;
+}
+
+.assurances {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid #e5d0a3;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.assurances div { padding: 12px 8px; }
+.assurances div + div { border-left: 1px solid #ebdcba; }
+.assurances .v { font-size: 13px; font-weight: 700; color: #121c36; }
+.assurances .k { margin-top: 4px; font-size: 9px; color: #4a5372; }
+
+.notice {
+  margin-top: 18px;
+  text-align: left;
+  border: 1px solid #e7d5ac;
+  background: #f6f0e1;
+  border-radius: 10px;
+  padding: 14px 17px;
+}
+.notice .h {
+  font-size: 8.4px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.notice p {
+  margin-top: 7px;
+  font-size: 10.6px;
+  line-height: 1.68;
+  color: #26314f;
+}
+
+/* The attestation foot. The instrument is executed on page 3, so this rule
+   carries the seal and the issuing desk rather than a second, duplicate pair
+   of signature lines. */
+.attest {
+  position: relative;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px dashed #bcbdbf;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  text-align: left;
+}
+.attest .who {
+  font-size: 10px;
+  font-weight: 700;
+  color: #1b2440;
+}
+.attest .where {
+  margin-top: 4px;
+  font-size: 9px;
+  color: #4a5372;
+}
+.attest .seal { margin-top: -46px; }
+
+/* ========================= pages 2-4 - the instrument ==================== */
+
+.sheet {
+  position: relative;
+  height: 100%;
+  padding: 0.66in 0.78in 0.62in;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 9px;
+}
+.sheet-head .brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #121c36;
+}
+.sheet-head .doc {
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+  text-align: right;
+}
+
+.sheet-body {
+  flex: 1;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sheet-foot {
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid #dcdad8;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 7.6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9699a1;
+}
+
+h2.part {
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #121c36;
+}
+
+p.lede {
+  margin-top: 8px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #26314f;
+}
+
+h3.clause {
+  margin-top: 18px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #121c36;
+}
+h3.clause .n {
+  display: inline-block;
+  min-width: 15px;
+  color: #8a6a22;
+}
+
+p.operative {
+  margin-top: 5px;
+  font-size: 10.4px;
+  line-height: 1.7;
+  color: #26314f;
+  text-align: justify;
+}
+
+/* --- the parties block ---------------------------------------------------- */
+
+.parties {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid #e7d5ac;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.parties > div { padding: 13px 16px; }
+.parties > div + div { border-left: 1px solid #ecdebd; }
+.parties .row + .row { margin-top: 11px; }
+.parties .val {
+  margin-top: 5px;
+  font-size: 10.6px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #1b2440;
+}
+.parties .val.soft { font-weight: 400; color: #4a5372; }
+
+.status-strip {
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border-left: 3px solid #c9a044;
+  background: #f6f0e1;
+  border-radius: 0 8px 8px 0;
+  padding: 11px 15px;
+}
+.status-strip .k { flex: 0 0 1.05in; }
+.status-strip p {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #26314f;
+}
+
+/* --- execution block ------------------------------------------------------ */
+
+/* Follows Section 10 directly. Pinning it to the foot of the sheet with
+   margin-top:auto opened a two-inch hole in the middle of the page, which
+   reads as a broken layout rather than as a signature block; a contract page
+   that simply ends early does not. */
+.execution {
+  margin-top: 26px;
+  padding-bottom: 4px;
+  position: relative;
+  border-top: 1px dashed #bcbdbf;
+  padding-top: 16px;
+}
+
+.exec-record {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid #e7d5ac;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.exec-record > div { padding: 11px 15px; }
+.exec-record > div + div { border-left: 1px solid #ecdebd; }
+.exec-record .v {
+  margin-top: 6px;
+  font-size: 10.4px;
+  font-weight: 700;
+  color: #1b2440;
+}
+.sign-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+.sign-grid .party-name {
+  font-size: 10.4px;
+  font-weight: 700;
+  color: #1b2440;
+  min-height: 26px;
+}
+/* Room to actually sign. The line wants a pen's worth of space above it, and
+   each label needs enough air that it reads as belonging to the rule beneath
+   it rather than to the one it sits under. */
+.sign-line {
+  margin-top: 44px;
+  height: 1px;
+  background: #9699a1;
+}
+.sign-caption {
+  margin-top: 6px;
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #4a5372;
+}
+.sign-fields { margin-top: 20px; }
+.sign-fields .f { margin-top: 15px; }
+.sign-fields .f .k {
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.sign-fields .f .v {
+  margin-top: 4px;
+  min-height: 15px;
+  font-size: 9.8px;
+  color: #4a5372;
+  border-bottom: 1px solid #cac9ca;
+}
+
+.seal-mount {
+  position: absolute;
+  right: 2px;
+  top: -46px;
+}
+
+/* --- Exhibit A ------------------------------------------------------------ */
+
+.exhibit {
+  margin-top: 16px;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #e7d5ac;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.exhibit th {
+  text-align: left;
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+  background: #f5eddc;
+  padding: 9px 14px;
+}
+.exhibit td {
+  padding: 9px 14px;
+  font-size: 10px;
+  color: #26314f;
+  border-top: 1px solid #e5e3df;
+  vertical-align: top;
+}
+.exhibit td.k {
+  width: 2.1in;
+  font-weight: 700;
+  color: #1b2440;
+}
+.exhibit tr:nth-child(even) td { background: #f6f3ed; }
+
+.artwork-well {
+  margin-top: 18px;
+  border: 1px solid #ddc389;
+  border-radius: 10px;
+  flex: 1;
+  min-height: 2.05in;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.artwork-well .k {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.artwork-well .v {
+  font-size: 10px;
+  font-style: italic;
+  color: #4a5372;
+}
+
+.initials {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.initials .line {
+  margin-top: 20px;
+  height: 1px;
+  background: #9699a1;
+}
+
+.fine {
+  margin-top: 16px;
+  padding-bottom: 4px;
+  font-size: 9px;
+  line-height: 1.6;
+  font-style: italic;
+  color: #4a5372;
+}
+
+/* ===================== issued-certificate additions =======================
+   Everything above is the specimen's stylesheet, unchanged, so an issued
+   certificate and the public sample stay the same object. What follows is
+   only what an issued copy needs and a specimen does not: a mount for the
+   client's artwork, and the Exhibit B particulars table.
+
+   The same compositing rules apply here as above - no alpha, no soft mask,
+   no gradient behind a radius. See the cost guard in
+   tools/build-certificate-pdf.sh. */
+
+/* The artwork mount.
+ *
+ * The Revelation Ministries mark is drawn in metallic gold on a black
+ * ground, so it is reproduced on its own dark mount rather than knocked
+ * out onto the cream stock: gold foil ink on cream reads as a smudge at
+ * print size, and the black ground is part of how the mark was approved.
+ *
+ * The panel colour is a flat opaque fill, not rgba over the paper, for the
+ * same reason every other colour in this file is pre-composited. */
+.artwork-mount {
+  margin-top: 14px;
+  border: 1px solid #ddc389;
+  border-radius: 10px;
+  padding: 10px;
+}
+.artwork-mount .plate {
+  background-color: #0b0b0d;
+  border-radius: 6px;
+  height: 2.05in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+/* Contained, never cropped: an Exhibit A reproduction that trims the mark is
+   a reproduction of a different mark. */
+.artwork-mount .plate img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.artwork-mount .cap {
+  margin-top: 9px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+}
+.artwork-mount .cap .k {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8a6a22;
+}
+.artwork-mount .cap .v {
+  font-size: 9.4px;
+  font-style: italic;
+  color: #4a5372;
+  text-align: right;
+}
+
+/* The pending-artwork state. An issued certificate should carry the plate
+   above; this is what page 4 draws until the print-resolution master is
+   attached, so the exhibit is never silently short a reproduction. */
+.plate-pending {
+  text-align: center;
+  padding: 0 0.5in;
+}
+.plate-pending .k {
+  font-size: 7.6px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a044;
+}
+.plate-pending .v {
+  margin-top: 9px;
+  font-size: 10px;
+  line-height: 1.6;
+  font-style: italic;
+  color: #cfc7b4;
+}
+
+/* The exhibit frame.
+ *
+ * .exhibit asks one element to be both a collapsed-border table and a rounded,
+ * clipped box. Chromium will not do both: with border-collapse:collapse it
+ * drops the table's own border and radius, so the table renders as bare
+ * horizontal rules with no outer frame and, most visibly, no closing line
+ * under the final row. On a schedule of assigned terms an unclosed last row
+ * reads as a page that was cut off - the one thing an exhibit must never
+ * suggest.
+ *
+ * So the frame moves to a wrapper, which is an ordinary block box and clips
+ * and rounds exactly as asked, and the table goes back to being only a table.
+ * The specimen's .exhibit rule is left alone; its table is short and sits
+ * mid-page, and this file does not get to change what the sample renders. */
+.exhibit-frame {
+  margin-top: 16px;
+  border: 1px solid #e7d5ac;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.exhibit-frame .exhibit {
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* .sheet-body is a column flex container, so a tall frame would otherwise be a
+   flex item and get shrunk below its natural height to fit. */
+.sheet-body > .exhibit-frame { flex: none; }
+
+/* Both exhibits carry more rows than the specimen's seven and each has to
+   hold a single page, so they are set tighter than .exhibit. These paddings
+   are the ones that make Exhibit A's thirteen rows and Exhibit B's twenty-five
+   fit above their initials block. If a row is added, re-render and check the
+   foot of the page. */
+.exhibit.tight td { padding: 5.2px 14px; font-size: 9.6px; line-height: 1.4; }
+.exhibit.tight th { padding: 7px 14px; }
+.exhibit.tight td.k { width: 2.35in; }
+
+/* A row group heading inside the particulars table. */
+.exhibit tr.group td {
+  background: #f2e9d5;
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #8a6a22;
+  padding-top: 5.5px;
+  padding-bottom: 5.5px;
+}
+
+/* The exhibits run longer than the specimen's, so their initials block sits
+   closer to the content than the sample's 24px. */
+.sheet-body .initials { margin-top: 16px; }
+
+/* The face record block runs to six fields on an issued copy rather than the
+   specimen's five, and the mark's full name needs the width. */
+.record dd.tight { font-size: 9.4px; letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+
+<!-- The foil ink, the crest and the seal, drawn once and referenced by every
+     page. Same geometry as components/CertificateInstrument.js. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="foil" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8a641a" />
+      <stop offset="28%" stop-color="#caa044" />
+      <stop offset="52%" stop-color="#f7e8b4" />
+      <stop offset="76%" stop-color="#c79a3c" />
+      <stop offset="100%" stop-color="#7d5a15" />
+    </linearGradient>
+
+    <g id="crest">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="url(#foil)" stroke-width="1.4" />
+      <circle cx="32" cy="32" r="26" fill="none" stroke="url(#foil)" stroke-width="0.7" />
+      <ellipse cx="32" cy="32" rx="19" ry="8.5" transform="rotate(-30 32 32)" fill="none" stroke="url(#foil)" stroke-width="1.8" />
+      <circle cx="32" cy="32" r="6" fill="url(#foil)" />
+      <circle cx="46.5" cy="23" r="3" fill="url(#foil)" />
+    </g>
+
+    <path id="seal-arc" d="M60,60 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0" fill="none" />
+  </defs>
+</svg>
+
+<!-- ============================ PAGE 1 - the face ======================= -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+
+  <div class="face">
+    <div class="crest-halo">
+      <!-- The guilloche rosette, drawn as struck rings rather than a masked
+           CSS gradient: a soft mask exports to PDF as a transparency group
+           that several viewers refuse to composite. -->
+      <svg class="rosette" viewBox="0 0 200 200" aria-hidden="true">
+        <g fill="none">
+          <circle cx="100" cy="100" r="96" stroke="#f1e6ce" stroke-width="0.7" />
+          <circle cx="100" cy="100" r="92" stroke="#f4ecd9" stroke-width="0.5" />
+          <circle cx="100" cy="100" r="84" stroke="#f5eddb" stroke-width="14" stroke-dasharray="0.7 3.4" />
+          <circle cx="100" cy="100" r="76" stroke="#f0e5cb" stroke-width="0.6" />
+          <circle cx="100" cy="100" r="68" stroke="#f6eede" stroke-width="9" stroke-dasharray="0.6 2.4" />
+          <circle cx="100" cy="100" r="62" stroke="#f2e8d2" stroke-width="0.5" />
+          <circle cx="100" cy="100" r="56" stroke="#f5eddc" stroke-width="0.4" />
+        </g>
+      </svg>
+      <svg class="mark" viewBox="0 0 64 64"><use href="#crest" /></svg>
+    </div>
+
+    <p class="mono face-dept">LogoOrbit · Legal Compliance Department</p>
+
+    <h1 class="face-title">Copyright Assignment &amp;<br />Commercial Use Certificate</h1>
+
+    <p class="face-subtitle">An instrument of transfer executed under 17 U.S.C. § 204(a)</p>
+
+    <div class="foil-rule face-rule"></div>
+
+    <dl class="mono record">
+      <div>
+        <dt>Certificate ID</dt>
+        <dd>LO-CR-2026-0184</dd>
+      </div>
+      <div>
+        <dt>Instrument</dt>
+        <dd>Assignment of copyright</dd>
+      </div>
+      <div>
+        <dt>Assignee</dt>
+        <dd>Rodney Wilson</dd>
+      </div>
+      <div>
+        <dt>The Work</dt>
+        <dd class="tight">Revelation Ministries composite logo</dd>
+      </div>
+      <div>
+        <dt>Project / order</dt>
+        <dd>LGO-2021-0312</dd>
+      </div>
+      <div>
+        <dt>Effective date</dt>
+        <dd>14 August 2026</dd>
+      </div>
+    </dl>
+
+    <div class="face-body">
+      <p class="mono face-section">Purpose of this instrument</p>
+      <p class="face-operative">
+        This certificate records the assignment of LogoOrbit’s copyright in the approved final <strong>Revelation
+        Ministries</strong> composite logo - the word elements and the design, together - to Rodney Wilson, and
+        authorises public commercial use of that Work from the effective date. The operative terms are set out in
+        Sections 1 to 10, the Work itself is itemised in Exhibit A, and the trademark particulars the Assignee has
+        instructed are recorded in Exhibit B.
+      </p>
+
+      <div class="assurances">
+        <div><p class="v">One-time</p><p class="k">No renewal, no royalty</p></div>
+        <div><p class="v">Worldwide</p><p class="k">Full term of copyright</p></div>
+        <div><p class="v">Colour claimed</p><p class="k">As a feature of the mark</p></div>
+      </div>
+
+      <div class="notice">
+        <p class="mono h">Scope of this certificate</p>
+        <p>
+          This is a private instrument between the two parties named in it. It is issued by LogoOrbit’s legal desk and
+          is not a certificate of registration granted by the U.S. Copyright Office, the USPTO, or any other government
+          authority. It assigns copyright in the Work; it does not by itself register that copyright and it grants no
+          trademark rights. Exhibit B records the Assignee’s filing instructions only.
+        </p>
+      </div>
+    </div>
+
+    <div class="attest">
+      <div>
+        <p class="who">Issued by the LogoOrbit legal desk</p>
+        <p class="mono where">Executed by both parties on page 3 · Exhibit A on page 4 · Exhibit B on page 5</p>
+      </div>
+      <span class="seal">
+        <svg viewBox="0 0 120 120" width="104" height="104" aria-label="LogoOrbit legal desk seal">
+          <circle cx="60" cy="60" r="57" fill="#fbf8f1" />
+          <circle cx="60" cy="60" r="56" fill="none" stroke="url(#foil)" stroke-width="2.5" stroke-dasharray="1.5 5" />
+          <circle cx="60" cy="60" r="50" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+          <circle cx="60" cy="60" r="35" fill="none" stroke="url(#foil)" stroke-width="1" />
+          <text font-size="8.2" letter-spacing="1.6" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">
+            <textPath href="#seal-arc" startOffset="50%" text-anchor="middle">LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·</textPath>
+          </text>
+          <g transform="translate(60 60)">
+            <ellipse rx="17" ry="7.5" transform="rotate(-30)" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+            <circle r="5.2" fill="url(#foil)" />
+            <circle cx="13" cy="-8" r="2.6" fill="url(#foil)" />
+          </g>
+          <text x="60" y="88" text-anchor="middle" font-size="6.6" letter-spacing="1.1" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">17 U.S.C. § 204(a)</text>
+        </svg>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PAGE 2 - parties &amp; §1-5 ================ -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Copyright Assignment Agreement</h2>
+      <p class="lede">
+        This Copyright Assignment Agreement (the “Agreement”) documents the transfer of the approved final logo work
+        identified below. It becomes effective only when every condition in Section 2 has been satisfied.
+      </p>
+
+      <div class="parties">
+        <div>
+          <div class="row">
+            <p class="mono label">Assignor</p>
+            <p class="val">NexusForgeGroup, operating as LogoOrbit</p>
+          </div>
+          <div class="row">
+            <p class="mono label">Registered address</p>
+            <p class="val soft">8 The Green Ste A<br />Dover, Delaware 19901, United States</p>
+          </div>
+          <div class="row">
+            <p class="mono label">Project / order</p>
+            <p class="val soft">LGO-2021-0312 · Revelation Ministries logo</p>
+          </div>
+        </div>
+        <div>
+          <div class="row">
+            <p class="mono label">Assignee</p>
+            <p class="val">Rodney Wilson <span style="font-weight:400">(individual)</span></p>
+          </div>
+          <div class="row">
+            <p class="mono label">Assignee address</p>
+            <p class="val soft">985 Wigwam Parkway #7210<br />Henderson, Nevada 89014, United States</p>
+          </div>
+          <div class="row">
+            <p class="mono label">Final work</p>
+            <p class="val soft">Revelation Ministries composite logo, approved March 2021</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-strip">
+        <div class="k">
+          <p class="mono label">Record status</p>
+        </div>
+        <p>
+          Issued on the Assignee’s instructions and recorded under certificate ID LO-CR-2026-0184. The Assignee is an
+          individual and a citizen of the United States. The Work is not presently used in commerce; that fact affects
+          the trademark particulars in Exhibit B and does not affect the copyright transferred by this Agreement.
+        </p>
+      </div>
+
+      <h3 class="clause"><span class="n">1.</span> Definitions</h3>
+      <p class="operative">
+        “Work” means only the approved final logo artwork specifically identified in Exhibit A, together with the listed
+        deliverables. “Unused Concepts” means drafts, rejected directions, sketches, and alternatives not listed in
+        Exhibit A. “Third-Party Materials” means fonts, stock assets, software, templates, or other material owned or
+        licensed by someone other than the Assignor.
+      </p>
+
+      <h3 class="clause"><span class="n">2.</span> Conditions to Effectiveness</h3>
+      <p class="operative">
+        The assignment in Section 3 takes effect only after: (a) the Assignee has paid the separate copyright certificate
+        fee of US $499; (b) all invoices for the underlying logo project have been paid in full; (c) the final Work has
+        been approved; and (d) this Agreement has been completed and signed by authorized representatives of both
+        parties. Before all conditions are satisfied, any concepts or previews are provided solely for private
+        evaluation and may not be published, distributed, sold, registered, or used commercially.
+      </p>
+
+      <h3 class="clause"><span class="n">3.</span> Assignment of Copyright</h3>
+      <p class="operative">
+        Subject to Section 2, the Assignor irrevocably assigns to the Assignee all of the Assignor’s right, title, and
+        interest in the Work, including the exclusive rights to reproduce, adapt, distribute, display, and otherwise
+        exploit the Work throughout the world for the full term of copyright and any renewals or extensions. The
+        assignment includes the right to apply for copyright registration in the Assignee’s name and to enforce the
+        assigned rights for acts occurring on or after the Effective Date.
+      </p>
+
+      <h3 class="clause"><span class="n">4.</span> Commercial Use Authorization</h3>
+      <p class="operative">
+        Once effective, the Assignee may use the Work publicly and commercially in any lawful medium, including
+        websites, social media, advertising, packaging, signage, merchandise, and business documents, without an ongoing
+        royalty payable to the Assignor. This authorization is part of the assignment and does not extend to any
+        excluded material.
+      </p>
+
+      <h3 class="clause"><span class="n">5.</span> Excluded Material and Reserved Rights</h3>
+      <p class="operative">
+        The assignment does not include Unused Concepts, the Assignor’s pre-existing tools, processes, templates,
+        know-how, or Third-Party Materials. Applicable third-party licence terms continue to govern those materials. The
+        Assignor retains no ownership interest in the Work after the assignment becomes effective, except for any
+        portfolio-display permission separately stated in the service terms or agreed in writing.
+      </p>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Certificate LO-CR-2026-0184 · Rodney Wilson · Revelation Ministries</span>
+      <span>Page 2 of 5</span>
+    </footer>
+  </div>
+</section>
+
+<!-- ============================ PAGE 3 - §6-10 &amp; execution ============= -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Representations, administration &amp; signatures</h2>
+
+      <h3 class="clause"><span class="n">6.</span> Assignor Representations</h3>
+      <p class="operative">
+        The Assignor represents that it has authority to enter into this Agreement and, to its knowledge, the
+        human-authored portions of the Work created by it are original and have not previously been assigned. This
+        Agreement does not guarantee copyright registrability, trademark registrability, non-conflict with every
+        third-party right, or acceptance by a government office.
+      </p>
+
+      <h3 class="clause"><span class="n">7.</span> Client-Supplied Material</h3>
+      <p class="operative">
+        The Assignee represents that it has permission to use every name, slogan, image, sketch, font, or other item it
+        supplied for the project. Rights in client-supplied material are not created or expanded by this Agreement, and
+        the Assignee remains responsible for claims arising from that material.
+      </p>
+
+      <h3 class="clause"><span class="n">8.</span> Moral Rights</h3>
+      <p class="operative">
+        To the maximum extent permitted by applicable law, the Assignor waives and agrees not to assert moral rights or
+        similar rights in the Work. Where a waiver is not legally effective, the Assignor consents to reasonable
+        modification and use of the Work by the Assignee consistent with this Agreement.
+      </p>
+
+      <h3 class="clause"><span class="n">9.</span> Further Assurances</h3>
+      <p class="operative">
+        Each party will sign reasonable additional documents needed to confirm the transfer described here. Any
+        government copyright registration, recordation, filing fee, or trademark filing is separate from this Agreement
+        unless expressly included in a written order. The particulars recorded in Exhibit B are held for that purpose
+        and are not themselves an application.
+      </p>
+
+      <h3 class="clause"><span class="n">10.</span> Governing Terms</h3>
+      <p class="operative">
+        This Agreement, Exhibit A, Exhibit B, the applicable LogoOrbit service terms, and any signed statement of work
+        form the complete agreement concerning ownership of the Work. If they conflict, the later document signed by
+        both parties controls. Amendments must be in writing and signed by both parties. Electronic signatures and
+        counterparts are permitted to the extent allowed by applicable law.
+      </p>
+
+      <div class="execution">
+        <span class="seal-mount">
+          <svg viewBox="0 0 120 120" width="96" height="96" aria-label="LogoOrbit legal desk seal">
+            <circle cx="60" cy="60" r="57" fill="#fbf8f1" />
+            <circle cx="60" cy="60" r="56" fill="none" stroke="url(#foil)" stroke-width="2.5" stroke-dasharray="1.5 5" />
+            <circle cx="60" cy="60" r="50" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+            <circle cx="60" cy="60" r="35" fill="none" stroke="url(#foil)" stroke-width="1" />
+            <text font-size="8.2" letter-spacing="1.6" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">
+              <textPath href="#seal-arc" startOffset="50%" text-anchor="middle">LOGOORBIT · LEGAL COMPLIANCE DEPARTMENT ·</textPath>
+            </text>
+            <g transform="translate(60 60)">
+              <ellipse rx="17" ry="7.5" transform="rotate(-30)" fill="none" stroke="url(#foil)" stroke-width="1.6" />
+              <circle r="5.2" fill="url(#foil)" />
+              <circle cx="13" cy="-8" r="2.6" fill="url(#foil)" />
+            </g>
+            <text x="60" y="88" text-anchor="middle" font-size="6.6" letter-spacing="1.1" font-weight="700" fill="url(#foil)" style="font-family: 'Liberation Serif', Georgia, serif">17 U.S.C. § 204(a)</text>
+          </svg>
+        </span>
+
+        <p class="operative" style="margin-top:0">
+          By signing below, each party confirms that it has read this Agreement and that the signer is authorized to
+          bind the named party.
+        </p>
+
+        <div class="exec-record">
+          <div>
+            <p class="mono label">Certificate ID</p>
+            <p class="mono v">LO-CR-2026-0184</p>
+          </div>
+          <div>
+            <p class="mono label">Effective date</p>
+            <p class="v">14 August 2026</p>
+          </div>
+          <div>
+            <p class="mono label">Counterparts</p>
+            <p class="v">Permitted, including electronic</p>
+          </div>
+        </div>
+
+        <div class="sign-grid">
+          <div>
+            <p class="mono label" style="margin-top:14px">Assignor - LogoOrbit</p>
+            <p class="party-name">NexusForgeGroup, operating as LogoOrbit</p>
+            <div class="sign-line"></div>
+            <p class="mono sign-caption">Authorized signature</p>
+            <div class="sign-fields">
+              <div class="f"><p class="mono k">Print name</p><p class="v">Greg Adams</p></div>
+              <div class="f"><p class="mono k">Title</p><p class="v">Senior Legal Counsel</p></div>
+              <div class="f"><p class="mono k">Date</p><p class="v">&nbsp;</p></div>
+            </div>
+          </div>
+          <div>
+            <p class="mono label" style="margin-top:14px">Assignee - client of record</p>
+            <p class="party-name">Rodney Wilson</p>
+            <div class="sign-line"></div>
+            <p class="mono sign-caption">Authorized signature</p>
+            <div class="sign-fields">
+              <div class="f"><p class="mono k">Print name</p><p class="v">Rodney Wilson</p></div>
+              <div class="f"><p class="mono k">Title</p><p class="v">Owner, individual</p></div>
+              <div class="f"><p class="mono k">Date</p><p class="v">&nbsp;</p></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="fine">
+          This certificate is a transaction document, not legal advice. It should be reviewed for the relevant
+          jurisdiction and project facts before either party relies on it in a dispute or a government filing.
+        </p>
+      </div>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Certificate LO-CR-2026-0184 · Rodney Wilson · Revelation Ministries</span>
+      <span>Page 3 of 5</span>
+    </footer>
+  </div>
+</section>
+
+<!-- ============================ PAGE 4 - Exhibit A ====================== -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Exhibit A - Description of the Work</h2>
+      <p class="lede">
+        Only the final work and deliverables listed in this exhibit are covered by the assignment. Add pages if needed
+        and have both parties initial each addition.
+      </p>
+
+      <div class="exhibit-frame">
+      <table class="exhibit tight">
+        <thead>
+          <tr>
+            <th class="mono">Field</th>
+            <th class="mono">Project-specific description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="k">Final logo name</td><td>Revelation Ministries</td></tr>
+          <tr><td class="k">Project / order</td><td>LGO-2021-0312</td></tr>
+          <tr><td class="k">Type of work</td><td>Composite mark - word elements and design combined in a single work</td></tr>
+          <tr><td class="k">Author &amp; date of creation</td><td>Created by LogoOrbit’s design studio, March 2021</td></tr>
+          <tr><td class="k">Approved version</td><td>Final full-colour composite as reproduced below, approved March 2021</td></tr>
+          <tr><td class="k">Design elements</td><td>Crowned heraldic shield bearing the Ark of the Covenant, the pot of manna, Aaron’s rod and the tablets of the Law, flanked by wings and scrollwork, over a ribbon banner lettered “Revelation Ministries”</td></tr>
+          <tr><td class="k">Wording in the work</td><td>“Revelation Ministries”, with the tagline “Where the Plumbline of God’s Word is Received”</td></tr>
+          <tr><td class="k">Meaning / origin</td><td>Derived from the Bible; the tagline states the ministry’s premise that God’s Word is the plumbline by which teaching is measured</td></tr>
+          <tr><td class="k">Colour specifications</td><td>Colour is claimed as a feature of the work: a metallic gold gradient palette on a black ground, with white lettering on the tagline</td></tr>
+          <tr><td class="k">Typography</td><td>Script wordmark on the banner and an italic serif tagline, both converted to outlines in the vector deliverables</td></tr>
+          <tr><td class="k">Included files</td><td>AI, EPS, PDF and SVG vector masters; PNG with transparent background and JPG rasters, in the full delivered size set</td></tr>
+          <tr><td class="k">Name, signature or likeness</td><td>The Work contains no personal name, signature or likeness of any living individual</td></tr>
+          <tr><td class="k">Excluded material</td><td>Unused Concepts, LogoOrbit’s tools, processes and templates, and any Third-Party Materials, per Section 5</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <!-- The reproduction. Swap the placeholder below for the print master:
+           replace the .plate-pending block with
+             <img src="revelation-ministries-mark.png" alt="Revelation Ministries composite logo" />
+           The file must be an opaque PNG or JPEG - an alpha channel becomes a
+           soft mask in the PDF and trips the cost guard in
+           tools/build-certificate-pdf.sh. -->
+      <div class="artwork-mount">
+        <div class="plate">
+          <div class="plate-pending">
+            <p class="k">Final approved logo artwork</p>
+            <p class="v">Reproduction to be affixed from the print-resolution master held on the project record. The
+              written description above governs the scope of the assignment.</p>
+          </div>
+        </div>
+        <div class="cap">
+          <p class="k">Exhibit A · the assigned Work</p>
+          <p class="v">Reproduced for identification. Colour is claimed as a feature of the Work.</p>
+        </div>
+      </div>
+
+      <div class="initials">
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Assignor initials</p>
+        </div>
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Assignee initials</p>
+        </div>
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Exhibit date</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Certificate LO-CR-2026-0184 · Rodney Wilson · Revelation Ministries</span>
+      <span>Page 4 of 5</span>
+    </footer>
+  </div>
+</section>
+
+<!-- ============================ PAGE 5 - Exhibit B ====================== -->
+<section class="page paper">
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <svg class="corner tl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner tr" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner br" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+  <svg class="corner bl" viewBox="0 0 48 48"><path d="M2 46V14C2 7.4 7.4 2 14 2h32" fill="none" stroke="#d6b66f" stroke-width="1.4"/><path d="M8 46V16c0-4.4 3.6-8 8-8h30" fill="none" stroke="#e5d0a3" stroke-width="0.7"/><circle cx="14" cy="14" r="2.2" fill="#d8ba78"/></svg>
+
+  <div class="sheet">
+    <header class="sheet-head">
+      <span class="brand"><svg viewBox="0 0 64 64" width="19" height="19"><use href="#crest" /></svg>LogoOrbit</span>
+      <span class="mono doc">Copyright assignment &amp; commercial use certificate</span>
+    </header>
+    <div class="foil-rule"></div>
+
+    <div class="sheet-body">
+      <h2 class="part">Exhibit B - Trademark Particulars</h2>
+      <p class="lede">
+        The Assignee’s instructions for a future United States trademark application in the assigned Work, recorded here
+        so the ownership paperwork and the filing paperwork agree. This exhibit is a record of particulars under Section
+        9. It is not an application, it has not been filed, and it creates no trademark rights.
+      </p>
+
+      <div class="exhibit-frame">
+      <table class="exhibit tight">
+        <tbody>
+          <tr class="group"><td colspan="2">The mark</td></tr>
+          <tr><td class="k">Mark text</td><td>REVELATION MINISTRIES</td></tr>
+          <tr><td class="k">Mark type</td><td>Composite - words and a logo together</td></tr>
+          <tr><td class="k">Design origin</td><td>Designed by LogoOrbit, March 2021; copyright assigned by the Agreement this exhibit belongs to</td></tr>
+          <tr><td class="k">Colour claim</td><td>Yes - colour is claimed as a feature of the mark</td></tr>
+          <tr><td class="k">Meaning / origin</td><td>Derived from the Bible: “Revelation Ministries - where the plumbline of God’s Word is received”</td></tr>
+          <tr><td class="k">Translation / transliteration</td><td>None; the mark is in English</td></tr>
+          <tr><td class="k">Personal name, signature or likeness</td><td>No</td></tr>
+
+          <tr class="group"><td colspan="2">Goods and services</td></tr>
+          <tr><td class="k">Goods or services offered</td><td>None at present - the mark is not yet in use</td></tr>
+          <tr><td class="k">Interstate / international commerce</td><td>Not applicable at the date of this certificate</td></tr>
+
+          <tr class="group"><td colspan="2">Ownership</td></tr>
+          <tr><td class="k">Entity type</td><td>Individual</td></tr>
+          <tr><td class="k">Owner / applicant</td><td>Rodney Wilson</td></tr>
+          <tr><td class="k">Citizenship</td><td>United States</td></tr>
+          <tr><td class="k">Owner address</td><td>985 Wigwam Parkway #7210, Henderson, Nevada 89014, United States</td></tr>
+
+          <tr class="group"><td colspan="2">Use and filing basis</td></tr>
+          <tr><td class="k">Currently used in commerce</td><td>No</td></tr>
+          <tr><td class="k">Filing basis</td><td>Intent to use - Section 1(b), 15 U.S.C. § 1051(b)</td></tr>
+          <tr><td class="k">First use dates</td><td>None to date; to be declared when use begins</td></tr>
+
+          <tr class="group"><td colspan="2">Prior rights and conflicts</td></tr>
+          <tr><td class="k">Prior applications or registrations</td><td>None</td></tr>
+          <tr><td class="k">Known disputes or demand letters</td><td>None reported by the Assignee</td></tr>
+          <tr><td class="k">Known similar marks</td><td>None reported by the Assignee</td></tr>
+          <tr><td class="k">Additional notes</td><td>None</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <div class="status-strip" style="margin-top:16px">
+        <div class="k">
+          <p class="mono label">Read this</p>
+        </div>
+        <p>
+          Particulars are recorded as the Assignee gave them. LogoOrbit has not run a clearance search against them and
+          makes no representation that the mark is available or registrable. An intent-to-use application matures into a
+          registration only after use in commerce is declared and accepted; until then no trademark rights arise from
+          this exhibit.
+        </p>
+      </div>
+
+      <div class="initials">
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Assignor initials</p>
+        </div>
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Assignee initials</p>
+        </div>
+        <div>
+          <div class="line"></div>
+          <p class="mono sign-caption">Exhibit date</p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mono sheet-foot">
+      <span>Certificate LO-CR-2026-0184 · Rodney Wilson · Revelation Ministries</span>
+      <span>Page 5 of 5</span>
+    </footer>
+  </div>
+</section>
+
+</body>
+</html>

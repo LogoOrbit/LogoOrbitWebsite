@@ -1,16 +1,26 @@
 #!/usr/bin/env bash
-# Renders tools/certificate-sample.html to the public specimen PDF.
+# Renders a certificate HTML source to PDF. Defaults to the public specimen.
 #
 # Chromium is the renderer so the file is printed from the same CSS the
 # /copyright-certificate page uses on screen — the specimen and the preview
-# cannot drift apart if they are drawn from the same declarations.
+# cannot drift apart if they are drawn from the same declarations. Issued
+# client certificates are rendered by the same script for the same reason:
+# one renderer, one set of rules, one cost guard.
 #
 #   CHROME=/path/to/chrome tools/build-certificate-pdf.sh
+#   tools/build-certificate-pdf.sh tools/certificate-<client>.html out.pdf
 
 set -euo pipefail
 
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-out="$root/public/documents/logoorbit-sample-copyright-assignment-certificate.pdf"
+src="${1:-$root/tools/certificate-sample.html}"
+out="${2:-$root/public/documents/logoorbit-sample-copyright-assignment-certificate.pdf}"
+
+if [ ! -f "$src" ]; then
+  echo "No such certificate source: $src" >&2
+  exit 1
+fi
+mkdir -p "$(dirname "$out")"
 
 chrome="${CHROME:-}"
 if [ -z "$chrome" ]; then
@@ -35,7 +45,7 @@ fi
   --run-all-compositor-stages-before-draw \
   --virtual-time-budget=5000 \
   --print-to-pdf="$out" \
-  "file://$root/tools/certificate-sample.html"
+  "file://$(cd "$(dirname "$src")" && pwd)/$(basename "$src")"
 
 echo "Wrote $out"
 
