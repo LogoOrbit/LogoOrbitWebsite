@@ -22,6 +22,29 @@ if [ ! -f "$src" ]; then
 fi
 mkdir -p "$(dirname "$out")"
 
+# Inline the artwork master, if the certificate points at one and it is on
+# disk. The rendered source goes to a temp file beside the original so a
+# relative URL in the HTML would still resolve; everything in these documents
+# is inline, but that is a property worth not depending on.
+render_src="$src"
+tmp_src=""
+if command -v python3 >/dev/null 2>&1; then
+  # The .html suffix is load-bearing. Chromium picks the content type for a
+  # file:// URL from the extension, so a temp file called *.render is not
+  # parsed as HTML at all - it renders as plain text, and the only symptom is
+  # a PDF that is suspiciously small and has lost its stylesheet.
+  tmp_src="$(dirname "$src")/.$(basename "$src" .html).render.html"
+  if python3 "$root/tools/inline-artwork.py" "$src" "$root" > "$tmp_src"; then
+    render_src="$tmp_src"
+  else
+    rm -f "$tmp_src"
+    exit 1
+  fi
+  trap 'rm -f "$tmp_src"' EXIT
+else
+  echo "  artwork:             skipped (no python3) - placeholder kept" >&2
+fi
+
 chrome="${CHROME:-}"
 if [ -z "$chrome" ]; then
   for candidate in \
@@ -45,7 +68,7 @@ fi
   --run-all-compositor-stages-before-draw \
   --virtual-time-budget=5000 \
   --print-to-pdf="$out" \
-  "file://$(cd "$(dirname "$src")" && pwd)/$(basename "$src")"
+  "file://$(cd "$(dirname "$render_src")" && pwd)/$(basename "$render_src")"
 
 echo "Wrote $out"
 

@@ -52,6 +52,27 @@ CHROME=/opt/pw-browsers/chromium tools/build-certificate-pdf.sh \
 Run with no arguments, the same script still rebuilds the public specimen at
 its old path — that behaviour is unchanged.
 
+## Exhibit A artwork
+
+The certificate source points at its master with a `data-artwork` attribute
+holding a repo-relative path minus the extension:
+
+```html
+<div class="plate" data-artwork="clients/<slug>/<slug>-mark">
+```
+
+`tools/inline-artwork.py` resolves that to `.png`, `.jpg` or `.jpeg` at build
+time and inlines it as a data URI, so the PDF stays a single sendable file. No
+master on disk means the placeholder is kept and the build says so — it never
+renders an empty panel silently.
+
+The master must be **opaque**. Alpha exports as a soft mask, which is a
+transparency group the cost guard rejects; the inliner checks the PNG header
+first and names the offending file rather than letting the guard fail
+obscurely. Flatten onto the plate colour, not onto white — these marks are
+often drawn for a dark ground, and Revelation Ministries' tagline is set in
+white, so flattening it onto cream erases a line of the mark's own wording.
+
 ## Why the source is a copy of the specimen, not a template engine
 
 There is exactly one issued certificate so far. A copy that shares the

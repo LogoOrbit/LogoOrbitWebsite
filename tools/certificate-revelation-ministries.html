@@ -638,7 +638,7 @@ p.operative {
 .artwork-mount .plate {
   background-color: #0b0b0d;
   border-radius: 6px;
-  height: 2.05in;
+  height: 2.6in;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1187,10 +1187,10 @@ p.operative {
           <tr><td class="k">Type of work</td><td>Composite mark - word elements and design combined in a single work</td></tr>
           <tr><td class="k">Author &amp; date of creation</td><td>Created by LogoOrbit’s design studio, March 2021</td></tr>
           <tr><td class="k">Approved version</td><td>Final full-colour composite as reproduced below, approved March 2021</td></tr>
-          <tr><td class="k">Design elements</td><td>Crowned heraldic shield bearing the Ark of the Covenant, the pot of manna, Aaron’s rod and the tablets of the Law, flanked by wings and scrollwork, over a ribbon banner lettered “Revelation Ministries”</td></tr>
+          <tr><td class="k">Design elements</td><td>Crowned heraldic shield bearing the Ark of the Covenant, the pot of manna, Aaron’s budding rod and the tablets of the Law, flanked by foliate scrollwork, over a ribbon banner lettered “Revelation Ministries”, with the tagline set beneath</td></tr>
           <tr><td class="k">Wording in the work</td><td>“Revelation Ministries”, with the tagline “Where the Plumbline of God’s Word is Received”</td></tr>
           <tr><td class="k">Meaning / origin</td><td>Derived from the Bible; the tagline states the ministry’s premise that God’s Word is the plumbline by which teaching is measured</td></tr>
-          <tr><td class="k">Colour specifications</td><td>Colour is claimed as a feature of the work: a metallic gold gradient palette on a black ground, with white lettering on the tagline</td></tr>
+          <tr><td class="k">Colour specifications</td><td>Colour is claimed as a feature of the work: a metallic gold and bronze gradient palette over a black ground, with the banner and tagline lettered in white</td></tr>
           <tr><td class="k">Typography</td><td>Script wordmark on the banner and an italic serif tagline, both converted to outlines in the vector deliverables</td></tr>
           <tr><td class="k">Included files</td><td>AI, EPS, PDF and SVG vector masters; PNG with transparent background and JPG rasters, in the full delivered size set</td></tr>
           <tr><td class="k">Name, signature or likeness</td><td>The Work contains no personal name, signature or likeness of any living individual</td></tr>
@@ -1199,14 +1199,18 @@ p.operative {
       </table>
       </div>
 
-      <!-- The reproduction. Swap the placeholder below for the print master:
-           replace the .plate-pending block with
-             <img src="revelation-ministries-mark.png" alt="Revelation Ministries composite logo" />
-           The file must be an opaque PNG or JPEG - an alpha channel becomes a
-           soft mask in the PDF and trips the cost guard in
-           tools/build-certificate-pdf.sh. -->
+      <!-- The reproduction.
+           data-artwork names the print master, without an extension, relative
+           to the repo root. tools/build-certificate-pdf.sh looks for it at
+           build time and inlines it here as a data URI; when it is not on disk
+           the placeholder below is kept and the build says so. Dropping the
+           file into place and re-running the script is the whole procedure -
+           there is nothing to edit in this file.
+           The master must be opaque. An alpha channel becomes a soft mask in
+           the PDF and trips the cost guard; the build checks for one first and
+           names the file rather than letting the guard fail obscurely. -->
       <div class="artwork-mount">
-        <div class="plate">
+        <div class="plate" data-artwork="clients/revelation-ministries/revelation-ministries-mark">
           <div class="plate-pending">
             <p class="k">Final approved logo artwork</p>
             <p class="v">Reproduction to be affixed from the print-resolution master held on the project record. The
@@ -1215,7 +1219,7 @@ p.operative {
         </div>
         <div class="cap">
           <p class="k">Exhibit A · the assigned Work</p>
-          <p class="v">Reproduced for identification. Colour is claimed as a feature of the Work.</p>
+          <p class="v">Reproduced from the approved master. Colour is claimed as a feature of the Work.</p>
         </div>
       </div>
 
