@@ -5,6 +5,21 @@ const nextConfig = {
   turbopack: {
     root: __dirname,
   },
+
+  /**
+   * Issued client certificates live in `clients/`, outside `public/`, because
+   * everything in `public/` is served at the site root with no auth and a URL
+   * guessable from the client's own name - and these documents carry a client's
+   * legal name and home address. /api/clients/[id] reads them from disk after
+   * checking the session.
+   *
+   * Nothing imports those PDFs, so Next's dependency tracing has no reason to
+   * believe the serverless bundle needs them, and the route would answer 404 in
+   * production while working perfectly in `next dev`. This says otherwise.
+   */
+  outputFileTracingIncludes: {
+    '/api/clients/[id]': ['./clients/**/*.pdf'],
+  },
   async headers() {
     return [
       {
@@ -27,6 +42,18 @@ const nextConfig = {
       {
         source: '/brief/:path*.html',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
+      /* The client portal and the documents it serves. The page already sets
+         noIndex through Layout, but a meta tag only helps for something a
+         crawler renders - the PDF stream is not, and a certificate in a search
+         index has already leaked. Sent as a header so it covers both. */
+      {
+        source: '/clients',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }],
+      },
+      {
+        source: '/api/clients/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' }],
       },
     ]
   },

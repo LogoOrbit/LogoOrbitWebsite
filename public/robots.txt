@@ -10,6 +10,12 @@ Disallow: /api/
 # Letting the crawl through is what lets the noindex do its job:
 #   /cart, /checkout, /search   <meta name="robots" content="noindex,nofollow">
 #   /brief/*.html               X-Robots-Tag: noindex, nofollow  (next.config.js)
+#   /clients                    X-Robots-Tag: noindex, nofollow, noarchive
+#
+# /clients is the staff portal for issued client certificates. It is behind a
+# password and the documents it serves are streamed by /api/clients/*, which
+# the Disallow above already keeps crawlers out of. The portal page itself is
+# left crawlable for the reason given above: so the noindex is actually read.
 
 # Crawl the whole site; nothing here needs a delay.
 User-agent: Googlebot
