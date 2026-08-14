@@ -81,10 +81,11 @@ export default function Clients({ configured, signedIn, certificates }) {
           <div className="mt-10 rounded-xl border border-action-300 bg-action-50/60 p-6">
             <p className="font-bold text-ink-900">The portal is not configured on this deployment.</p>
             <p className="mt-2 text-sm text-ink-700">
-              Set <code className="rounded bg-white px-1.5 py-0.5 font-mono text-xs">CLIENT_PORTAL_PASSWORD</code> (and
-              optionally <code className="rounded bg-white px-1.5 py-0.5 font-mono text-xs">CLIENT_PORTAL_USER</code>)
-              in the hosting environment, then redeploy. Until then the door stays shut rather than falling open on a
-              default password.
+              The committed password digest in{' '}
+              <code className="rounded bg-white px-1.5 py-0.5 font-mono text-xs">lib/clientPortal.js</code> is missing,
+              and no <code className="rounded bg-white px-1.5 py-0.5 font-mono text-xs">CLIENT_PORTAL_PASSWORD</code> is
+              set in the environment. Restore one of the two and redeploy. The door stays shut rather than falling open
+              on a default.
             </p>
           </div>
         )}

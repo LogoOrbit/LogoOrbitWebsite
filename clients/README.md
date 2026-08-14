@@ -17,16 +17,28 @@ The staff portal at `/clients` lists every issued certificate and streams the
 PDF through `/api/clients/[id]` after checking a session cookie. That route
 reads from this directory; it never copies anything into `public/`.
 
-It needs two environment variables on the host, and **refuses to open without
-them** rather than falling back to a default password:
+It needs no hosting configuration. `lib/clientPortal.js` carries an scrypt
+digest of the shared password, so the portal works on a fresh deploy. Rotate
+the password with:
 
 ```sh
-CLIENT_PORTAL_USER=logoorbitclients   # optional, this is the default
-CLIENT_PORTAL_PASSWORD=...            # required — no default, no fallback
+node tools/portal-password.mjs 'the new password'
 ```
 
-With `CLIENT_PORTAL_PASSWORD` unset the portal answers 503 and says so on the
-page. See `.env.example` and `lib/clientPortal.js`.
+and paste the printed line over `PASSWORD_HASH`. Rotating signs out every live
+session, because the cookie signing key is derived from the digest.
+
+The plaintext is not in the repository — only the digest, the same arrangement
+`/etc/shadow` uses. Recovering the password means an offline attack against a
+deliberately slow KDF, and the password stays out of the history, which matters
+because people reuse passwords somewhere that is not this site.
+
+**What this door is for:** it stops the public internet, not a repo
+collaborator. The certificates are committed here, so anyone who can read the
+repo can already read the PDFs with `git show` — which is why the cookie key
+may be derived from the committed digest without giving anything away. When
+that stops being true, set `CLIENT_PORTAL_PASSWORD` and `CLIENT_PORTAL_SECRET`
+in the environment; both override the committed values.
 
 Adding a newly issued certificate takes two steps: drop the PDF in
 `clients/<slug>/`, then add a row to `issuedCertificates` in
