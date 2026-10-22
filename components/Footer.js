@@ -228,7 +228,16 @@ export default function Footer() {
 
           <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-sm text-white/50">
             <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-            <p>{site.domain}</p>
+            <p className="flex items-center gap-4">
+              <span>{site.domain}</span>
+              <a
+                href="https://crm.logoorbit.net/login"
+                rel="nofollow"
+                className="hover:text-white transition-colors"
+              >
+                Team login
+              </a>
+            </p>
           </div>
         </div>
       </div>
