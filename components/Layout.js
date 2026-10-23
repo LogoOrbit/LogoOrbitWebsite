@@ -22,6 +22,8 @@ export default function Layout({
   ogType = 'website',
   image,
   article,
+  // Payment pages: no floating call / quote / WhatsApp buttons over the form.
+  bare = false,
 }) {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | Online Logo Maker & Custom Design Services`
   const canonical = `${site.url}${path === '/' ? '' : path}`
@@ -207,10 +209,14 @@ export default function Layout({
       <Nav />
       <main id="main-content">{children}</main>
       <Footer />
-      <div className="h-[76px] xl:hidden" aria-hidden="true" />
-      <FloatingCall />
-      <WhatsAppButton />
-      <MobileCTABar />
+      {!bare && (
+        <>
+          <div className="h-[76px] xl:hidden" aria-hidden="true" />
+          <FloatingCall />
+          <WhatsAppButton />
+          <MobileCTABar />
+        </>
+      )}
     </>
   )
 }
