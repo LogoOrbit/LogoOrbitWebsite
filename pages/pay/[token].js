@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import { site } from '../../lib/site'
 import { fetchInvoice } from '../../lib/crmPay'
@@ -8,9 +8,15 @@ import { clientIp } from '../../lib/ratelimit'
  * Client-facing invoice + payment page: logoorbit.net/pay/<token>.
  * The invoice comes from the CRM; payment runs on Stripe Checkout.
  */
-export default function PayInvoice({ invoice, justPaid }) {
+export default function PayInvoice({ invoice, justPaid, token, payError }) {
   const [paying, setPaying] = useState(false)
-  const [error, setError] = useState('')
+  // Coming back from Stripe with the Back button restores this page from
+  // cache; re-enable the button.
+  useEffect(() => {
+    const reset = () => setPaying(false)
+    window.addEventListener('pageshow', reset)
+    return () => window.removeEventListener('pageshow', reset)
+  }, [])
 
   if (!invoice) {
     return (
@@ -37,21 +43,6 @@ export default function PayInvoice({ invoice, justPaid }) {
     ? invoice.lineItems
     : [{ name: invoice.description || 'Professional services', quantity: 1, unitPrice: Number(invoice.amount) }]
 
-  async function pay() {
-    setPaying(true)
-    setError('')
-    try {
-      const token = window.location.pathname.split('/').pop()
-      const res = await fetch(`/api/pay/${encodeURIComponent(token)}`, { method: 'POST' })
-      const data = await res.json().catch(() => ({}))
-      if (!res.ok || !data.url) throw new Error(data.error || 'Online payment is temporarily unavailable.')
-      window.location.href = data.url
-    } catch (e) {
-      setError(e.message)
-      setPaying(false)
-    }
-  }
-
   return (
     <Layout description="Secure invoice payment for LogoOrbit." path="/pay" noIndex>
       <Shell>
@@ -72,15 +63,22 @@ export default function PayInvoice({ invoice, justPaid }) {
               <p className="text-sm font-medium text-ink-500">Invoice {invoice.invoiceNumber} · Amount due</p>
               <p className="mt-1 text-4xl font-bold tracking-tight text-ink-900">{fmt(invoice.totalAmount)}</p>
               {invoice.dueDate && <p className="mt-1 text-sm text-ink-500">Due {date(invoice.dueDate)}</p>}
-              <button
-                type="button"
-                onClick={pay}
-                disabled={paying}
-                className="btn-action mt-6 w-full justify-center py-4 text-base disabled:opacity-60"
+              {/* A plain link, so it works even before the page's scripts load. */}
+              <a
+                href={`/api/pay/${encodeURIComponent(token)}`}
+                onClick={() => setPaying(true)}
+                className={`btn-action mt-6 w-full justify-center py-4 text-base ${paying ? 'pointer-events-none opacity-70' : ''}`}
+                rel="nofollow"
               >
                 {paying ? 'Opening secure checkout…' : `Pay ${fmt(invoice.totalAmount)} securely`}
-              </button>
-              {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+              </a>
+              {payError && (
+                <p className="mt-3 rounded-xl bg-red-50 p-3 text-sm text-red-700">
+                  {payError === 'closed'
+                    ? 'This invoice can no longer be paid online. Please contact us.'
+                    : `We couldn't open the payment page just now. Please try again, or call ${site.phone}.`}
+                </p>
+              )}
               <p className="mt-3 text-center text-xs text-ink-500">Card payments are processed by Stripe. We never see or store your card number.</p>
             </>
           )}
@@ -191,5 +189,6 @@ export async function getServerSideProps({ params, query, req, res }) {
     invoice = null
   }
   if (!invoice) res.statusCode = 404
-  return { props: { invoice, justPaid: query.status === 'success' } }
+  const payError = ['closed', 'unavailable'].includes(query.error) ? query.error : null
+  return { props: { invoice, justPaid: query.status === 'success', token: params.token, payError } }
 }
