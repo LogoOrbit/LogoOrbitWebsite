@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import Layout from '../../components/Layout'
 import { site } from '../../lib/site'
 import { fetchInvoice } from '../../lib/crmPay'
@@ -10,6 +12,20 @@ import { clientIp } from '../../lib/ratelimit'
  */
 export default function PayInvoice({ invoice, justPaid, token, payError }) {
   const [paying, setPaying] = useState(false)
+  const router = useRouter()
+  const confirmed = invoice?.status === 'paid'
+  // Back from Stripe before its webhook lands: re-check every few seconds
+  // until the CRM marks the invoice paid, so the download appears.
+  useEffect(() => {
+    if (!justPaid || confirmed) return undefined
+    let tries = 0
+    const timer = setInterval(() => {
+      tries += 1
+      if (tries > 12) return clearInterval(timer)
+      router.replace(router.asPath, undefined, { scroll: false })
+    }, 3000)
+    return () => clearInterval(timer)
+  }, [justPaid, confirmed, router])
   // Coming back from Stripe with the Back button restores this page from
   // cache; re-enable the button.
   useEffect(() => {
@@ -49,12 +65,37 @@ export default function PayInvoice({ invoice, justPaid, token, payError }) {
         {/* Amount + action */}
         <div className="rounded-3xl bg-white p-6 shadow-xl sm:p-8">
           {paid ? (
-            <div className="flex items-start gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-trust-100 text-xl text-trust-700">✓</span>
-              <div>
-                <h1 className="text-xl font-bold text-ink-900">Payment received. Thank you!</h1>
-                <p className="mt-1 text-sm text-ink-500">A receipt for invoice {invoice.invoiceNumber} has been emailed to you.</p>
+            <div className="text-center">
+              <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-trust-100 text-3xl font-bold text-trust-700">✓</span>
+              <h1 className="mt-4 text-2xl font-bold text-ink-900 sm:text-3xl">
+                Thank you{invoice.client?.name ? `, ${invoice.client.name.split(' ')[0]}` : ''}!
+              </h1>
+              <p className="mt-2 text-ink-500">
+                {justPaid ? 'Your payment was successful.' : 'This invoice has been paid.'} We truly appreciate your business.
+              </p>
+              <div className="mx-auto mt-6 max-w-sm space-y-2 rounded-2xl bg-brand-50 p-4 text-left text-sm">
+                <div className="flex justify-between"><span className="text-ink-500">Amount paid</span><span className="font-bold text-ink-900">{fmt(invoice.totalAmount)}</span></div>
+                <div className="flex justify-between"><span className="text-ink-500">Invoice</span><span className="font-medium text-ink-900">{invoice.invoiceNumber}</span></div>
+                {confirmed && invoice.paidDate && (
+                  <div className="flex justify-between"><span className="text-ink-500">Paid on</span><span className="font-medium text-ink-900">{date(invoice.paidDate)}</span></div>
+                )}
               </div>
+              {confirmed ? (
+                <a
+                  href={`/api/receipt/${encodeURIComponent(token)}`}
+                  className="btn-action mt-6 w-full justify-center py-4 text-base"
+                  rel="nofollow"
+                  download
+                >
+                  Download paid invoice (PDF)
+                </a>
+              ) : (
+                <p className="mt-6 rounded-xl bg-flare-300/20 p-3 text-sm text-ink-700">
+                  Confirming your payment with the bank… your paid invoice will be ready to download in a moment.
+                </p>
+              )}
+              <p className="mt-4 text-xs text-ink-500">A receipt has also been emailed to you.</p>
+              <Link href="/" className="mt-4 inline-block text-sm font-semibold text-brand-600">Back to logoorbit.net</Link>
             </div>
           ) : voided ? (
             <h1 className="text-xl font-bold text-ink-900">This invoice has been cancelled.</h1>

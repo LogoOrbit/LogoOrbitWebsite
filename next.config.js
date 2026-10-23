@@ -19,6 +19,8 @@ const nextConfig = {
    */
   outputFileTracingIncludes: {
     '/api/clients/[id]': ['./clients/**/*.pdf'],
+    // The paid-invoice PDF embeds the logo from disk.
+    '/api/receipt/[token]': ['./public/logo.png'],
   },
   async headers() {
     return [
