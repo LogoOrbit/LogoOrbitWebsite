@@ -39,7 +39,10 @@ export default function OfferPopupGate() {
   // A modal in front of a payment form is only ever a lost order, and there is
   // nothing to advertise to someone already reading the offer.
   const suppressed =
-    pathname.startsWith('/offers') || pathname === '/checkout' || pathname === '/cart'
+    pathname.startsWith('/offers') ||
+    pathname.startsWith('/pay') ||
+    pathname === '/checkout' ||
+    pathname === '/cart'
 
   useEffect(() => {
     if (suppressed) return

@@ -20,7 +20,7 @@ export default function PayInvoice({ invoice, justPaid, token, payError }) {
 
   if (!invoice) {
     return (
-      <Layout description="LogoOrbit invoice" path="/pay" noIndex>
+      <Layout description="LogoOrbit invoice" path="/pay" noIndex bare>
         <Shell>
           <div className="rounded-3xl bg-white p-10 text-center shadow-xl">
             <h1 className="text-2xl font-bold text-ink-900">Invoice not found</h1>
@@ -44,7 +44,7 @@ export default function PayInvoice({ invoice, justPaid, token, payError }) {
     : [{ name: invoice.description || 'Professional services', quantity: 1, unitPrice: Number(invoice.amount) }]
 
   return (
-    <Layout description="Secure invoice payment for LogoOrbit." path="/pay" noIndex>
+    <Layout description="Secure invoice payment for LogoOrbit." path="/pay" noIndex bare>
       <Shell>
         {/* Amount + action */}
         <div className="rounded-3xl bg-white p-6 shadow-xl sm:p-8">
