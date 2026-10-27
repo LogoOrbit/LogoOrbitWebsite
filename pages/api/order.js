@@ -24,6 +24,7 @@ import { deskRecipients } from '../../lib/notify'
 import { clientIp, isRateLimited } from '../../lib/ratelimit'
 import { salesTax } from '../../lib/money'
 import { site, whatsapp } from '../../lib/site'
+import { listPrice } from '../../lib/priceIndex'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -48,19 +49,45 @@ function newOrderNumber(date) {
   return `LO-${stamp}-${String(randomInt(0, 10000)).padStart(4, '0')}`
 }
 
-/** Cleans one submitted line down to the fields we are willing to print. */
+/**
+ * Cleans one submitted line down to the fields we are willing to print. The
+ * price comes from our own list when the sku is known, because the cart is
+ * stored in the browser and can be edited there.
+ */
 function cleanLine(raw) {
-  const price = Number(raw?.price)
+  const submitted = Number(raw?.price)
   const qty = Math.round(Number(raw?.qty))
-  if (!raw?.name || !Number.isFinite(price) || price < 0 || !Number.isFinite(qty) || qty < 1) return null
+  if (!raw?.name || !Number.isFinite(submitted) || submitted < 0 || !Number.isFinite(qty) || qty < 1) return null
+
+  const known = listPrice(raw.sku)
+  const price = round2(known ?? submitted)
 
   return {
     name: String(raw.name).trim().slice(0, 160),
     kind: String(raw.kind || 'Package').trim().slice(0, 60),
-    price: round2(price),
+    price,
     qty: Math.min(99, qty),
     from: Boolean(raw.from),
+    verified: known !== null,
+    changed: known !== null && Math.abs(known - submitted) > 0.005,
+    submitted: round2(submitted),
   }
+}
+
+/**
+ * Replies already sent, by the browser's request id, so a double tap or a
+ * retry after a dropped connection returns the same order instead of placing
+ * a second one. Per instance, like the rate limiter, and kept for ten minutes.
+ */
+const REPLAY_MS = 10 * 60 * 1000
+const replies = new Map()
+/** Orders still being emailed, so a second tap waits for the first. */
+const inflight = new Map()
+
+function rememberedReply(id) {
+  const now = Date.now()
+  for (const [key, entry] of replies) if (now - entry.at > REPLAY_MS) replies.delete(key)
+  return id ? replies.get(id)?.body : undefined
 }
 
 const esc = (s) =>
@@ -77,11 +104,20 @@ export default async function handler(req, res) {
   const contentLength = Number(req.headers['content-length'] || 0)
   if (contentLength > 60_000) return res.status(413).json({ error: 'That order is too big to send. Please call us.' })
 
-  if (isRateLimited(`order:${clientIp(req)}`, 6)) {
-    return res.status(429).json({ error: 'Too many tries. Please wait a minute and try again.' })
-  }
+  const { name, phone, company, message, items, totals, website } = req.body || {}
+  // Phone keyboards often add a trailing space after an autocompleted address.
+  const email = String(req.body?.email || '').trim()
+  const requestId = String(req.body?.requestId || '').slice(0, 64)
 
-  const { name, email, phone, company, message, items, totals, website } = req.body || {}
+  const replay = rememberedReply(requestId)
+  if (replay) return res.status(200).json(replay)
+  if (requestId && inflight.has(requestId)) return res.status(200).json(await inflight.get(requestId))
+
+  if (isRateLimited(`order:${clientIp(req)}`, 6)) {
+    return res.status(429).json({
+      error: 'Too many tries. Please wait a few minutes, or send your order on WhatsApp instead.',
+    })
+  }
 
   // Honeypot, same as the contact form: bots fill hidden fields.
   if (website) return res.status(200).json({ ok: true })
@@ -89,7 +125,7 @@ export default async function handler(req, res) {
   if (!name || String(name).trim().length < 2) {
     return res.status(400).json({ error: 'Please enter your name.' })
   }
-  if (!email || !EMAIL_RE.test(String(email))) {
+  if (!email || !EMAIL_RE.test(email)) {
     return res.status(400).json({ error: 'Please enter a valid email address.' })
   }
   if (!Array.isArray(items) || items.length === 0) {
@@ -112,10 +148,15 @@ export default async function handler(req, res) {
   const placedAt = new Date()
   const orderNumber = newOrderNumber(placedAt)
 
+  // Registered before the first await, so a request with the same id that
+  // arrives while this one is still sending email waits for it.
+  let settle
+  if (requestId) inflight.set(requestId, new Promise((resolve) => (settle = resolve)))
+
   const order = {
     receivedAt: placedAt.toISOString(),
     name: String(name).trim().slice(0, 120),
-    email: String(email).trim().slice(0, 160),
+    email: email.slice(0, 160),
     phone: String(phone || '').trim().slice(0, 40),
     company: String(company || '').trim().slice(0, 160),
     message: String(message || '').trim().slice(0, 3000),
@@ -128,6 +169,15 @@ export default async function handler(req, res) {
         round2(l.price * l.qty)
       )}`
   )
+
+  // Desk-only notes on prices: lines corrected to the list price, and lines
+  // whose price could not be checked against the list at all.
+  const priceNotes = [
+    ...lines
+      .filter((l) => l.changed)
+      .map((l) => `${l.name}: browser sent ${cash(l.submitted)}, list price ${cash(l.price)} used.`),
+    ...lines.filter((l) => !l.verified).map((l) => `${l.name}: price not on our list, check before quoting.`),
+  ]
 
   const body = [
     `Order number: ${orderNumber}`,
@@ -147,6 +197,7 @@ export default async function handler(req, res) {
       ? ['', 'Contains "from" prices - the total above is an estimate and needs confirming.']
       : []),
     ...(mismatch ? ['', `NOTE: the browser showed ${cash(clientTotal)}. Server total is ${cash(total)}.`] : []),
+    ...(priceNotes.length ? ['', 'Price checks:', ...priceNotes] : []),
     '',
     'Notes:',
     order.message || 'None provided.',
@@ -227,6 +278,14 @@ export default async function handler(req, res) {
       ? `<p style="margin:12px 0 0;padding:12px;background:#fdecec;border-radius:10px;font-size:13px">The browser showed ${esc(
           cash(clientTotal)
         )} but the server totals it at ${esc(cash(total))}. Worth a look before quoting.</p>`
+      : ''
+  }
+
+  ${
+    priceNotes.length
+      ? `<p style="margin:12px 0 0;padding:12px;background:#fdecec;border-radius:10px;font-size:13px"><strong>Price checks</strong><br>${priceNotes
+          .map(esc)
+          .join('<br>')}</p>`
       : ''
   }
 
@@ -313,6 +372,7 @@ export default async function handler(req, res) {
   // The order number is already issued and the order is already in the log, so
   // a mail failure downgrades the confirmation rather than losing the order.
   let emailed = false
+  let receiptSent = false
   if (!apiKey) {
     console.error(`[order] ${orderNumber} not emailed: RESEND_API_KEY is not set`)
   } else {
@@ -339,10 +399,26 @@ export default async function handler(req, res) {
         text: customerText,
         html: customerHtml,
       })
+      receiptSent = true
     } catch (err) {
       console.error(`[order] ${orderNumber} customer receipt failed:`, err.message)
     }
   }
 
-  return res.status(200).json({ ok: true, orderNumber, total, emailed })
+  const reply = {
+    ok: true,
+    orderNumber,
+    total,
+    subtotal,
+    tax,
+    emailed,
+    receiptSent,
+    pricesUpdated: lines.some((l) => l.changed),
+  }
+  if (requestId) {
+    replies.set(requestId, { at: Date.now(), body: reply })
+    inflight.delete(requestId)
+    settle(reply)
+  }
+  return res.status(200).json(reply)
 }

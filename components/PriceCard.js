@@ -4,7 +4,7 @@ import MoreOnPhone from './MoreOnPhone'
 import AddToCart from './AddToCart'
 import { Icons } from './Icons'
 import { money } from '../lib/money'
-import { packagePathFor } from '../lib/packages'
+import { packageBySlug, packagePathFor } from '../lib/packages'
 import { whatsappLink } from '../lib/site'
 
 /**
@@ -16,10 +16,13 @@ import { whatsappLink } from '../lib/site'
  */
 export function cartItemFor(item, kind) {
   const href = packagePathFor(item)
+  // Every bundle range has a "Basic", so "Basic · Bundle" twice in a cart
+  // tells nobody which is which. The range name goes on the line instead.
+  const range = href ? packageBySlug[href.split('/').pop()]?.sectionTitle : null
   return {
     sku: href || item.name,
     name: item.name,
-    kind: kind || item.kind || 'Package',
+    kind: kind === 'Bundle' && range ? `${range} bundle` : kind || item.kind || 'Package',
     price: item.price,
     from: Boolean(item.from),
     href,

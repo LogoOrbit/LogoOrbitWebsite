@@ -22,6 +22,16 @@ const description =
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
+/** Where the confirmation is kept, so a refresh does not lose the order number. */
+const PLACED_KEY = 'logoorbit.order.placed'
+
+const newRequestId = () =>
+  typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+
+const trimmed = (d) => Object.fromEntries(Object.entries(d).map(([k, v]) => [k, String(v).trim()]))
+
 /* ---------------------------------------------------------------- the form */
 
 function Field({ label, hint, error, children }) {
@@ -93,6 +103,29 @@ export default function CheckoutPage() {
    */
   const [placed, setPlaced] = useState(null)
 
+  // Brings the confirmation back after a refresh in the same tab. A cart with
+  // new items in it means a new order, so the old confirmation is dropped.
+  useEffect(() => {
+    if (!ready || status === 'sent') return
+    try {
+      if (items.length > 0) {
+        window.sessionStorage.removeItem(PLACED_KEY)
+        return
+      }
+      const saved = JSON.parse(window.sessionStorage.getItem(PLACED_KEY) || 'null')
+      if (saved?.orderNumber) {
+        setPlaced(saved)
+        setStatus('sent')
+      }
+    } catch {
+      /* Storage blocked: the confirmation simply does not survive a refresh. */
+    }
+  }, [ready, items.length, status])
+
+  // State updates land after a re-render, so two quick taps both see 'idle'.
+  // A ref is set synchronously and stops the second one.
+  const sendingRef = useRef(false)
+
   const formTop = useRef(null)
   const fieldRefs = useRef({})
 
@@ -102,6 +135,12 @@ export default function CheckoutPage() {
   }
 
   const summary = useMemo(() => orderSummaryText(items, totals, details), [items, totals, details])
+
+  // One id per version of the order. A retry of the same order reuses it, so
+  // the server answers with the order it already placed instead of a second
+  // one; any change to the cart or the details makes a new id.
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- a new id per change is the point
+  const requestId = useMemo(() => newRequestId(), [items, details])
 
   // The WhatsApp link carries whatever has been typed so far. Filling the form
   // in first makes for a better message, but nobody is made to: the point of
@@ -158,16 +197,18 @@ export default function CheckoutPage() {
 
   const submit = async (e) => {
     e.preventDefault()
-    if (status === 'sending' || !validate() || items.length === 0) return
+    if (sendingRef.current || !validate() || items.length === 0) return
+    sendingRef.current = true
 
     setStatus('sending')
     setServerError('')
+    const clean = trimmed(details)
 
     try {
       const res = await fetch('/api/order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...details, items, totals, summary }),
+        body: JSON.stringify({ ...clean, items, totals, summary, requestId }),
       })
       const data = await res.json().catch(() => ({}))
 
@@ -179,25 +220,52 @@ export default function CheckoutPage() {
         return
       }
 
-      setPlaced({
+      const confirmed = {
         orderNumber: data.orderNumber,
         total: Number.isFinite(data.total) ? data.total : totals.total,
         emailed: data.emailed !== false,
-        email: details.email.trim(),
-        firstName: details.name.trim().split(' ')[0],
+        receiptSent: data.receiptSent !== false,
+        pricesUpdated: Boolean(data.pricesUpdated),
+        email: clean.email,
+        firstName: clean.name.split(/\s+/)[0],
         count: totals.count,
-        waHref: orderWhatsAppLink(items, totals, details, data.orderNumber),
-        summary: orderSummaryText(items, totals, details, data.orderNumber),
-      })
+        waHref: orderWhatsAppLink(items, totals, clean, data.orderNumber),
+        summary: orderSummaryText(items, totals, clean, data.orderNumber),
+      }
+      setPlaced(confirmed)
       setStatus('sent')
       clear()
+      try {
+        window.sessionStorage.setItem(PLACED_KEY, JSON.stringify(confirmed))
+      } catch {
+        /* Not worth failing the order over. */
+      }
     } catch {
       setStatus('error')
       setServerError('Your internet dropped before it sent. WhatsApp and the phone both still work.')
+    } finally {
+      sendingRef.current = false
     }
   }
 
   const jsonLd = { '@graph': [breadcrumb([{ name: 'Cart', href: '/cart' }, { name: 'Checkout', href: '/checkout' }])] }
+
+  /* --------------------------------------------------------------- loading */
+
+  // Until the saved cart is read the page would otherwise show an empty
+  // order with a $0 Place my order button.
+  if (!ready && status !== 'sent') {
+    return (
+      <Layout title="Checkout" description={description} path="/checkout" jsonLd={jsonLd} noIndex>
+        <PageHero compact eyebrow="Checkout" breadcrumb="Checkout" title="Place your order">
+          <></>
+        </PageHero>
+        <section className="bg-slate-50 py-12 sm:py-16" aria-busy="true">
+          <p className="text-center text-[15px] text-ink-500">Loading your cart…</p>
+        </section>
+      </Layout>
+    )
+  }
 
   /* ------------------------------------------------------------ empty cart */
 
@@ -271,9 +339,25 @@ export default function CheckoutPage() {
                 </p>
               </div>
 
+              {placed.pricesUpdated && (
+                <p className="mt-4 rounded-2xl bg-flare-300/20 p-3.5 text-[13.5px] leading-relaxed text-ink-700">
+                  Some prices in your cart were out of date, so we used today&apos;s prices. The total above is
+                  the updated one.
+                </p>
+              )}
+
               {placed.emailed ? (
                 <p className="mt-4 text-[14px] leading-relaxed text-ink-500">
-                  We have emailed all the details to <strong className="text-ink-900">{placed.email}</strong>.
+                  {placed.receiptSent ? (
+                    <>
+                      We have emailed all the details to <strong className="text-ink-900">{placed.email}</strong>.
+                    </>
+                  ) : (
+                    <>
+                      Our team has your order, but we could not email a copy to{' '}
+                      <strong className="text-ink-900">{placed.email}</strong>. Keep the order number above.
+                    </>
+                  )}{' '}
                   Someone will contact you within one working day to confirm the price before anything is
                   billed.
                 </p>
@@ -312,7 +396,17 @@ export default function CheckoutPage() {
                   {copied ? 'Order copied' : 'Copy my full order'}
                 </button>
                 <p className="mt-3 text-[13px] text-ink-500">
-                  <Link href="/" className="font-semibold text-ink-700 hover:text-brand-600">
+                  <Link
+                    href="/"
+                    onClick={() => {
+                      try {
+                        window.sessionStorage.removeItem(PLACED_KEY)
+                      } catch {
+                        /* ignore */
+                      }
+                    }}
+                    className="font-semibold text-ink-700 hover:text-brand-600"
+                  >
                     Back to home
                   </Link>
                 </p>

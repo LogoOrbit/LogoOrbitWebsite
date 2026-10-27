@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { Icons } from './Icons'
 import { site } from '../lib/site'
 import { crispWebsiteId } from '../lib/livechat'
@@ -115,6 +116,9 @@ export function openLiveChat(message) {
 }
 
 export default function LiveChat() {
+  const { pathname } = useRouter()
+  // Kept off the order total on phones; the desktop layout has room for it.
+  const quiet = pathname === '/cart' || pathname === '/checkout'
   const [unread, setUnreadState] = useState(unreadCount)
   const [hint, setHint] = useState(false)
 
@@ -190,7 +194,11 @@ export default function LiveChat() {
   if (!crispWebsiteId()) return null
 
   return (
-    <div className="fixed right-4 bottom-42 xl:right-6 xl:bottom-44 z-40 flex flex-col items-end gap-3">
+    <div
+      className={`fixed right-4 bottom-42 xl:right-6 xl:bottom-44 z-40 flex-col items-end gap-3 ${
+        quiet ? 'hidden xl:flex' : 'flex'
+      }`}
+    >
       {/* Pointer events are off while hidden so the card can never sit
           invisibly on top of the page. */}
       {/* The dismiss control is a sibling of the card's button rather than a

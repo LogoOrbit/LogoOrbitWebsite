@@ -213,7 +213,15 @@ export default function Layout({
         <>
           <div className="h-[76px] xl:hidden" aria-hidden="true" />
           <FloatingCall />
-          <WhatsAppButton />
+          {/* On a phone the floating bubble sits over the order total on the
+              cart and checkout, which carry their own WhatsApp buttons. */}
+          {path === '/cart' || path === '/checkout' ? (
+            <div className="hidden xl:block">
+              <WhatsAppButton />
+            </div>
+          ) : (
+            <WhatsAppButton />
+          )}
           <MobileCTABar />
         </>
       )}
