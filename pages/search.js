@@ -196,7 +196,7 @@ export default function SearchPage() {
                 <Link href="/contact" className="btn-action px-6 py-3">Ask us directly</Link>
                 <Link
                   href="/services"
-                  className="rounded-full border border-slate-200 px-6 py-3 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600"
+                  className="whitespace-nowrap rounded-full border border-slate-200 px-6 py-3 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600"
                 >
                   Browse all services
                 </Link>

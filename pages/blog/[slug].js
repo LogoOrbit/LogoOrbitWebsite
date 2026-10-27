@@ -96,7 +96,7 @@ export default function BlogPost({ post, relatedServices, relatedGuides, related
               </Link>
               <Link
                 href="/team"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
               >
                 Write to a named person
               </Link>

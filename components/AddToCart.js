@@ -133,6 +133,40 @@ export default function AddToCart({
     )
   }
 
+  // Inline rows sit next to other pill buttons, so the in-cart state stays one
+  // pill tall there instead of stacking a link underneath and stretching them.
+  if (!full) {
+    return (
+      <div
+        className={`flex w-full shrink-0 items-center gap-2 whitespace-nowrap rounded-full border p-1.5 sm:inline-flex sm:w-auto ${
+          dark ? 'border-white/20 bg-white/10' : 'border-trust-500/40 bg-trust-50'
+        } ${className}`}
+      >
+        <QtyStepper
+          value={qty}
+          onChange={(n) => setQty(lineId(item), n)}
+          tone={dark ? 'dark' : 'light'}
+          label={`Quantity of ${item.name}`}
+        />
+        <span className={`text-[13px] font-bold leading-tight ${dark ? 'text-white' : 'text-trust-700'}`}>
+          {cash(item.price * qty)}
+          <span className={`block text-[11px] font-semibold ${dark ? 'text-white/60' : 'text-trust-600'}`}>
+            {flash ? 'Added' : 'in cart'}
+          </span>
+        </span>
+        <Link
+          href="/cart"
+          className={`ml-auto inline-flex items-center gap-1.5 rounded-full px-4 py-2.5 sm:ml-1 text-[13.5px] font-bold transition-colors ${
+            dark ? 'bg-white text-ink-900 hover:bg-orbit-100' : 'bg-ink-900 text-white hover:bg-brand-700'
+          }`}
+        >
+          Checkout
+          <Icons.arrow className="h-4 w-4" />
+        </Link>
+      </div>
+    )
+  }
+
   return (
     <div className={`${width} ${className}`}>
       <div
@@ -148,7 +182,7 @@ export default function AddToCart({
           label={`Quantity of ${item.name}`}
         />
         <span
-          className={`pr-2 text-right text-[13px] font-bold leading-tight ${
+          className={`whitespace-nowrap pr-2 text-right text-[13px] font-bold leading-tight ${
             dark ? 'text-white' : 'text-trust-700'
           }`}
         >
@@ -161,7 +195,7 @@ export default function AddToCart({
 
       <Link
         href="/cart"
-        className={`mt-2 flex w-full items-center justify-center gap-1.5 text-[13.5px] font-bold transition-colors ${
+        className={`mt-2 flex w-full items-center justify-center gap-1.5 whitespace-nowrap text-[13.5px] font-bold transition-colors ${
           dark ? 'text-orbit-300 hover:text-white' : 'text-brand-600 hover:text-brand-700'
         }`}
       >

@@ -64,7 +64,7 @@ export default function Guarantees() {
             </Link>
             <a
               href={site.phoneHref}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-ink-900/15 bg-white px-7 py-4 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-ink-900/15 bg-white px-7 py-4 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
             >
               <Icons.phone className="w-5 h-5" />
               Talk to a designer

@@ -163,7 +163,7 @@ export default function GuidePage({ guide, relatedServices, relatedGuides, conte
               </Link>
               <Link
                 href="/pricing"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
               >
                 See pricing
               </Link>

@@ -104,7 +104,7 @@ export default function ServicePage({ page, related = [], industries = [], guide
                 </Link>
                 <a
                   href={site.phoneHref}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-200 px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
                 >
                   <Icons.phone className="w-4.5 h-4.5" />
                   {site.phone}

@@ -60,7 +60,7 @@ export default function ResourcePage({ resource }) {
             <section className="mt-6 rounded-3xl bg-ink-900 p-7 sm:p-9 text-white">
               <h2 className="text-2xl font-bold text-white">Put the guide into practice</h2>
               <p className="mt-3 text-[15px] leading-relaxed text-white/70">Bring the checklist to your next planning session, or send us the project and we will turn it into a clear scope, timeline and fixed quote.</p>
-              <div className="mt-6 flex flex-wrap gap-3"><Link href="/brief" className="btn-action px-6 py-3">Start a brief</Link><Link href="/contact" className="rounded-full border border-white/20 px-6 py-3 font-semibold text-white hover:bg-white/10">Ask a question</Link></div>
+              <div className="mt-6 flex flex-wrap gap-3"><Link href="/brief" className="btn-action px-6 py-3">Start a brief</Link><Link href="/contact" className="whitespace-nowrap rounded-full border border-white/20 px-6 py-3 font-semibold text-white hover:bg-white/10">Ask a question</Link></div>
             </section>
           </div>
         </div>

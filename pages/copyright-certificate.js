@@ -431,7 +431,7 @@ export default function CopyrightCertificatePage() {
               public commercial use from a stated effective date.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <AddToCart
                 item={{
                   sku: '/copyright-certificate',
@@ -453,7 +453,7 @@ export default function CopyrightCertificatePage() {
               <a
                 href={samplePdf}
                 download
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#c9a044]/45 bg-[#c9a044]/[0.08] px-7 py-4 font-semibold text-[#f0d89a] transition-colors hover:bg-[#c9a044]/20"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#c9a044]/45 bg-[#c9a044]/[0.08] px-7 py-4 font-semibold text-[#f0d89a] transition-colors hover:bg-[#c9a044]/20"
               >
                 Download sample
               </a>
@@ -749,13 +749,13 @@ export default function CopyrightCertificatePage() {
                     </span>
                   </div>
 
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                     <a href={samplePdf} download className="btn-action px-7 py-3.5">
                       Download the specimen
                     </a>
                     <a
                       href={`mailto:${site.legalEmail}?subject=Certificate%20verification`}
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-white/10"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/20 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-white/10"
                     >
                       <Icons.mail className="h-4.5 w-4.5" />
                       Ask the legal desk
@@ -795,7 +795,7 @@ export default function CopyrightCertificatePage() {
               </Link>
               <a
                 href={`mailto:${site.legalEmail}?subject=Copyright%20Certificate`}
-                className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-4 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-slate-300 bg-white px-7 py-4 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600"
               >
                 Ask the legal desk first
               </a>

@@ -250,7 +250,7 @@ export default function Contact({ showIntro = true }) {
                 <button
                   type="button"
                   onClick={() => setStatus('idle')}
-                  className="mt-7 rounded-full border border-slate-300 px-6 py-3 font-semibold text-ink-900 hover:bg-white transition-colors"
+                  className="mt-7 whitespace-nowrap rounded-full border border-slate-300 px-6 py-3 font-semibold text-ink-900 hover:bg-white transition-colors"
                 >
                   Send another message
                 </button>

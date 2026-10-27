@@ -529,14 +529,14 @@ export default function TrademarkFilingPage() {
               application with the USPTO in your name, and answers the examiner when they write back.
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <Link href="/contact?subject=Trademark%20Filing" className="btn-action px-7 py-4">
                 Start with a clearance search
                 <Icons.arrow className="h-5 w-5" />
               </Link>
               <a
                 href="#class-finder"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#c9a044]/45 bg-[#c9a044]/[0.08] px-7 py-4 font-semibold text-[#f0d89a] transition-colors hover:bg-[#c9a044]/20"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-[#c9a044]/45 bg-[#c9a044]/[0.08] px-7 py-4 font-semibold text-[#f0d89a] transition-colors hover:bg-[#c9a044]/20"
               >
                 How many classes do I need?
               </a>
@@ -787,7 +787,7 @@ export default function TrademarkFilingPage() {
                 </dl>
                 <Link
                   href="/copyright-certificate"
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
+                  className="mt-6 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-300 bg-white px-6 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
                 >
                   See the copyright certificate
                   <Icons.arrow className="h-4 w-4" />
@@ -848,13 +848,13 @@ export default function TrademarkFilingPage() {
                     with a straight read: file it, change it, or keep your money.
                   </p>
 
-                  <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                  <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                     <Link href="/contact?subject=Trademark%20Filing" className="btn-action px-7 py-3.5">
                       Request a clearance search
                     </Link>
                     <a
                       href={`mailto:${site.legalEmail}?subject=Trademark%20Filing`}
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-white/10"
+                      className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/20 px-7 py-3.5 font-semibold text-white transition-colors hover:bg-white/10"
                     >
                       <Icons.mail className="h-4.5 w-4.5" />
                       Ask the legal desk
@@ -899,7 +899,7 @@ export default function TrademarkFilingPage() {
               </Link>
               <Link
                 href="/copyright-certificate"
-                className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-4 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-slate-300 bg-white px-7 py-4 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600"
               >
                 I need the copyright certificate too
               </Link>

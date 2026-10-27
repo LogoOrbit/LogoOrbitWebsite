@@ -70,7 +70,7 @@ function Empty() {
         </Link>
         <Link
           href="/services"
-          className="flex items-center justify-center gap-2 rounded-full border-2 border-ink-900 px-6 py-3.5 font-semibold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
+          className="flex items-center justify-center gap-2 whitespace-nowrap rounded-full border-2 border-ink-900 px-6 py-3.5 font-semibold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
         >
           See every service
         </Link>

@@ -129,7 +129,7 @@ export default function CatalogService({ service, related, guides = [] }) {
                 </Link>
                 <Link
                   href="/pricing"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-200 px-7 py-3.5 font-semibold text-ink-900 hover:border-brand-300 hover:text-brand-600 transition-colors"
                 >
                   See all pricing
                 </Link>

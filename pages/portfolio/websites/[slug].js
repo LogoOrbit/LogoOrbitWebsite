@@ -157,7 +157,7 @@ export default function WebsiteCaseStudy({ project, related, services }) {
               </Link>
               <Link
                 href="/team/sam-marcus"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-slate-300 bg-white px-7 py-3.5 font-semibold text-ink-900 transition-colors hover:border-brand-300 hover:text-brand-600"
               >
                 Write to the web desk
               </Link>

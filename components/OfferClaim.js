@@ -25,7 +25,7 @@ export default function OfferClaim({ message, label = 'Reply YES to claim', tone
           className={
             dark
               ? 'inline-flex items-center justify-center gap-2 rounded-full glass px-7 py-4 font-semibold text-white transition-colors hover:bg-white/20'
-              : 'inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink-900 px-7 py-4 font-semibold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white'
+              : 'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border-2 border-ink-900 px-7 py-4 font-semibold text-ink-900 transition-colors hover:bg-ink-900 hover:text-white'
           }
         >
           <Icons.whatsapp className="w-5 h-5" />
